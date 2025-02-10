@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmq1qjbdjfbug"]
+
+[ext_resource type="Script" path="res://src/Game/BaseBlock.cs" id="1_block"]
+
+[node name="Block" type="Node2D"]
+script = ExtResource("1_block")
+
+[node name="BlockInputSocket" type="Node2D" parent="."]
+position = Vector2(-128, 0)
+
+[node name="Socket" type="ColorRect" parent="BlockInputSocket"]
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="BlockOutputSocket" type="Node2D" parent="."]
+position = Vector2(128, 0)
+
+[node name="Socket" type="ColorRect" parent="BlockOutputSocket"]
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
+color = Color(0.2, 0.2, 0.2, 1)

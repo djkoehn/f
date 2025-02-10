@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://output"]
+
+[ext_resource type="Script" path="res://src/Blocks/Output.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://bgh6pvt6irckb" path="res://assets/images/blocks/mask.png" id="2_kljkg"]
+[ext_resource type="Texture2D" uid="uid://bsf3cfgjv8gob" path="res://assets/images/blocks/outTop.png" id="2_yhmri"]
+
+[node name="Output" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="BlockInputSocket" type="Node2D" parent="."]
+position = Vector2(-128, 0)
+
+[node name="Socket" type="ColorRect" parent="BlockInputSocket"]
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
+color = Color(0.2, 0.2, 0.2, 1)
+
+[node name="base" type="Sprite2D" parent="."]
+clip_children = 1
+texture = ExtResource("2_kljkg")
+
+[node name="ColorRect" type="ColorRect" parent="base"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -256.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.988235, 0.988235, 0.988235, 1)
+
+[node name="outTop" type="Sprite2D" parent="."]
+texture = ExtResource("2_yhmri")
