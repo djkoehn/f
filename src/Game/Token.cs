@@ -4,81 +4,52 @@ namespace F;
 
 public partial class Token : Node2D
 {
-    [Export]
-    public float Value
-    {
-        get => _value;
-        set
-        {
-            _value = value;
-            UpdateValueLabel();
-        }
-    }
-    
-    private float _value = 1;
-    private Label _valueLabel = null!;
-    private bool _isDragging = false;
-    private Vector2 _dragOffset;
-    
+    public float Value { get; set; }
+    private BaseBlock? _targetBlock;
+    private Vector2 _targetPosition;
+    private bool _isMoving;
+    private const float MOVE_SPEED = 400f;
+
     public override void _Ready()
     {
-        _valueLabel = GetNode<Label>("ValueLabel");
-        UpdateValueLabel();
-    }
-    
-    private void UpdateValueLabel()
-    {
-        if (_valueLabel != null)
+        // Set initial appearance
+        var circle = new ColorRect
         {
-            _valueLabel.Text = _value.ToString("0.#");
-        }
+            Size = new Vector2(10, 10),
+            Position = new Vector2(-5, -5),
+            Color = new Color(1, 1, 1)
+        };
+        AddChild(circle);
     }
-    
-    public void MoveTo(Vector2 position, bool animate = true)
+
+    public void MoveTo(BaseBlock nextBlock, Vector2 position)
     {
-        if (animate)
+        _targetBlock = nextBlock;
+        _targetPosition = position;
+        _isMoving = true;
+        GD.Print($"Token moving to {nextBlock.Name}, target: {position}, current: {GlobalPosition}");
+    }
+
+    public override void _Process(double delta)
+    {
+        if (!_isMoving || _targetBlock == null) return;
+
+        var direction = _targetPosition - GlobalPosition;
+        var distance = direction.Length();
+
+        if (distance < 1.0f)
         {
-            var tween = CreateTween();
-            tween.TweenProperty(this, "position", position, 0.3f)
-                .SetTrans(Tween.TransitionType.Sine)
-                .SetEase(Tween.EaseType.Out);
+            GlobalPosition = _targetPosition;
+            _isMoving = false;
+            
+            GD.Print($"Token reached {_targetBlock.Name}, starting processing at value: {Value}");
+            var block = _targetBlock;
+            _targetBlock = null;  // Clear reference before processing
+            block.ProcessToken(this);
         }
         else
         {
-            Position = position;
-        }
-    }
-    
-    public override void _Input(InputEvent @event)
-    {
-        if (@event is InputEventMouseButton mouseEvent)
-        {
-            if (mouseEvent.ButtonIndex == MouseButton.Left)
-            {
-                if (mouseEvent.Pressed)
-                {
-                    var mousePos = GetGlobalMousePosition();
-                    var tokenPos = GlobalPosition;
-                    
-                    if (mousePos.DistanceTo(tokenPos) < 32)
-                    {
-                        _isDragging = true;
-                        _dragOffset = tokenPos - mousePos;
-                    }
-                }
-                else
-                {
-                    _isDragging = false;
-                }
-            }
-        }
-    }
-    
-    public override void _Process(double delta)
-    {
-        if (_isDragging)
-        {
-            GlobalPosition = GetGlobalMousePosition() + _dragOffset;
+            GlobalPosition += direction.Normalized() * MOVE_SPEED * (float)delta;
         }
     }
 }

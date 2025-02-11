@@ -6,33 +6,36 @@ namespace F;
 
 public partial class GameManager : Node2D
 {
+    public static GameManager? Instance { get; private set; }
+    public ConnectionLayer? ConnectionLayer { get; private set; }
+
     private Node2D? _blockLayer;
-    private ConnectionLayer? _connectionLayer;
     private BaseBlock? _draggedBlock;
     private Inventory? _inventory;
     
     public override void _Ready()
     {
-        // Get required layers
-        _blockLayer = GetNode<Node2D>("BlockLayer");
-        _connectionLayer = GetNode<ConnectionLayer>("ConnectionLayer");
+        Instance = this;
+        
+        // Get required components
+        ConnectionLayer = GetNode<ConnectionLayer>("ConnectionLayer");
         _inventory = GetNode<Inventory>("Inventory");
         
-        if (_blockLayer == null || _connectionLayer == null || _inventory == null)
+        if (ConnectionLayer == null || _inventory == null)
         {
-            GD.PrintErr("Required layers or inventory not found!");
+            GD.PrintErr("Required components not found!");
             return;
         }
         
-        // Connect to signals
+        // Connect signals
         _inventory.InventoryReady += OnInventoryReady;
-        _connectionLayer.TokenProcessed += OnTokenProcessed;
-        
-        // Initialize if inventory is already ready
-        if (_inventory.IsReady)
-        {
-            OnInventoryReady();
-        }
+        ConnectionLayer.TokenProcessed += OnTokenProcessed;
+    }
+
+    public override void _ExitTree()
+    {
+        if (Instance == this)
+            Instance = null;
     }
     
     private void OnInventoryReady()
@@ -69,9 +72,16 @@ public partial class GameManager : Node2D
     
     private void UpdateDraggedBlock()
     {
-        if (_draggedBlock != null)
+        if (_draggedBlock != null && _draggedBlock.IsBeingDragged)
         {
-            _draggedBlock.GlobalPosition = GetGlobalMousePosition();
+            var mousePos = GetGlobalMousePosition();
+            _draggedBlock.GlobalPosition = mousePos;
+            
+            // Check for pipe hover
+            if (ConnectionLayer != null)
+            {
+                ConnectionLayer.HandleBlockDrag(_draggedBlock, mousePos);
+            }
         }
     }
     
@@ -108,15 +118,43 @@ public partial class GameManager : Node2D
     
     public void HandleBlockDrag(BaseBlock block)
     {
+        // Clear previous dragged block's state if exists
+        if (_draggedBlock != null && _draggedBlock != block)
+        {
+            _draggedBlock.SetDragging(false);
+        }
+
+        GD.Print($"Starting drag for block: {block.Name}");
         _draggedBlock = block;
+        block.SetDragging(true);
     }
     
     public void HandleBlockDrop()
     {
         if (_draggedBlock != null)
         {
-            _draggedBlock.EmitSignal(BaseBlock.SignalName.BlockPlaced, _draggedBlock);
+            var mousePos = GetGlobalMousePosition();
+            if (ConnectionLayer != null)
+            {
+                ConnectionLayer.HandleBlockDrop(_draggedBlock, mousePos);
+            }
+            _draggedBlock.SetDragging(false);
             _draggedBlock = null;
         }
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        // Empty or remove this method
+    }
+
+    public BaseBlock? GetDraggedBlock()
+    {
+        return _draggedBlock;
+    }
+
+    public ConnectionLayer? GetConnectionLayer()
+    {
+        return GetNode<ConnectionLayer>("ConnectionLayer");
     }
 }

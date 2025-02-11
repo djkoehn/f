@@ -6,7 +6,7 @@
 script = ExtResource("1_block")
 
 [node name="BlockInputSocket" type="Node2D" parent="."]
-position = Vector2(-128, 0)
+position = Vector2(-100, 0)
 
 [node name="Socket" type="ColorRect" parent="BlockInputSocket"]
 offset_left = -5.0
@@ -16,7 +16,7 @@ offset_bottom = 5.0
 color = Color(0.2, 0.2, 0.2, 1)
 
 [node name="BlockOutputSocket" type="Node2D" parent="."]
-position = Vector2(128, 0)
+position = Vector2(100, 0)
 
 [node name="Socket" type="ColorRect" parent="BlockOutputSocket"]
 offset_left = -5.0

@@ -12,8 +12,4 @@
     <BuildInParallel>true</BuildInParallel>
   </PropertyGroup>
 
-  <!-- <ItemGroup>
-    <PackageReference Include="GodotSharp" Version="4.3.0" />
-    <PackageReference Include="GodotSharpEditor" Version="4.3.0" />
-  </ItemGroup> -->
 </Project>

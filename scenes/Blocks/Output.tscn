@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://output"]
 
-[ext_resource type="Script" path="res://src/Blocks/Output.cs" id="1_script"]
+[ext_resource type="Script" path="res://src/Game/Blocks/Output.cs" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://bgh6pvt6irckb" path="res://assets/images/blocks/mask.png" id="2_kljkg"]
 [ext_resource type="Texture2D" uid="uid://bsf3cfgjv8gob" path="res://assets/images/blocks/outTop.png" id="2_yhmri"]
 
-[node name="Output" type="Node2D"]
+[node name="Output" type="Node2D" groups=["blocks"]]
 script = ExtResource("1_script")
 
 [node name="BlockInputSocket" type="Node2D" parent="."]
@@ -34,4 +34,6 @@ grow_vertical = 2
 color = Color(0.988235, 0.988235, 0.988235, 1)
 
 [node name="outTop" type="Sprite2D" parent="."]
+position = Vector2(-1.42109e-14, -6)
+scale = Vector2(0.8, 0.8)
 texture = ExtResource("2_yhmri")

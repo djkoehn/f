@@ -1,55 +1,84 @@
-[gd_scene load_steps=7 format=3 uid="uid://main"]
+[gd_scene load_steps=10 format=3 uid="uid://main"]
 
 [ext_resource type="Script" path="res://src/Game/GameManager.cs" id="1_game"]
+[ext_resource type="Shader" path="res://assets/shaders/background_distortion.gdshader" id="1_ms8tu"]
 [ext_resource type="Script" path="res://src/Game/ConnectionLayer.cs" id="2_connection"]
 [ext_resource type="Script" path="res://src/Game/Inventory.cs" id="3_inventory"]
 [ext_resource type="PackedScene" uid="uid://input" path="res://scenes/Blocks/Input.tscn" id="4_input"]
 [ext_resource type="PackedScene" uid="uid://output" path="res://scenes/Blocks/Output.tscn" id="5_output"]
 [ext_resource type="Script" path="res://src/UI/Toolbar.cs" id="6_toolbar"]
+[ext_resource type="PackedScene" uid="uid://dcuxk8hcr4r0c" path="res://scenes/TokenValueDisplay.tscn" id="8_m5co6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3l2g1"]
+shader = ExtResource("1_ms8tu")
+shader_parameter/color1 = Color(0.0700572, 7.85614e-05, 0.205366, 1)
+shader_parameter/color2 = Color(0.293926, 0.124395, 0.372632, 1)
+shader_parameter/time_scale = 0.01
+shader_parameter/distortion_strength = 0.197
+shader_parameter/interlace_size = 100.0
+shader_parameter/interlace_strength = 1.0
+shader_parameter/pattern_scale = 8.73
+shader_parameter/dither_size = 1.16
+shader_parameter/scroll_speed = Vector2(0.001, 0.001)
 
 [node name="Main" type="Node2D"]
 
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -3
+material = SubResource("ShaderMaterial_3l2g1")
+custom_minimum_size = Vector2(1920, 1080)
+offset_right = 1920.0
+offset_bottom = 1080.0
+
 [node name="GameManager" type="Node2D" parent="."]
 script = ExtResource("1_game")
-
-[node name="BlockLayer" type="Node2D" parent="GameManager"]
 
 [node name="ConnectionLayer" type="Node2D" parent="GameManager"]
 script = ExtResource("2_connection")
 
 [node name="Input" parent="GameManager/ConnectionLayer" instance=ExtResource("4_input")]
 position = Vector2(200, 540)
+scale = Vector2(0.75, 0.75)
 
 [node name="Output" parent="GameManager/ConnectionLayer" instance=ExtResource("5_output")]
 position = Vector2(1720, 540)
+scale = Vector2(0.75, 0.75)
 
 [node name="TokenLayer" type="Node2D" parent="GameManager"]
 
 [node name="Toolbar" type="Panel" parent="GameManager"]
+z_index = -1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 50.0
-offset_top = 880.0
-offset_right = 1870.0
-offset_bottom = 1030.0
-grow_horizontal = 2
+offset_top = 150.0
+offset_right = 1920.0
+offset_bottom = 406.0
 grow_vertical = 0
 script = ExtResource("6_toolbar")
 
 [node name="BlockContainer" type="HBoxContainer" parent="GameManager/Toolbar"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 alignment = 1
 
 [node name="Inventory" type="Node" parent="GameManager"]
 script = ExtResource("3_inventory")
+
+[node name="TokenValueDisplay" parent="." instance=ExtResource("8_m5co6")]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -81.0
+offset_bottom = 0.0
+grow_vertical = 0
+horizontal_alignment = 1

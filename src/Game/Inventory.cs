@@ -10,8 +10,15 @@ public partial class Inventory : Node
     
     private Dictionary<string, BlockMetadata> _blocks = new();
     private bool _isReady;
+    private float _tokenBaseValue = 1.0f;
     
     public bool IsReady => _isReady;
+    
+    public float TokenBaseValue
+    {
+        get => _tokenBaseValue;
+        set => _tokenBaseValue = value;
+    }
     
     public override void _Ready()
     {
@@ -23,6 +30,7 @@ public partial class Inventory : Node
     private void InitializeInventory()
     {
         // Add initial blocks to inventory
+        Add();  // Add block
         Add();  // Add block
     }
     

@@ -1,19 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://connection"]
+[gd_scene load_steps=2 format=3 uid="uid://connection"]
 
 [ext_resource type="Script" path="res://src/Game/ConnectionPipe.cs" id="1_script"]
-[ext_resource type="Shader" path="res://assets/shaders/pipe.gdshader" id="2_shader"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_pipe"]
-shader = ExtResource("2_shader")
-shader_parameter/line_color = Color(1, 1, 1, 1)
-shader_parameter/line_width = 4.0
-shader_parameter/curve_factor = 0.5
 
 [node name="Connection" type="Node2D"]
+z_index = 1
 script = ExtResource("1_script")
-
-[node name="Pipe" type="ColorRect" parent="."]
-material = SubResource("ShaderMaterial_pipe")
-custom_minimum_size = Vector2(100, 100)
-offset_right = 100.0
-offset_bottom = 100.0

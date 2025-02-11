@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcuxk8hcr4r0c"]
+
+[ext_resource type="FontFile" uid="uid://ccw0jvdcvtt16" path="res://assets/fonts/ProggyCleanTT.ttf" id="1_oq6e8"]
+[ext_resource type="Script" path="res://src/UI/TokenValueDisplay.cs" id="2_eyqw0"]
+
+[node name="TokenValueDisplay" type="Label"]
+offset_right = 339.0
+offset_bottom = 81.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_oq6e8")
+theme_override_font_sizes/font_size = 40
+text = "Token Value: 0.0"
+script = ExtResource("2_eyqw0")
