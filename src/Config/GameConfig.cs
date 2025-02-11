@@ -12,4 +12,9 @@ public static class GameConfig
     public const float BLOCK_SIZE = 200f;  // Base block size
     public const float SOCKET_RADIUS = 5f;  // Socket circle radius
     public const float SOCKET_OFFSET = BLOCK_SIZE / 4f;  // Distance of socket from block center
+
+    // Token Configuration
+    public const float TOKEN_MOVE_SPEED = 300f;  // Units per second
+    public const float TOKEN_GLOW_WIDTH = 0.3f;  // Shader glow width
+    public const float TOKEN_GLOW_INTENSITY = 1.2f;  // Shader glow intensity
 }

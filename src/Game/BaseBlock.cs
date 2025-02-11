@@ -11,12 +11,6 @@ public partial class BaseBlock : Node2D
     private Node2D? _outputSocket;
     private bool _isBeingDragged = false;
     protected ConnectionLayer? ConnectionLayer;
-    private bool _isProcessingToken = false;
-    private Token? _processingToken;
-    private float _processingTime = 0f;
-    
-    // Each block can override this to set its processing duration
-    protected virtual float ProcessingDuration => 0.2f;
 
     [Signal]
     public delegate void BlockPlacedEventHandler(BaseBlock block);
@@ -24,7 +18,6 @@ public partial class BaseBlock : Node2D
     public override void _Ready()
     {
         base._Ready();
-        // Wait a frame to ensure GameManager is initialized
         CallDeferred(nameof(InitializeConnections));
     }
 
@@ -38,10 +31,6 @@ public partial class BaseBlock : Node2D
         {
             GD.PrintErr($"Could not find ConnectionLayer for {Name} through GameManager");
         }
-        else
-        {
-            GD.Print($"Found ConnectionLayer for {Name}");
-        }
     }
 
     public override void _Input(InputEvent @event)
@@ -53,54 +42,25 @@ public partial class BaseBlock : Node2D
             var mousePos = GetViewport().GetMousePosition();
             var globalRect = GetRect();
             
-            // Check if mouse is within block bounds
             if (globalRect.HasPoint(mousePos))
             {
                 GetViewport().SetInputAsHandled();
                 if (!_inBlockLayer)
                 {
-                    GD.Print($"Block {Name} clicked in toolbar");
                     EmitSignal(SignalName.BlockPlaced, this);
                 }
                 else
                 {
-                    // Toggle drag state when clicked in ConnectionLayer
                     _isBeingDragged = !_isBeingDragged;
                     if (_isBeingDragged)
                     {
-                        var gameManager = GameManager.Instance;
-                        if (gameManager != null)
-                        {
-                            gameManager.HandleBlockDrag(this);
-                        }
+                        GameManager.Instance?.HandleBlockDrag(this);
                     }
                     else
                     {
-                        var gameManager = GameManager.Instance;
-                        if (gameManager != null)
-                        {
-                            gameManager.HandleBlockDrop();
-                        }
+                        GameManager.Instance?.HandleBlockDrop();
                     }
                 }
-            }
-        }
-    }
-
-    public override void _Process(double delta)
-    {
-        if (_isProcessingToken && _processingToken != null)
-        {
-            _processingTime += (float)delta;
-            if (_processingTime >= ProcessingDuration)
-            {
-                var token = _processingToken;
-                _processingToken = null;
-                _processingTime = 0f;
-                _isProcessingToken = false;
-                
-                // Continue processing after delay
-                OnProcessingComplete(token);
             }
         }
     }
@@ -129,37 +89,9 @@ public partial class BaseBlock : Node2D
         _inBlockLayer = value;
     }
 
-    public virtual void ProcessToken(Token token)
+    public bool IsInBlockLayer()
     {
-        GD.Print($"Processing token in {GetType().Name}, value: {token.Value}");
-        
-        if (_isProcessingToken) 
-        {
-            GD.PrintErr($"Block {Name} is already processing a token!");
-            return;
-        }
-        
-        if (ConnectionLayer != null)
-        {
-            _isProcessingToken = true;
-            _processingToken = token;
-            _processingTime = 0f;
-        }
-        else
-        {
-            GD.PrintErr($"No ConnectionLayer found for {GetType().Name}, token processing failed");
-            token.QueueFree();
-        }
-    }
-
-    protected virtual void OnProcessingComplete(Token token)
-    {
-        GD.Print($"Block {Name} completed processing token with value: {token.Value}");
-        
-        if (ConnectionLayer != null)
-        {
-            ConnectionLayer.ProcessTokenThroughBlock(this, token);
-        }
+        return _inBlockLayer;
     }
 
     public virtual void ResetState()

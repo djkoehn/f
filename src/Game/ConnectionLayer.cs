@@ -9,20 +9,13 @@ public partial class ConnectionLayer : Node2D
 {
     private BaseBlock? _inputBlock;
     private BaseBlock? _outputBlock;
-    private BaseBlock? _hoveredPipeBlock;
     private ConnectionPipe? _hoveredPipe;
     private List<ConnectionPipe> _connections = new();
     private PackedScene? _connectionScene;
-
-    // Add public properties to access the blocks
-    public BaseBlock? InputBlock => _inputBlock;
-    public BaseBlock? OutputBlock => _outputBlock;
     
     public override void _Ready()
     {
-        ZIndex = AnimConfig.ZIndex.Pipe;  // Set pipe layer z-index
-
-        // Load connection scene
+        ZIndex = AnimConfig.ZIndex.Pipe;
         _connectionScene = GD.Load<PackedScene>("res://scenes/Connection.tscn");
         if (_connectionScene == null)
         {
@@ -30,32 +23,15 @@ public partial class ConnectionLayer : Node2D
             return;
         }
 
-        // Debug node tree
-        GD.Print("ConnectionLayer children:");
-        foreach (var child in GetChildren())
-        {
-            GD.Print($"Child: {child.Name}, Type: {child.GetType()}");
-        }
-
-        // Get nodes directly as their correct types
         _inputBlock = GetNode<Node2D>("Input") as BaseBlock;
         _outputBlock = GetNode<Node2D>("Output") as BaseBlock;
         
         if (_inputBlock == null || _outputBlock == null)
         {
-            GD.PrintErr($"Failed to get blocks. Input: {GetNode<Node2D>("Input")?.GetType()}, Output: {GetNode<Node2D>("Output")?.GetType()}");
+            GD.PrintErr("Failed to get Input/Output blocks!");
             return;
         }
 
-        GD.Print($"Successfully got blocks. Input: {_inputBlock.GetType()}, Output: {_outputBlock.GetType()}");
-        
-        // Connect output block signal
-        if (_outputBlock is Output output)
-        {
-            output.TokenProcessed += OnTokenProcessed;
-        }
-
-        // Create only the initial input-to-output connection
         CreateInitialConnection();
     }
 
@@ -70,10 +46,6 @@ public partial class ConnectionLayer : Node2D
         {
             CreateConnection(fromSocket, toSocket);
         }
-        else
-        {
-            GD.PrintErr("Could not create initial connection - sockets not found!");
-        }
     }
 
     private ConnectionPipe? CreateConnection(Node2D fromSocket, Node2D toSocket)
@@ -87,65 +59,50 @@ public partial class ConnectionLayer : Node2D
                    (pipeFrom == toSocket && pipeTo == fromSocket);
         });
 
-        if (existingConnection != null)
-        {
-            GD.Print($"Connection already exists between {fromSocket.GetParent().Name} and {toSocket.GetParent().Name}");
-            return null;
-        }
+        if (existingConnection != null) return null;
 
         var connection = _connectionScene.Instantiate<ConnectionPipe>();
         AddChild(connection);
-        connection.Show();
-        connection.ZIndex = 0;
         connection.Initialize(fromSocket, toSocket);
         _connections.Add(connection);
-        
-        GD.Print($"Created connection between {fromSocket.GetParent().Name} -> {toSocket.GetParent().Name}");
-        
         return connection;
     }
-    
-    private void OnTokenProcessed(float value)
-    {
-        // Handle processed token value
-        GD.Print($"Token processed with final value: {value}");
-        
-        // Emit signal to GameManager
-        EmitSignal(SignalName.TokenProcessed, value);
-    }
-    
-    public void SetInputValue(float value)
-    {
-        if (_inputBlock is Input input)
-        {
-            input.SetValue(value);
-        }
-    }
-    
-    public void ProcessToken()
-    {
-        if (_inputBlock == null || _outputBlock == null) return;
-        
-        if (_inputBlock is Input input && _outputBlock is Output output)
-        {
-            var value = input.GetValue();
-            output.ProcessValue(value);
-        }
-    }
-    
-    [Signal]
-    public delegate void TokenProcessedEventHandler(float value);
 
     public void HandleBlockDrag(BaseBlock block, Vector2 position)
     {
+        // Only look for pipes if the block isn't already connected
+        var hasConnections = _connections.Any(pipe => {
+            var (from, to) = pipe.GetSockets();
+            var fromParent = from.GetParent<BaseBlock>();
+            var toParent = to.GetParent<BaseBlock>();
+            return fromParent == block || toParent == block;
+        });
+
+        // If block is connected, don't look for new connections
+        if (hasConnections)
+        {
+            if (_hoveredPipe != null)
+            {
+                _hoveredPipe.SetHovered(false);
+                _hoveredPipe = null;
+            }
+            return;
+        }
+
         // Find pipe under dragged block
         ConnectionPipe? nearestPipe = null;
+        float nearestDistance = float.MaxValue;
+        
         foreach (var pipe in _connections)
         {
             if (pipe.IsPointNearPipe(position))
             {
-                nearestPipe = pipe;
-                break;
+                var dist = position.DistanceSquaredTo(pipe.GlobalPosition);
+                if (dist < nearestDistance)
+                {
+                    nearestDistance = dist;
+                    nearestPipe = pipe;
+                }
             }
         }
 
@@ -160,164 +117,117 @@ public partial class ConnectionLayer : Node2D
 
     public void HandleBlockDrop(BaseBlock block, Vector2 position)
     {
-        if (_hoveredPipe == null) return;
-
-        // Get existing connection
-        var (fromSocket, toSocket) = _hoveredPipe.GetSockets();
-        
-        // Remove existing connection and get all connections with same endpoints
-        var duplicateConnections = _connections
-            .Where(pipe => {
-                var (pipeFrom, pipeTo) = pipe.GetSockets();
-                return (pipeFrom == fromSocket && pipeTo == toSocket) ||
-                       (pipeFrom == toSocket && pipeTo == fromSocket);
-            })
-            .ToList();
-
-        // Remove all duplicate connections
-        foreach (var pipe in duplicateConnections)
+        // If block is being sent back to toolbar, just remove connections and clear hover
+        if (position.Y > 1000)
         {
-            _connections.Remove(pipe);
-            pipe.QueueFree();
+            if (_hoveredPipe != null)
+            {
+                _hoveredPipe.SetHovered(false);
+                _hoveredPipe = null;
+            }
+            RemoveBlockConnections(block);
+            return;
         }
+
+        // Store currently hovered pipe before clearing state
+        var hoveredPipe = _hoveredPipe;
+
+        // Clear hover state
+        if (_hoveredPipe != null)
+        {
+            _hoveredPipe.SetHovered(false);
+            _hoveredPipe = null;
+        }
+
+        // If block is already connected or we're not hovering over a pipe, do nothing
+        var hasConnections = _connections.Any(pipe => {
+            var (from, to) = pipe.GetSockets();
+            var fromParent = from.GetParent<BaseBlock>();
+            var toParent = to.GetParent<BaseBlock>();
+            return fromParent == block || toParent == block;
+        });
+
+        if (hasConnections || hoveredPipe == null) return;
+
+        // Get the blocks we're connecting between
+        var (fromSocket, toSocket) = hoveredPipe.GetSockets();
+        var fromBlock = fromSocket.GetParent<BaseBlock>();
+        var toBlock = toSocket.GetParent<BaseBlock>();
         
-        // Create two new connections
+        if (fromBlock == null || toBlock == null) return;
+
+        // Remove the existing connection
+        _connections.Remove(hoveredPipe);
+        hoveredPipe.QueueFree();
+
+        // Create new connections
         var blockInput = block.GetNode<Node2D>("BlockInputSocket");
         var blockOutput = block.GetNode<Node2D>("BlockOutputSocket");
         
         if (blockInput != null && blockOutput != null)
         {
+            // Connect from previous output to this block's input
             CreateConnection(fromSocket, blockInput);
+            // Connect from this block's output to previous input
             CreateConnection(blockOutput, toSocket);
-        }
-        
-        _hoveredPipe = null;
-        
-        // Debug connections
-        GD.Print($"Total connections after drop: {_connections.Count}");
-        foreach (var conn in _connections)
-        {
-            var (from, to) = conn.GetSockets();
-            GD.Print($"Connection: {from.GetParent().Name} -> {to.GetParent().Name}");
         }
     }
 
-    public void HandleBlockRemoved(BaseBlock block)
+    public void RemoveBlockConnections(BaseBlock block)
     {
-        // Find ALL connections that involve this block
-        var connectedPipes = _connections
+        // Find all connections involving this block
+        var connectionsToRemove = _connections
             .Where(pipe => {
                 var (from, to) = pipe.GetSockets();
-                return from.GetParent() == block || to.GetParent() == block;
+                var fromParent = from.GetParent<BaseBlock>();
+                var toParent = to.GetParent<BaseBlock>();
+                return fromParent == block || toParent == block;
             })
             .ToList();
 
-        GD.Print($"Found {connectedPipes.Count} connections for block {block.Name}");
-
-        if (connectedPipes.Count >= 2)
+        if (connectionsToRemove.Count == 2)
         {
-            // Find the external connections (ones not connected to the block being removed)
-            var externalSockets = connectedPipes
-                .SelectMany(pipe => {
-                    var (from, to) = pipe.GetSockets();
-                    return new[] { 
-                        from.GetParent() == block ? null : from,
-                        to.GetParent() == block ? null : to
-                    };
-                })
-                .Where(socket => socket != null)
-                .ToList();
+            // Find the external sockets (the ones not on the block being removed)
+            Node2D? externalFromSocket = null;
+            Node2D? externalToSocket = null;
 
-            // Remove all connected pipes
-            foreach (var pipe in connectedPipes)
+            foreach (var pipe in connectionsToRemove)
             {
-                _connections.Remove(pipe);
-                pipe.QueueFree();
-            }
+                var (from, to) = pipe.GetSockets();
+                var fromParent = from.GetParent<BaseBlock>();
+                var toParent = to.GetParent<BaseBlock>();
 
-            // If we found exactly two valid external sockets, reconnect them
-            if (externalSockets.Count >= 2)
-            {
-                var fromSocket = externalSockets[0];
-                var toSocket = externalSockets[1];
-                
-                if (fromSocket != null && toSocket != null)
+                if (fromParent != block)
                 {
-                    var newConnection = CreateConnection(fromSocket, toSocket);
-                    if (newConnection != null)
-                    {
-                        newConnection.StartReconnectAnimation();
-                    }
+                    externalFromSocket = from;
+                }
+                else if (toParent != block)
+                {
+                    externalToSocket = to;
                 }
             }
-        }
-        else
-        {
-            // Just remove any single connections
-            foreach (var pipe in connectedPipes)
-            {
-                _connections.Remove(pipe);
-                pipe.QueueFree();
-            }
-        }
-    }
 
-    public void ProcessTokenThroughBlock(BaseBlock currentBlock, Token token)
-    {
-        // Find the outgoing connection from this block
-        var outgoingPipe = _connections.FirstOrDefault(pipe => {
-            var (from, _) = pipe.GetSockets();
-            return from.GetParent() == currentBlock;
-        });
-
-        if (outgoingPipe != null)
-        {
-            var (_, toSocket) = outgoingPipe.GetSockets();
-            var nextBlock = toSocket.GetParent<BaseBlock>();
-            if (nextBlock != null)
+            // Remove the old connections
+            foreach (var connection in connectionsToRemove)
             {
-                GD.Print($"Moving token from {currentBlock.Name} to {nextBlock.Name}");
-                token.MoveTo(nextBlock, toSocket.GlobalPosition);
+                _connections.Remove(connection);
+                connection.QueueFree();
             }
-            else
+
+            // Create new connection between the external sockets
+            if (externalFromSocket != null && externalToSocket != null)
             {
-                GD.PrintErr($"Invalid next block from socket {toSocket.Name}");
-                token.QueueFree();
+                CreateConnection(externalFromSocket, externalToSocket);
             }
         }
         else
         {
-            // No more connections, token is done
-            GD.Print($"No more connections from {currentBlock.Name}, destroying token");
-            token.QueueFree();
-        }
-    }
-
-    public void SpawnToken()
-    {
-        if (_inputBlock == null) return;
-
-        var inventory = GetNode<Inventory>("../Inventory");
-        var baseValue = inventory?.TokenBaseValue ?? 1.0f;
-        
-        var token = new Token { Value = baseValue };
-        AddChild(token);
-        
-        // Position at input block's output socket
-        var outputSocket = _inputBlock.GetNode<Node2D>("BlockOutputSocket");
-        if (outputSocket != null)
-        {
-            token.GlobalPosition = outputSocket.GlobalPosition;
-            ProcessTokenThroughBlock(_inputBlock, token);
-        }
-    }
-
-    public override void _UnhandledInput(InputEvent @event)
-    {
-        if (@event.IsActionPressed("spawn_token"))  // Define this in project settings
-        {
-            SpawnToken();
-            GetViewport().SetInputAsHandled();
+            // Just remove the connections if there aren't exactly 2
+            foreach (var connection in connectionsToRemove)
+            {
+                _connections.Remove(connection);
+                connection.QueueFree();
+            }
         }
     }
 }

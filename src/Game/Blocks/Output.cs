@@ -13,12 +13,6 @@ public partial class Output : BaseBlock
         GD.Print($"Output block initialized: {this.Name}");
     }
 
-    public override void ProcessToken(Token token)
-    {
-        EmitSignal(SignalName.TokenProcessed, token.Value);
-        token.QueueFree();
-    }
-    
     public void ProcessValue(float value)
     {
         EmitSignal(SignalName.TokenProcessed, value);

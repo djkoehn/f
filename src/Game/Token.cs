@@ -1,4 +1,5 @@
 using Godot;
+using System;
 
 namespace F;
 
@@ -8,18 +9,10 @@ public partial class Token : Node2D
     private BaseBlock? _targetBlock;
     private Vector2 _targetPosition;
     private bool _isMoving;
-    private const float MOVE_SPEED = 400f;
 
     public override void _Ready()
     {
-        // Set initial appearance
-        var circle = new ColorRect
-        {
-            Size = new Vector2(10, 10),
-            Position = new Vector2(-5, -5),
-            Color = new Color(1, 1, 1)
-        };
-        AddChild(circle);
+        // Token is just a position marker now
     }
 
     public void MoveTo(BaseBlock nextBlock, Vector2 position)
@@ -41,15 +34,11 @@ public partial class Token : Node2D
         {
             GlobalPosition = _targetPosition;
             _isMoving = false;
-            
-            GD.Print($"Token reached {_targetBlock.Name}, starting processing at value: {Value}");
-            var block = _targetBlock;
-            _targetBlock = null;  // Clear reference before processing
-            block.ProcessToken(this);
+            _targetBlock = null;
         }
         else
         {
-            GlobalPosition += direction.Normalized() * MOVE_SPEED * (float)delta;
+            GlobalPosition += direction.Normalized() * GameConfig.TOKEN_MOVE_SPEED * (float)delta;
         }
     }
 }

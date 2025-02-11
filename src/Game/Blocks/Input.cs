@@ -16,12 +16,6 @@ public partial class Input : BaseBlock
         return _value;
     }
 
-    public override void ProcessToken(Token token)
-    {
-        token.Value = _value;
-        base.ProcessToken(token);
-    }
-    
     public override void _Ready()
     {
         base._Ready();

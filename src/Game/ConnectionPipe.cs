@@ -76,20 +76,6 @@ public partial class ConnectionPipe : Node2D
         DrawPolyline(points.ToArray(), color, AnimConfig.Pipe.LineWidth);
     }
 
-    private Vector2 CubicBezier(Vector2 start, Vector2 cp1, Vector2 cp2, Vector2 end, float t)
-    {
-        float u = 1 - t;
-        float tt = t * t;
-        float uu = u * u;
-        float uuu = uu * u;
-        float ttt = tt * t;
-
-        return uuu * start +
-               3 * uu * t * cp1 +
-               3 * u * tt * cp2 +
-               ttt * end;
-    }
-
     private Vector2[] GeneratePoints(Vector2 start, Vector2 end)
     {
         var points = new List<Vector2>();
@@ -105,6 +91,20 @@ public partial class ConnectionPipe : Node2D
         }
 
         return points.ToArray();
+    }
+
+    private Vector2 CubicBezier(Vector2 start, Vector2 cp1, Vector2 cp2, Vector2 end, float t)
+    {
+        float u = 1 - t;
+        float tt = t * t;
+        float uu = u * u;
+        float uuu = uu * u;
+        float ttt = tt * t;
+
+        return uuu * start +
+               3 * uu * t * cp1 +
+               3 * u * tt * cp2 +
+               ttt * end;
     }
 
     public void StartReconnectAnimation()

@@ -29,7 +29,6 @@ public partial class GameManager : Node2D
         
         // Connect signals
         _inventory.InventoryReady += OnInventoryReady;
-        ConnectionLayer.TokenProcessed += OnTokenProcessed;
     }
 
     public override void _ExitTree()
@@ -56,13 +55,6 @@ public partial class GameManager : Node2D
                 GD.PrintErr($"No metadata found for block {block.Name}");
             }
         }
-    }
-    
-    private void OnTokenProcessed(float value)
-    {
-        // Handle token completion
-        GD.Print($"Token completed with value: {value}");
-        // TODO: Update score, check win condition, etc.
     }
     
     public override void _Process(double delta)
@@ -141,11 +133,6 @@ public partial class GameManager : Node2D
             _draggedBlock.SetDragging(false);
             _draggedBlock = null;
         }
-    }
-
-    public override void _Input(InputEvent @event)
-    {
-        // Empty or remove this method
     }
 
     public BaseBlock? GetDraggedBlock()

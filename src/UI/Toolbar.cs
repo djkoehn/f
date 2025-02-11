@@ -92,27 +92,29 @@ public partial class Toolbar : Control
     {
         if (_centerContainer == null || block.GetParent() == _centerContainer) return;
         
-        // Important: First disconnect the block's pipes
+        // Get connection layer
         var connectionLayer = GetNode<ConnectionLayer>("../ConnectionLayer");
-        if (connectionLayer != null)
-        {
-            // Handle pipe cleanup BEFORE starting return animation
-            connectionLayer.HandleBlockRemoved(block);
-            
-            // Now start the return animation
-            _returningBlock = block;
-            _returnStartPos = block.GlobalPosition;
-            _returnTime = 0f;
-            
-            // Calculate target position relative to viewport center
-            Vector2 targetPos = new Vector2(
-                GetViewportRect().Size.X / 2,
-                GetViewportRect().Size.Y - (GetRect().Size.Y / 2)
-            );
-            
-            _returnTargetPos = targetPos;
-            _gameManager?.HandleBlockDrop();
-        }
+        if (connectionLayer == null) return;
+
+        // Clear any hover state first
+        connectionLayer.HandleBlockDrag(block, new Vector2(-9999, -9999)); // Move far away to clear hover
+        
+        // Now handle the return process
+        connectionLayer.RemoveBlockConnections(block);
+        
+        // Start return animation
+        _returningBlock = block;
+        _returnStartPos = block.GlobalPosition;
+        _returnTime = 0f;
+        
+        // Calculate target position relative to viewport center
+        Vector2 targetPos = new Vector2(
+            GetViewportRect().Size.X / 2,
+            GetViewportRect().Size.Y - (GetRect().Size.Y / 2)
+        );
+        
+        _returnTargetPos = targetPos;
+        _gameManager?.HandleBlockDrop();
     }
 
     private void OnBlockClicked(BaseBlock block)
@@ -223,8 +225,8 @@ public partial class Toolbar : Control
                 foreach (var child in connectionLayer.GetChildren())
                 {
                     if (child is BaseBlock block && 
-                        block != connectionLayer.InputBlock && 
-                        block != connectionLayer.OutputBlock)
+                        child.Name != "Input" && 
+                        child.Name != "Output")
                     {
                         var blockRect = block.GetRect();
                         if (blockRect.HasPoint(mousePos))
