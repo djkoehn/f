@@ -19,14 +19,21 @@ public class BlockMetadata
         Rarity = rarity;
     }
     
-    public static BlockMetadata CreateAdd()
+    public static BlockMetadata? Create(string id)
     {
-        return new BlockMetadata(
-            "Add Block",
-            "add",
-            "res://scenes/Blocks/Add.tscn",
-            "Adds a value to token",
-            1
-        );
+        return id switch
+        {
+            "add" => new BlockMetadata(
+                "Add Block",
+                "add",
+                "res://scenes/Blocks/Add.tscn",
+                "Adds a value to token",
+                1
+            ),
+            // Add more block types here as needed:
+            // "multiply" => new BlockMetadata("Multiply Block", "multiply", "res://scenes/Blocks/Multiply.tscn", "Multiplies token value", 1),
+            // "divide" => new BlockMetadata("Divide Block", "divide", "res://scenes/Blocks/Divide.tscn", "Divides token value", 1),
+            _ => null
+        };
     }
 }

@@ -70,6 +70,14 @@ public partial class BaseBlock : Node2D
     public void SetDragging(bool isDragging)
     {
         _isBeingDragged = isDragging;
+        if (isDragging)
+        {
+            Scale = Vector2.One * AnimConfig.Toolbar.DraggedBlockScale;
+        }
+        else
+        {
+            Scale = Vector2.One * (IsInBlockLayer() ? 1.0f : AnimConfig.Toolbar.BlockScale);
+        }
     }
 
     public virtual Rect2 GetRect()

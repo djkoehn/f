@@ -11,7 +11,9 @@ public static class AnimConfig
         public const float ContainerDelay = 0.05f;
         public const float OffscreenOffset = 256f;
         public const float ContainerOffset = -64f; // Adjusted to center blocks vertically
-        public const float BlockScale = 0.75f; // Standard scale for blocks in toolbar
+        public const float BlockScale = 1.0f; // Standard scale for blocks in toolbar
+        public const float BlockSpacing = 5.0f; // Horizontal spacing between blocks in toolbar
+        public const float DraggedBlockScale = 1.2f; // Scale for blocks when being dragged
     }
 
     public static class Pipe

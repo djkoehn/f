@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace F;
 
@@ -11,6 +12,16 @@ public partial class Inventory : Node
     private Dictionary<string, BlockMetadata> _blocks = new();
     private bool _isReady;
     private float _tokenBaseValue = 1.0f;
+    
+    // List of initial blocks - just add the IDs you want!
+    private static readonly string[] InitialBlocks = new[]
+    {
+        "add",  // First Add block
+        "add",  // Second Add block
+        // Add more blocks here as needed, e.g.:
+        // "multiply",
+        // "divide",
+    };
     
     public bool IsReady => _isReady;
     
@@ -29,15 +40,28 @@ public partial class Inventory : Node
     
     private void InitializeInventory()
     {
-        // Add initial blocks to inventory
-        Add();  // Add block
-        Add();  // Add block
+        foreach (var blockId in InitialBlocks)
+        {
+            AddBlockByType(blockId);
+        }
     }
     
-    public void Add()
+    private void AddBlockByType(string blockId)
     {
-        var metadata = BlockMetadata.CreateAdd();
-        AddBlock(metadata.Id, metadata);
+        // Count how many of this type we already have
+        int existingCount = _blocks.Keys.Count(k => k.StartsWith(blockId));
+        
+        // Create the metadata
+        var metadata = BlockMetadata.Create(blockId);
+        if (metadata != null)
+        {
+            string id = existingCount == 0 ? blockId : $"{blockId}{existingCount + 1}";
+            AddBlock(id, metadata);
+        }
+        else
+        {
+            GD.PrintErr($"Unknown block type: {blockId}");
+        }
     }
     
     private void AddBlock(string id, BlockMetadata metadata)

@@ -15,10 +15,10 @@ shader_parameter/color1 = Color(0.0700572, 7.85614e-05, 0.205366, 1)
 shader_parameter/color2 = Color(0.293926, 0.124395, 0.372632, 1)
 shader_parameter/time_scale = 0.01
 shader_parameter/distortion_strength = 0.197
-shader_parameter/interlace_size = 100.0
-shader_parameter/interlace_strength = 1.0
-shader_parameter/pattern_scale = 8.73
-shader_parameter/dither_size = 1.16
+shader_parameter/interlace_size = 94.01
+shader_parameter/interlace_strength = 0.0
+shader_parameter/pattern_scale = 3.988
+shader_parameter/dither_size = 2.0
 shader_parameter/scroll_speed = Vector2(0.001, 0.001)
 
 [node name="Main" type="Node2D"]
