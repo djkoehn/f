@@ -1,5 +1,6 @@
 using Godot;
 using F.Blocks;
+using System.Collections.Generic;
 
 namespace F;
 
@@ -10,7 +11,7 @@ public partial class BaseBlock : Node2D
     private Node2D? _inputSocket;
     private Node2D? _outputSocket;
     private bool _isBeingDragged = false;
-    protected ConnectionLayer? ConnectionLayer;
+    public ConnectionLayer? ConnectionLayer;
 
     [Signal]
     public delegate void BlockPlacedEventHandler(BaseBlock block);
@@ -107,5 +108,50 @@ public partial class BaseBlock : Node2D
         Scale = Vector2.One * AnimConfig.Toolbar.BlockScale;
         Rotation = 0;
         ZIndex = AnimConfig.ZIndex.Block;
+    }
+
+    public virtual void ProcessToken(Token token)
+    {
+        if (_metadata != null && _metadata.Action != null)
+        {
+            token.Value = _metadata.Action(token.Value);
+        }
+
+        // Send token to next block after processing
+        SendTokenToNextBlock(token);
+    }
+
+    public void FinishProcessing(Token token)
+    {
+        // Mark this block as processed for the token
+        token.ProcessedBlocks.Add(this);
+        GD.Print($"Block {Name} finished processing token with value {token.Value}");
+
+        // Send token to the next block
+        SendTokenToNextBlock(token);
+    }
+
+    public void SendTokenToNextBlock(Token token)
+    {
+        if (ConnectionLayer == null) return;
+
+        var (nextBlock, pipe) = ConnectionLayer.GetNextBlockAndPipe(this);
+        
+        if (nextBlock != null)
+        {
+            token.MoveTo(nextBlock);
+        }
+        else
+        {
+            // No next block, remove the token from the game
+            token.QueueFree();
+        }
+    }
+
+    public virtual Vector2 GetTokenPosition()
+    {
+        // Default implementation returns the block's global position
+        // Subclasses can override this to customize the token position
+        return GlobalPosition;
     }
 }

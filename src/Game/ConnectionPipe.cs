@@ -142,4 +142,25 @@ public partial class ConnectionPipe : Node2D
     {
         return (_fromSocket!, _toSocket!);
     }
+
+    public Vector2 GetPointAlongPipe(float t)
+    {
+        if (_fromSocket == null || _toSocket == null) return Vector2.Zero;
+
+        var startPos = ToLocal(_fromSocket.GlobalPosition);
+        var endPos = ToLocal(_toSocket.GlobalPosition);
+
+        var localPoint = GetPointAlongCurve(startPos, endPos, t);
+        var globalPoint = ToGlobal(localPoint);
+        
+        GD.Print($"GetPointAlongPipe(t={t}) returning {globalPoint}");
+        return globalPoint;
+    }
+
+    private Vector2 GetPointAlongCurve(Vector2 start, Vector2 end, float t)
+    {
+        var points = GeneratePoints(start, end);
+        int index = Mathf.FloorToInt(t * (points.Length - 1));
+        return points[index];
+    }
 }

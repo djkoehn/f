@@ -8,6 +8,7 @@ public partial class GameManager : Node2D
 {
     public static GameManager? Instance { get; private set; }
     public ConnectionLayer? ConnectionLayer { get; private set; }
+    public TokenManager? TokenManager { get; private set; }
 
     private Node2D? _blockLayer;
     private BaseBlock? _draggedBlock;
@@ -20,8 +21,9 @@ public partial class GameManager : Node2D
         // Get required components
         ConnectionLayer = GetNode<ConnectionLayer>("ConnectionLayer");
         _inventory = GetNode<Inventory>("Inventory");
+        var tokenLayer = GetNode<Node2D>("TokenLayer");
         
-        if (ConnectionLayer == null || _inventory == null)
+        if (ConnectionLayer == null || _inventory == null || tokenLayer == null)
         {
             GD.PrintErr("Required components not found!");
             return;
@@ -29,6 +31,8 @@ public partial class GameManager : Node2D
         
         // Connect signals
         _inventory.InventoryReady += OnInventoryReady;
+        
+        TokenManager = new TokenManager(ConnectionLayer, tokenLayer);
     }
 
     public override void _ExitTree()

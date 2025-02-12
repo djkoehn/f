@@ -12,6 +12,7 @@ public partial class ConnectionLayer : Node2D
     private ConnectionPipe? _hoveredPipe;
     private List<ConnectionPipe> _connections = new();
     private PackedScene? _connectionScene;
+    private Dictionary<BaseBlock, ConnectionPipe> _blockToPipeMap = new();
     
     public override void _Ready()
     {
@@ -65,6 +66,15 @@ public partial class ConnectionLayer : Node2D
         AddChild(connection);
         connection.Initialize(fromSocket, toSocket);
         _connections.Add(connection);
+
+        var fromBlock = fromSocket.GetParent<BaseBlock>();
+        var toBlock = toSocket.GetParent<BaseBlock>();
+
+        if (fromBlock != null) 
+        {
+            _blockToPipeMap[fromBlock] = connection;
+        }
+
         return connection;
     }
 
@@ -229,5 +239,17 @@ public partial class ConnectionLayer : Node2D
                 connection.QueueFree();
             }
         }
+    }
+
+    public (BaseBlock? block, ConnectionPipe? pipe) GetNextBlockAndPipe(BaseBlock block)
+    {
+        if (_blockToPipeMap.TryGetValue(block, out var pipe))
+        {
+            var (_, toSocket) = pipe.GetSockets();
+            var nextBlock = toSocket.GetParent<BaseBlock>();
+            return (nextBlock, pipe);
+        }
+
+        return (null, null);
     }
 }
