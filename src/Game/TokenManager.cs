@@ -31,11 +31,17 @@ public partial class TokenManager : Node
         var token = tokenScene.Instantiate<Token>();
         token.GlobalPosition = startBlock.GlobalPosition;
         token.Value = (startBlock as Blocks.Input)?.GetValue() ?? 0f;
+        token.CurrentBlock = startBlock;  // Set initial block
         
         _tokenLayer.AddChild(token);
         _activeTokens.Add(token);
 
-        token.MoveTo(startBlock);
+        // Get the next block and send the token there
+        var (nextBlock, _) = _connectionLayer.GetNextBlockAndPipe(startBlock);
+        if (nextBlock != null)
+        {
+            token.MoveTo(nextBlock);
+        }
     }
 
     public override void _Process(double delta)

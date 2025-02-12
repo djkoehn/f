@@ -1,7 +1,7 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using F.Blocks;
 
 namespace F;
 
@@ -16,13 +16,15 @@ public partial class ConnectionLayer : Node2D
     
     public override void _Ready()
     {
-        ZIndex = AnimConfig.ZIndex.Pipe;
+        ZIndex = 1; // Ensure pipes are drawn above blocks
+        GD.Print("Loading Connection scene...");
         _connectionScene = GD.Load<PackedScene>("res://scenes/Connection.tscn");
         if (_connectionScene == null)
         {
             GD.PrintErr("Failed to load Connection scene!");
             return;
         }
+        GD.Print("Connection scene loaded successfully");
 
         _inputBlock = GetNode<Node2D>("Input") as BaseBlock;
         _outputBlock = GetNode<Node2D>("Output") as BaseBlock;
@@ -40,28 +42,57 @@ public partial class ConnectionLayer : Node2D
     {
         if (_inputBlock == null || _outputBlock == null) return;
 
+        GD.Print("Creating initial connection...");
         var fromSocket = _inputBlock.GetNodeOrNull<Node2D>("BlockOutputSocket");
         var toSocket = _outputBlock.GetNodeOrNull<Node2D>("BlockInputSocket");
         
         if (fromSocket != null && toSocket != null)
         {
-            CreateConnection(fromSocket, toSocket);
+            var connection = CreateConnection(fromSocket, toSocket);
+            if (connection != null)
+            {
+                GD.Print("Initial connection created successfully");
+            }
+            else
+            {
+                GD.PrintErr("Failed to create initial connection");
+            }
+        }
+        else
+        {
+            GD.PrintErr($"Failed to get sockets. FromSocket: {fromSocket != null}, ToSocket: {toSocket != null}");
         }
     }
 
     private ConnectionPipe? CreateConnection(Node2D fromSocket, Node2D toSocket)
     {
-        if (_connectionScene == null) return null;
+        if (_connectionScene == null)
+        {
+            GD.PrintErr("Cannot create connection: Connection scene is null");
+            return null;
+        }
 
         // Check if connection already exists
         var existingConnection = _connections.FirstOrDefault(pipe => {
-            var (pipeFrom, pipeTo) = pipe.GetSockets();
-            return (pipeFrom == fromSocket && pipeTo == toSocket) ||
-                   (pipeFrom == toSocket && pipeTo == fromSocket);
+            try
+            {
+                var (pipeFrom, pipeTo) = pipe.GetSockets();
+                return (pipeFrom == fromSocket && pipeTo == toSocket) ||
+                       (pipeFrom == toSocket && pipeTo == fromSocket);
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
         });
 
-        if (existingConnection != null) return null;
+        if (existingConnection != null)
+        {
+            GD.Print("Connection already exists between these sockets");
+            return null;
+        }
 
+        GD.Print("Creating new connection...");
         var connection = _connectionScene.Instantiate<ConnectionPipe>();
         AddChild(connection);
         connection.Initialize(fromSocket, toSocket);
@@ -75,6 +106,7 @@ public partial class ConnectionLayer : Node2D
             _blockToPipeMap[fromBlock] = connection;
         }
 
+        GD.Print($"Connection created. FromBlock: {fromBlock?.Name}, ToBlock: {toBlock?.Name}");
         return connection;
     }
 
@@ -82,10 +114,17 @@ public partial class ConnectionLayer : Node2D
     {
         // Only look for pipes if the block isn't already connected
         var hasConnections = _connections.Any(pipe => {
-            var (from, to) = pipe.GetSockets();
-            var fromParent = from.GetParent<BaseBlock>();
-            var toParent = to.GetParent<BaseBlock>();
-            return fromParent == block || toParent == block;
+            try
+            {
+                var (from, to) = pipe.GetSockets();
+                var fromParent = from.GetParent<BaseBlock>();
+                var toParent = to.GetParent<BaseBlock>();
+                return fromParent == block || toParent == block;
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
         });
 
         // If block is connected, don't look for new connections
@@ -119,9 +158,15 @@ public partial class ConnectionLayer : Node2D
         // Update hover states
         if (_hoveredPipe != nearestPipe)
         {
-            _hoveredPipe?.SetHovered(false);
+            if (_hoveredPipe != null)
+            {
+                _hoveredPipe.SetHovered(false);
+            }
             _hoveredPipe = nearestPipe;
-            _hoveredPipe?.SetHovered(true);
+            if (_hoveredPipe != null)
+            {
+                _hoveredPipe.SetHovered(true);
+            }
         }
     }
 
@@ -151,35 +196,50 @@ public partial class ConnectionLayer : Node2D
 
         // If block is already connected or we're not hovering over a pipe, do nothing
         var hasConnections = _connections.Any(pipe => {
-            var (from, to) = pipe.GetSockets();
-            var fromParent = from.GetParent<BaseBlock>();
-            var toParent = to.GetParent<BaseBlock>();
-            return fromParent == block || toParent == block;
+            try
+            {
+                var (from, to) = pipe.GetSockets();
+                var fromParent = from.GetParent<BaseBlock>();
+                var toParent = to.GetParent<BaseBlock>();
+                return fromParent == block || toParent == block;
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
         });
 
         if (hasConnections || hoveredPipe == null) return;
 
-        // Get the blocks we're connecting between
-        var (fromSocket, toSocket) = hoveredPipe.GetSockets();
-        var fromBlock = fromSocket.GetParent<BaseBlock>();
-        var toBlock = toSocket.GetParent<BaseBlock>();
-        
-        if (fromBlock == null || toBlock == null) return;
-
-        // Remove the existing connection
-        _connections.Remove(hoveredPipe);
-        hoveredPipe.QueueFree();
-
-        // Create new connections
-        var blockInput = block.GetNode<Node2D>("BlockInputSocket");
-        var blockOutput = block.GetNode<Node2D>("BlockOutputSocket");
-        
-        if (blockInput != null && blockOutput != null)
+        try
         {
-            // Connect from previous output to this block's input
-            CreateConnection(fromSocket, blockInput);
-            // Connect from this block's output to previous input
-            CreateConnection(blockOutput, toSocket);
+            // Get the blocks we're connecting between
+            var (fromSocket, toSocket) = hoveredPipe.GetSockets();
+            var fromBlock = fromSocket.GetParent<BaseBlock>();
+            var toBlock = toSocket.GetParent<BaseBlock>();
+            
+            if (fromBlock == null || toBlock == null) return;
+
+            // Remove the existing connection
+            _connections.Remove(hoveredPipe);
+            hoveredPipe.QueueFree();
+
+            // Create new connections
+            var blockInput = block.GetNode<Node2D>("BlockInputSocket");
+            var blockOutput = block.GetNode<Node2D>("BlockOutputSocket");
+            
+            if (blockInput != null && blockOutput != null)
+            {
+                // Connect from previous output to this block's input
+                CreateConnection(fromSocket, blockInput);
+                // Connect from this block's output to previous input
+                CreateConnection(blockOutput, toSocket);
+            }
+        }
+        catch (InvalidOperationException)
+        {
+            // Handle case where GetSockets fails
+            GD.PrintErr("Failed to get sockets for connection");
         }
     }
 
@@ -188,10 +248,17 @@ public partial class ConnectionLayer : Node2D
         // Find all connections involving this block
         var connectionsToRemove = _connections
             .Where(pipe => {
-                var (from, to) = pipe.GetSockets();
-                var fromParent = from.GetParent<BaseBlock>();
-                var toParent = to.GetParent<BaseBlock>();
-                return fromParent == block || toParent == block;
+                try
+                {
+                    var (from, to) = pipe.GetSockets();
+                    var fromParent = from.GetParent<BaseBlock>();
+                    var toParent = to.GetParent<BaseBlock>();
+                    return fromParent == block || toParent == block;
+                }
+                catch (InvalidOperationException)
+                {
+                    return false;
+                }
             })
             .ToList();
 
@@ -203,17 +270,24 @@ public partial class ConnectionLayer : Node2D
 
             foreach (var pipe in connectionsToRemove)
             {
-                var (from, to) = pipe.GetSockets();
-                var fromParent = from.GetParent<BaseBlock>();
-                var toParent = to.GetParent<BaseBlock>();
+                try
+                {
+                    var (from, to) = pipe.GetSockets();
+                    var fromParent = from.GetParent<BaseBlock>();
+                    var toParent = to.GetParent<BaseBlock>();
 
-                if (fromParent != block)
-                {
-                    externalFromSocket = from;
+                    if (fromParent != block)
+                    {
+                        externalFromSocket = from;
+                    }
+                    else if (toParent != block)
+                    {
+                        externalToSocket = to;
+                    }
                 }
-                else if (toParent != block)
+                catch (InvalidOperationException)
                 {
-                    externalToSocket = to;
+                    continue;
                 }
             }
 
@@ -245,9 +319,16 @@ public partial class ConnectionLayer : Node2D
     {
         if (_blockToPipeMap.TryGetValue(block, out var pipe))
         {
-            var (_, toSocket) = pipe.GetSockets();
-            var nextBlock = toSocket.GetParent<BaseBlock>();
-            return (nextBlock, pipe);
+            try
+            {
+                var (_, toSocket) = pipe.GetSockets();
+                var nextBlock = toSocket.GetParent<BaseBlock>();
+                return (nextBlock, pipe);
+            }
+            catch (InvalidOperationException)
+            {
+                return (null, null);
+            }
         }
 
         return (null, null);

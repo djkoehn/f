@@ -4,6 +4,55 @@ namespace F;
 
 public static class AnimConfig
 {
+    public static class Block
+    {
+        public const float DragScale = 1.2f;
+        public const float SnapDistance = 50f;
+        public const float DraggedBlockScale = 1.2f;
+    }
+
+    public static class ZIndex
+    {
+        // Base layers
+        public const int Background = -10;
+        public const int Pipe = -1;
+        public const int Block = 0;
+        public const int Token = 1;
+        
+        // UI layers
+        public const int Toolbar = -1;
+        public const int DraggedBlock = 11;
+        public const int Overlay = 12;
+    }
+
+    public static class Pipe
+    {
+        // Animation
+        public const float SpringDuration = 0.3f;
+        public const float SpringStrength = 0.3f;
+        public const int CurveResolution = 20;
+        
+        // Interaction
+        public const float HoverDistance = 30f;
+        
+        // Visuals
+        public static readonly Color LineColor = new(0.388f, 0.388f, 0.388f);
+        public static readonly Color HoverColor = new(0.588f, 0.588f, 0.588f);
+    }
+
+    public static class Token
+    {
+        public const float MoveDuration = 0.5f;
+        public const float Scale = 0.5f;
+    }
+
+    public static class UI
+    {
+        public const float ToolbarHeight = 150f;
+        public const float ToolbarAnimationDuration = 0.3f;
+        public const float BlockSpacing = 20f;
+    }
+
     public static class Toolbar
     {
         public const float HoverThreshold = 0.8f;
@@ -14,27 +63,5 @@ public static class AnimConfig
         public const float BlockScale = 1.0f; // Standard scale for blocks in toolbar
         public const float BlockSpacing = 5.0f; // Horizontal spacing between blocks in toolbar
         public const float DraggedBlockScale = 1.2f; // Scale for blocks when being dragged
-    }
-
-    public static class Pipe
-    {
-        public static readonly Color LineColor = new(0.7f, 0.7f, 1.0f, 0.8f);
-        public static readonly Color HoverColor = new(1.0f, 0.7f, 0.2f, 0.8f);
-        public const float LineWidth = 5.0f;
-        public const float PaddingFactor = 1.5f; // How much to grow the rect beyond the connection points
-        public const float HoverDistance = 100f; // Distance for hover detection
-        
-        // Add animation parameters
-        public const float SpringDuration = 1.0f;
-        public const float SpringStrength = 1.0f;
-        public const int CurveResolution = 24;
-    }
-
-    public static class ZIndex
-    {
-        public const int Toolbar = 0;
-        public const int Pipe = 1;
-        public const int Block = 2;
-        public const int DraggedBlock = 3;
     }
 }
