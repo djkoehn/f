@@ -17,10 +17,14 @@ public partial class Inventory : Node
     private static readonly string[] InitialBlocks = new[]
     {
         "add",  // First Add block
-        "add",  // Second Add block
-        // Add more blocks here as needed, e.g.:
-        // "multiply",
-        // "divide",
+        "add",
+        "add",
+        "add",
+        "add",
+        "add",
+        "add",
+        "add",
+        "add",
     };
     
     public bool IsReady => _isReady;

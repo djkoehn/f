@@ -106,6 +106,9 @@ public partial class ConnectionLayer : Node2D
             _blockToPipeMap[fromBlock] = connection;
         }
 
+        // Play connection sound
+        AudioManager.Instance?.PlayBlockConnect();
+
         GD.Print($"Connection created. FromBlock: {fromBlock?.Name}, ToBlock: {toBlock?.Name}");
         return connection;
     }

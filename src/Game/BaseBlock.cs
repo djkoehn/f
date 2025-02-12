@@ -1,6 +1,7 @@
 using Godot;
 using F.Blocks;
 using System.Collections.Generic;
+using F.UI;
 
 namespace F;
 
@@ -12,6 +13,11 @@ public partial class BaseBlock : Node2D
     private Node2D? _outputSocket;
     private bool _isBeingDragged = false;
     public ConnectionLayer? ConnectionLayer;
+    
+    // Store original transform values
+    protected Vector2 _originalPosition;
+    protected Vector2 _originalScale;
+    protected float _originalRotation;
 
     [Signal]
     public delegate void BlockPlacedEventHandler(BaseBlock block);
@@ -20,6 +26,11 @@ public partial class BaseBlock : Node2D
     {
         base._Ready();
         CallDeferred(nameof(InitializeConnections));
+        
+        // Store initial transform values
+        _originalPosition = Position;
+        _originalScale = Scale;
+        _originalRotation = Rotation;
     }
 
     private void InitializeConnections()
@@ -117,7 +128,7 @@ public partial class BaseBlock : Node2D
             token.Value = _metadata.Action(token.Value);
         }
 
-        // Send token to next block after processing
+        // Send token to next block
         SendTokenToNextBlock(token);
     }
 
@@ -153,5 +164,18 @@ public partial class BaseBlock : Node2D
         // Default implementation returns the block's global position
         // Subclasses can override this to customize the token position
         return GlobalPosition;
+    }
+
+    public void TriggerAnimation(Token token)
+    {
+        // Use current position and scale for the animation
+        var currentPos = Position;
+        var currentScale = Scale;
+        var currentRotation = Rotation;
+        
+        // Calculate intensity multiplier based on number of blocks hit (starting at 1.0, max at 2.0)
+        float intensity = Mathf.Min(1.0f + (token.ProcessedBlocks.Count * 0.2f), 2.0f);
+        
+        Animations.TriggerBlockAnimation(this, currentPos, currentScale, currentRotation, intensity);
     }
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://main"]
+[gd_scene load_steps=11 format=3 uid="uid://main"]
 
 [ext_resource type="Script" path="res://src/Game/GameManager.cs" id="1_game"]
 [ext_resource type="Shader" path="res://assets/shaders/background_distortion.gdshader" id="1_ms8tu"]
@@ -8,13 +8,14 @@
 [ext_resource type="PackedScene" uid="uid://output" path="res://scenes/Blocks/Output.tscn" id="5_output"]
 [ext_resource type="Script" path="res://src/UI/Toolbar.cs" id="6_toolbar"]
 [ext_resource type="PackedScene" uid="uid://dcuxk8hcr4r0c" path="res://scenes/TokenValueDisplay.tscn" id="8_m5co6"]
+[ext_resource type="PackedScene" uid="uid://udiomanager" path="res://scenes/AudioManager.tscn" id="9_audio"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3l2g1"]
 shader = ExtResource("1_ms8tu")
 shader_parameter/color1 = Color(0.0700572, 7.85614e-05, 0.205366, 1)
 shader_parameter/color2 = Color(0.293926, 0.124395, 0.372632, 1)
-shader_parameter/time_scale = 0.01
-shader_parameter/distortion_strength = 0.197
+shader_parameter/time_scale = 0.1
+shader_parameter/distortion_strength = 0.099
 shader_parameter/interlace_size = 94.01
 shader_parameter/interlace_strength = 0.0
 shader_parameter/pattern_scale = 3.988
@@ -48,6 +49,8 @@ scale = Vector2(0.75, 0.75)
 [node name="TokenLayer" type="Node2D" parent="GameManager"]
 
 [node name="Toolbar" type="Panel" parent="GameManager"]
+z_index = 1
+z_as_relative = false
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
@@ -84,3 +87,5 @@ offset_top = -81.0
 offset_bottom = 0.0
 grow_vertical = 0
 horizontal_alignment = 1
+
+[node name="AudioManager" parent="." instance=ExtResource("9_audio")]

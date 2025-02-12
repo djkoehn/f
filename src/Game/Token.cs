@@ -1,6 +1,6 @@
-using Godot;
-using System;
 using System.Collections.Generic;
+using Godot;
+using F.UI;
 
 namespace F;
 
@@ -75,6 +75,10 @@ public partial class Token : Node2D
         _progress = 0f;
         CurrentBlock = _targetBlock;
         _targetBlock = null;
+        
+        // Play block hit sound and trigger animation
+        AudioManager.Instance?.PlayBlockHit();
+        CurrentBlock.TriggerAnimation(this);
         
         ProcessedBlocks.Add(CurrentBlock);
         CurrentBlock.ProcessToken(this);

@@ -36,6 +36,9 @@ public partial class TokenManager : Node
         _tokenLayer.AddChild(token);
         _activeTokens.Add(token);
 
+        // Play token start sound
+        AudioManager.Instance?.PlayTokenStart();
+
         // Get the next block and send the token there
         var (nextBlock, _) = _connectionLayer.GetNextBlockAndPipe(startBlock);
         if (nextBlock != null)
