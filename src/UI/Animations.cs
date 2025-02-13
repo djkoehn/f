@@ -44,4 +44,49 @@ public static class Animations
 
         return tween;
     }
+
+    public class BlockReturnAnimation
+    {
+        private BaseBlock _block;
+        private Vector2 _startPos;
+        private Vector2 _targetPos;
+        private float _time;
+        private const float DURATION = AnimConfig.Toolbar.ReturnAnimationDuration;
+
+        public bool IsComplete => _time >= DURATION;
+        public BaseBlock Block => _block;
+
+        public BlockReturnAnimation(BaseBlock block, Vector2 startPos, Vector2 targetPos)
+        {
+            _block = block;
+            _startPos = startPos;
+            _targetPos = targetPos;
+            _time = 0f;
+        }
+
+        public void Update(float delta)
+        {
+            if (IsComplete) return;
+
+            _time = Mathf.Min(_time + delta, DURATION);
+            float t = _time / DURATION;
+            
+            // Spring easing
+            float c4 = (2f * Mathf.Pi) / 3f;
+            float bounce = Mathf.Sin(-13f * Mathf.Pi/2 * (t + 1f)) * Mathf.Pow(2f, -10f * t) + 1f;
+            t = bounce;
+            
+            // Animate position with spring
+            _block.GlobalPosition = _startPos.Lerp(_targetPos, t);
+            
+            // Add bouncy scale animation
+            float scaleBounciness = 1f + (0.2f * bounce - 0.2f);
+            _block.Scale = Vector2.One * scaleBounciness;
+        }
+    }
+
+    public static BlockReturnAnimation CreateBlockReturnAnimation(BaseBlock block, Vector2 startPos, Vector2 targetPos)
+    {
+        return new BlockReturnAnimation(block, startPos, targetPos);
+    }
 }

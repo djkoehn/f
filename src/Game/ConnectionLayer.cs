@@ -13,6 +13,7 @@ public partial class ConnectionLayer : Node2D
     private List<ConnectionPipe> _connections = new();
     private PackedScene? _connectionScene;
     private Dictionary<BaseBlock, ConnectionPipe> _blockToPipeMap = new();
+    private ColorRect? _bounds;
     
     public override void _Ready()
     {
@@ -35,7 +36,35 @@ public partial class ConnectionLayer : Node2D
             return;
         }
 
+        // Get the bounds reference - now directly under ConnectionLayer
+        _bounds = GetNodeOrNull<ColorRect>("Bounds");
+        if (_bounds == null)
+        {
+            GD.PrintErr("Failed to get Bounds ColorRect from ConnectionLayer!");
+        }
+        else
+        {
+            GD.Print("Successfully found Bounds ColorRect");
+        }
+
         CreateInitialConnection();
+    }
+
+    private Rect2? GetBoundsRect()
+    {
+        if (_bounds == null || !IsInstanceValid(_bounds))
+        {
+            // Try to get bounds directly from ConnectionLayer
+            _bounds = GetNodeOrNull<ColorRect>("Bounds");
+        }
+        
+        if (_bounds != null && IsInstanceValid(_bounds))
+        {
+            return _bounds.GetGlobalRect();
+        }
+        
+        GD.PrintErr("Could not get valid bounds rect!");
+        return null;
     }
 
     private void CreateInitialConnection()
@@ -113,6 +142,311 @@ public partial class ConnectionLayer : Node2D
         return connection;
     }
 
+    private Vector2 GetNonCollidingPosition(BaseBlock block, Vector2 position, Rect2? bounds, ConnectionPipe? hoveredPipe)
+    {
+        if (!bounds.HasValue) return position;
+
+        var blockSize = 128f;
+        var padding = 10f;
+        var halfSize = blockSize / 2;
+        
+        // First clamp the position to bounds
+        var newPos = new Vector2(
+            Mathf.Clamp(position.X, bounds.Value.Position.X + halfSize, bounds.Value.Position.X + bounds.Value.Size.X - halfSize),
+            Mathf.Clamp(position.Y, bounds.Value.Position.Y + halfSize, bounds.Value.Position.Y + bounds.Value.Size.Y - halfSize)
+        );
+        
+        // Get all blocks in the layer except the one being placed
+        var blocks = GetChildren()
+            .OfType<BaseBlock>()
+            .Where(b => b != block && b.IsInBlockLayer())
+            .ToList();
+
+        // Add blocks connected by the hovered pipe
+        if (hoveredPipe != null)
+        {
+            try
+            {
+                var (fromSocket, toSocket) = hoveredPipe.GetSockets();
+                var fromBlock = fromSocket?.GetParent<BaseBlock>();
+                var toBlock = toSocket?.GetParent<BaseBlock>();
+                
+                if (fromBlock != null && !blocks.Contains(fromBlock))
+                    blocks.Add(fromBlock);
+                if (toBlock != null && !blocks.Contains(toBlock))
+                    blocks.Add(toBlock);
+            }
+            catch (InvalidOperationException)
+            {
+                // Ignore invalid pipe sockets
+            }
+        }
+
+        bool hasCollision;
+        int maxIterations = 10;
+        int currentIteration = 0;
+
+        do
+        {
+            hasCollision = false;
+            var currentRect = new Rect2(
+                newPos - new Vector2(blockSize/2, blockSize/2),
+                new Vector2(blockSize, blockSize)
+            );
+
+            foreach (var otherBlock in blocks)
+            {
+                var otherRect = new Rect2(
+                    otherBlock.GlobalPosition - new Vector2(blockSize/2, blockSize/2),
+                    new Vector2(blockSize, blockSize)
+                );
+                var paddedRect = new Rect2(
+                    otherRect.Position - new Vector2(padding, padding),
+                    otherRect.Size + new Vector2(padding * 2, padding * 2)
+                );
+
+                if (currentRect.Intersects(paddedRect))
+                {
+                    hasCollision = true;
+                    var blockCenter = currentRect.GetCenter();
+                    var otherCenter = paddedRect.GetCenter();
+                    var direction = blockCenter - otherCenter;
+                    
+                    // Try horizontal shift first
+                    if (Mathf.Abs(direction.X) >= Mathf.Abs(direction.Y))
+                    {
+                        float shiftX = direction.X > 0 ? 
+                            paddedRect.End.X - currentRect.Position.X :
+                            paddedRect.Position.X - currentRect.End.X;
+                            
+                        // Check if horizontal shift would keep us in bounds
+                        float newX = newPos.X + shiftX;
+                        if (newX >= bounds.Value.Position.X + halfSize && 
+                            newX <= bounds.Value.Position.X + bounds.Value.Size.X - halfSize)
+                        {
+                            newPos.X = newX;
+                            continue;
+                        }
+                    }
+                    
+                    // Try vertical shift if horizontal isn't possible or would put us out of bounds
+                    float shiftY = direction.Y > 0 ? 
+                        paddedRect.End.Y - currentRect.Position.Y :
+                        paddedRect.Position.Y - currentRect.End.Y;
+                        
+                    float newY = newPos.Y + shiftY;
+                    if (newY >= bounds.Value.Position.Y + halfSize && 
+                        newY <= bounds.Value.Position.Y + bounds.Value.Size.Y - halfSize)
+                    {
+                        newPos.Y = newY;
+                    }
+                    else
+                    {
+                        // If we can't shift either direction within bounds, 
+                        // just keep the clamped position and break
+                        hasCollision = false;
+                    }
+                    break;
+                }
+            }
+
+            currentIteration++;
+        } while (hasCollision && currentIteration < maxIterations);
+
+        return newPos;
+    }
+
+    private List<BlockMovement> CalculateBlockSpread(BaseBlock newBlock, Vector2 targetPosition, List<BaseBlock> existingBlocks, Rect2? bounds)
+    {
+        if (!bounds.HasValue) return new List<BlockMovement>();
+
+        float padding = 10f;
+        var blockSize = 128f;
+        var movements = existingBlocks.Select(b => new BlockMovement(b, b.GlobalPosition)).ToList();
+        var newBlockRect = new Rect2(
+            targetPosition - new Vector2(blockSize/2, blockSize/2),
+            new Vector2(blockSize, blockSize)
+        );
+
+        bool needsAnotherPass;
+        int maxPasses = 20;
+        int currentPass = 0;
+
+        // First, check if any blocks need to move at all
+        bool anyCollisions = false;
+        foreach (var movement in movements)
+        {
+            var currentRect = new Rect2(
+                movement.NewPosition - new Vector2(blockSize/2, blockSize/2),
+                new Vector2(blockSize, blockSize)
+            );
+            
+            var paddedCurrentRect = new Rect2(
+                currentRect.Position - new Vector2(padding, padding),
+                currentRect.Size + new Vector2(padding * 2, padding * 2)
+            );
+            
+            // Check against new block
+            if (paddedCurrentRect.Intersects(newBlockRect))
+            {
+                anyCollisions = true;
+                break;
+            }
+
+            // Check against other blocks
+            foreach (var otherMovement in movements)
+            {
+                if (otherMovement.Block == movement.Block) continue;
+
+                var otherRect = new Rect2(
+                    otherMovement.NewPosition - new Vector2(blockSize/2, blockSize/2),
+                    new Vector2(blockSize, blockSize)
+                );
+                
+                var paddedOtherRect = new Rect2(
+                    otherRect.Position - new Vector2(padding, padding),
+                    otherRect.Size + new Vector2(padding * 2, padding * 2)
+                );
+
+                if (paddedCurrentRect.Intersects(paddedOtherRect))
+                {
+                    anyCollisions = true;
+                    break;
+                }
+            }
+            
+            if (anyCollisions) break;
+        }
+
+        // If no collisions, return movements without changes
+        if (!anyCollisions) return movements;
+
+        do
+        {
+            needsAnotherPass = false;
+            currentPass++;
+
+            foreach (var movement in movements)
+            {
+                var currentRect = new Rect2(
+                    movement.NewPosition - new Vector2(blockSize/2, blockSize/2),
+                    new Vector2(blockSize, blockSize)
+                );
+
+                var totalMoveDirection = Vector2.Zero;
+                var needsMove = false;
+                
+                var paddedCurrentRect = new Rect2(
+                    currentRect.Position - new Vector2(padding, padding),
+                    currentRect.Size + new Vector2(padding * 2, padding * 2)
+                );
+                
+                // Check against new block
+                if (paddedCurrentRect.Intersects(newBlockRect))
+                {
+                    needsMove = true;
+                    var moveDir = (currentRect.GetCenter() - newBlockRect.GetCenter()).Normalized();
+                    totalMoveDirection += moveDir;
+                }
+
+                // Check against other blocks
+                foreach (var otherMovement in movements)
+                {
+                    if (otherMovement.Block == movement.Block) continue;
+
+                    var otherRect = new Rect2(
+                        otherMovement.NewPosition - new Vector2(blockSize/2, blockSize/2),
+                        new Vector2(blockSize, blockSize)
+                    );
+                    
+                    var paddedOtherRect = new Rect2(
+                        otherRect.Position - new Vector2(padding, padding),
+                        otherRect.Size + new Vector2(padding * 2, padding * 2)
+                    );
+
+                    if (paddedCurrentRect.Intersects(paddedOtherRect))
+                    {
+                        needsMove = true;
+                        var moveDir = (currentRect.GetCenter() - otherRect.GetCenter()).Normalized();
+                        totalMoveDirection += moveDir;
+                    }
+                }
+
+                if (needsMove && totalMoveDirection != Vector2.Zero)
+                {
+                    totalMoveDirection = totalMoveDirection.Normalized();
+                    var shiftAmount = (blockSize + padding) * 0.6f; // Adjusted shift amount for smoother movement
+                    var proposedNewPos = movement.NewPosition + totalMoveDirection * shiftAmount;
+
+                    // Clamp to bounds
+                    var halfSize = blockSize / 2;
+                    var clampedPos = new Vector2(
+                        Mathf.Clamp(proposedNewPos.X, bounds.Value.Position.X + halfSize, bounds.Value.Position.X + bounds.Value.Size.X - halfSize),
+                        Mathf.Clamp(proposedNewPos.Y, bounds.Value.Position.Y + halfSize, bounds.Value.Position.Y + bounds.Value.Size.Y - halfSize)
+                    );
+
+                    if (clampedPos != movement.NewPosition)
+                    {
+                        movement.NewPosition = clampedPos;
+                        movement.HasMoved = true;
+                        needsAnotherPass = true;
+                    }
+                }
+            }
+        } while (needsAnotherPass && currentPass < maxPasses);
+
+        return movements;
+    }
+
+    private bool WouldCollideWithBlocks(BaseBlock block, Vector2 position, List<BaseBlock> blocks, float padding)
+    {
+        var blockSize = 128f;
+        var blockRect = new Rect2(
+            position - new Vector2(blockSize/2, blockSize/2),
+            new Vector2(blockSize, blockSize)
+        );
+
+        foreach (var otherBlock in blocks)
+        {
+            var otherRect = new Rect2(
+                otherBlock.GlobalPosition - new Vector2(blockSize/2, blockSize/2),
+                new Vector2(blockSize, blockSize)
+            );
+            var paddedRect = new Rect2(
+                otherRect.Position - new Vector2(padding, padding),
+                otherRect.Size + new Vector2(padding * 2, padding * 2)
+            );
+
+            if (blockRect.Intersects(paddedRect))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private ConnectionPipe? FindNearestPipe(Vector2 position)
+    {
+        ConnectionPipe? nearestPipe = null;
+        float nearestDistance = float.MaxValue;
+        
+        foreach (var pipe in _connections)
+        {
+            if (pipe.IsPointNearPipe(position))
+            {
+                var dist = position.DistanceSquaredTo(pipe.GlobalPosition);
+                if (dist < nearestDistance)
+                {
+                    nearestDistance = dist;
+                    nearestPipe = pipe;
+                }
+            }
+        }
+        
+        return nearestPipe;
+    }
+
     public void HandleBlockDrag(BaseBlock block, Vector2 position)
     {
         // Only look for pipes if the block isn't already connected
@@ -175,7 +509,7 @@ public partial class ConnectionLayer : Node2D
 
     public void HandleBlockDrop(BaseBlock block, Vector2 position)
     {
-        // If block is being sent back to toolbar, just remove connections and clear hover
+        // If block is being sent back to toolbar, handle it separately from normal placement
         if (position.Y > 1000)
         {
             if (_hoveredPipe != null)
@@ -183,7 +517,18 @@ public partial class ConnectionLayer : Node2D
                 _hoveredPipe.SetHovered(false);
                 _hoveredPipe = null;
             }
+            
+            // Remove all connections before returning to toolbar
             RemoveBlockConnections(block);
+            
+            // Get the toolbar and handle the return
+            var toolbar = GetNode<Toolbar>("../Toolbar");
+            if (toolbar != null)
+            {
+                // Remove from connection layer immediately to prevent any further processing
+                RemoveChild(block);
+                toolbar.ReturnBlockToToolbar(block);
+            }
             return;
         }
 
@@ -197,7 +542,68 @@ public partial class ConnectionLayer : Node2D
             _hoveredPipe = null;
         }
 
-        // If block is already connected or we're not hovering over a pipe, do nothing
+        // First clamp the position to bounds and store original position
+        var boundsRect = GetBoundsRect();
+        var blockSize = 128f;
+        var halfSize = blockSize / 2;
+        var originalPos = position; // Store the original position for animation
+        var newPos = position;
+        
+        if (boundsRect.HasValue)
+        {
+            newPos = new Vector2(
+                Mathf.Clamp(position.X, boundsRect.Value.Position.X + halfSize, boundsRect.Value.Position.X + boundsRect.Value.Size.X - halfSize),
+                Mathf.Clamp(position.Y, boundsRect.Value.Position.Y + halfSize, boundsRect.Value.Position.Y + boundsRect.Value.Size.Y - halfSize)
+            );
+        }
+
+        // Set the block's position to the original position first
+        block.GlobalPosition = originalPos;
+
+        // Get all existing blocks including the newly placed one
+        var existingBlocks = GetChildren()
+            .Cast<Node>()
+            .Where(n => n is BaseBlock)
+            .Cast<BaseBlock>()
+            .Where(b => b.IsInBlockLayer() && b != block) // Exclude the block being placed
+            .ToList();
+
+        // Find the nearest pipe at the original position
+        var nearestPipe = FindNearestPipe(newPos);
+        var finalPos = newPos;
+        
+        if (nearestPipe != null)
+        {
+            // Check if we're close enough to snap to the pipe
+            var distanceToNearestPipe = newPos.DistanceTo(nearestPipe.GlobalPosition);
+            if (distanceToNearestPipe < blockSize / 2)
+            {
+                finalPos = nearestPipe.GlobalPosition;
+            }
+        }
+
+        // Calculate all block movements needed for proper spacing
+        var blockMovements = CalculateBlockSpread(block, finalPos, existingBlocks, boundsRect);
+
+        // Animate from original position to final position
+        var snapTween = CreateTween();
+        snapTween.SetTrans(Tween.TransitionType.Spring);
+        snapTween.SetEase(Tween.EaseType.Out);
+        snapTween.TweenProperty(block, "global_position", finalPos, 0.5f);
+
+        // Animate all other blocks to their new positions
+        foreach (var movement in blockMovements)
+        {
+            if (movement.HasMoved) // Skip blocks that haven't moved
+            {
+                var tween = CreateTween();
+                tween.SetTrans(Tween.TransitionType.Spring);
+                tween.SetEase(Tween.EaseType.Out);
+                tween.TweenProperty(movement.Block, "global_position", movement.NewPosition, 0.5f);
+            }
+        }
+
+        // Check for existing connections on the block being placed
         var hasConnections = _connections.Any(pipe => {
             try
             {
@@ -212,20 +618,23 @@ public partial class ConnectionLayer : Node2D
             }
         });
 
-        if (hasConnections || hoveredPipe == null) return;
+        if (hasConnections) return;
+
+        // Try to connect to the nearest pipe if we found one
+        if (nearestPipe == null) return;
 
         try
         {
             // Get the blocks we're connecting between
-            var (fromSocket, toSocket) = hoveredPipe.GetSockets();
-            var fromBlock = fromSocket.GetParent<BaseBlock>();
-            var toBlock = toSocket.GetParent<BaseBlock>();
+            var (fromSocket, toSocket) = nearestPipe.GetSockets();
+            var fromBlock = fromSocket?.GetParent<BaseBlock>();
+            var toBlock = toSocket?.GetParent<BaseBlock>();
             
             if (fromBlock == null || toBlock == null) return;
 
             // Remove the existing connection
-            _connections.Remove(hoveredPipe);
-            hoveredPipe.QueueFree();
+            _connections.Remove(nearestPipe);
+            nearestPipe.QueueFree();
 
             // Create new connections
             var blockInput = block.GetNode<Node2D>("BlockInputSocket");
@@ -248,72 +657,52 @@ public partial class ConnectionLayer : Node2D
 
     public void RemoveBlockConnections(BaseBlock block)
     {
-        // Find all connections involving this block
-        var connectionsToRemove = _connections
-            .Where(pipe => {
-                try
-                {
-                    var (from, to) = pipe.GetSockets();
-                    var fromParent = from.GetParent<BaseBlock>();
-                    var toParent = to.GetParent<BaseBlock>();
-                    return fromParent == block || toParent == block;
-                }
-                catch (InvalidOperationException)
-                {
-                    return false;
-                }
-            })
-            .ToList();
+        Node2D? fromSocket = null;
+        Node2D? toSocket = null;
 
-        if (connectionsToRemove.Count == 2)
+        // Find the block's connections and store its from/to sockets
+        var connectedPipes = _connections.Where(pipe => {
+            try
+            {
+                var (from, to) = pipe.GetSockets();
+                var fromParent = from?.GetParent<BaseBlock>();
+                var toParent = to?.GetParent<BaseBlock>();
+                
+                if (fromParent == block)
+                {
+                    toSocket = to; // Store the destination socket
+                }
+                else if (toParent == block)
+                {
+                    fromSocket = from; // Store the source socket
+                }
+                
+                return fromParent == block || toParent == block;
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
+        }).ToList();
+
+        // Remove only this block's pipes
+        foreach (var pipe in connectedPipes)
         {
-            // Find the external sockets (the ones not on the block being removed)
-            Node2D? externalFromSocket = null;
-            Node2D? externalToSocket = null;
-
-            foreach (var pipe in connectionsToRemove)
-            {
-                try
-                {
-                    var (from, to) = pipe.GetSockets();
-                    var fromParent = from.GetParent<BaseBlock>();
-                    var toParent = to.GetParent<BaseBlock>();
-
-                    if (fromParent != block)
-                    {
-                        externalFromSocket = from;
-                    }
-                    else if (toParent != block)
-                    {
-                        externalToSocket = to;
-                    }
-                }
-                catch (InvalidOperationException)
-                {
-                    continue;
-                }
-            }
-
-            // Remove the old connections
-            foreach (var connection in connectionsToRemove)
-            {
-                _connections.Remove(connection);
-                connection.QueueFree();
-            }
-
-            // Create new connection between the external sockets
-            if (externalFromSocket != null && externalToSocket != null)
-            {
-                CreateConnection(externalFromSocket, externalToSocket);
-            }
+            _connections.Remove(pipe);
+            pipe.QueueFree();
         }
-        else
+
+        // If we have both a from and to socket that aren't on the block being removed,
+        // create a new connection between them
+        if (fromSocket != null && toSocket != null)
         {
-            // Just remove the connections if there aren't exactly 2
-            foreach (var connection in connectionsToRemove)
+            var fromBlock = fromSocket.GetParent<BaseBlock>();
+            var toBlock = toSocket.GetParent<BaseBlock>();
+            
+            // Only connect if neither socket belongs to the block being removed
+            if (fromBlock != block && toBlock != block)
             {
-                _connections.Remove(connection);
-                connection.QueueFree();
+                CreateConnection(fromSocket, toSocket);
             }
         }
     }
@@ -335,5 +724,32 @@ public partial class ConnectionLayer : Node2D
         }
 
         return (null, null);
+    }
+
+    private class BlockMovement
+    {
+        public BaseBlock Block { get; set; }
+        public Vector2 NewPosition { get; set; }
+        public bool HasMoved { get; set; }
+
+        public BlockMovement(BaseBlock block, Vector2 position)
+        {
+            Block = block;
+            NewPosition = position;
+            HasMoved = false;
+        }
+    }
+
+    private void AnimateBlockMovements(List<BlockMovement> movements)
+    {
+        foreach (var movement in movements)
+        {
+            if (!movement.HasMoved) continue;
+
+            var snapTween = CreateTween();
+            snapTween.SetTrans(Tween.TransitionType.Spring);
+            snapTween.SetEase(Tween.EaseType.Out);
+            snapTween.TweenProperty(movement.Block, "global_position", movement.NewPosition, 0.5f);
+        }
     }
 }

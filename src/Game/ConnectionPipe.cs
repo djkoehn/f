@@ -13,7 +13,7 @@ public partial class ConnectionPipe : Node2D
     private bool _isAnimating;
     private float _animationTime;
     private Vector2[] _oldPoints = Array.Empty<Vector2>();
-    private PipeBulgeEffect? _bulgeEffect;
+    private PipeBulge? _bulgeEffect;
     private Line2D? _visualPipe;
 
     public Node2D? FromSocket => _fromSocket;
@@ -21,7 +21,7 @@ public partial class ConnectionPipe : Node2D
 
     public override void _Ready()
     {
-        _bulgeEffect = GetNode<PipeBulgeEffect>("PipeBulgeEffect");
+        _bulgeEffect = GetNode<PipeBulge>("PipeBulge");
         _visualPipe = GetNode<Line2D>("VisualPipe");
         
         if (_visualPipe == null)
@@ -32,7 +32,7 @@ public partial class ConnectionPipe : Node2D
 
         if (_bulgeEffect == null)
         {
-            GD.PrintErr("PipeBulgeEffect node not found!");
+            GD.PrintErr("PipeBulge node not found!");
             return;
         }
 

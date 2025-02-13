@@ -1,6 +1,7 @@
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
+using F.UI;
 
 namespace F;
 
@@ -13,11 +14,12 @@ public partial class Toolbar : Control
     private float _targetOffset = 150f;
     private float _animationTime = 0f;
     private Control? _backgroundContainer;  // Container for background/animation
-    private HBoxContainer? _blockContainer;  // Container for blocks that stays in place
+    private Container? _blockContainer;  // Container for blocks that stays in place
     private Inventory? _inventory;
     private GameManager? _gameManager;
     private BaseBlock? _returningBlock;
     private Vector2 _returnStartPos;
+    private Vector2 _returnStartToolbarPos;  // Add this with other private fields at top
     private Vector2 _returnTargetPos;
     private float _returnTime = 0f;
     private const float RETURN_ANIMATION_DURATION = 0.5f;
@@ -25,7 +27,7 @@ public partial class Toolbar : Control
     private float _targetContainerWidth = 0f;
     private float _containerAnimTime = 0f;
     private const float CONTAINER_ANIMATION_DURATION = 0.5f;
-    private Vector2 _returnStartToolbarPos;  // Add this with other private fields at top
+    private Animations.BlockReturnAnimation? _returnAnimation;
     
     public override void _Ready()
     {
@@ -53,7 +55,7 @@ public partial class Toolbar : Control
         AddChild(_backgroundContainer);
         
         // Get the existing BlockContainer from the scene
-        _blockContainer = GetNode<HBoxContainer>("BlockContainer");
+        _blockContainer = GetNode<Container>("BlockContainer");
         if (_blockContainer != null)
         {
             // Ensure proper spacing between blocks
@@ -105,7 +107,7 @@ public partial class Toolbar : Control
         var blocks = _blockContainer.GetChildren().Cast<BaseBlock>().ToArray();
         
         // Calculate total width for centering
-        float blockWidth = GameConfig.BLOCK_SIZE * AnimConfig.Toolbar.BlockScale;
+        float blockWidth = GameConfig.BLOCK_SIZE;
         float spacing = AnimConfig.Toolbar.BlockSpacing;
         float newWidth = blocks.Length > 0 
             ? (blockWidth * blocks.Length) + (spacing * (blocks.Length - 1))
@@ -128,7 +130,11 @@ public partial class Toolbar : Control
             float startX = -_containerWidth / 2f + blockWidth / 2f;
             for (int i = 0; i < blocks.Length; i++)
             {
-                blocks[i].Position = new Vector2(startX + (i * (blockWidth + spacing)), 0);
+                var block = blocks[i];
+                // Skip position update if this block is being animated
+                if (_returnAnimation?.Block == block) continue;
+                
+                block.Position = new Vector2(startX + (i * (blockWidth + spacing)), 0);
             }
         }
         
@@ -163,7 +169,7 @@ public partial class Toolbar : Control
             }
             
             block.SetProcessInput(true);  // Enable input processing
-            block.Scale = Vector2.One * AnimConfig.Toolbar.BlockScale;
+            block.Scale = Vector2.One * 1.0f;  // Replaced AnimConfig.Toolbar.BlockScale with 1.0f
             block.ZIndex = AnimConfig.ZIndex.Block;  // Set initial z-index
             block.Connect(nameof(BaseBlock.BlockPlaced), new Callable(this, nameof(OnBlockClicked)));
         }
@@ -171,68 +177,70 @@ public partial class Toolbar : Control
         UpdateBlockPositions();
     }
 
-    private void ReturnBlockToToolbar(BaseBlock block)
+    public void ReturnBlockToToolbar(BaseBlock block)
     {
         if (_blockContainer == null) return;
         
+        // First, ensure block isn't already being returned
+        if (_returnAnimation?.Block == block) return;
+        
         var oldParent = block.GetParent();
         if (oldParent == _blockContainer) return;
-        
-        // Get connection layer
+
+        // Clear any existing dragged block reference in GameManager
+        if (_gameManager?.GetDraggedBlock() == block)
+        {
+            _gameManager.HandleBlockDrop();
+        }
+
+        // Reset block state
+        block.SetDragging(false);
+        block.SetInBlockLayer(false);
+        block.SetProcessInput(true);
+        block.ZIndex = AnimConfig.ZIndex.Block;
+
+        // Get connection layer and clear connections before proceeding
         var connectionLayer = GetNode<ConnectionLayer>("../ConnectionLayer");
-        if (connectionLayer == null) return;
+        if (connectionLayer != null)
+        {
+            connectionLayer.HandleBlockDrag(block, new Vector2(-9999, -9999));
+            connectionLayer.RemoveBlockConnections(block);
+        }
 
-        // Capture the exact current positions before any modifications
-        _returnStartPos = block.GlobalPosition;
-        _returnStartToolbarPos = Position;  // Store toolbar's initial position
+        // Store initial position before changing parents
+        Vector2 startPos = block.GlobalPosition;
 
-        // Clear any hover state first
-        connectionLayer.HandleBlockDrag(block, new Vector2(-9999, -9999)); // Move far away to clear hover
-        
-        // Now handle the return process
-        connectionLayer.RemoveBlockConnections(block);
-        
-        // Temporarily add the block to calculate final positions
-        oldParent?.RemoveChild(block);
+        // Remove from old parent and add to container
+        if (oldParent != null)
+        {
+            oldParent.RemoveChild(block);
+        }
         _blockContainer.AddChild(block);
-        block.Visible = false;  // Hide it during setup
+
+        // Calculate final position
+        var blockWidth = GameConfig.BLOCK_SIZE;
+        var spacing = AnimConfig.Toolbar.BlockSpacing;
+        var existingBlocks = _blockContainer.GetChildren().Count() - 1; // -1 because we just added the block
+        var newTotalWidth = ((existingBlocks + 1) * blockWidth) + (spacing * existingBlocks);
         
-        // Update container width and positions
-        var blocks = _blockContainer.GetChildren().Cast<BaseBlock>().ToArray();
-        float blockWidth = GameConfig.BLOCK_SIZE * AnimConfig.Toolbar.BlockScale;
-        float spacing = AnimConfig.Toolbar.BlockSpacing;
-        float newTotalWidth = (blockWidth * blocks.Length) + (spacing * (blocks.Length - 1));
-        
-        // Update container width immediately
+        // Update container width
         _targetContainerWidth = newTotalWidth;
         _containerWidth = newTotalWidth;
-        _blockContainer.CustomMinimumSize = new Vector2(newTotalWidth, _blockContainer.CustomMinimumSize.Y);
         
-        // Calculate the final local position this block will have
+        // Calculate target position
         float startX = -newTotalWidth / 2f + blockWidth / 2f;
-        int blockIndex = blocks.ToList().IndexOf(block);
-        Vector2 localPosition = new Vector2(
+        int blockIndex = existingBlocks;
+        Vector2 localTargetPos = new Vector2(
             startX + (blockIndex * (blockWidth + spacing)),
             0
         );
         
-        // Convert the local position to global coordinates
-        _returnTargetPos = _blockContainer.GetGlobalPosition() + localPosition;
+        // Set initial position and create animation
+        block.GlobalPosition = startPos;
+        _returnAnimation = Animations.CreateBlockReturnAnimation(block, startPos, _blockContainer.GlobalPosition + localTargetPos);
         
-        // Remove the block again to start the animation
-        _blockContainer.RemoveChild(block);
-        connectionLayer.AddChild(block);
-        block.Visible = true;
-        block.GlobalPosition = _returnStartPos;  // Ensure it starts from the captured position
-        
-        // Start return animation
-        _returningBlock = block;
-        _returnTime = 0f;
-        
-        // Update other blocks' positions
+        // Update positions of other blocks
         UpdateBlockPositions();
-        
-        _gameManager?.HandleBlockDrop();
     }
 
     private void OnBlockClicked(BaseBlock block)
@@ -242,27 +250,33 @@ public partial class Toolbar : Control
         GD.Print($"Handling block click: {block.Name}");
         
         var connectionLayer = _gameManager.ConnectionLayer;
+
+        // Check if there's already a block being dragged
+        if (_gameManager.GetDraggedBlock() != null)
+        {
+            GD.Print("Cannot pick up a new block while one is being dragged");
+            return;
+        }
+
         if (connectionLayer == null)
         {
             GD.PrintErr("ConnectionLayer not found!");
             return;
         }
-        
-        // Remove from toolbar container
+
+        // Move block to connection layer with highest z-index initially
         _blockContainer.RemoveChild(block);
-        UpdateBlockPositions();
-        
-        // Add to connection layer
         connectionLayer.AddChild(block);
-        
-        // Configure block
         block.GlobalPosition = GetViewport().GetMousePosition();
         block.Scale = Vector2.One;
-        block.SetInBlockLayer(true);
-        block.ZIndex = AnimConfig.ZIndex.DraggedBlock;
+        block.ZIndex = AnimConfig.ZIndex.DraggedBlock;  // Start with highest z-index
         
-        // Start dragging
+        // Set block layer state before drag state
+        block.SetInBlockLayer(true);
+        
+        // Now start the drag
         _gameManager.HandleBlockDrag(block);
+        block.SetDragging(true);
         
         GD.Print($"Block {block.Name} moved to ConnectionLayer at {block.GlobalPosition}");
     }
@@ -295,11 +309,11 @@ public partial class Toolbar : Control
         }
         
         // Animate container width (only when not returning a block)
-        if (_containerAnimTime < CONTAINER_ANIMATION_DURATION && _returningBlock == null)
+        if (_containerAnimTime < CONTAINER_ANIMATION_DURATION && _returnAnimation == null)
         {
             _containerAnimTime += (float)delta;
             float t = Mathf.Min(_containerAnimTime / CONTAINER_ANIMATION_DURATION, 1.0f);
-            t = Easing.OutElastic(t);
+            t = 1 - Mathf.Pow(1 - t, 3);
             _containerWidth = Mathf.Lerp(_containerWidth, _targetContainerWidth, t);
             UpdateBlockPositions();
         }
@@ -310,38 +324,12 @@ public partial class Toolbar : Control
         }
 
         // Handle block return animation
-        if (_returningBlock != null)
+        if (_returnAnimation != null)
         {
-            _returnTime += (float)delta;
-            float t = Mathf.Min(_returnTime / RETURN_ANIMATION_DURATION, 1.0f);
-            
-            if (t < 1.0f)
+            _returnAnimation.Update((float)delta);
+            if (_returnAnimation.IsComplete)
             {
-                float progress = Easing.OutElastic(t);
-                
-                // Calculate how much the toolbar has moved since animation started
-                float toolbarOffset = Position.Y - _returnStartToolbarPos.Y;
-                
-                // Apply the base animation
-                Vector2 baseTarget = _returnTargetPos + new Vector2(0, toolbarOffset);
-                _returningBlock.GlobalPosition = _returnStartPos.Lerp(baseTarget, progress);
-                _returningBlock.Scale = Vector2.One.Lerp(Vector2.One * AnimConfig.Toolbar.BlockScale, progress);
-            }
-            else
-            {
-                // Animation complete, actually return the block
-                var oldParent = _returningBlock.GetParent();
-                oldParent?.RemoveChild(_returningBlock);
-                _blockContainer?.AddChild(_returningBlock);
-                
-                _returningBlock.SetInBlockLayer(false);
-                _returningBlock.SetProcessInput(true);
-                _returningBlock.ResetState();
-                _returningBlock.Position = Vector2.Zero;
-                
-                UpdateBlockPositions();
-                
-                _returningBlock = null;
+                _returnAnimation = null;
             }
         }
     }

@@ -1,14 +1,14 @@
 [gd_scene load_steps=6 format=3 uid="uid://output"]
 
 [ext_resource type="Script" path="res://src/Game/Blocks/Output.cs" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://bgh6pvt6irckb" path="res://assets/images/blocks/mask.png" id="2_kljkg"]
-[ext_resource type="Texture2D" uid="uid://bsf3cfgjv8gob" path="res://assets/images/blocks/outTop.png" id="2_yhmri"]
-[ext_resource type="Shader" path="res://assets/shaders/output_ripple.gdshader" id="4_ripple"]
+[ext_resource type="Texture2D" uid="uid://bgh6pvt6irckb" path="res://assets/images/blocks/BlockBase.png" id="2_kljkg"]
+[ext_resource type="Texture2D" uid="uid://bsf3cfgjv8gob" path="res://assets/images/blocks/OutputTop.png" id="2_yhmri"]
+[ext_resource type="Shader" path="res://assets/shaders/blocks/OutputTrigger.gdshader" id="4_ripple"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ripple"]
 shader = ExtResource("4_ripple")
-shader_parameter/ripple_progress = 0.49
-shader_parameter/ripple_width = 0.15
+shader_parameter/ripple_progress = 0.432
+shader_parameter/ripple_width = 0.44
 shader_parameter/fade_progress = 0.0
 shader_parameter/distortion_strength = 0.0
 shader_parameter/center = Vector2(0.5, 0.5)
@@ -21,9 +21,9 @@ script = ExtResource("1_script")
 z_index = -1
 z_as_relative = false
 material = SubResource("ShaderMaterial_ripple")
-offset_left = -5111.0
+offset_left = -3000.0
 offset_top = -2000.0
-offset_right = 3771.0
+offset_right = 1000.0
 offset_bottom = 2000.0
 mouse_filter = 2
 

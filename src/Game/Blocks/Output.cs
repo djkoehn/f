@@ -8,19 +8,26 @@ public partial class Output : BaseBlock
     [Signal]
     public delegate void TokenProcessedEventHandler(float value);
     
-    private ShaderMaterial _rippleMaterial;
+    private ShaderMaterial? _rippleMaterial;
     
     public override void _Ready()
     {
         base._Ready();
         
         // Get the ripple material
-        _rippleMaterial = GetNode<ColorRect>("RippleEffect").Material as ShaderMaterial;
+        var rippleEffect = GetNode<ColorRect>("RippleEffect");
+        _rippleMaterial = rippleEffect.Material as ShaderMaterial;
+        if (_rippleMaterial == null)
+        {
+            GD.PrintErr($"[{Name}] Failed to get ripple shader material");
+        }
     }
 
     public override void _Process(double delta)
     {
         base._Process(delta);
+        
+        if (_rippleMaterial == null) return;
         
         // Update ripple center position
         var screenPos = GlobalPosition / GetViewport().GetVisibleRect().Size;
@@ -47,6 +54,8 @@ public partial class Output : BaseBlock
     
     private void TriggerRippleEffect()
     {
+        if (_rippleMaterial == null) return;
+
         // Reset shader parameters
         _rippleMaterial.SetShaderParameter("ripple_progress", 0.0f);
         _rippleMaterial.SetShaderParameter("fade_progress", 0.0f);

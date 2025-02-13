@@ -13,16 +13,11 @@ public static class AnimConfig
 
     public static class ZIndex
     {
-        // Base layers
-        public const int Background = -10;
-        public const int Pipe = -1;
-        public const int Block = 0;
-        public const int Token = 1;
-        
-        // UI layers
-        public const int Toolbar = -1;
-        public const int DraggedBlock = 11;
-        public const int Overlay = 12;
+        public const int Background = -3;
+        public const int PlacedBlock = 0;    // Blocks in ConnectionLayer that aren't being dragged
+        public const int Block = 1;          // Blocks in toolbar
+        public const int Toolbar = 2;        // Toolbar itself
+        public const int DraggedBlock = 3;   // Any block being dragged
     }
 
     public static class Pipe
@@ -33,24 +28,11 @@ public static class AnimConfig
         public const int CurveResolution = 20;
         
         // Interaction
-        public const float HoverDistance = 30f;
+        public const float HoverDistance = 100f;
         
         // Visuals
         public static readonly Color LineColor = new(0.388f, 0.388f, 0.388f);
         public static readonly Color HoverColor = new(0.588f, 0.588f, 0.588f);
-    }
-
-    public static class Token
-    {
-        public const float MoveDuration = 0.5f;
-        public const float Scale = 0.5f;
-    }
-
-    public static class UI
-    {
-        public const float ToolbarHeight = 150f;
-        public const float ToolbarAnimationDuration = 0.3f;
-        public const float BlockSpacing = 20f;
     }
 
     public static class Toolbar
@@ -60,8 +42,8 @@ public static class AnimConfig
         public const float ContainerDelay = 0.05f;
         public const float OffscreenOffset = 256f;
         public const float ContainerOffset = -64f; // Adjusted to center blocks vertically
-        public const float BlockScale = 1.0f; // Standard scale for blocks in toolbar
-        public const float BlockSpacing = 5.0f; // Horizontal spacing between blocks in toolbar
+        public const float BlockSpacing = 10f;
+        public const float ReturnAnimationDuration = 0.5f;
         public const float DraggedBlockScale = 1.2f; // Scale for blocks when being dragged
     }
 }

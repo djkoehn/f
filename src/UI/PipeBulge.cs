@@ -3,7 +3,7 @@ using System;
 
 namespace F;
 
-public partial class PipeBulgeEffect : Node
+public partial class PipeBulge : Node
 {
     private const int MAX_CURVE_POINTS = 50;
     private ShaderMaterial? _material;
@@ -16,10 +16,10 @@ public partial class PipeBulgeEffect : Node
 
     private void InitializeShader()
     {
-        var shader = GD.Load<Shader>("res://assets/shaders/pipe_bulge.gdshader");
+        var shader = GD.Load<Shader>("res://assets/shaders/ui/PipeBulge.gdshader");
         if (shader == null)
         {
-            GD.PrintErr("Failed to load pipe_bulge shader!");
+            GD.PrintErr("Failed to load PipeBulge shader!");
             return;
         }
 

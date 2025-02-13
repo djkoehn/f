@@ -12,15 +12,15 @@ public partial class Token : Node2D
     public BaseBlock? CurrentBlock { get; set; }
     private ConnectionPipe? _currentPipe;
     private float _progress = 0f;
-    private float _speed = 300f; // Increased speed for better feel
+    private float _speed = 1000f; // Increased speed for better feel
     private float _totalDistance;
 
     public HashSet<BaseBlock> ProcessedBlocks { get; } = new();
 
-    public override void _Ready()
-    {
-        ZIndex = AnimConfig.ZIndex.Token;
-    }
+    // public override void _Ready()
+    // {
+    //     // ZIndex = AnimConfig.ZIndex.Token;
+    // }
 
     public void MoveTo(BaseBlock nextBlock)
     {
