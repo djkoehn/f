@@ -1,16 +1,30 @@
-using Godot;
+using F.Game.Tokens;
+using F.Config;
 
-namespace F.Blocks;
+
+namespace F.Game.Blocks;
 
 public partial class Add : BaseBlock
 {
+    private float _value = 1.0f;
+
+    public override void Initialize(BlockConfig config)
+    {
+        base.Initialize(config);
+        if (config.DefaultValue.HasValue) _value = config.DefaultValue.Value;
+    }
+
     public override void ProcessToken(Token token)
     {
-        GD.Print($"Add block processing token with value {token.Value}");
-        token.Value++;
-        GD.Print($"Token value after processing: {token.Value}");
+        if (token == null) return;
 
-        // Finish processing after incrementing the token value
-        FinishProcessing(token);
+        token.Value += _value;
+        token.ProcessedBlocks.Add(this);
+
+        var (nextBlock, pipe) = _connectionManager!.GetNextConnection();
+        if (nextBlock != null)
+            token.MoveTo(nextBlock);
+        else
+            token.QueueFree();
     }
 }

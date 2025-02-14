@@ -1,29 +1,38 @@
-[gd_scene load_steps=13 format=3 uid="uid://main"]
+[gd_scene load_steps=19 format=3 uid="uid://main"]
 
-[ext_resource type="Script" path="res://src/Game/GameManager.cs" id="1_game"]
-[ext_resource type="Shader" path="res://assets/shaders/ui/Background1.gdshader" id="1_ms8tu"]
-[ext_resource type="Script" path="res://src/Game/ConnectionLayer.cs" id="2_connection"]
-[ext_resource type="Script" path="res://src/Game/Inventory.cs" id="3_inventory"]
-[ext_resource type="PackedScene" uid="uid://input" path="res://scenes/Blocks/Input.tscn" id="4_input"]
-[ext_resource type="PackedScene" uid="uid://output" path="res://scenes/Blocks/Output.tscn" id="5_output"]
-[ext_resource type="Shader" path="res://assets/shaders/blocks/DropShadow.gdshader" id="6_3n607"]
-[ext_resource type="Script" path="res://src/UI/Toolbar.cs" id="6_toolbar"]
-[ext_resource type="PackedScene" uid="uid://udiomanager" path="res://scenes/AudioManager.tscn" id="9_audio"]
+[ext_resource type="Script" path="res://src/Game/Core/GameManager.cs" id="1_game_manager"]
+[ext_resource type="Shader" path="res://assets/shaders/ui/Background1.gdshader" id="2_background"]
+[ext_resource type="Script" path="res://src/Game/Connections/ConnectionManager.cs" id="3_connection"]
+[ext_resource type="Script" path="res://src/Game/Core/Inventory.cs" id="4_inventory"]
+[ext_resource type="PackedScene" uid="uid://input" path="res://scenes/Blocks/Input.tscn" id="5_input"]
+[ext_resource type="Texture2D" uid="uid://crt7pap4i5ms6" path="res://assets/images/ui/Bounds/BlockLayerBack.png" id="6_a1vm8"]
+[ext_resource type="PackedScene" uid="uid://output" path="res://scenes/Blocks/Output.tscn" id="6_output"]
+[ext_resource type="Script" path="res://src/Game/Core/BlockManager.cs" id="8_block_manager"]
+[ext_resource type="Script" path="res://src/Game/Core/BlockInteractionManager.cs" id="9_interaction"]
+[ext_resource type="Texture2D" uid="uid://dscjqmks04fon" path="res://assets/images/ui/Bounds/BoundsBorder.png" id="9_meqhw"]
+[ext_resource type="PackedScene" uid="uid://toolbar" path="res://scenes/UI/Toolbar.tscn" id="10_toolbar"]
+[ext_resource type="Script" path="res://src/Game/Core/SceneInitializer.cs" id="11_initializer"]
+[ext_resource type="PackedScene" uid="uid://udiomanager" path="res://scenes/AudioManager.tscn" id="12_audio"]
+[ext_resource type="PackedScene" path="res://scenes/UI/InputManager.tscn" id="14_input_manager"]
+[ext_resource type="Texture2D" uid="uid://bd57a1urv4ne5" path="res://assets/images/ui/Indicators/ScoreIndicatorBase.png" id="15_yupvt"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_878xv"]
-shader = ExtResource("1_ms8tu")
-shader_parameter/color1 = Color(0.309385, 0.309385, 0.309385, 1)
-shader_parameter/color2 = Color(0.128344, 0.128344, 0.128344, 1)
-shader_parameter/time_scale = 0.1
-shader_parameter/distortion_strength = 0.1
+shader = ExtResource("2_background")
+shader_parameter/color1 = Color(0.197937, 0.197937, 0.197937, 1)
+shader_parameter/color2 = Color(0, 0, 1, 1)
+shader_parameter/time_scale = 0.01
+shader_parameter/distortion_strength = 0.197
 shader_parameter/interlace_size = 100.0
-shader_parameter/interlace_strength = 0.0
-shader_parameter/pattern_scale = 3.0
-shader_parameter/dither_size = 2.0
-shader_parameter/scroll_speed = Vector2(0.3, 0.3)
+shader_parameter/interlace_strength = 1.0
+shader_parameter/pattern_scale = 1.0
+shader_parameter/dither_size = 1.0
+shader_parameter/scroll_speed = Vector2(1, 0.3)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1rma8"]
+size = Vector2(1250, 800)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xidld"]
-shader = ExtResource("1_ms8tu")
+shader = ExtResource("2_background")
 shader_parameter/color1 = Color(0, 0, 0, 1)
 shader_parameter/color2 = Color(0.129412, 0.129412, 0.129412, 1)
 shader_parameter/time_scale = 0.1
@@ -34,98 +43,108 @@ shader_parameter/pattern_scale = 3.0
 shader_parameter/dither_size = 2.0
 shader_parameter/scroll_speed = Vector2(-0.3, -0.3)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_b25od"]
-shader = ExtResource("6_3n607")
-shader_parameter/blur_amount = 1.624
-shader_parameter/shadow_opacity = 0.242
-shader_parameter/shadow_color = Color(0, 0, 0, 1)
-
 [node name="Main" type="Node2D"]
 
+[node name="SceneInitializer" type="Node" parent="."]
+script = ExtResource("11_initializer")
+
 [node name="Background" type="ColorRect" parent="."]
-z_index = -3
-z_as_relative = false
+z_index = -10
 material = SubResource("ShaderMaterial_878xv")
 custom_minimum_size = Vector2(1920, 1080)
 offset_right = 1920.0
 offset_bottom = 1080.0
 
 [node name="GameManager" type="Node2D" parent="."]
-script = ExtResource("1_game")
+script = ExtResource("1_game_manager")
 
-[node name="ConnectionLayer" type="Node2D" parent="GameManager"]
-script = ExtResource("2_connection")
+[node name="BlockManager" type="Node" parent="GameManager"]
+script = ExtResource("8_block_manager")
 
-[node name="Input" parent="GameManager/ConnectionLayer" instance=ExtResource("4_input")]
+[node name="BlockLayer" type="Node2D" parent="GameManager"]
+position = Vector2(0, 59.67)
+script = ExtResource("3_connection")
+
+[node name="BGFlair" type="Node2D" parent="GameManager/BlockLayer"]
+z_index = -2
+
+[node name="Back" type="Sprite2D" parent="GameManager/BlockLayer/BGFlair"]
+position = Vector2(960, 1080)
+texture = ExtResource("6_a1vm8")
+
+[node name="Input" parent="GameManager/BlockLayer" instance=ExtResource("5_input")]
 position = Vector2(200, 540)
 scale = Vector2(0.75, 0.75)
 
-[node name="Output" parent="GameManager/ConnectionLayer" instance=ExtResource("5_output")]
+[node name="Output" parent="GameManager/BlockLayer" instance=ExtResource("6_output")]
+z_index = 0
 position = Vector2(1720, 540)
 scale = Vector2(0.75, 0.75)
 
-[node name="Bounds" type="ColorRect" parent="GameManager/ConnectionLayer"]
-z_index = -3
+[node name="Bounds" type="Area2D" parent="GameManager/BlockLayer"]
+position = Vector2(960, 540)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameManager/BlockLayer/Bounds"]
+visible = false
+position = Vector2(625, 400)
+shape = SubResource("RectangleShape2D_1rma8")
+
+[node name="Shader" type="ColorRect" parent="GameManager/BlockLayer/Bounds"]
+show_behind_parent = true
+z_index = -1
 material = SubResource("ShaderMaterial_xidld")
-custom_minimum_size = Vector2(1250, 800)
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 335.0
-offset_top = 540.0
-offset_right = 1585.0
-offset_bottom = 540.0
+custom_minimum_size = Vector2(1264, 800)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="BoundShadow" type="ColorRect" parent="GameManager/ConnectionLayer/Bounds"]
-show_behind_parent = true
-material = SubResource("ShaderMaterial_b25od")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TokenLayer" type="Node2D" parent="GameManager"]
-
-[node name="Toolbar" type="Panel" parent="GameManager"]
-z_index = 1
+[node name="border" type="TextureRect" parent="GameManager/BlockLayer/Bounds"]
+z_index = 2
 z_as_relative = false
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 150.0
-offset_right = 1920.0
-offset_bottom = 406.0
-grow_vertical = 0
-script = ExtResource("6_toolbar")
-
-[node name="BlockContainer" type="HBoxContainer" parent="GameManager/Toolbar"]
-z_index = 1
-z_as_relative = false
-layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
+offset_left = -680.0
+offset_top = -425.0
+offset_right = 723.0
+offset_bottom = 425.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-alignment = 1
+scale = Vector2(0.97, 1)
+texture = ExtResource("9_meqhw")
+
+[node name="TokenLayer" type="Node2D" parent="GameManager"]
+z_index = 2
+z_as_relative = false
 
 [node name="Inventory" type="Node" parent="GameManager"]
-script = ExtResource("3_inventory")
+script = ExtResource("4_inventory")
 
-[node name="AudioManager" parent="." instance=ExtResource("9_audio")]
+[node name="Toolbar" parent="GameManager" instance=ExtResource("10_toolbar")]
+z_index = 15
+offset_top = 1080.0
+offset_right = 1920.0
+offset_bottom = 1336.0
+mouse_filter = 1
+
+[node name="BlockInteractionManager" type="Node" parent="GameManager"]
+script = ExtResource("9_interaction")
+
+[node name="AudioManager" parent="." instance=ExtResource("12_audio")]
+script = null
+
+[node name="InputManager" parent="." instance=ExtResource("14_input_manager")]
+
+[node name="Indicators" type="Node2D" parent="."]
+z_index = 5
+z_as_relative = false
+position = Vector2(960, 100)
+scale = Vector2(1.42, 1.42)
+
+[node name="Sprite2D" type="Sprite2D" parent="Indicators"]
+texture = ExtResource("15_yupvt")

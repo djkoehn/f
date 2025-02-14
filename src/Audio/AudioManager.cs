@@ -1,81 +1,44 @@
-using Godot;
-
-namespace F;
+namespace F.Audio;
 
 public partial class AudioManager : Node
 {
-    private static AudioManager? _instance;
-    public static AudioManager? Instance => _instance;
-
-    private AudioStreamPlayer? _blockConnectPlayer;
-    private AudioStreamPlayer? _blockHitPlayer;
-    private AudioStreamPlayer? _tokenStartPlayer;
-    private AudioStreamPlayer? _traversalCompletePlayer;
+    private BlockSoundPlayer? _blockSounds;
+    private TokenSoundPlayer? _tokenSounds;
+    public static AudioManager? Instance { get; private set; }
 
     public override void _Ready()
     {
-        if (_instance != null)
+        if (Instance != null)
         {
             QueueFree();
             return;
         }
-        _instance = this;
 
-        // Initialize audio players
-        _blockConnectPlayer = new AudioStreamPlayer
-        {
-            Stream = GD.Load<AudioStream>("res://assets/audio/BlockConnect.wav"),
-            Name = "BlockConnectPlayer"
-        };
-        AddChild(_blockConnectPlayer);
+        Instance = this;
 
-        _blockHitPlayer = new AudioStreamPlayer
-        {
-            Stream = GD.Load<AudioStream>("res://assets/audio/BlockHit.wav"),
-            Name = "BlockHitPlayer"
-        };
-        AddChild(_blockHitPlayer);
+        _blockSounds = GetNode<BlockSoundPlayer>("BlockSoundPlayer");
+        _tokenSounds = GetNode<TokenSoundPlayer>("TokenSoundPlayer");
 
-        _tokenStartPlayer = new AudioStreamPlayer
-        {
-            Stream = GD.Load<AudioStream>("res://assets/audio/TokenStart.wav"),
-            Name = "TokenStartPlayer"
-        };
-        AddChild(_tokenStartPlayer);
-
-        _traversalCompletePlayer = new AudioStreamPlayer
-        {
-            Stream = GD.Load<AudioStream>("res://assets/audio/TraversalComplete.wav"),
-            Name = "TraversalCompletePlayer"
-        };
-        AddChild(_traversalCompletePlayer);
-    }
-
-    public override void _ExitTree()
-    {
-        if (_instance == this)
-        {
-            _instance = null;
-        }
+        if (_blockSounds == null || _tokenSounds == null) GD.PrintErr("Required sound players not found!");
     }
 
     public void PlayBlockConnect()
     {
-        _blockConnectPlayer?.Play();
+        _blockSounds?.PlayConnect();
     }
 
     public void PlayBlockHit()
     {
-        _blockHitPlayer?.Play();
+        _blockSounds?.PlayHit();
     }
 
     public void PlayTokenStart()
     {
-        _tokenStartPlayer?.Play();
+        _tokenSounds?.PlayStart();
     }
 
     public void PlayTraversalComplete()
     {
-        _traversalCompletePlayer?.Play();
+        _tokenSounds?.PlayTraversalComplete();
     }
-} 
+}

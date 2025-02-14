@@ -1,41 +1,40 @@
-using Godot;
-using F.UI;
+using F.Game.Tokens;
+using F.Config;
 
-namespace F.Blocks;
+namespace F.Game.Blocks;
 
 public partial class Input : BaseBlock
 {
     private float _value = 1.0f;
-    private new Vector2 _originalPosition;
 
-    public void SetValue(float value)
+    public override void Initialize(BlockConfig config)
     {
-        _value = value;
+        base.Initialize(config);
+        if (config.DefaultValue.HasValue) _value = config.DefaultValue.Value;
     }
-    
+
     public float GetValue()
     {
         return _value;
     }
 
-    public override void _Ready()
+    public void SetValue(float value)
     {
-        base._Ready();
-        _originalPosition = Position;
-        GD.Print($"Input block initialized: {this.Name}");
+        _value = value;
     }
 
-    public override void _Input(InputEvent @event)
+    public override void ProcessToken(Token token)
     {
-        if (@event.IsActionPressed("spawn_token"))
-        {
-            var tween = CreateTween();
-            // Move right by 10 pixels
-            tween.TweenProperty(this, "position", _originalPosition + new Vector2(50, 0), 0.1f);
-            // Move back to original position
-            tween.TweenProperty(this, "position", _originalPosition, 0.2f);
-            
-            GameManager.Instance?.TokenManager?.SpawnToken(this);
-        }
+        if (token == null) return;
+
+        token.Value = _value;
+        token.ProcessedBlocks.Add(this);
+
+        if (_connectionManager == null) return;
+        var (nextBlock, pipe) = _connectionManager.GetNextConnection();
+        if (nextBlock != null)
+            token.MoveTo(nextBlock);
+        else
+            token.QueueFree();
     }
 }

@@ -14,5 +14,7 @@
     <ItemGroup>
         <PackageReference Include="GodotTools.IdeMessaging" Version="1.1.2"/>
     </ItemGroup>
-
+    <ItemGroup>
+        <Compile Remove="old commit ref/OldToolbar.cs"/>
+    </ItemGroup>
 </Project>

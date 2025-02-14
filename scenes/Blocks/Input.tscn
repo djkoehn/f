@@ -11,6 +11,7 @@ script = ExtResource("1_script")
 position = Vector2(128, 0)
 
 [node name="Socket" type="ColorRect" parent="BlockOutputSocket"]
+visible = false
 offset_left = -5.0
 offset_top = -5.0
 offset_right = 5.0
