@@ -1,5 +1,5 @@
-using F.Config.Connection;
 using F.UI.Animations;
+using PipeBulge = F.UI.Animations.UI.PipeBulge;
 
 namespace F.Game.Connections;
 

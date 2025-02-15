@@ -1,4 +1,4 @@
-namespace F.Config.Connection;
+namespace F;
 
 public static class PipeConfig
 {

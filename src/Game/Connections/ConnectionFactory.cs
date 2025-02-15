@@ -1,5 +1,3 @@
-using Godot;
-using F.Game.BlockLogic;
 using F.Game.Toolbar;
 namespace F.Game.Connections;
 
@@ -27,7 +25,8 @@ public sealed class ConnectionFactory
         }
         
         // Enforce that a block can have only one connection per socket.
-        if (from.HasConnections() || to.HasConnections())
+        if (ConnectionHelper.HasOutputConnection(from) || 
+            ConnectionHelper.HasInputConnection(to))
         {
             GD.PrintErr($"One or both blocks already have a connection! ({from.Name} or {to.Name})");
             return null;
@@ -99,5 +98,24 @@ public sealed class ConnectionFactory
         var pipe = new ConnectionPipe();
         pipe.Initialize(outputSocket, inputSocket);
         return pipe;
+    }
+
+    public bool CanConnect(IBlock block, ConnectionPipe pipe)
+    {
+        if (block == pipe.SourceBlock)
+        {
+            // Trying to connect to the source, check if block already has an output
+            return !ConnectionHelper.HasOutputConnection(block);
+        }
+        else if (block == pipe.TargetBlock)
+        {
+            // Trying to connect to the target, check if block already has an input
+            return !ConnectionHelper.HasInputConnection(block);  
+        }
+        else
+        {
+            // Not connecting to either end of the pipe
+            return false;
+        }
     }
 }

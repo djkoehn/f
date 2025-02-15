@@ -1,12 +1,9 @@
-using Godot;
-using F.Game.BlockLogic;
 using F.Game.Tokens;
 using F.Audio;
-using F.Config.Visual;
 using F.UI.Animations;
 using F.Game.Toolbar;
 using F.Game.Blocks;
-using System.Linq;
+using ToolbarHoverAnimation = F.UI.Animations.UI.ToolbarHoverAnimation;
 
 namespace F.Game.Connections;
 
@@ -105,7 +102,7 @@ public partial class ConnectionManager : Node2D
 
     public ConnectionPipe? GetPipeAtPosition(Vector2 position)
     {
-        float hoverDistance = F.Config.Connection.PipeConfig.Interaction.HoverDistance;
+        float hoverDistance = PipeConfig.Interaction.HoverDistance;
 
         GD.Print($"[ConnectionManager Debug] Checking for pipe at position {position}");
         GD.Print($"[ConnectionManager Debug] Active pipes: {_activePipes.Count}, Connection pipes: {_connections.Count}");
@@ -172,7 +169,45 @@ public partial class ConnectionManager : Node2D
         ClearAllHighlights();
         ClearInsertionHighlights();
 
-        return F.Game.Connections.Helpers.PipeRewiringHelper.InsertBlockIntoPipe(block, pipe, _factory, this);
+        bool inserted = F.Game.Connections.Helpers.PipeRewiringHelper.InsertBlockIntoPipe(block, pipe, _factory, this);
+        if (inserted)
+        {
+            // Remove the original pipe
+            pipe.RemovePipe();
+            _connections.Remove(pipe);
+            _blockToPipeMap.Remove(pipe.SourceBlock);
+            _blockToPipeMap.Remove(pipe.TargetBlock);
+
+            // Create new Input -> Block and Block -> Output pipes
+            var inputPipe = _factory.CreateConnection(pipe.SourceBlock, block);
+            var outputPipe = _factory.CreateConnection(block, pipe.TargetBlock);
+            
+            if (inputPipe != null)
+            {
+                AddChild(inputPipe);
+                _connections.Add(inputPipe);
+                _blockToPipeMap[pipe.SourceBlock] = inputPipe;
+                _blockToPipeMap[block] = inputPipe;
+            }
+            else
+            {
+                GD.PrintErr("Failed to create input pipe");
+            }
+
+            if (outputPipe != null)
+            {
+                AddChild(outputPipe);
+                _connections.Add(outputPipe);
+                _blockToPipeMap[block] = outputPipe;
+                _blockToPipeMap[pipe.TargetBlock] = outputPipe;
+            }
+            else
+            {
+                GD.PrintErr("Failed to create output pipe");
+            }
+        }
+
+        return inserted;
     }
 
     public override void _Process(double delta)
@@ -198,9 +233,37 @@ public partial class ConnectionManager : Node2D
         }
     }
 
+    public bool ConnectBlocks(IBlock sourceBlock, IBlock targetBlock)
+    {
+        // Check if either block is already connected
+        if (IsBlockConnected(sourceBlock))
+        {
+            DisconnectBlock(sourceBlock);
+        }
+        if (IsBlockConnected(targetBlock)) 
+        {
+            DisconnectBlock(targetBlock);
+        }
+
+        var pipe = _factory.CreateConnection(sourceBlock, targetBlock);
+        if (pipe == null)
+        {
+            GD.PrintErr($"Failed to create connection between {sourceBlock} and {targetBlock}");
+            return false;
+        }
+
+        AddChild(pipe);
+        _connections.Add(pipe);
+        _blockToPipeMap[sourceBlock] = pipe;
+        _blockToPipeMap[targetBlock] = pipe;
+
+        return true;
+    }
+
     public void DisconnectBlock(IBlock block)
     {
-        if (_blockToPipeMap.TryGetValue(block, out var pipe))
+        var connectionsToRemove = GetCurrentConnections(block);
+        foreach (var pipe in connectionsToRemove)
         {
             var otherBlock = pipe.GetOtherBlock(block);
             if (otherBlock != null)
@@ -210,6 +273,7 @@ public partial class ConnectionManager : Node2D
 
             pipe.QueueFree();
             _blockToPipeMap.Remove(block);
+            _connections.Remove(pipe);
         }
     }
 

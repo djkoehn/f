@@ -1,9 +1,6 @@
-using F.Utils;
 using F.Game.Toolbar;
-using Godot;
-using System.Linq;
 using F.Game.Core;
-using F.Utils.Helpers;
+using HelperFunnel = F.Utils.HelperFunnel;
 
 namespace F.Game.BlockLogic;
 

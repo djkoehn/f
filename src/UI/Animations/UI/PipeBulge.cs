@@ -1,4 +1,4 @@
-namespace F.UI.Animations;
+namespace F.UI.Animations.UI;
 
 public partial class PipeBulge : Node2D
 {

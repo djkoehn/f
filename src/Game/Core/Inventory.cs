@@ -1,7 +1,3 @@
-using Godot;
-using System.Collections.Generic;
-using F.Game.BlockLogic;
-
 namespace F.Game.Core;
 
 public partial class Inventory : Node

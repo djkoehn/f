@@ -1,8 +1,4 @@
-using Godot;
-using F.Utils;
-using F.Game.BlockLogic;
-
-namespace F.Utils.Helpers
+namespace F.Utils
 {
     // HelperFunnel acts as a central container for various helper instances (i.e. a basic DI container).
     public partial class HelperFunnel : Node

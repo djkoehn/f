@@ -1,5 +1,3 @@
-using F.Config.Visual;
-
 namespace F.Game.Core;
 
 public partial class SceneInitializer : Node

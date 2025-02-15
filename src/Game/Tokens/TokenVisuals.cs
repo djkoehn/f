@@ -1,5 +1,3 @@
-using F.Config.Game;
-
 namespace F.Game.Tokens;
 
 public partial class TokenVisuals : Node2D

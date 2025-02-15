@@ -1,8 +1,7 @@
 using GMFG = F.Game.Core.GameManager;
 using DragService = F.Utils.IDragService;
 using BaseBlockFG = F.Game.BlockLogic.BaseBlock;
-using F.Utils;
-using F.Utils.Helpers;
+using HelperFunnel = F.Utils.HelperFunnel;
 
 namespace F.Game.Toolbar;
 
@@ -107,6 +106,16 @@ public partial class ToolbarBlockManager : Node
     public void ReturnBlockToToolbar(BaseBlock block)
     {
         if (_blockContainer == null) return;
+
+        // Disconnect the block from any existing pipes
+        if (_gameManager?.ConnectionManager != null)
+        {
+            _gameManager.ConnectionManager.DisconnectBlock(block);
+        }
+
+        // Reset the block's state to non-connected
+        block.State = BlockState.InToolbar;
+
         block.GetParent()?.RemoveChild(block);
         _blockContainer.AddChild(block);
         block.SetDragging(false);
@@ -128,5 +137,35 @@ public partial class ToolbarBlockManager : Node
         if (_blockContainer == null) return;
         float totalWidth = _blockContainer.GetChildren().Count * (100 + 40); // Block width + separation from scene
         EmitSignal(SignalName.BlockPositionsUpdated, totalWidth);
+    }
+
+    private void OnBlockDragStart(BaseBlock block)
+    {
+        if (_gameManager == null) return;
+
+        // Get the BlockLayer
+        var BlockLayer = _gameManager.GetNode<Node2D>("BlockLayer");
+        if (BlockLayer == null)
+        {
+            GD.PrintErr("BlockLayer not found!");
+            return;
+        }
+
+        // Move to BlockLayer
+        BlockLayer.AddChild(block);
+
+        // Make block follow mouse
+        _dragHelper?.StartDrag(block, block.GlobalPosition);
+    }
+
+    private void OnBlockDragEnd(BaseBlock block)
+    {
+        // Transition to Placed state
+        block.State = BlockState.Placed;
+
+        // Snap to grid
+        var blockPos = block.GlobalPosition;
+        blockPos = blockPos.Snapped(new Vector2(20, 20));
+        block.GlobalPosition = blockPos;
     }
 }

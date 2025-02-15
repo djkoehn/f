@@ -1,10 +1,3 @@
-using Godot;
-using F.Config.Connection;
-using F.Config.Visual;
-using F.Game.BlockLogic;
-using F.Utils;
-using System.Collections.Generic;
-
 namespace F.Game.Connections;
 
 public partial class ConnectionPipe : Node2D
@@ -189,6 +182,17 @@ public partial class ConnectionPipe : Node2D
                 outline.AddPoint(pt);
             }
         }
+
+        // Hide pipe if either end block is not visible
+        if (SourceBlock is Node2D sourceNode && !sourceNode.Visible ||
+            TargetBlock is Node2D targetNode && !targetNode.Visible)
+        {
+            HidePipe();
+        }
+        else
+        {
+            ShowPipe();
+        }
     }
 
     public bool IsPointNearPipe(Vector2 point)
@@ -318,5 +322,42 @@ public partial class ConnectionPipe : Node2D
             GD.PrintErr("[ConnectionPipe Debug] _visuals is null, cannot retrieve curve points.");
         }
         return globalPoints;
+    }
+
+    public void HidePipe()
+    {
+        if (_visuals != null)
+        {
+            _visuals.Visible = false;
+        }
+
+        var outline = GetNode<Line2D>("Outline");
+        if (outline != null)
+        {
+            outline.Visible = false;
+        }
+    }
+
+    public void ShowPipe()
+    {
+        if (_visuals != null)
+        {
+            _visuals.Visible = true;
+        }
+
+        var outline = GetNode<Line2D>("Outline");
+        if (outline != null)
+        {
+            outline.Visible = true;
+        }
+    }
+
+    public void RemovePipe()
+    {
+        if (IsInsideTree())
+        {
+            GetParent()?.RemoveChild(this);
+        }
+        QueueFree();
     }
 }

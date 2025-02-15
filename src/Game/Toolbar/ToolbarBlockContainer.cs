@@ -1,8 +1,3 @@
-using Godot;
-using F.Game.BlockLogic;
-using System.Linq;
-using F.Utils;
-
 namespace F.Game.Toolbar
 {
     public partial class ToolbarBlockContainer : Control
@@ -27,6 +22,7 @@ namespace F.Game.Toolbar
         public void AddBlock(BaseBlock block)
         {
             ToolbarHelper.ReturnBlockToToolbar(block, this);
+            UpdateContainerSize();
         }
 
         public void AddBlockWithoutAnimation(BaseBlock block)
@@ -57,6 +53,7 @@ namespace F.Game.Toolbar
             {
                 RemoveChild(block);
                 UpdateBlockPositions();
+                UpdateContainerSize();
             }
         }
 
@@ -78,6 +75,28 @@ namespace F.Game.Toolbar
                 Vector2 pos = blocks[i].Position;
                 pos.X = startX + i * (blockWidth + spacing);
                 blocks[i].Position = pos;
+            }
+        }
+
+        private void UpdateContainerSize()
+        {
+            var blocks = GetChildren().OfType<BaseBlock>().ToList();
+            float blockWidth = 100f; // default block width 
+            float spacing = 40f;     // default spacing
+            int count = blocks.Count;
+
+            float totalWidth = count * (blockWidth + spacing);
+            Size = new Vector2(totalWidth, Size.Y);
+
+            // Center the container in the toolbar
+            var toolbar = GetParent<Toolbar>();
+            if (toolbar != null)
+            {
+                var toolbarVisuals = toolbar.GetNode<ToolbarVisuals>("ToolbarVisuals");
+                if (toolbarVisuals != null)
+                {
+                    Position = new Vector2((toolbarVisuals.Size.X - totalWidth) / 2f, Position.Y);
+                }
             }
         }
     }

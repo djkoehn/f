@@ -1,6 +1,4 @@
-using Godot;
-
-namespace F.UI.Animations;
+namespace F.UI.Animations.UI;
 
 public sealed partial class ToolbarHoverAnimation : Node
 {

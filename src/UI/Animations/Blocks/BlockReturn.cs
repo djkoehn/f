@@ -1,6 +1,4 @@
-using F.Config.Visual;
-
-namespace F.UI.Animations;
+namespace F.UI.Animations.Blocks;
 
 public sealed partial class BlockReturn : Node2D
 {
@@ -56,7 +54,7 @@ public sealed partial class BlockReturn : Node2D
         if (IsComplete)
         {
             // DON'T TOUCH BLOCK HERE - Just emit signal and clean up
-            EmitSignal(SignalName.ReturnCompleted, Block);
+            EmitSignal(BlockReturn.SignalName.ReturnCompleted, Block);
             QueueFree();
         }
     }

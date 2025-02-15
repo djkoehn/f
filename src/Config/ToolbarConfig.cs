@@ -1,4 +1,4 @@
-namespace F.Config.UI;
+namespace F;
 
 public static class ToolbarConfig
 {

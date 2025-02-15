@@ -1,5 +1,3 @@
-using Godot;
-using F.Config;
 using GM = F.Game.Core.GameManager;
 
 namespace F.Game.Core

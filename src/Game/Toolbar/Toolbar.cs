@@ -1,11 +1,10 @@
-using F.Config.UI;
-using F.Config.Visual;
 using F.UI.Animations;
 using F.Game.Connections;
 using F.Game.Core;
 using InventoryType = F.Game.Core.Inventory;
 using F.Game.Toolbar;
-using F.Utils.Helpers;
+using BlockReturn = F.UI.Animations.Blocks.BlockReturn;
+using ToolbarHoverAnimation = F.UI.Animations.UI.ToolbarHoverAnimation;
 
 namespace F.Game.Toolbar;
 

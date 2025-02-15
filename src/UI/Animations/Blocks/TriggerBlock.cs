@@ -1,4 +1,4 @@
-namespace F.UI.Animations;
+namespace F.UI.Animations.Blocks;
 
 public static class TriggerBlock
 {

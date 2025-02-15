@@ -1,5 +1,3 @@
-using Godot;
-using F.Game.BlockLogic;
 using F.Game.Connections;
 using F.Game.Core;
 
@@ -64,6 +62,42 @@ namespace F.Utils
                    b * (3 * t * oneMinusT * oneMinusT) +
                    c * (3 * t * t * oneMinusT) +
                    d * (t * t * t);
+        }
+
+        public static bool HasOutputConnection(IBlock block)
+        {
+            // Check if the Output block has a connection
+            var parent = block as Node;
+            if (parent == null)
+            {
+                GD.PrintErr("IBlock is not a Node, cannot get parent.");
+                return false;
+            }
+            var gameManager = parent.GetTree().Root.GetNode<GameManager>($"/root/Main/GameManager");
+            if (gameManager?.ConnectionManager == null)
+            {
+                GD.PrintErr("ConnectionManager not found in GameManager.");
+                return false;
+            }
+            return gameManager.ConnectionManager.IsBlockConnected(block);
+        }
+
+        public static bool HasInputConnection(IBlock block)
+        {
+            // Check if the Input block has a connection
+            var parent = block as Node;
+            if (parent == null)
+            {
+                GD.PrintErr("IBlock is not a Node, cannot get parent.");
+                return false;
+            }
+            var gameManager = parent.GetTree().Root.GetNode<GameManager>($"/root/Main/GameManager");
+            if (gameManager?.ConnectionManager == null)
+            {
+                GD.PrintErr("ConnectionManager not found in GameManager.");
+                return false;
+            }
+            return gameManager.ConnectionManager.IsBlockConnected(block);
         }
 
     }

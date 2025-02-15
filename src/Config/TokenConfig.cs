@@ -1,4 +1,4 @@
-namespace F.Config.Game;
+namespace F;
 
 public static class TokenConfig
 {

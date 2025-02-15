@@ -1,7 +1,3 @@
-using Godot;
-using F.Game.BlockLogic;
-using F.Utils.Helpers;
-
 namespace F.Utils
 {
     public partial class InputHelper : Node
@@ -22,7 +18,7 @@ namespace F.Utils
 
             if (_dragHelper == null)
             {
-                _dragHelper = F.Utils.Helpers.DragHelper.Instance;
+                _dragHelper = DragHelper.Instance;
                 if (_dragHelper == null)
                     GD.PrintErr("[Debug InputHelper] DragHelper is STILL null after fallback!");
                 else
@@ -144,7 +140,7 @@ namespace F.Utils
                 GD.Print("[Debug InputHelper] Block '" + blockName + "' is in the toolbar. Attempting to reparent to BlockLayer before dragging.");
 
                 // Locate BlockLayer using the direct path from BlockConfig
-                var blockLayer = GetTree().Root.GetNodeOrNull<Node2D>(F.Config.BlockConfig.BlockLayerPath);
+                var blockLayer = GetTree().Root.GetNodeOrNull<Node2D>(BlockConfig.BlockLayerPath);
                 if (blockLayer == null)
                 {
                     // Fallback: try using the current scene

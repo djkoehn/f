@@ -1,4 +1,4 @@
-namespace F.Config.Visual;
+namespace F;
 
 public static class ZIndexConfig
 {

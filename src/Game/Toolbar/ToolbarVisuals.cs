@@ -1,5 +1,5 @@
-using Godot;
 using F.UI.Animations;
+using ToolbarHoverAnimation = F.UI.Animations.UI.ToolbarHoverAnimation;
 
 namespace F.Game.Toolbar
 {

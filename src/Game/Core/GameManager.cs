@@ -1,9 +1,5 @@
-using Godot;
-using System;
-using F.Config;
 using F.Game.Connections;
 using F.Game.Tokens;
-using F.Utils;
 using F.Game.Core;
 using InventoryType = F.Game.Core.Inventory;
 
@@ -81,7 +77,7 @@ public partial class GameManager : Node2D
             block.GetParent().RemoveChild(block);
         }
         parent.AddChild(block);
-        block.Initialize(new F.Config.BlockConfig { Name = metadata.Id });
+        block.Initialize(new BlockConfig { Name = metadata.Id });
         return block;
     }
 
