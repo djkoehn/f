@@ -1,5 +1,4 @@
 using F.Config.Game;
-using F.Game.Connections;
 
 namespace F.Game.Tokens;
 
@@ -14,7 +13,6 @@ public partial class TokenVisuals : Node2D
     private float _currentValue;
     private bool _isMoving;
     private Label? _label;
-
     private Tween? _movementTween;
     private Sprite2D? _sprite;
 
@@ -30,26 +28,27 @@ public partial class TokenVisuals : Node2D
         Connect(SignalName.MovementStart, new Callable(this, nameof(OnMovementStart)));
     }
 
-    public void StartMovement(ConnectionPipe pipe, Vector2 startPos, Vector2 endPos)
+    public void StartMovement(Vector2 targetPosition)
     {
         if (_movementTween != null && _movementTween.IsValid()) _movementTween.Kill();
 
         _isMoving = true;
-        GlobalPosition = startPos;
         _movementTween = CreateTween();
         _movementTween.SetTrans(Tween.TransitionType.Linear);
         _movementTween.SetEase(Tween.EaseType.InOut);
-        _movementTween.TweenProperty(this, "global_position", endPos, TokenConfig.Animation.MovementDuration);
+        _movementTween.TweenProperty(this, "global_position", targetPosition, TokenConfig.Animation.MovementDuration);
         _movementTween.TweenCallback(Callable.From(() => EmitSignal(SignalName.MovementComplete)));
 
         EmitSignal(SignalName.MovementStart);
     }
 
-    public void CompleteMovement()
+    public void StopMovement()
     {
-        if (_movementTween != null && _movementTween.IsValid()) _movementTween.Kill();
-        _isMoving = false;
-        EmitSignal(SignalName.MovementComplete);
+        if (_movementTween != null && _movementTween.IsValid()) 
+        {
+            _movementTween.Kill();
+            _isMoving = false;
+        }
     }
 
     private void OnMovementComplete()
@@ -60,7 +59,6 @@ public partial class TokenVisuals : Node2D
     private void OnMovementStart()
     {
         _isMoving = true;
-        GD.Print("Movement started");
     }
 
     public void TriggerAnimation()
@@ -70,7 +68,7 @@ public partial class TokenVisuals : Node2D
         var tween = CreateTween();
         tween.SetTrans(Tween.TransitionType.Elastic);
         tween.SetEase(Tween.EaseType.Out);
-        tween.TweenProperty(_sprite, "scale", Vector2.One * 1.2f, 0.3f);
+        tween.TweenProperty(_sprite, "scale", Vector2.One * 1.5f, 0.3f);
         tween.TweenProperty(_sprite, "scale", Vector2.One, 0.3f);
     }
 
@@ -81,8 +79,8 @@ public partial class TokenVisuals : Node2D
         var tween = CreateTween();
         tween.SetTrans(Tween.TransitionType.Bounce);
         tween.SetEase(Tween.EaseType.Out);
-        tween.TweenProperty(_sprite, "rotation", Mathf.Pi * 0.1f, 0.2f);
-        tween.TweenProperty(_sprite, "rotation", 0f, 0.2f);
+        tween.TweenProperty(_sprite, "scale", Vector2.One * 1.2f, 0.1f);
+        tween.TweenProperty(_sprite, "scale", Vector2.One, 0.2f);
     }
 
     public void UpdateValue(float value)

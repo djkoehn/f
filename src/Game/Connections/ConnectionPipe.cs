@@ -1,25 +1,25 @@
+using Godot;
 using F.Config.Connection;
 using F.Config.Visual;
-
-// ADD THIS!
+using F.Game.BlockLogic;
+using F.Utils;
+using System.Collections.Generic;
 
 namespace F.Game.Connections;
 
 public partial class ConnectionPipe : Node2D
 {
-    private Vector2 _endPoint;
-    private BaseBlock? _fromBlock;
+    private Node2D? _fromSocket;
+    private Node2D? _toSocket;
+    private Line2D? _visuals;
+    private bool _isHighlighted;
     private bool _isTemporary;
     private Vector2 _temporaryEndPoint;
-    private Line2D? _visuals;
 
-    public Node2D? FromSocket { get; private set; }
-
-    public Node2D? ToSocket { get; private set; }
-
-    public BaseBlock? StartBlock { get; private set; }
-
-    public BaseBlock? EndBlock { get; private set; }
+    public Node2D? FromSocket => _fromSocket;
+    public Node2D? ToSocket => _toSocket;
+    public IBlock? SourceBlock { get; private set; }
+    public IBlock? TargetBlock { get; private set; }
 
     public override void _Ready()
     {
@@ -48,197 +48,106 @@ public partial class ConnectionPipe : Node2D
                 BeginCapMode = Line2D.LineCapMode.Round,
                 EndCapMode = Line2D.LineCapMode.Round,
                 Points = new[] { Vector2.Zero, Vector2.Zero },
-                ZIndex = ZIndexConfig.Layers.Pipes, // ADD THIS!
-                ZAsRelative = false // ADD THIS TOO!
+                ZIndex = ZIndexConfig.Layers.Pipes,
+                ZAsRelative = false
             };
             AddChild(_visuals);
         }
-        else if (_visuals == null)
-        {
-            GD.PrintErr("VisualPipe node not found!");
-        }
 
-        // Also set pipe's own Z-index
+        // Set pipe's own Z-index
         ZIndex = ZIndexConfig.Layers.Pipes;
         ZAsRelative = false;
     }
 
     public void Initialize(Node2D fromSocket, Node2D toSocket)
     {
-        FromSocket = fromSocket;
-        ToSocket = toSocket;
-        _fromBlock = fromSocket?.GetParent() as BaseBlock;
-        EndBlock = toSocket?.GetParent() as BaseBlock;
-        StartBlock = _fromBlock; // ADD THIS LINE - SET START BLOCK!
-
-        GD.Print($"Initializing pipe - From: {_fromBlock?.Name}, To: {EndBlock?.Name}");
-
-        // Make sure both blocks AND sockets exist
-        if (_fromBlock == null || EndBlock == null || FromSocket == null || ToSocket == null)
-        {
-            GD.PrintErr(
-                $"Cannot create connection - Blocks: {_fromBlock != null}, {EndBlock != null}, Sockets: {FromSocket != null}, {ToSocket != null}");
-            return;
-        }
-
+        _fromSocket = fromSocket;
+        _toSocket = toSocket;
         _isTemporary = false;
-        UpdateVisuals();
-    }
 
-    public void Initialize(BaseBlock from, BaseBlock to) // NEW METHOD!
-    {
-        // Find sockets on blocks
-        var fromSocket = from.GetNearestSocket(to.GlobalPosition);
-        var toSocket = to.GetNearestSocket(from.GlobalPosition);
+        // Try to retrieve the blocks by traversing up the hierarchy
+        Node? fromBlock = fromSocket;
+        Node? toBlock = toSocket;
 
-        if (fromSocket == null || toSocket == null)
+        // Keep going up until we find an IBlock or hit null
+        while (fromBlock != null && !(fromBlock is IBlock))
         {
-            GD.PrintErr("Could not find sockets on blocks!");
+            fromBlock = fromBlock.GetParent();
+        }
+
+        while (toBlock != null && !(toBlock is IBlock))
+        {
+            toBlock = toBlock.GetParent();
+        }
+
+        // Store the blocks as IBlock
+        SourceBlock = fromBlock as IBlock;
+        TargetBlock = toBlock as IBlock;
+
+        GD.Print($"[ConnectionPipe] Socket hierarchy - FromSocket: {fromSocket.Name}, ToSocket: {toSocket.Name}");
+        GD.Print($"[ConnectionPipe] Found blocks - Source: {SourceBlock?.GetType()}, Target: {TargetBlock?.GetType()}");
+        
+        if (SourceBlock == null || TargetBlock == null)
+        {
+            GD.PrintErr($"[ConnectionPipe] Failed to find blocks in hierarchy - FromSocket path: {GetNodePath(fromSocket)}, ToSocket path: {GetNodePath(toSocket)}");
             return;
         }
 
-        FromSocket = fromSocket;
-        ToSocket = toSocket;
-        _fromBlock = from;
-        EndBlock = to;
-
-        GD.Print($"Connected blocks with sockets: {fromSocket.Name} -> {toSocket.Name}");
         UpdateVisuals();
     }
 
-    public void InitializeTemporary(BaseBlock startBlock)
+    private string GetNodePath(Node node)
     {
-        // Initialize the pipe for a temporary connection starting from startBlock
-        StartBlock = startBlock;
+        string path = node.Name;
+        Node? current = node;
+        while (current.GetParent() != null)
+        {
+            current = current.GetParent();
+            path = current.Name + "/" + path;
+        }
+        return path;
+    }
+
+    public void InitializeTemporary(IBlock startBlock)
+    {
+        var outputSocket = startBlock.GetOutputSocket() as Node2D;
+        if (outputSocket == null)
+        {
+            GD.PrintErr("[ConnectionPipe] Failed to get output socket for temporary connection");
+            return;
+        }
+
+        _fromSocket = outputSocket;
         _isTemporary = true;
-        _endPoint = startBlock.GlobalPosition;
+        _temporaryEndPoint = startBlock.GlobalPosition;
+        
+        if (startBlock is BaseBlock baseBlock)
+        {
+            SourceBlock = baseBlock;
+        }
+        
         UpdateVisuals();
     }
 
-    public void InitializeTemporary(BaseBlock from, Vector2 endPoint)
+    public void InitializeTemporary(IBlock from, Vector2 endPoint)
     {
-        _fromBlock = from;
-        EndBlock = null;
+        var outputSocket = from.GetOutputSocket() as Node2D;
+        if (outputSocket == null)
+        {
+            GD.PrintErr("[ConnectionPipe] Failed to get output socket for temporary connection");
+            return;
+        }
+
+        _fromSocket = outputSocket;
         _isTemporary = true;
         _temporaryEndPoint = endPoint;
-
-        UpdateVisuals();
-    }
-
-    public override void _Process(double delta)
-    {
-        if (FromSocket == null || ToSocket == null || _visuals == null) return;
-
-        UpdateVisuals();
-    }
-
-    private void UpdateVisuals()
-    {
-        if (FromSocket == null || ToSocket == null || _visuals == null) return;
-
-        // Always use global positions for consistency
-        var startPos = FromSocket.GlobalPosition;
-        var endPos = _isTemporary ? _temporaryEndPoint : ToSocket.GlobalPosition;
-
-        // Convert positions to local space only for drawing
-        startPos = ToLocal(startPos);
-        endPos = ToLocal(endPos);
-
-        // Calculate control points for Bezier curve
-        var distance = startPos.DistanceTo(endPos);
-        var controlPointOffset = distance * 0.5f; // Adjust this value to control curve amount
-
-        var control1 = startPos + new Vector2(controlPointOffset, 0);
-        var control2 = endPos - new Vector2(controlPointOffset, 0);
-
-        // Create curve points
-        _visuals.ClearPoints();
-        const int numPoints = 20; // More points = smoother curve
-
-        for (float t = 0; t <= 1; t += 1f / numPoints)
-        {
-            var point = CubicBezier(startPos, control1, control2, endPos, t);
-            _visuals.AddPoint(point);
-        }
-
-        _visuals.AddPoint(endPos); // Make sure we end exactly at the end point
-
-        // Update outline points
-        var outline = GetNode<Line2D>("Outline");
-        if (outline != null)
-        {
-            outline.ClearPoints();
-            foreach (var point in _visuals.Points)
-            {
-                outline.AddPoint(point);
-            }
-        }
-    }
-
-    private Vector2 CubicBezier(Vector2 start, Vector2 control1, Vector2 control2, Vector2 end, float t)
-    {
-        var tt = t * t;
-        var ttt = tt * t;
-        var u = 1 - t;
-        var uu = u * u;
-        var uuu = uu * u;
-
-        return uuu * start +
-               3 * uu * t * control1 +
-               3 * u * tt * control2 +
-               ttt * end;
-    }
-
-    public void SetHovered(bool isHovered)
-    {
-        // Check if this node is still valid
-        if (!IsInstanceValid(this) || !IsInsideTree()) return;
-
-        // Get and validate visual components
-        _visuals = GetNodeOrNull<Line2D>("VisualPipe");
-        var outline = GetNodeOrNull<Line2D>("Outline");
         
-        if (_visuals == null || outline == null) return;
-
-        // Update colors only if nodes are valid
-        if (IsInstanceValid(_visuals))
+        if (from is BaseBlock baseBlock)
         {
-            _visuals.DefaultColor = isHovered
-                ? new Color(0, 1, 1)  // BRIGHT CYAN WHEN HIGHLIGHTED
-                : new Color(0.7f, 0.7f, 0.7f); // NORMAL GRAY
+            SourceBlock = baseBlock;
         }
-
-        if (IsInstanceValid(outline))
-        {
-            outline.DefaultColor = isHovered ? new Color(0, 0.5f, 0.5f) : Colors.Black;
-        }
-    }
-
-    public bool IsPointNearPipe(Vector2 point)
-    {
-        if (FromSocket == null || ToSocket == null) return false;
-
-        // Create detection area between sockets
-        var rect = new Rect2(FromSocket.GlobalPosition, Vector2.Zero);
-        rect = rect.Expand(ToSocket.GlobalPosition);
-        rect = rect.Grow(PipeConfig.Interaction.HoverDistance * 2); // Make detection area bigger
         
-        return rect.HasPoint(point);
-    }
-
-    public (Node2D? From, Node2D? To) GetSockets()
-    {
-        return (FromSocket, ToSocket);
-    }
-
-    public void StartReconnectAnimation(Vector2[] oldPoints)
-    {
-        // Removed this method as it was not implemented for Line2D
-    }
-
-    public void ClearBulgeEffect()
-    {
-        // Removed this method as it was not implemented for Line2D
+        UpdateVisuals();
     }
 
     public void UpdateTemporaryEndPoint(Vector2 endPoint)
@@ -248,108 +157,166 @@ public partial class ConnectionPipe : Node2D
         UpdateVisuals();
     }
 
-    public void UpdateTokenPosition(Vector2 position)
+    public override void _Process(double delta)
     {
-        // Removed this method as it was not implemented for Line2D
+        if (_fromSocket == null || (_toSocket == null && !_isTemporary) || _visuals == null) return;
+        UpdateVisuals();
+    }
+
+    private void UpdateVisuals()
+    {
+        if (_fromSocket == null || (_toSocket == null && !_isTemporary) || _visuals == null) return;
+
+        var startPos = ToLocal(_fromSocket.GlobalPosition);
+        var endPos = _isTemporary ? ToLocal(_temporaryEndPoint) : ToLocal(_toSocket.GlobalPosition);
+
+        // Use PipeCurveCalculator to compute curve points
+        var curvePoints = F.Game.Connections.Helpers.PipeCurveCalculator.CalculateCurvePoints(startPos, endPos);
+
+        _visuals.ClearPoints();
+        foreach (var pt in curvePoints)
+        {
+            _visuals.AddPoint(pt);
+        }
+
+        // Update outline based on new visual points
+        var outline = GetNode<Line2D>("Outline");
+        if (outline != null)
+        {
+            outline.ClearPoints();
+            foreach (var pt in _visuals.Points)
+            {
+                outline.AddPoint(pt);
+            }
+        }
+    }
+
+    public bool IsPointNearPipe(Vector2 point)
+    {
+        if (_fromSocket == null || _toSocket == null || _visuals == null) 
+        {
+            GD.PrintErr("[ConnectionPipe] Cannot check point near pipe - missing sockets or visuals");
+            return false;
+        }
+
+        // Get the curve points in global coordinates
+        var curvePoints = GetCurvePoints();
+        if (curvePoints.Count == 0)
+        {
+            GD.PrintErr("[ConnectionPipe] No curve points available for detection");
+            return false;
+        }
+
+        // Check distance to each curve segment
+        float minDistance = float.MaxValue;
+        for (int i = 0; i < curvePoints.Count - 1; i++)
+        {
+            var start = curvePoints[i];
+            var end = curvePoints[i + 1];
+            
+            // Calculate distance from point to line segment
+            var distance = DistanceToLineSegment(point, start, end);
+            minDistance = Mathf.Min(minDistance, distance);
+        }
+
+        bool isNear = minDistance <= PipeConfig.Interaction.HoverDistance;
+        if (isNear)
+        {
+            GD.Print($"[ConnectionPipe] Point {point} is near pipe (distance: {minDistance})");
+        }
+        return isNear;
+    }
+
+    private float DistanceToLineSegment(Vector2 point, Vector2 start, Vector2 end)
+    {
+        var line = end - start;
+        float len = line.Length();
+        if (len == 0) return point.DistanceTo(start);
+
+        // Calculate projection
+        float t = Mathf.Clamp(((point - start).Dot(line)) / (len * len), 0, 1);
+        var projection = start + line * t;
+
+        return point.DistanceTo(projection);
+    }
+
+    public (Node2D? From, Node2D? To) GetSockets()
+    {
+        return (_fromSocket, _toSocket);
     }
 
     public Vector2 GetPositionAlongCurve(float t)
     {
-        if (FromSocket == null || ToSocket == null) return Vector2.Zero;
-        var startPos = FromSocket.GlobalPosition;
-        var endPos = ToSocket.GlobalPosition;
+        if (_fromSocket == null || _toSocket == null) return Vector2.Zero;
+        var startPos = _fromSocket.GlobalPosition;
+        var endPos = _toSocket.GlobalPosition;
         return startPos.Lerp(endPos, t);
     }
 
-    public BaseBlock? GetOtherBlock(BaseBlock currentBlock)
+    public IBlock? GetOtherBlock(IBlock currentBlock)
     {
-        if (FromSocket?.GetParent() is BaseBlock fromBlock && fromBlock != currentBlock)
-            return fromBlock;
-        if (ToSocket?.GetParent() is BaseBlock toBlock && toBlock != currentBlock)
-            return toBlock;
+        // First try to match against SourceBlock
+        if (SourceBlock != null && !SourceBlock.Equals(currentBlock))
+        {
+            GD.Print($"[ConnectionPipe] GetOtherBlock returning SourceBlock: {SourceBlock.Name}");
+            return SourceBlock;
+        }
+
+        // Then try TargetBlock
+        if (TargetBlock != null && !TargetBlock.Equals(currentBlock))
+        {
+            GD.Print($"[ConnectionPipe] GetOtherBlock returning TargetBlock: {TargetBlock.Name}");
+            return TargetBlock;
+        }
+
+        GD.Print($"[ConnectionPipe] GetOtherBlock found no matching block for {currentBlock.Name}");
         return null;
     }
 
     public void SetHighlighted(bool highlighted)
     {
         if (_visuals == null) return;
+        _isHighlighted = highlighted;
 
         // Make pipe REALLY glow when highlighted
         _visuals.DefaultColor = highlighted
-            ? new Color(0, 1, 1)
-            : // BRIGHT CYAN WHEN HIGHLIGHTED
-            new Color(0.7f, 0.7f, 0.7f); // NORMAL GRAY
+            ? new Color(0, 1, 1)  // BRIGHT CYAN WHEN HIGHLIGHTED
+            : new Color(0.7f, 0.7f, 0.7f); // NORMAL GRAY
 
         // Make pipe thicker when highlighted
         _visuals.Width = highlighted ? 8.0f : 4.0f;
     }
 
-    public bool TryConnectBlock(BaseBlock block)
+    public void SetInsertionHighlight(bool highlighted)
     {
-        GD.Print("=== TRYING TO CONNECT BLOCK ===");
-        GD.Print($"Block position: {block.GlobalPosition}");
-        GD.Print($"Current pipe from: {FromSocket?.Name}, to: {ToSocket?.Name}");
-
-        if (FromSocket == null || ToSocket == null)
+        if (_visuals != null)
         {
-            GD.PrintErr("Pipe has no sockets!");
-            return false;
+            _visuals.DefaultColor = highlighted ? new Color(0, 1, 0) : PipeConfig.Visual.LineColor;
         }
-
-        // Find input and output sockets on block
-        var blockSockets = block.GetChildren()
-            .OfType<Node2D>()
-            .Where(n => n.Name.ToString().Contains("Socket"))
-            .ToList();
-
-        GD.Print($"Found {blockSockets.Count} sockets on block:");
-        foreach (var socket in blockSockets) GD.Print($"- {socket.Name}");
-
-        var inputSocket = blockSockets.FirstOrDefault(n => n.Name.ToString().Contains("Input"));
-        var outputSocket = blockSockets.FirstOrDefault(n => n.Name.ToString().Contains("Output"));
-
-        if (inputSocket == null || outputSocket == null)
-        {
-            GD.PrintErr(
-                $"Block {block.Name} missing sockets! Input: {inputSocket != null}, Output: {outputSocket != null}");
-            return false;
-        }
-
-        // Position block at center of pipe
-        var oldPos = block.GlobalPosition;
-        var newPos = GetPositionOnPipe(block);
-        block.GlobalPosition = newPos;
-        GD.Print($"Moved block from {oldPos} to {newPos}");
-
-        // Connect both sockets
-        FromSocket = outputSocket;
-        ToSocket = inputSocket;
-        _fromBlock = block;
-        EndBlock = block;
-
-        GD.Print($"Connected block {block.Name} with sockets: {outputSocket.Name} -> {inputSocket.Name}");
-        UpdateVisuals();
-        return true;
     }
 
-    public Vector2 GetPositionOnPipe(BaseBlock block)
+    public void ClearInsertionHighlight()
     {
-        // Return the nearest point on the pipe to snap the block to
-        if (FromSocket == null || ToSocket == null) return block.GlobalPosition;
+        SetInsertionHighlight(false);
+    }
 
-        var pipeStart = FromSocket.GlobalPosition;
-        var pipeEnd = ToSocket.GlobalPosition;
-
-        // Calculate nearest point on line segment
-        var vec = pipeEnd - pipeStart;
-        var len = vec.Length();
-        if (len == 0) return pipeStart;
-
-        vec = vec / len;
-        var v = block.GlobalPosition - pipeStart;
-        var d = v.Dot(vec);
-        d = Mathf.Clamp(d, 0, len);
-
-        return pipeStart + vec * d;
+    public List<Vector2> GetCurvePoints()
+    {
+        List<Vector2> globalPoints = new List<Vector2>();
+        if (_visuals != null)
+        {
+            foreach (var localPt in _visuals.Points)
+            {
+                Vector2 globalPt = _visuals.ToGlobal(localPt);
+                globalPoints.Add(globalPt);
+                GD.Print($"[ConnectionPipe Debug] global curve point from visuals: {globalPt}");
+            }
+            GD.Print("[ConnectionPipe Debug] Using _visuals points for curve.");
+        }
+        else
+        {
+            GD.PrintErr("[ConnectionPipe Debug] _visuals is null, cannot retrieve curve points.");
+        }
+        return globalPoints;
     }
 }

@@ -1,5 +1,7 @@
 using F.Audio;
-using Input = F.Game.Blocks.Input;
+using F.Game.BlockLogic;
+using F.Game.Connections;
+using Input = F.Game.BlockLogic.Input;
 using ConnectionManager = F.Game.Connections.ConnectionManager;
 
 namespace F.Game.Tokens;
@@ -19,7 +21,7 @@ public class TokenManager
         _factory = new TokenFactory(_tokenLayer, tokenScene);
     }
 
-    public void SpawnToken(BaseBlock startBlock)
+    public void SpawnToken(IBlock startBlock)
     {
         var value = (startBlock as Input)?.GetValue() ?? 0f;
         var token = _factory.CreateToken(startBlock, value);

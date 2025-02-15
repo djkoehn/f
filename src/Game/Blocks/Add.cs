@@ -1,12 +1,20 @@
+using Godot;
 using F.Game.Tokens;
+using F.Game.BlockLogic;
+using F.Game.Connections;
 using F.Config;
-
 
 namespace F.Game.Blocks;
 
 public partial class Add : BaseBlock
 {
     private float _value = 1.0f;
+    protected ConnectionManager? _connectionManager;
+
+    public override void _Ready()
+    {
+        base._Ready();
+    }
 
     public override void Initialize(BlockConfig config)
     {
@@ -21,10 +29,17 @@ public partial class Add : BaseBlock
         token.Value += _value;
         token.ProcessedBlocks.Add(this);
 
-        var (nextBlock, pipe) = _connectionManager!.GetNextConnection();
-        if (nextBlock != null)
-            token.MoveTo(nextBlock);
+        if (_connectionManager != null)
+        {
+            (IBlock? nextBlock, ConnectionPipe? pipe) = _connectionManager.GetNextConnection();
+            if (nextBlock != null)
+                token.MoveTo(nextBlock);
+            else
+                token.QueueFree();
+        }
         else
+        {
             token.QueueFree();
+        }
     }
 }

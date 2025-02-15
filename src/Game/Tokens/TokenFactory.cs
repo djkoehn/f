@@ -1,3 +1,6 @@
+using Godot;
+using F.Game.BlockLogic;
+
 namespace F.Game.Tokens;
 
 public sealed class TokenFactory
@@ -11,7 +14,7 @@ public sealed class TokenFactory
         _tokenScene = tokenScene;
     }
 
-    public Token? CreateToken(BaseBlock startBlock, float value)
+    public Token? CreateToken(IBlock startBlock, float value)
     {
         if (_tokenScene == null)
         {

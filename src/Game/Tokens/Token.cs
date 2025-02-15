@@ -1,3 +1,5 @@
+using Godot;
+using F.Game.BlockLogic;
 using F.Audio;
 using F.Game.Connections;
 
@@ -7,17 +9,17 @@ public partial class Token : Node2D
 {
     private ConnectionPipe? _currentPipe;
     private bool _isMoving;
-    private BaseBlock? _targetBlock;
+    private IBlock? _targetBlock;
     private TokenVisuals? _visuals;
     public float Value { get; set; }
 
-    public HashSet<BaseBlock> ProcessedBlocks { get; } = new();
+    public HashSet<IBlock> ProcessedBlocks { get; } = new();
 
-    public BaseBlock? CurrentBlock { get; private set; }
+    public IBlock? CurrentBlock { get; private set; }
 
     public bool IsMoving => !(_visuals?.IsMovementComplete ?? true);
 
-    public void Initialize(BaseBlock startBlock, float initialValue = 0)
+    public void Initialize(IBlock startBlock, float initialValue = 0)
     {
         CurrentBlock = startBlock;
         Value = initialValue;
@@ -39,7 +41,7 @@ public partial class Token : Node2D
         }
     }
 
-    public void MoveTo(BaseBlock nextBlock)
+    public void MoveTo(IBlock nextBlock)
     {
         if (nextBlock == null || CurrentBlock == null || _visuals == null) return;
 
@@ -47,52 +49,41 @@ public partial class Token : Node2D
         StartMovement(nextBlock);
     }
 
-    public void StartMovement(BaseBlock targetBlock)
+    public void StartMovement(IBlock targetBlock)
     {
-        if (_visuals == null || CurrentBlock == null) return;
+        if (_visuals == null) return;
 
         _isMoving = true;
-        var startPos = CurrentBlock.GetTokenPosition();
-        var endPos = targetBlock.GetTokenPosition();
-        var connectionManager = GameManager.Instance?.ConnectionManager;
-        if (connectionManager == null) return;
-        var (nextBlock, pipe) = connectionManager.GetNextConnection();
-        if (pipe != null)
-        {
-            _currentPipe = pipe;
-            _visuals.StartMovement(pipe, startPos, endPos);
-        }
+        _targetBlock = targetBlock;
+        var targetPosition = targetBlock.GetTokenPosition();
+        _visuals.StartMovement(targetPosition);
     }
 
     public override void _Process(double delta)
     {
-        if (_visuals == null) return;
+        if (!_isMoving || _visuals == null) return;
 
-        if (!_visuals.IsMovementComplete && CurrentBlock != null) GlobalPosition = CurrentBlock.GetTokenPosition();
+        if (_visuals.IsMovementComplete)
+        {
+            CompleteMovement();
+        }
     }
 
     private void CompleteMovement()
     {
-        if (_targetBlock == null || _visuals == null) return;
+        if (_targetBlock == null) return;
 
-        StopMovement();
-        _currentPipe = null;
+        _isMoving = false;
         CurrentBlock = _targetBlock;
-        _targetBlock = null;
-
-        // Play block hit sound and trigger animation
-        AudioManager.Instance?.PlayBlockHit();
-        TriggerHitEffect();
-        CurrentBlock.TriggerAnimation(this);
-
-        ProcessedBlocks.Add(CurrentBlock);
-        CurrentBlock.ProcessToken(this);
+        _targetBlock.ProcessToken(this);
     }
 
     private void OnMovementComplete()
     {
-        _isMoving = false;
-        if (CurrentBlock != null) CurrentBlock.ProcessToken(this);
+        if (_targetBlock != null)
+        {
+            CompleteMovement();
+        }
     }
 
     private void OnMovementStart()
@@ -103,33 +94,47 @@ public partial class Token : Node2D
     public void StopMovement()
     {
         _isMoving = false;
-        _visuals?.CompleteMovement();
+        if (_visuals != null)
+        {
+            _visuals.StopMovement();
+        }
     }
 
     public void UpdateValue(float value)
     {
         Value = value;
-        _visuals?.UpdateValue(value);
+        if (_visuals != null)
+        {
+            _visuals.UpdateValue(value);
+        }
     }
 
     public float GetValue()
     {
-        return _visuals?.GetValue() ?? 0f;
+        return Value;
     }
 
     public void TriggerHitEffect()
     {
-        _visuals?.TriggerHitEffect();
+        if (_visuals != null)
+        {
+            _visuals.TriggerHitEffect();
+        }
     }
 
     public void TriggerAnimation()
     {
-        _visuals?.TriggerAnimation();
+        if (_visuals != null)
+        {
+            _visuals.TriggerAnimation();
+        }
     }
 
-    // Compatibility method for old code
-    public void MoveToBlock(BaseBlock nextBlock)
+    public void MoveToBlock(IBlock nextBlock)
     {
-        MoveTo(nextBlock);
+        if (nextBlock == null || _visuals == null) return;
+
+        _targetBlock = nextBlock;
+        StartMovement(nextBlock);
     }
 }

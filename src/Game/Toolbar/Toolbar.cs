@@ -2,15 +2,19 @@ using F.Config.UI;
 using F.Config.Visual;
 using F.UI.Animations;
 using F.Game.Connections;
+using F.Game.Core;
+using InventoryType = F.Game.Core.Inventory;
+using F.Game.Toolbar;
+using F.Utils.Helpers;
 
-namespace F.UI.Toolbar;
+namespace F.Game.Toolbar;
 
 public partial class Toolbar : Control
 {
     private const float HOVER_THRESHOLD = 0.8f; // Show toolbar when mouse in bottom 20% of screen
     private ToolbarBlockContainer? _blockContainer; // Now correct type!
     private GameManager? _gameManager;
-    private Inventory? _inventory;
+    private InventoryType? _inventory;
     private bool _isVisible; // Start hidden
     private ToolbarVisuals? _visuals;
     private ToolbarHoverAnimation? _currentAnimation; // Changed from AnimationPlayer to ToolbarHoverAnimation
@@ -24,12 +28,12 @@ public partial class Toolbar : Control
         Position = new Vector2(0, ToolbarConfig.Animation.HideY);
 
         // Bottom anchors
-        AnchorLeft = 0;
-        AnchorRight = 1;
-        AnchorTop = 1;
-        AnchorBottom = 1;
-        GrowHorizontal = GrowDirection.Both;
-        GrowVertical = GrowDirection.Begin;
+        // AnchorLeft = 0;
+        // AnchorRight = 1;
+        // AnchorTop = 1;
+        // AnchorBottom = 1;
+        // GrowHorizontal = GrowDirection.Both;
+        // GrowVertical = GrowDirection.Begin;
 
         ZIndex = ZIndexConfig.Layers.Toolbar;
 
@@ -44,14 +48,14 @@ public partial class Toolbar : Control
     private void InitializeGameManager()
     {
         _gameManager = GetParent<GameManager>();
-        if (_gameManager == null)
+        if (_gameManager is null)
         {
             GD.PrintErr("GameManager not found!");
             return;
         }
 
-        _inventory = _gameManager.GetNode<Inventory>("Inventory");
-        if (_inventory == null)
+        _inventory = _gameManager.GetNode<InventoryType>("Inventory");
+        if (_inventory is null)
         {
             GD.PrintErr("Inventory not found!");
             return;
@@ -78,12 +82,12 @@ public partial class Toolbar : Control
         // Create blocks if inventory is already ready
         if (_inventory.IsReady) LoadBlocks();
 
-        _blockContainer.BlockPositionsUpdated += OnBlockPositionsUpdated;
+        _blockContainer.UpdateBlockPositions();
     }
 
     private void LoadBlocks()
     {
-        if (_gameManager == null || _inventory == null || _blockContainer == null) return;
+        if (_gameManager is null || _inventory is null || _blockContainer is null) return;
 
         GD.Print("Creating toolbar blocks");
 
@@ -94,14 +98,10 @@ public partial class Toolbar : Control
         var blocks = _inventory.GetBlockMetadata();
         foreach (var pair in blocks)
             // Instantiate the block using BlockManager with BlockLayer as parent
-            if (_gameManager.ConnectionManager != null)
+            if (_gameManager.ConnectionManager is not null)
             {
-#pragma warning disable CS8602
-                // Dereference of a possibly null reference.
-                var block = _gameManager.BlockManager.CreateBlock(pair.Value, _gameManager.ConnectionManager);
-#pragma warning restore CS8602
-                // Dereference of a possibly null reference.
-                if (block != null) _blockContainer.AddBlock(block);
+                var block = _gameManager.BlockFactory?.CreateBlock(pair.Value, _gameManager.ConnectionManager);
+                if (block is not null) _blockContainer.AddBlock(block);
             }
             else
             {
@@ -113,7 +113,7 @@ public partial class Toolbar : Control
     {
         base._Process(delta);
 
-        if (_gameManager == null || _visuals == null) return;
+        if (_gameManager is null || _visuals is null) return;
 
         // Get mouse position in viewport coordinates
         var mousePos = GetViewport().GetMousePosition();
@@ -129,16 +129,7 @@ public partial class Toolbar : Control
         {
             _isHovered = shouldShow;
             
-            // Trigger hover animation on both toolbar and BlockLayer
-            var blockLayer = GetNode<ConnectionManager>("/root/Main/GameManager/BlockLayer");
-            blockLayer?.StartHoverAnimation(shouldShow);
-            
-            // Create new tween animation directly
-            var targetY = _isHovered ? 620 : 1080;
-            var tween = CreateTween();
-            tween.TweenProperty(this, "position:y", targetY, 0.3f)
-                .SetEase(Tween.EaseType.Out)
-                .SetTrans(Tween.TransitionType.Expo);
+            _visuals?.StartHoverAnimation(shouldShow);
         }
     }
 

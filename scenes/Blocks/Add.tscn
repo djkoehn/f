@@ -30,12 +30,12 @@ scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_kw8vp")
 
 [node name="base" type="Sprite2D" parent="." index="3"]
-self_modulate = Color(0.176471, 0.176471, 0.164706, 1)
 z_index = 1
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_kw8vp")
 
 [node name="Top" type="Sprite2D" parent="." index="4"]
+self_modulate = Color(0, 1, 0.116667, 1)
 z_index = 1
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("5_lbrfj")

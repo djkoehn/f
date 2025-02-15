@@ -1,4 +1,10 @@
-namespace F.UI.Toolbar;
+using GMFG = F.Game.Core.GameManager;
+using DragService = F.Utils.IDragService;
+using BaseBlockFG = F.Game.BlockLogic.BaseBlock;
+using F.Utils;
+using F.Utils.Helpers;
+
+namespace F.Game.Toolbar;
 
 public partial class ToolbarBlockManager : Node
 {
@@ -8,13 +14,16 @@ public partial class ToolbarBlockManager : Node
     private readonly Dictionary<string, BaseBlock> _blocks = new();
     private HBoxContainer? _blockContainer;
 
-    private GameManager? _gameManager;
+    private GMFG? _gameManager;
+    private DragService? _dragHelper;
 
     public override void _Ready()
     {
         base._Ready();
-        _gameManager = GetNode<GameManager>("/root/Main/GameManager");
+        _gameManager = GetNode<GMFG>("/root/Main/GameManager");
         _blockContainer = GetParent().GetNode<HBoxContainer>("BlockContainer");
+        var hf = HelperFunnel.GetInstance();
+        _dragHelper = hf?.DragHelper as DragService;
 
         if (_gameManager == null || _blockContainer == null)
             GD.PrintErr("Required nodes not found in ToolbarBlockManager!");
@@ -50,7 +59,8 @@ public partial class ToolbarBlockManager : Node
         block.ZIndex = 10;
 
         // Connect to our local handler
-        block.Connect(BaseBlock.SignalName.BlockClicked, new Callable(this, nameof(OnBlockClicked)));
+        const string fixedBlockClickedSignal = "block_clicked";
+        block.Connect(fixedBlockClickedSignal, new Callable(this, nameof(OnBlockClicked)));
 
         _blocks[blockType] = block;
         UpdateBlockPositions();
@@ -81,7 +91,7 @@ public partial class ToolbarBlockManager : Node
         block.GlobalPosition = globalPos;
 
         // Start dragging
-        _gameManager.HandleBlockDrag(block);
+        _dragHelper?.StartDrag(block, globalPos);
 
         UpdateBlockPositions();
     }

@@ -12,9 +12,13 @@
         <BuildInParallel>true</BuildInParallel>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="GodotTools.IdeMessaging" Version="1.1.2"/>
+        <PackageReference Include="GodotTools.IdeMessaging" Version="1.1.2" />
+        <PackageReference Include="roslynator.analyzers" Version="4.13.0">
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+          <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Remove="old commit ref/OldToolbar.cs"/>
+        <Compile Remove="old commit ref/OldToolbar.cs" />
     </ItemGroup>
 </Project>

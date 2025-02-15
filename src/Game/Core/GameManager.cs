@@ -1,24 +1,22 @@
+using Godot;
+using System;
+using F.Config;
 using F.Game.Connections;
 using F.Game.Tokens;
-using F.UI.Input;
-
-// ADD THIS!
+using F.Utils;
+using F.Game.Core;
+using InventoryType = F.Game.Core.Inventory;
 
 namespace F.Game.Core;
 
 public partial class GameManager : Node2D
 {
     private BlockInteractionManager? _blockInteractionManager;
-
-    private BaseBlock? _draggedBlock;
-    private BlockDragHandler? _dragHandler;
     private GameStateManager? _gameState;
     public static GameManager? Instance { get; private set; }
     public ConnectionManager? ConnectionManager { get; private set; }
-
     public TokenManager? TokenManager { get; private set; }
-
-    public BlockManager? BlockManager { get; private set; }
+    public F.Game.Core.BlockFactory? BlockFactory { get; private set; }
 
     public override void _Ready()
     {
@@ -27,14 +25,12 @@ public partial class GameManager : Node2D
 
         // Get required components
         ConnectionManager = GetNode<ConnectionManager>("BlockLayer");
-        BlockManager = GetNode<BlockManager>("BlockManager");
         _blockInteractionManager = GetNode<BlockInteractionManager>("BlockInteractionManager");
         var tokenLayer = GetNode<Node2D>("TokenLayer");
-        var inventory = GetNode<Inventory>("Inventory");
-        _dragHandler = GetNode<BlockDragHandler>("/root/Main/InputManager/BlockDragHandler");
+        var inventory = GetNode<InventoryType>("Inventory");
 
         if (ConnectionManager == null || inventory == null || tokenLayer == null ||
-            BlockManager == null || _blockInteractionManager == null)
+            _blockInteractionManager == null)
         {
             GD.PrintErr("Required components not found!");
             return;
@@ -43,6 +39,7 @@ public partial class GameManager : Node2D
         // Initialize managers
         TokenManager = new TokenManager(ConnectionManager, tokenLayer);
         _gameState = new GameStateManager(inventory);
+        BlockFactory = new F.Game.Core.BlockFactory(this);
 
         // Initialize game state
         _gameState.Initialize();
@@ -59,35 +56,82 @@ public partial class GameManager : Node2D
         TokenManager?.Update();
     }
 
-    public BaseBlock? CreateBlock(BlockMetadata metadata, Node2D parent)
+    public BaseBlock? CreateBlock(F.Game.BlockLogic.BlockMetadata metadata, Node parent)
     {
-        return BlockManager?.CreateBlock(metadata, parent);
+        if (string.IsNullOrEmpty(metadata.ScenePath))
+        {
+            GD.PrintErr($"ScenePath is empty for block {metadata.Id}");
+            return null;
+        }
+        var blockScene = GD.Load<PackedScene>(metadata.ScenePath);
+        if (blockScene == null)
+        {
+            GD.PrintErr($"Failed to load block scene at path: {metadata.ScenePath}");
+            return null;
+        }
+        var block = blockScene.Instantiate<BaseBlock>();
+        if (block == null)
+        {
+            GD.PrintErr($"Failed to instantiate block scene at path: {metadata.ScenePath}");
+            return null;
+        }
+        // Remove from existing parent if necessary
+        if (block.GetParent() != null)
+        {
+            block.GetParent().RemoveChild(block);
+        }
+        parent.AddChild(block);
+        block.Initialize(new F.Config.BlockConfig { Name = metadata.Id });
+        return block;
     }
 
-    public BaseBlock? GetDraggedBlock()
+    // --- New Block Factory Methods ---
+
+    public BaseBlock? CreateToolbarBlock(F.Game.BlockLogic.BlockMetadata metadata)
     {
-        return _draggedBlock;
-    }
-
-    public void HandleBlockDrag(BaseBlock block)
-    {
-        if (_blockInteractionManager == null) return;
-
-        // USE NEW DRAG HANDLER!
-        _dragHandler?.StartDragging(block);
-        _blockInteractionManager.SetDraggedBlock(block);
-    }
-
-    public void HandleBlockDrop()
-    {
-        if (_blockInteractionManager == null) return;
-
-        var block = _blockInteractionManager.GetDraggedBlock();
+        // Get the toolbar container node relative to GameManager
+        var toolbarContainer = GetNodeOrNull<Container>("Toolbar/BlockContainer");
+        if (toolbarContainer == null)
+        {
+            GD.PrintErr("Toolbar container not found.");
+            return null;
+        }
+        // Create the block using existing CreateBlock method
+        var block = CreateBlock(metadata, toolbarContainer);
         if (block != null)
         {
-            // USE NEW DRAG HANDLER!
-            _dragHandler?.StopDragging(block);
-            _blockInteractionManager.SetDraggedBlock(null);
+            ConfigureBlock(block);
         }
+        return block;
     }
+
+    public void ReturnBlockToToolbar(BaseBlock block)
+    {
+        // Remove block from its current parent if any
+        var parent = block.GetParent();
+        if (parent != null)
+        {
+            parent.RemoveChild(block);
+        }
+        // Locate the toolbar container node
+        var toolbarContainer = GetNodeOrNull<Container>("Toolbar/BlockContainer");
+        if (toolbarContainer == null)
+        {
+            GD.PrintErr("Toolbar container not found.");
+            return;
+        }
+        toolbarContainer.AddChild(block);
+        ConfigureBlock(block);
+    }
+
+    private void ConfigureBlock(BaseBlock block)
+    {
+        block.Position = Vector2.Zero;
+        block.Scale = Vector2.One;
+        block.Rotation = 0;
+        block.SetDragging(false);
+        block.SetPlaced(false);
+    }
+
+    // --- End New Block Factory Methods ---
 }

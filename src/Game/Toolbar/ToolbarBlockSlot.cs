@@ -1,4 +1,4 @@
-namespace F.UI.Toolbar;
+namespace F.Game.Toolbar;
 
 public partial class ToolbarBlockSlot : Node2D // ADD PARTIAL KEYWORD!
 {
