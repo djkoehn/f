@@ -148,18 +148,27 @@ public partial class Toolbar : Control
 
         GD.Print($"Starting return journey for block {block.Name}...");
         
-        // First tell family to make room!
-        _blockContainer.PrepareSpaceForBlock();
-        
-        // Calculate where block will go
-        var homePosition = _blockContainer.GetNextBlockPosition();
-        
-        // Create new connections BEFORE starting return animation
+        // Handle connections before starting the return journey
         var connectionManager = _gameManager?.ConnectionManager;
         if (connectionManager != null)
         {
-            connectionManager.RemoveConnection(block);
+            // Get the input and output blocks before disconnecting
+            var inputBlock = connectionManager.GetNode<Node>("Input") as IBlock;
+            var outputBlock = connectionManager.GetNode<Node>("Output") as IBlock;
+
+            // Disconnect the block being returned
+            connectionManager.DisconnectBlock(block);
+
+            // Re-establish the Input->Output connection if we have both blocks
+            if (inputBlock != null && outputBlock != null)
+            {
+                connectionManager.ConnectBlocks(inputBlock, outputBlock);
+                GD.Print($"Re-established connection between Input and Output blocks");
+            }
         }
+
+        // Calculate where block will go for animation
+        var homePosition = _blockContainer.GetNextBlockPosition();
 
         // Start block's journey home
         var returnAnim = BlockReturn.Create(block, block.GlobalPosition, homePosition);
@@ -167,12 +176,8 @@ public partial class Toolbar : Control
 
         returnAnim.ReturnCompleted += completedBlock =>
         {
-            // Remove from current parent
-            var currentParent = completedBlock.GetParent();
-            currentParent?.RemoveChild(completedBlock);
-
-            // Add to toolbar without animation
-            _blockContainer.AddBlockWithoutAnimation(completedBlock);
+            // Use ToolbarHelper to handle the actual return to toolbar
+            ToolbarHelper.ReturnBlockToToolbar(completedBlock, _blockContainer);
             GD.Print($"Block {completedBlock.Name} has returned home safely!");
         };
     }

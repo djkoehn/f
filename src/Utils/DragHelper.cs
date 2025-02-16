@@ -1,6 +1,6 @@
 namespace F.Utils
 {
-    public partial class DragHelper : Node, IDragService
+    public partial class DragHelper : Node
     {
         public static DragHelper Instance { get; private set; } = default!;
 
@@ -18,96 +18,68 @@ namespace F.Utils
         {
             GD.Print($"[Debug DragHelper] Entering StartDrag with block: {block.Name}, clickPosition: {clickPosition}");
             string blockName = block.Name;
-            Vector2 offset;
             
             // Attempt to get the BlockLayer node
             var blockLayer = GetTree().Root.GetNodeOrNull<Node2D>("/root/Main/GameManager/BlockLayer");
             if (blockLayer != null)
             {
-                // Store the block's global position before reparenting
-                Vector2 initialGlobalPos = block.GlobalPosition;
-                
                 // Reparent block to BlockLayer if necessary
                 if (block.GetParent() != blockLayer)
                 {
                     block.GetParent()?.RemoveChild(block);
                     blockLayer.AddChild(block);
-                    // Restore the global position so it remains unchanged
-                    block.GlobalPosition = initialGlobalPos;
-                    GD.Print($"[Debug DragHelper] Reparented block {blockName} to BlockLayer and preserved global position: {initialGlobalPos}.");
                 }
+
+                // Set proper Z-index for dragged block
+                block.ZIndex = ZIndexConfig.Layers.DraggedBlock;
+                block.ZAsRelative = false;  // Make Z-index absolute
+                GD.Print($"[Debug DragHelper] Set Z-index to {block.ZIndex} for dragged block");
+
+                // Position the block at the click position immediately
+                block.GlobalPosition = clickPosition;
+                GD.Print($"[Debug DragHelper] Positioned block at click position: {clickPosition}");
                 
-                // Compute the offset in BlockLayer's coordinate space
-                // block.Position is now the block's position relative to BlockLayer
-                // blockLayer.ToLocal(clickPosition) converts the global click position to BlockLayer's local coordinates
-                offset = block.Position - blockLayer.ToLocal(clickPosition);
+                // Store zero offset for smooth dragging
+                _dragOffsets[block] = Vector2.Zero;
             }
             else
             {
-                // Fallback: compute offset in global coordinates
-                offset = block.GlobalPosition - clickPosition;
+                GD.PrintErr("[Debug DragHelper] BlockLayer not found, using fallback positioning");
+                // Fallback: position directly in global coordinates
+                block.GlobalPosition = clickPosition;
+                block.ZIndex = ZIndexConfig.Layers.DraggedBlock;
+                block.ZAsRelative = false;
+                _dragOffsets[block] = Vector2.Zero;
             }
             
-            GD.Print($"[Debug DragHelper] StartDrag called for block: {blockName}, computed offset: {offset}");
-            
-            if (_dragOffsets.ContainsKey(block))
-                _dragOffsets[block] = offset;
-            else
-                _dragOffsets.Add(block, offset);
-            
+            // Set block state to dragging
             block.SetDragging(true);
+            GD.Print($"[Debug DragHelper] Block {blockName} is now in dragging state");
         }
 
         // Update drag: update block's global position using stored offset
         public void UpdateDrag(BaseBlock block, Vector2 position)
         {
             GD.Print($"[Debug DragHelper] Entering UpdateDrag with block: {block.Name}, position: {position}");
-            string blockName = block.Name;
-
-            // Try to get the BlockLayer node
-            var blockLayer = GetTree().Root.GetNodeOrNull<Node2D>("/root/Main/GameManager/BlockLayer");
-            if (blockLayer != null && block.GetParent() == blockLayer)
-            {
-                if (_dragOffsets.TryGetValue(block, out Vector2 offset))
-                {
-                    // Compute new local position wrt BlockLayer
-                    Vector2 newLocalPos = blockLayer.ToLocal(position) + offset;
-                    block.Position = newLocalPos; // sets the block's local position relative to BlockLayer
-                    GD.Print($"[Debug DragHelper] UpdateDrag (BlockLayer): block {blockName} new local position: {newLocalPos}, global: {block.GlobalPosition}");
-                }
-                else
-                {
-                    Vector2 newLocalPos = blockLayer.ToLocal(position);
-                    block.Position = newLocalPos;
-                    GD.Print($"[Debug DragHelper] UpdateDrag (BlockLayer fallback): block {blockName} new local position: {newLocalPos}, global: {block.GlobalPosition}");
-                }
-            }
-            else
-            {
-                // fallback if block isn't parented under BlockLayer
-                if (_dragOffsets.TryGetValue(block, out Vector2 offset))
-                {
-                    Vector2 newPos = position + offset;
-                    block.GlobalPosition = newPos;
-                    GD.Print($"[Debug DragHelper] UpdateDrag (global fallback): block {blockName} new position: {newPos}");
-                }
-                else
-                {
-                    block.GlobalPosition = position;
-                    GD.Print($"[Debug DragHelper] UpdateDrag (global fallback): no offset stored for block {blockName}, set position directly to {position}");
-                }
-            }
+            
+            // Simply update position directly since we're using zero offset
+            block.GlobalPosition = position;
+            GD.Print($"[Debug DragHelper] Updated block position to: {position}");
         }
 
         // End drag: remove stored offset and set block state to Placed
         public void EndDrag(BaseBlock block)
         {
             GD.Print($"[Debug DragHelper] Entering EndDrag with block: {block.Name}");
-            string blockName = block.Name;
-            GD.Print($"[Debug DragHelper] EndDrag called for block: {blockName}");
+            
             if (_dragOffsets.ContainsKey(block))
                 _dragOffsets.Remove(block);
+            
+            // Reset Z-index to placed block level
+            block.ZIndex = ZIndexConfig.Layers.PlacedBlock;
             block.SetDragging(false);
+            
+            GD.Print($"[Debug DragHelper] Block {block.Name} drag ended, Z-index set to {block.ZIndex}");
         }
     }
 } 

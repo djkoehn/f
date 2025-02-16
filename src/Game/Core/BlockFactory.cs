@@ -1,4 +1,5 @@
 using GM = F.Game.Core.GameManager;
+using F.Utils;
 
 namespace F.Game.Core
 {
@@ -26,18 +27,6 @@ namespace F.Game.Core
                 ConfigureBlock(block);
             }
             return block;
-        }
-
-        // Return a block to the toolbar container, removing it from its current parent and applying configuration.
-        public void ReturnBlockToToolbar(BaseBlock block, Container toolbarContainer)
-        {
-            var parent = block.GetParent();
-            if (parent != null)
-            {
-                parent.RemoveChild(block);
-            }
-            toolbarContainer.AddChild(block);
-            ConfigureBlock(block);
         }
 
         // Configures common block properties for toolbar blocks.

@@ -15,14 +15,4 @@ public partial class ToolbarBlockSlot : Node2D // ADD PARTIAL KEYWORD!
         AddChild(block);
         block.GlobalPosition = GlobalPosition; // Position block at slot center
     }
-
-    private void OnBlockClicked(BaseBlock block)
-    {
-        if (HasBlock())
-        {
-            _block!.State = BlockState.Dragging; // Change to Dragging state
-            _block.ZIndex = 100; // Set z-index to a high value
-            // ... existing code ...
-        }
-    }
 }

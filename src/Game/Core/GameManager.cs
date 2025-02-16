@@ -1,6 +1,7 @@
 using F.Game.Connections;
 using F.Game.Tokens;
 using F.Game.Core;
+using F.Utils;
 using InventoryType = F.Game.Core.Inventory;
 
 namespace F.Game.Core;
@@ -99,25 +100,6 @@ public partial class GameManager : Node2D
             ConfigureBlock(block);
         }
         return block;
-    }
-
-    public void ReturnBlockToToolbar(BaseBlock block)
-    {
-        // Remove block from its current parent if any
-        var parent = block.GetParent();
-        if (parent != null)
-        {
-            parent.RemoveChild(block);
-        }
-        // Locate the toolbar container node
-        var toolbarContainer = GetNodeOrNull<Container>("Toolbar/BlockContainer");
-        if (toolbarContainer == null)
-        {
-            GD.PrintErr("Toolbar container not found.");
-            return;
-        }
-        toolbarContainer.AddChild(block);
-        ConfigureBlock(block);
     }
 
     private void ConfigureBlock(BaseBlock block)

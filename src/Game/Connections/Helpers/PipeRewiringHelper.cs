@@ -5,9 +5,11 @@ namespace F.Game.Connections.Helpers
         // Rewires an existing connection by inserting a new block between source and target blocks.
         public static bool InsertBlockIntoPipe(IBlock newBlock, ConnectionPipe pipe, ConnectionFactory factory, ConnectionManager manager)
         {
-            // First verify we have valid source and target blocks (Input -> Output)
+            // First verify we have valid source and target blocks
             var sourceBlock = pipe.SourceBlock;
             var targetBlock = pipe.TargetBlock;
+            
+            GD.Print($"[PipeRewiringHelper] Attempting to insert {newBlock.GetType().Name} between {sourceBlock?.GetType().Name} and {targetBlock?.GetType().Name}");
             
             if (sourceBlock == null || targetBlock == null)
             {
@@ -15,11 +17,10 @@ namespace F.Game.Connections.Helpers
                 return false;
             }
             
-            // Verify we have an Input->Output pipe
-            bool isInputToOutput = sourceBlock.GetType().Name == "Input" && targetBlock.GetType().Name == "Output";
-            if (!isInputToOutput)
+            // Only verify that we're not trying to insert the same block instance
+            if (newBlock == sourceBlock || newBlock == targetBlock)
             {
-                GD.PrintErr($"[PipeRewiringHelper] Invalid pipe configuration - Source: {sourceBlock.GetType().Name}, Target: {targetBlock.GetType().Name}");
+                GD.PrintErr($"[PipeRewiringHelper] Cannot insert a block into its own connection");
                 return false;
             }
 
@@ -40,40 +41,82 @@ namespace F.Game.Connections.Helpers
                 return false;
             }
 
-            // Remove the existing Input -> Output pipe
-            manager.RemovePipe(pipe);
+            GD.Print($"[PipeRewiringHelper] All validations passed, proceeding with pipe rewiring");
 
-            // Create Input -> NewBlock pipe
+            // Store the original pipe's blocks before removing it
+            var originalSourceBlock = pipe.SourceBlock;
+            var originalTargetBlock = pipe.TargetBlock;
+
+            // First, remove the original pipe from the manager's collections
+            GD.Print($"[PipeRewiringHelper] Removing original pipe between {originalSourceBlock.GetType().Name} and {originalTargetBlock.GetType().Name}");
+            manager.RemoveConnection(pipe);
+            
+            // Then remove the pipe from the scene
+            pipe.RemovePipe();
+
+            // Create Source -> NewBlock pipe
+            GD.Print($"[PipeRewiringHelper] Creating pipe: {sourceBlock.GetType().Name} -> {newBlock.GetType().Name}");
             var pipe1 = ConnectionFactory.CreatePipeForInsertion(sourceBlock, newBlock);
-            if (pipe1 == null || pipe1.SourceBlock == null || pipe1.TargetBlock == null)
+            if (pipe1 == null)
             {
-                GD.PrintErr("[PipeRewiringHelper] Failed to create Input -> NewBlock pipe");
+                GD.PrintErr("[PipeRewiringHelper] Failed to create Source -> NewBlock pipe");
+                // Recreate the original connection
+                GD.Print($"[PipeRewiringHelper] Attempting to restore original connection");
+                var originalPipe = ConnectionFactory.CreatePipeForInsertion(sourceBlock, targetBlock);
+                if (originalPipe != null)
+                {
+                    manager.AddChild(originalPipe);
+                    manager.SetConnection(sourceBlock, originalPipe);
+                    manager.SetConnection(targetBlock, originalPipe);
+                    GD.Print($"[PipeRewiringHelper] Successfully restored original connection");
+                }
+                else
+                {
+                    GD.PrintErr("[PipeRewiringHelper] Failed to restore original connection!");
+                }
                 return false;
             }
 
-            // Create NewBlock -> Output pipe
+            // Create NewBlock -> Target pipe
+            GD.Print($"[PipeRewiringHelper] Creating pipe: {newBlock.GetType().Name} -> {targetBlock.GetType().Name}");
             var pipe2 = ConnectionFactory.CreatePipeForInsertion(newBlock, targetBlock);
-            if (pipe2 == null || pipe2.SourceBlock == null || pipe2.TargetBlock == null)
+            if (pipe2 == null)
             {
-                GD.PrintErr("[PipeRewiringHelper] Failed to create NewBlock -> Output pipe");
+                GD.PrintErr("[PipeRewiringHelper] Failed to create NewBlock -> Target pipe");
+                // Clean up the first pipe and recreate the original connection
+                GD.Print($"[PipeRewiringHelper] Cleaning up first pipe and attempting to restore original connection");
+                pipe1.RemovePipe();
+                var originalPipe = ConnectionFactory.CreatePipeForInsertion(sourceBlock, targetBlock);
+                if (originalPipe != null)
+                {
+                    manager.AddChild(originalPipe);
+                    manager.SetConnection(sourceBlock, originalPipe);
+                    manager.SetConnection(targetBlock, originalPipe);
+                    GD.Print($"[PipeRewiringHelper] Successfully restored original connection");
+                }
+                else
+                {
+                    GD.PrintErr("[PipeRewiringHelper] Failed to restore original connection!");
+                }
                 return false;
             }
 
-            // Add both pipes to the manager
-            manager.AddPipe(pipe1);
-            manager.AddPipe(pipe2);
+            // Add both pipes to the scene
+            GD.Print($"[PipeRewiringHelper] Both pipes created successfully, adding to scene");
+            manager.AddChild(pipe1);
+            manager.AddChild(pipe2);
 
             // Set up connections in the manager
-            manager.SetConnection(sourceBlock, pipe1);  // Input -> pipe1
+            manager.SetConnection(sourceBlock, pipe1);  // Source -> pipe1
             manager.SetConnection(newBlock, pipe1);     // NewBlock -> pipe1 (input)
             manager.SetConnection(newBlock, pipe2);     // NewBlock -> pipe2 (output)
-            manager.SetConnection(targetBlock, pipe2);  // Output -> pipe2
+            manager.SetConnection(targetBlock, pipe2);  // Target -> pipe2
             
             // Mark the new block as connected
             if (newBlock is BaseBlock nb)
             {
                 nb.CompleteConnection();
-                GD.Print($"[PipeRewiringHelper] Successfully connected block {nb.Name} between Input and Output");
+                GD.Print($"[PipeRewiringHelper] Successfully connected block {nb.Name} between {sourceBlock.GetType().Name} and {targetBlock.GetType().Name}");
             }
             
             return true;

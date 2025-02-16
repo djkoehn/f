@@ -42,6 +42,11 @@ namespace F.Utils
                 GD.PrintErr($"[ConnectionHelper] ConnectionManager is null in GameManager: {gameManager.Name}");
                 return;
             }
+
+            // First clear all existing highlights
+            gameManager.ConnectionManager.ClearInsertionHighlights();
+
+            // Then check for pipe at position and highlight if found
             var pipe = gameManager.ConnectionManager.GetPipeAtPosition(position);
             if (pipe != null)
             {
@@ -51,6 +56,7 @@ namespace F.Utils
             else
             {
                 GD.Print($"[ConnectionHelper] No pipe found at position: {position}");
+                // No need to clear highlights again as we already did it above
             }
         }
 
@@ -66,20 +72,7 @@ namespace F.Utils
 
         public static bool HasOutputConnection(IBlock block)
         {
-            // Check if the Output block has a connection
-            var parent = block as Node;
-            if (parent == null)
-            {
-                GD.PrintErr("IBlock is not a Node, cannot get parent.");
-                return false;
-            }
-            var gameManager = parent.GetTree().Root.GetNode<GameManager>($"/root/Main/GameManager");
-            if (gameManager?.ConnectionManager == null)
-            {
-                GD.PrintErr("ConnectionManager not found in GameManager.");
-                return false;
-            }
-            return gameManager.ConnectionManager.IsBlockConnected(block);
+            return block is BaseBlock baseBlock && baseBlock.HasOutputConnection();
         }
 
         public static bool HasInputConnection(IBlock block)
@@ -98,6 +91,19 @@ namespace F.Utils
                 return false;
             }
             return gameManager.ConnectionManager.IsBlockConnected(block);
+        }
+
+        // Static method to clear all pipe highlights
+        public static void ClearPipeHighlights(Node context)
+        {
+            var gameManager = context.GetTree().Root.GetNode<GameManager>("/root/Main/GameManager");
+            if (gameManager?.ConnectionManager == null)
+            {
+                GD.PrintErr("[ConnectionHelper] Cannot clear highlights - ConnectionManager not found");
+                return;
+            }
+            
+            gameManager.ConnectionManager.ClearInsertionHighlights();
         }
 
     }

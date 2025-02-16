@@ -3,7 +3,7 @@ namespace F.Utils
     public partial class InputHelper : Node
     {
         private BlockInteractionManager? _blockManager;
-        private IDragService? _dragHelper;
+        private DragHelper? _dragHelper;
         private ToolbarHelper? _toolbarHelper;
         private BaseBlock? _currentDraggedBlock;
 
@@ -14,7 +14,7 @@ namespace F.Utils
             // Retrieve other helpers from the central HelperFunnel
             var hf = HelperFunnel.GetInstance();
             _toolbarHelper = hf.GetNodeOrNull<ToolbarHelper>("ToolbarHelper");
-            _dragHelper = hf?.DragHelper;
+            _dragHelper = hf?.GetNodeOrNull<DragHelper>("DragHelper");
 
             if (_dragHelper == null)
             {
@@ -24,7 +24,6 @@ namespace F.Utils
                 else
                     GD.Print("[Debug InputHelper] Fallback: Using DragHelper.Instance.");
             }
-
         }
 
         public override void _Input(InputEvent @event)
@@ -49,20 +48,10 @@ namespace F.Utils
                     }
                 }
             }
-            else if (@event is InputEventMouseMotion mouseMotion)
+            else if (@event is InputEventMouseMotion mouseMotion && _currentDraggedBlock != null)
             {
                 HandleMouseMotion(mouseMotion);
             }
-
-            // Disable connection attempts while dragging.
-            // If a block is in dragging state, do not attempt any connection.
-            // The following code that would normally check for connections is disabled:
-            /*
-            if (block.IsDragging) {
-                 // Connection attempt disabled
-                 // GD.Print("Connection attempt is disabled while dragging.");
-            }
-            */
         }
 
         private void HandleRightClick(InputEventMouseButton mouseEvent)
@@ -92,32 +81,7 @@ namespace F.Utils
 
         private void HandleLeftRelease(InputEventMouseButton mouseEvent)
         {
-            if (_currentDraggedBlock == null) return;
-
-            string blockName = ((IBlock)_currentDraggedBlock).Name;
-            if (string.IsNullOrEmpty(blockName))
-                blockName = _currentDraggedBlock.GetName();
-
-            GD.Print($"[Debug InputHelper] Block {blockName} released at {mouseEvent.GlobalPosition}");
-            
-            // Try to connect the block at its current position
-            Vector2 effectivePos = _currentDraggedBlock.GetTokenPosition();
-            GD.Print($"[Debug InputHelper] Attempting to connect block at position: {effectivePos}");
-            bool connected = ConnectionHelper.TryConnectBlock(this, _currentDraggedBlock, effectivePos);
-            
-            if (connected)
-            {
-                GD.Print($"[Debug InputHelper] Successfully connected block {blockName}");
-            }
-            else
-            {
-                GD.Print($"[Debug InputHelper] Failed to connect block {blockName}");
-                _currentDraggedBlock.SetPlaced(true);
-                GD.Print($"[Debug InputHelper] Block {blockName} reverted to Placed state");
-            }
-
-            _dragHelper?.EndDrag(_currentDraggedBlock);
-            _currentDraggedBlock = null;
+            // We don't need to handle releases anymore since we're using click-to-toggle
             GetViewport().SetInputAsHandled();
         }
 
@@ -134,16 +98,21 @@ namespace F.Utils
             if (string.IsNullOrEmpty(blockName))
                 blockName = block.GetName();
 
-            // If the block's parent is a ToolbarBlockContainer, reparent it to the BlockLayer
+            // If we click on the currently dragged block, place it
+            if (_currentDraggedBlock == block)
+            {
+                GD.Print($"[Debug InputHelper] Clicked dragged block {blockName}, placing it");
+                PlaceBlock(block, mouseEvent.GlobalPosition);
+                return;
+            }
+
+            // If the block is in the toolbar, handle it specially
             if (block.GetParent() is F.Game.Toolbar.ToolbarBlockContainer container)
             {
-                GD.Print("[Debug InputHelper] Block '" + blockName + "' is in the toolbar. Attempting to reparent to BlockLayer before dragging.");
-
-                // Locate BlockLayer using the direct path from BlockConfig
+                GD.Print("[Debug InputHelper] Block '" + blockName + "' is in the toolbar. Moving to BlockLayer before dragging.");
                 var blockLayer = GetTree().Root.GetNodeOrNull<Node2D>(BlockConfig.BlockLayerPath);
                 if (blockLayer == null)
                 {
-                    // Fallback: try using the current scene
                     var currentScene = GetTree().CurrentScene;
                     if (currentScene != null)
                         blockLayer = currentScene.GetNodeOrNull<Node2D>("GameManager/BlockLayer");
@@ -151,30 +120,28 @@ namespace F.Utils
 
                 if (blockLayer != null)
                 {
-                    // Record the block's global position to preserve its location after reparenting
                     Vector2 globalPos = block.GlobalPosition;
                     if (block.GetParent() is Control ctrl) {
                         globalPos = ctrl.GlobalPosition + block.Position;
                     }
                     container.RemoveChild(block);
                     blockLayer.AddChild(block);
-                    block.GlobalPosition = globalPos;
-                    GD.Print("[Debug InputHelper] Block reparented successfully to BlockLayer; new parent: " + block.GetParent()?.Name);
+                    block.GlobalPosition = mouseEvent.GlobalPosition;
+                    block.SetInToolbar(false);
                 }
                 else
                 {
-                    GD.PrintErr("[Debug InputHelper] Could not locate BlockLayer; not reparenting block to avoid deletion.");
+                    GD.PrintErr("[Debug InputHelper] Could not locate BlockLayer; not moving block.");
                     GetViewport().SetInputAsHandled();
                     return;
                 }
-
-                block.SetInToolbar(false);
             }
 
             // Start dragging the block
             GD.Print("[Debug InputHelper] Starting drag for block '" + blockName + "' at " + mouseEvent.GlobalPosition);
-            _dragHelper?.StartDrag(block, mouseEvent.GlobalPosition);
             _currentDraggedBlock = block;
+            _dragHelper?.StartDrag(block, mouseEvent.GlobalPosition);
+            
             GetViewport().SetInputAsHandled();
         }
 
@@ -184,11 +151,49 @@ namespace F.Utils
             {
                 _dragHelper?.UpdateDrag(_currentDraggedBlock, mouseEvent.GlobalPosition);
                 
-                // Highlight pipe at current position if we're dragging a block
-                Vector2 effectivePos = _currentDraggedBlock.GetTokenPosition();
-                GD.Print($"[Debug InputHelper] Checking for pipe at token position: {effectivePos}");
-                ConnectionHelper.HighlightPipeAtPosition(this, effectivePos);
+                // Only highlight pipes if the block is not connected
+                if (_currentDraggedBlock is BaseBlock baseBlock && !baseBlock.HasConnections())
+                {
+                    Vector2 effectivePos = _currentDraggedBlock.GetTokenPosition();
+                    GD.Print($"[Debug InputHelper] Checking for pipe at token position: {effectivePos}");
+                    ConnectionHelper.HighlightPipeAtPosition(this, effectivePos);
+                }
+                else
+                {
+                    // Clear any existing highlights if block is connected
+                    ConnectionHelper.ClearPipeHighlights(this);
+                }
             }
+        }
+
+        private void PlaceBlock(BaseBlock block, Vector2 position)
+        {
+            string blockName = ((IBlock)block).Name;
+            if (string.IsNullOrEmpty(blockName))
+                blockName = block.GetName();
+
+            GD.Print($"[Debug InputHelper] Placing block {blockName} at {position}");
+            
+            // Try to connect the block at its current position
+            Vector2 effectivePos = block.GetTokenPosition();
+            GD.Print($"[Debug InputHelper] Attempting to connect block at position: {effectivePos}");
+            bool connected = ConnectionHelper.TryConnectBlock(this, block, effectivePos);
+            
+            if (connected)
+            {
+                GD.Print($"[Debug InputHelper] Successfully connected block {blockName}");
+                block.ZIndex = ZIndexConfig.Layers.PlacedBlock;
+            }
+            else
+            {
+                GD.Print($"[Debug InputHelper] Failed to connect block {blockName}");
+                block.SetPlaced(true);
+                block.ZIndex = ZIndexConfig.Layers.PlacedBlock;
+                GD.Print($"[Debug InputHelper] Block {blockName} reverted to Placed state");
+            }
+
+            _dragHelper?.EndDrag(block);
+            _currentDraggedBlock = null;
         }
     }
 } 

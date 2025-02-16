@@ -7,6 +7,7 @@ public partial class ConnectionPipe : Node2D
     private Line2D? _visuals;
     private bool _isHighlighted;
     private bool _isTemporary;
+    private bool _isInsertionHighlighted;
     private Vector2 _temporaryEndPoint;
 
     public Node2D? FromSocket => _fromSocket;
@@ -293,15 +294,28 @@ public partial class ConnectionPipe : Node2D
 
     public void SetInsertionHighlight(bool highlighted)
     {
-        if (_visuals != null)
+        if (_visuals != null && _isInsertionHighlighted != highlighted)
         {
+            _isInsertionHighlighted = highlighted;
             _visuals.DefaultColor = highlighted ? new Color(0, 1, 0) : PipeConfig.Visual.LineColor;
+            
+            // Update outline width based on highlight state
+            var outline = GetNode<Line2D>("Outline");
+            if (outline != null)
+            {
+                outline.Width = highlighted ? 10.0f : 8.0f;
+            }
         }
     }
 
     public void ClearInsertionHighlight()
     {
         SetInsertionHighlight(false);
+    }
+
+    public bool IsHighlighted()
+    {
+        return _isInsertionHighlighted || _isHighlighted;
     }
 
     public List<Vector2> GetCurvePoints()

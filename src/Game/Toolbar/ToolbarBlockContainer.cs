@@ -1,6 +1,8 @@
+using F.Game.BlockLogic;
+
 namespace F.Game.Toolbar
 {
-    public partial class ToolbarBlockContainer : Control
+    public partial class ToolbarBlockContainer : Control, IBlockContainer
     {
         public override void _Ready()
         {
@@ -95,7 +97,7 @@ namespace F.Game.Toolbar
                 var toolbarVisuals = toolbar.GetNode<ToolbarVisuals>("ToolbarVisuals");
                 if (toolbarVisuals != null)
                 {
-                    Position = new Vector2((toolbarVisuals.Size.X - totalWidth) / 2f, Position.Y);
+                    Position = new Vector2((toolbarVisuals.Size.X / 2f) + spacing, Position.Y);
                 }
             }
         }

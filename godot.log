@@ -25,7 +25,6 @@ GameManager initialized as singleton
 GameStateManager initialized.
 [Debug DragHelper] DragHelper initialized.
 [Debug HelperFunnel] Successfully found HelperFunnel instance
-[Debug InputHelper] Fallback: Using DragHelper.Instance.
 HelperFunnel initialized with all helpers.
 Creating initial connection between Input and Output blocks...
 Creating pipe between blocks: Input -> Output
@@ -34,57 +33,156 @@ Creating pipe between blocks: Input -> Output
 Initial connection created successfully!
 Creating toolbar blocks
 [Debug BaseBlock] AddBlock _Ready called, adding to Blocks group
-[Debug BaseBlock] AddBlock initialization complete, Position: (0, 59.67), State: Placed
+[Debug BaseBlock] AddBlock initialization complete, Position: (0, 59.67), State: InToolbar
 [Debug ToolbarHelper] (Static) Entering ReturnBlockToToolbar for block: AddBlock
+[Debug ToolbarHelper] Block state before return: InToolbar
+[Debug ToolbarHelper] (Static) Disconnecting block from ConnectionManager
 [Debug ToolbarHelper] (Static) Removing block from parent: BlockLayer
+[Debug ToolbarHelper] Resetting connections for block: AddBlock
+[BaseBlock Debug] Block AddBlock resetting connections. Current state: InToolbar
+[BaseBlock Debug] Block AddBlock reset input socket
+[BaseBlock Debug] Block AddBlock reset output socket
+[BaseBlock Debug] Block AddBlock finished resetting connections
+[BaseBlock Debug] Block AddBlock state changed: InToolbar -> InToolbar (SetInToolbar: True)
+[BaseBlock Debug] Block AddBlock state changed: InToolbar -> InToolbar (SetDragging: False)
+[BaseBlock Debug] Block AddBlock state changed: InToolbar -> InToolbar (SetPlaced: False)
+[Debug ToolbarHelper] Set Z-index to 20 for toolbar block
+[Debug ToolbarHelper] Block state after return: InToolbar
 [Debug ToolbarHelper] (Static) Finished processing, block AddBlock returned to toolbar via static helper.
 [Debug BaseBlock] AddBlock _Ready called, adding to Blocks group
-[Debug BaseBlock] AddBlock initialization complete, Position: (0, 59.67), State: Placed
+[Debug BaseBlock] AddBlock initialization complete, Position: (0, 59.67), State: InToolbar
 [Debug ToolbarHelper] (Static) Entering ReturnBlockToToolbar for block: AddBlock
+[Debug ToolbarHelper] Block state before return: InToolbar
+[Debug ToolbarHelper] (Static) Disconnecting block from ConnectionManager
 [Debug ToolbarHelper] (Static) Removing block from parent: BlockLayer
+[Debug ToolbarHelper] Resetting connections for block: AddBlock
+[BaseBlock Debug] Block AddBlock resetting connections. Current state: InToolbar
+[BaseBlock Debug] Block AddBlock reset input socket
+[BaseBlock Debug] Block AddBlock reset output socket
+[BaseBlock Debug] Block AddBlock finished resetting connections
+[BaseBlock Debug] Block AddBlock state changed: InToolbar -> InToolbar (SetInToolbar: True)
+[BaseBlock Debug] Block @Node2D@4 state changed: InToolbar -> InToolbar (SetDragging: False)
+[BaseBlock Debug] Block @Node2D@4 state changed: InToolbar -> InToolbar (SetPlaced: False)
+[Debug ToolbarHelper] Set Z-index to 20 for toolbar block
+[Debug ToolbarHelper] Block state after return: InToolbar
 [Debug ToolbarHelper] (Static) Finished processing, block @Node2D@4 returned to toolbar via static helper.
 [Debug BaseBlock] AddBlock _Ready called, adding to Blocks group
-[Debug BaseBlock] AddBlock initialization complete, Position: (0, 59.67), State: Placed
+[Debug BaseBlock] AddBlock initialization complete, Position: (0, 59.67), State: InToolbar
 [Debug ToolbarHelper] (Static) Entering ReturnBlockToToolbar for block: AddBlock
+[Debug ToolbarHelper] Block state before return: InToolbar
+[Debug ToolbarHelper] (Static) Disconnecting block from ConnectionManager
 [Debug ToolbarHelper] (Static) Removing block from parent: BlockLayer
+[Debug ToolbarHelper] Resetting connections for block: AddBlock
+[BaseBlock Debug] Block AddBlock resetting connections. Current state: InToolbar
+[BaseBlock Debug] Block AddBlock reset input socket
+[BaseBlock Debug] Block AddBlock reset output socket
+[BaseBlock Debug] Block AddBlock finished resetting connections
+[BaseBlock Debug] Block AddBlock state changed: InToolbar -> InToolbar (SetInToolbar: True)
+[BaseBlock Debug] Block @Node2D@5 state changed: InToolbar -> InToolbar (SetDragging: False)
+[BaseBlock Debug] Block @Node2D@5 state changed: InToolbar -> InToolbar (SetPlaced: False)
+[Debug ToolbarHelper] Set Z-index to 20 for toolbar block
+[Debug ToolbarHelper] Block state after return: InToolbar
 [Debug ToolbarHelper] (Static) Finished processing, block @Node2D@5 returned to toolbar via static helper.
 [Debug BaseBlock] AddBlock _Ready called, adding to Blocks group
-[Debug BaseBlock] AddBlock initialization complete, Position: (0, 59.67), State: Placed
+[Debug BaseBlock] AddBlock initialization complete, Position: (0, 59.67), State: InToolbar
 [Debug ToolbarHelper] (Static) Entering ReturnBlockToToolbar for block: AddBlock
+[Debug ToolbarHelper] Block state before return: InToolbar
+[Debug ToolbarHelper] (Static) Disconnecting block from ConnectionManager
 [Debug ToolbarHelper] (Static) Removing block from parent: BlockLayer
+[Debug ToolbarHelper] Resetting connections for block: AddBlock
+[BaseBlock Debug] Block AddBlock resetting connections. Current state: InToolbar
+[BaseBlock Debug] Block AddBlock reset input socket
+[BaseBlock Debug] Block AddBlock reset output socket
+[BaseBlock Debug] Block AddBlock finished resetting connections
+[BaseBlock Debug] Block AddBlock state changed: InToolbar -> InToolbar (SetInToolbar: True)
+[BaseBlock Debug] Block @Node2D@6 state changed: InToolbar -> InToolbar (SetDragging: False)
+[BaseBlock Debug] Block @Node2D@6 state changed: InToolbar -> InToolbar (SetPlaced: False)
+[Debug ToolbarHelper] Set Z-index to 20 for toolbar block
+[Debug ToolbarHelper] Block state after return: InToolbar
 [Debug ToolbarHelper] (Static) Finished processing, block @Node2D@6 returned to toolbar via static helper.
 [Debug BaseBlock] AddBlock _Ready called, adding to Blocks group
-[Debug BaseBlock] AddBlock initialization complete, Position: (0, 59.67), State: Placed
+[Debug BaseBlock] AddBlock initialization complete, Position: (0, 59.67), State: InToolbar
 [Debug ToolbarHelper] (Static) Entering ReturnBlockToToolbar for block: AddBlock
+[Debug ToolbarHelper] Block state before return: InToolbar
+[Debug ToolbarHelper] (Static) Disconnecting block from ConnectionManager
 [Debug ToolbarHelper] (Static) Removing block from parent: BlockLayer
+[Debug ToolbarHelper] Resetting connections for block: AddBlock
+[BaseBlock Debug] Block AddBlock resetting connections. Current state: InToolbar
+[BaseBlock Debug] Block AddBlock reset input socket
+[BaseBlock Debug] Block AddBlock reset output socket
+[BaseBlock Debug] Block AddBlock finished resetting connections
+[BaseBlock Debug] Block AddBlock state changed: InToolbar -> InToolbar (SetInToolbar: True)
+[BaseBlock Debug] Block @Node2D@7 state changed: InToolbar -> InToolbar (SetDragging: False)
+[BaseBlock Debug] Block @Node2D@7 state changed: InToolbar -> InToolbar (SetPlaced: False)
+[Debug ToolbarHelper] Set Z-index to 20 for toolbar block
+[Debug ToolbarHelper] Block state after return: InToolbar
 [Debug ToolbarHelper] (Static) Finished processing, block @Node2D@7 returned to toolbar via static helper.
 [Debug BaseBlock] AddBlock _Ready called, adding to Blocks group
-[Debug BaseBlock] AddBlock initialization complete, Position: (0, 59.67), State: Placed
+[Debug BaseBlock] AddBlock initialization complete, Position: (0, 59.67), State: InToolbar
 [Debug ToolbarHelper] (Static) Entering ReturnBlockToToolbar for block: AddBlock
+[Debug ToolbarHelper] Block state before return: InToolbar
+[Debug ToolbarHelper] (Static) Disconnecting block from ConnectionManager
 [Debug ToolbarHelper] (Static) Removing block from parent: BlockLayer
+[Debug ToolbarHelper] Resetting connections for block: AddBlock
+[BaseBlock Debug] Block AddBlock resetting connections. Current state: InToolbar
+[BaseBlock Debug] Block AddBlock reset input socket
+[BaseBlock Debug] Block AddBlock reset output socket
+[BaseBlock Debug] Block AddBlock finished resetting connections
+[BaseBlock Debug] Block AddBlock state changed: InToolbar -> InToolbar (SetInToolbar: True)
+[BaseBlock Debug] Block @Node2D@8 state changed: InToolbar -> InToolbar (SetDragging: False)
+[BaseBlock Debug] Block @Node2D@8 state changed: InToolbar -> InToolbar (SetPlaced: False)
+[Debug ToolbarHelper] Set Z-index to 20 for toolbar block
+[Debug ToolbarHelper] Block state after return: InToolbar
 [Debug ToolbarHelper] (Static) Finished processing, block @Node2D@8 returned to toolbar via static helper.
 [Debug BaseBlock] AddBlock _Ready called, adding to Blocks group
-[Debug BaseBlock] AddBlock initialization complete, Position: (0, 59.67), State: Placed
+[Debug BaseBlock] AddBlock initialization complete, Position: (0, 59.67), State: InToolbar
 [Debug ToolbarHelper] (Static) Entering ReturnBlockToToolbar for block: AddBlock
+[Debug ToolbarHelper] Block state before return: InToolbar
+[Debug ToolbarHelper] (Static) Disconnecting block from ConnectionManager
 [Debug ToolbarHelper] (Static) Removing block from parent: BlockLayer
+[Debug ToolbarHelper] Resetting connections for block: AddBlock
+[BaseBlock Debug] Block AddBlock resetting connections. Current state: InToolbar
+[BaseBlock Debug] Block AddBlock reset input socket
+[BaseBlock Debug] Block AddBlock reset output socket
+[BaseBlock Debug] Block AddBlock finished resetting connections
+[BaseBlock Debug] Block AddBlock state changed: InToolbar -> InToolbar (SetInToolbar: True)
+[BaseBlock Debug] Block @Node2D@9 state changed: InToolbar -> InToolbar (SetDragging: False)
+[BaseBlock Debug] Block @Node2D@9 state changed: InToolbar -> InToolbar (SetPlaced: False)
+[Debug ToolbarHelper] Set Z-index to 20 for toolbar block
+[Debug ToolbarHelper] Block state after return: InToolbar
 [Debug ToolbarHelper] (Static) Finished processing, block @Node2D@9 returned to toolbar via static helper.
 [Debug BaseBlock] AddBlock _Ready called, adding to Blocks group
-[Debug BaseBlock] AddBlock initialization complete, Position: (0, 59.67), State: Placed
+[Debug BaseBlock] AddBlock initialization complete, Position: (0, 59.67), State: InToolbar
 [Debug ToolbarHelper] (Static) Entering ReturnBlockToToolbar for block: AddBlock
+[Debug ToolbarHelper] Block state before return: InToolbar
+[Debug ToolbarHelper] (Static) Disconnecting block from ConnectionManager
 [Debug ToolbarHelper] (Static) Removing block from parent: BlockLayer
+[Debug ToolbarHelper] Resetting connections for block: AddBlock
+[BaseBlock Debug] Block AddBlock resetting connections. Current state: InToolbar
+[BaseBlock Debug] Block AddBlock reset input socket
+[BaseBlock Debug] Block AddBlock reset output socket
+[BaseBlock Debug] Block AddBlock finished resetting connections
+[BaseBlock Debug] Block AddBlock state changed: InToolbar -> InToolbar (SetInToolbar: True)
+[BaseBlock Debug] Block @Node2D@10 state changed: InToolbar -> InToolbar (SetDragging: False)
+[BaseBlock Debug] Block @Node2D@10 state changed: InToolbar -> InToolbar (SetPlaced: False)
+[Debug ToolbarHelper] Set Z-index to 20 for toolbar block
+[Debug ToolbarHelper] Block state after return: InToolbar
 [Debug ToolbarHelper] (Static) Finished processing, block @Node2D@10 returned to toolbar via static helper.
 [ConnectionManager Debug] _Process running
-[Debug InputHelper] Block '@Node2D@10' is in the toolbar. Attempting to reparent to BlockLayer before dragging.
-[Debug InputHelper] Block reparented successfully to BlockLayer; new parent: BlockLayer
-[Debug InputHelper] Starting drag for block '@Node2D@10' at (860, 999)
-[Debug DragHelper] Entering StartDrag with block: @Node2D@10, clickPosition: (860, 999)
-[Debug DragHelper] StartDrag called for block: @Node2D@10, computed offset: (-20, -14.78125)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (861, 999)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (841, 1034.1699), global: (841, 984.21875)
-[Debug InputHelper] Checking for pipe at token position: (841, 984.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (841, 984.21875)
+[Debug InputHelper] Block '@Node2D@10' is in the toolbar. Moving to BlockLayer before dragging.
+[BaseBlock Debug] Block @Node2D@10 state changed: InToolbar -> Placed (SetInToolbar: False)
+[Debug InputHelper] Starting drag for block '@Node2D@10' at (1446, 978)
+[Debug DragHelper] Entering StartDrag with block: @Node2D@10, clickPosition: (1446, 978)
+[Debug DragHelper] Set Z-index to 25 for dragged block
+[Debug DragHelper] Positioned block at click position: (1446, 978)
+[BaseBlock Debug] Block @Node2D@10 state changed: Placed -> Dragging (SetDragging: True)
+[Debug DragHelper] Block @Node2D@10 is now in dragging state
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1445, 977)
+[Debug DragHelper] Updated block position to: (1445, 977)
+[Debug InputHelper] Checking for pipe at token position: (1445, 977)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1445, 977)
 [ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (841, 984.21875)
+[ConnectionManager Debug] Checking for pipe at position (1445, 977)
 [ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
 [ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
 [ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
@@ -108,13 +206,6 @@ Creating toolbar blocks
 [ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
 [ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
 [ConnectionPipe Debug] Using _visuals points for curve.
-[ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (841, 984.21875)
-[Debug InputHelper] Block @Node2D@10 released at (861, 999)
-[Debug InputHelper] Attempting to connect block at position: (841, 984.21875)
-[ConnectionManager Debug] HandleBlockConnection triggered for block: 
-[ConnectionManager Debug] Checking for pipe at position (841, 984.21875)
-[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
 [ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
 [ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
 [ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
@@ -138,20 +229,13 @@ Creating toolbar blocks
 [ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
 [ConnectionPipe Debug] Using _visuals points for curve.
 [ConnectionManager Debug] No pipe found at position
-[ConnectionManager] No pipe close enough for connection.
-[Debug InputHelper] Failed to connect block @Node2D@10
-[Debug InputHelper] Block @Node2D@10 reverted to Placed state
-[Debug DragHelper] Entering EndDrag with block: @Node2D@10
-[Debug DragHelper] EndDrag called for block: @Node2D@10
-[Debug InputHelper] Starting drag for block '@Node2D@10' at (860, 950)
-[Debug DragHelper] Entering StartDrag with block: @Node2D@10, clickPosition: (860, 950)
-[Debug DragHelper] StartDrag called for block: @Node2D@10, computed offset: (-19, 34.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (860, 950)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (841, 1034.1699), global: (841, 984.21875)
-[Debug InputHelper] Checking for pipe at token position: (841, 984.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (841, 984.21875)
+[ConnectionHelper] No pipe found at position: (1445, 977)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1441, 965)
+[Debug DragHelper] Updated block position to: (1441, 965)
+[Debug InputHelper] Checking for pipe at token position: (1441, 965)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1441, 965)
 [ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (841, 984.21875)
+[ConnectionManager Debug] Checking for pipe at position (1441, 965)
 [ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
 [ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
 [ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
@@ -175,15 +259,6 @@ Creating toolbar blocks
 [ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
 [ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
 [ConnectionPipe Debug] Using _visuals points for curve.
-[ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (841, 984.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (861, 947)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (842, 1031.1699), global: (842, 981.21875)
-[Debug InputHelper] Checking for pipe at token position: (842, 981.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (842, 981.21875)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (842, 981.21875)
-[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
 [ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
 [ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
 [ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
@@ -207,13 +282,13 @@ Creating toolbar blocks
 [ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
 [ConnectionPipe Debug] Using _visuals points for curve.
 [ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (842, 981.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (862, 946)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (843, 1030.1699), global: (843, 980.21875)
-[Debug InputHelper] Checking for pipe at token position: (843, 980.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (843, 980.21875)
+[ConnectionHelper] No pipe found at position: (1441, 965)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1425, 906)
+[Debug DragHelper] Updated block position to: (1425, 906)
+[Debug InputHelper] Checking for pipe at token position: (1425, 906)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1425, 906)
 [ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (843, 980.21875)
+[ConnectionManager Debug] Checking for pipe at position (1425, 906)
 [ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
 [ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
 [ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
@@ -237,15 +312,6 @@ Creating toolbar blocks
 [ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
 [ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
 [ConnectionPipe Debug] Using _visuals points for curve.
-[ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (843, 980.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (924, 747)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (905, 831.1699), global: (905, 781.21875)
-[Debug InputHelper] Checking for pipe at token position: (905, 781.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (905, 781.21875)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (905, 781.21875)
-[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
 [ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
 [ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
 [ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
@@ -269,13 +335,13 @@ Creating toolbar blocks
 [ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
 [ConnectionPipe Debug] Using _visuals points for curve.
 [ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (905, 781.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (924, 741)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (905, 825.1699), global: (905, 775.21875)
-[Debug InputHelper] Checking for pipe at token position: (905, 775.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (905, 775.21875)
+[ConnectionHelper] No pipe found at position: (1425, 906)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1400, 849)
+[Debug DragHelper] Updated block position to: (1400, 849)
+[Debug InputHelper] Checking for pipe at token position: (1400, 849)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1400, 849)
 [ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (905, 775.21875)
+[ConnectionManager Debug] Checking for pipe at position (1400, 849)
 [ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
 [ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
 [ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
@@ -299,14 +365,89 @@ Creating toolbar blocks
 [ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
 [ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
 [ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
 [ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (905, 775.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (926, 740)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (907, 808.2385), global: (907, 774.21875)
-[Debug InputHelper] Checking for pipe at token position: (907, 774.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (907, 774.21875)
+[ConnectionHelper] No pipe found at position: (1400, 849)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1360, 799)
+[Debug DragHelper] Updated block position to: (1360, 799)
+[Debug InputHelper] Checking for pipe at token position: (1360, 799)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1360, 799)
 [ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (907, 774.21875)
+[ConnectionManager Debug] Checking for pipe at position (1360, 799)
+[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionManager Debug] No pipe found at position
+[ConnectionHelper] No pipe found at position: (1360, 799)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1340, 782)
+[Debug DragHelper] Updated block position to: (1340, 782)
+[Debug InputHelper] Checking for pipe at token position: (1340, 782)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1340, 782)
+[ConnectionHelper] GameManager found: GameManager
+[ConnectionManager Debug] Checking for pipe at position (1340, 782)
 [ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
 [ConnectionPipe Debug] global curve point from visuals: (205, 505.98026)
 [ConnectionPipe Debug] global curve point from visuals: (305.92422, 505.9802)
@@ -330,14 +471,36 @@ Creating toolbar blocks
 [ConnectionPipe Debug] global curve point from visuals: (1518.0757, 505.98026)
 [ConnectionPipe Debug] global curve point from visuals: (1619, 505.98026)
 [ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 505.98026)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 505.9802)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 505.9802)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 505.98026)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 505.98032)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 505.98026)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 505.98026)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 505.9802)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 505.98032)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 505.98026)
+[ConnectionPipe Debug] global curve point from visuals: (912, 505.98026)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 505.98026)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 505.98026)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 505.98026)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 505.98026)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 505.98026)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 505.98026)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 505.98026)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 505.98026)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 505.98026)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 505.98026)
+[ConnectionPipe Debug] Using _visuals points for curve.
 [ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (907, 774.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (927, 738)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (908, 795.3656), global: (908, 772.21875)
-[Debug InputHelper] Checking for pipe at token position: (908, 772.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (908, 772.21875)
+[ConnectionHelper] No pipe found at position: (1340, 782)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1336, 777)
+[Debug DragHelper] Updated block position to: (1336, 777)
+[Debug InputHelper] Checking for pipe at token position: (1336, 777)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1336, 777)
 [ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (908, 772.21875)
+[ConnectionManager Debug] Checking for pipe at position (1336, 777)
 [ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
 [ConnectionPipe Debug] global curve point from visuals: (205, 516.85315)
 [ConnectionPipe Debug] global curve point from visuals: (305.92422, 516.8531)
@@ -361,14 +524,36 @@ Creating toolbar blocks
 [ConnectionPipe Debug] global curve point from visuals: (1518.0757, 516.85315)
 [ConnectionPipe Debug] global curve point from visuals: (1619, 516.85315)
 [ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 516.85315)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 516.8531)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 516.8531)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 516.85315)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 516.8532)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 516.85315)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 516.85315)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 516.8531)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 516.8532)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 516.85315)
+[ConnectionPipe Debug] global curve point from visuals: (912, 516.85315)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 516.85315)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 516.85315)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 516.85315)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 516.85315)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 516.85315)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 516.85315)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 516.85315)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 516.85315)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 516.85315)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 516.85315)
+[ConnectionPipe Debug] Using _visuals points for curve.
 [ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (908, 772.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (929, 736)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (910, 785.9678), global: (910, 770.21875)
-[Debug InputHelper] Checking for pipe at token position: (910, 770.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (910, 770.21875)
+[ConnectionHelper] No pipe found at position: (1336, 777)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1337, 776)
+[Debug DragHelper] Updated block position to: (1337, 776)
+[Debug InputHelper] Checking for pipe at token position: (1337, 776)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1337, 776)
 [ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (910, 770.21875)
+[ConnectionManager Debug] Checking for pipe at position (1337, 776)
 [ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
 [ConnectionPipe Debug] global curve point from visuals: (205, 524.251)
 [ConnectionPipe Debug] global curve point from visuals: (305.92422, 524.2509)
@@ -392,14 +577,36 @@ Creating toolbar blocks
 [ConnectionPipe Debug] global curve point from visuals: (1518.0757, 524.251)
 [ConnectionPipe Debug] global curve point from visuals: (1619, 524.251)
 [ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 524.251)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 524.2509)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 524.2509)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 524.251)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 524.25104)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 524.251)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 524.251)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 524.2509)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 524.25104)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 524.251)
+[ConnectionPipe Debug] global curve point from visuals: (912, 524.251)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 524.251)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 524.251)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 524.251)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 524.251)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 524.251)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 524.251)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 524.251)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 524.251)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 524.251)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 524.251)
+[ConnectionPipe Debug] Using _visuals points for curve.
 [ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (910, 770.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (931, 734)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (912, 778.9343), global: (912, 768.21875)
-[Debug InputHelper] Checking for pipe at token position: (912, 768.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (912, 768.21875)
+[ConnectionHelper] No pipe found at position: (1337, 776)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1342, 774)
+[Debug DragHelper] Updated block position to: (1342, 774)
+[Debug InputHelper] Checking for pipe at token position: (1342, 774)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1342, 774)
 [ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (912, 768.21875)
+[ConnectionManager Debug] Checking for pipe at position (1342, 774)
 [ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
 [ConnectionPipe Debug] global curve point from visuals: (205, 529.2844)
 [ConnectionPipe Debug] global curve point from visuals: (305.92422, 529.28436)
@@ -423,14 +630,36 @@ Creating toolbar blocks
 [ConnectionPipe Debug] global curve point from visuals: (1518.0757, 529.2844)
 [ConnectionPipe Debug] global curve point from visuals: (1619, 529.2844)
 [ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 529.2844)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 529.28436)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 529.28436)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 529.2844)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 529.2845)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 529.2844)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 529.2844)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 529.28436)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 529.2845)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 529.2844)
+[ConnectionPipe Debug] global curve point from visuals: (912, 529.2844)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 529.2844)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 529.2844)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 529.2844)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 529.2844)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 529.2844)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 529.2844)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 529.2844)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 529.2844)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 529.2844)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 529.2844)
+[ConnectionPipe Debug] Using _visuals points for curve.
 [ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (912, 768.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (931, 732)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (912, 773.5096), global: (912, 766.21875)
-[Debug InputHelper] Checking for pipe at token position: (912, 766.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (912, 766.21875)
+[ConnectionHelper] No pipe found at position: (1342, 774)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1342, 772)
+[Debug DragHelper] Updated block position to: (1342, 772)
+[Debug InputHelper] Checking for pipe at token position: (1342, 772)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1342, 772)
 [ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (912, 766.21875)
+[ConnectionManager Debug] Checking for pipe at position (1342, 772)
 [ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
 [ConnectionPipe Debug] global curve point from visuals: (205, 532.70917)
 [ConnectionPipe Debug] global curve point from visuals: (305.92422, 532.7091)
@@ -454,14 +683,36 @@ Creating toolbar blocks
 [ConnectionPipe Debug] global curve point from visuals: (1518.0757, 532.70917)
 [ConnectionPipe Debug] global curve point from visuals: (1619, 532.70917)
 [ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 532.70917)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 532.7091)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 532.7091)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 532.70917)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 532.7092)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 532.70917)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 532.70917)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 532.7091)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 532.7092)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 532.70917)
+[ConnectionPipe Debug] global curve point from visuals: (912, 532.70917)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 532.70917)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 532.70917)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 532.70917)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 532.70917)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 532.70917)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 532.70917)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 532.70917)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 532.70917)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 532.70917)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 532.70917)
+[ConnectionPipe Debug] Using _visuals points for curve.
 [ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (912, 766.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (932, 732)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (913, 771.1794), global: (913, 766.21875)
-[Debug InputHelper] Checking for pipe at token position: (913, 766.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (913, 766.21875)
+[ConnectionHelper] No pipe found at position: (1342, 772)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1342, 771)
+[Debug DragHelper] Updated block position to: (1342, 771)
+[Debug InputHelper] Checking for pipe at token position: (1342, 771)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1342, 771)
 [ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (913, 766.21875)
+[ConnectionManager Debug] Checking for pipe at position (1342, 771)
 [ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
 [ConnectionPipe Debug] global curve point from visuals: (205, 535.03937)
 [ConnectionPipe Debug] global curve point from visuals: (305.92422, 535.0393)
@@ -485,107 +736,36 @@ Creating toolbar blocks
 [ConnectionPipe Debug] global curve point from visuals: (1518.0757, 535.03937)
 [ConnectionPipe Debug] global curve point from visuals: (1619, 535.03937)
 [ConnectionPipe Debug] Using _visuals points for curve.
-[ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (913, 766.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (932, 730)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (913, 767.59393), global: (913, 764.21875)
-[Debug InputHelper] Checking for pipe at token position: (913, 764.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (913, 764.21875)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (913, 764.21875)
-[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
-[ConnectionPipe Debug] global curve point from visuals: (205, 536.6248)
-[ConnectionPipe Debug] global curve point from visuals: (305.92422, 536.62476)
-[ConnectionPipe Debug] global curve point from visuals: (397.30396, 536.62476)
-[ConnectionPipe Debug] global curve point from visuals: (480.19977, 536.6248)
-[ConnectionPipe Debug] global curve point from visuals: (555.67206, 536.6249)
-[ConnectionPipe Debug] global curve point from visuals: (624.78125, 536.6248)
-[ConnectionPipe Debug] global curve point from visuals: (688.588, 536.6248)
-[ConnectionPipe Debug] global curve point from visuals: (748.15265, 536.62476)
-[ConnectionPipe Debug] global curve point from visuals: (804.5361, 536.6249)
-[ConnectionPipe Debug] global curve point from visuals: (858.7982, 536.6248)
-[ConnectionPipe Debug] global curve point from visuals: (912, 536.6248)
-[ConnectionPipe Debug] global curve point from visuals: (965.2018, 536.6248)
-[ConnectionPipe Debug] global curve point from visuals: (1019.464, 536.6248)
-[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 536.6248)
-[ConnectionPipe Debug] global curve point from visuals: (1135.412, 536.6248)
-[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 536.6248)
-[ConnectionPipe Debug] global curve point from visuals: (1268.328, 536.6248)
-[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 536.6248)
-[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 536.6248)
-[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 536.6248)
-[ConnectionPipe Debug] global curve point from visuals: (1619, 536.6248)
+[ConnectionPipe Debug] global curve point from visuals: (205, 535.03937)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 535.0393)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 535.0393)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 535.03937)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 535.0394)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 535.03937)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 535.03937)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 535.0393)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 535.0394)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 535.03937)
+[ConnectionPipe Debug] global curve point from visuals: (912, 535.03937)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 535.03937)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 535.03937)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 535.03937)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 535.03937)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 535.03937)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 535.03937)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 535.03937)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 535.03937)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 535.03937)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 535.03937)
 [ConnectionPipe Debug] Using _visuals points for curve.
 [ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (913, 764.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (933, 728)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (914, 764.5152), global: (914, 762.21875)
-[Debug InputHelper] Checking for pipe at token position: (914, 762.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (914, 762.21875)
+[ConnectionHelper] No pipe found at position: (1342, 771)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1342, 771)
+[Debug DragHelper] Updated block position to: (1342, 771)
+[Debug InputHelper] Checking for pipe at token position: (1342, 771)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1342, 771)
 [ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (914, 762.21875)
-[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
-[ConnectionPipe Debug] global curve point from visuals: (205, 537.70355)
-[ConnectionPipe Debug] global curve point from visuals: (305.92422, 537.7035)
-[ConnectionPipe Debug] global curve point from visuals: (397.30396, 537.7035)
-[ConnectionPipe Debug] global curve point from visuals: (480.19977, 537.70355)
-[ConnectionPipe Debug] global curve point from visuals: (555.67206, 537.7036)
-[ConnectionPipe Debug] global curve point from visuals: (624.78125, 537.70355)
-[ConnectionPipe Debug] global curve point from visuals: (688.588, 537.70355)
-[ConnectionPipe Debug] global curve point from visuals: (748.15265, 537.7035)
-[ConnectionPipe Debug] global curve point from visuals: (804.5361, 537.7036)
-[ConnectionPipe Debug] global curve point from visuals: (858.7982, 537.70355)
-[ConnectionPipe Debug] global curve point from visuals: (912, 537.70355)
-[ConnectionPipe Debug] global curve point from visuals: (965.2018, 537.70355)
-[ConnectionPipe Debug] global curve point from visuals: (1019.464, 537.70355)
-[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 537.70355)
-[ConnectionPipe Debug] global curve point from visuals: (1135.412, 537.70355)
-[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 537.70355)
-[ConnectionPipe Debug] global curve point from visuals: (1268.328, 537.70355)
-[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 537.70355)
-[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 537.70355)
-[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 537.70355)
-[ConnectionPipe Debug] global curve point from visuals: (1619, 537.70355)
-[ConnectionPipe Debug] Using _visuals points for curve.
-[ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (914, 762.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (934, 724)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (915, 759.78125), global: (915, 758.21875)
-[Debug InputHelper] Checking for pipe at token position: (915, 758.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (915, 758.21875)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (915, 758.21875)
-[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
-[ConnectionPipe Debug] global curve point from visuals: (205, 538.4375)
-[ConnectionPipe Debug] global curve point from visuals: (305.92422, 538.43744)
-[ConnectionPipe Debug] global curve point from visuals: (397.30396, 538.43744)
-[ConnectionPipe Debug] global curve point from visuals: (480.19977, 538.4375)
-[ConnectionPipe Debug] global curve point from visuals: (555.67206, 538.43756)
-[ConnectionPipe Debug] global curve point from visuals: (624.78125, 538.4375)
-[ConnectionPipe Debug] global curve point from visuals: (688.588, 538.4375)
-[ConnectionPipe Debug] global curve point from visuals: (748.15265, 538.43744)
-[ConnectionPipe Debug] global curve point from visuals: (804.5361, 538.43756)
-[ConnectionPipe Debug] global curve point from visuals: (858.7982, 538.4375)
-[ConnectionPipe Debug] global curve point from visuals: (912, 538.4375)
-[ConnectionPipe Debug] global curve point from visuals: (965.2018, 538.4375)
-[ConnectionPipe Debug] global curve point from visuals: (1019.464, 538.4375)
-[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 538.4375)
-[ConnectionPipe Debug] global curve point from visuals: (1135.412, 538.4375)
-[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 538.4375)
-[ConnectionPipe Debug] global curve point from visuals: (1268.328, 538.4375)
-[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 538.4375)
-[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 538.4375)
-[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 538.4375)
-[ConnectionPipe Debug] global curve point from visuals: (1619, 538.4375)
-[ConnectionPipe Debug] Using _visuals points for curve.
-[ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (915, 758.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (935, 723)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (916, 758.28186), global: (916, 757.21875)
-[Debug InputHelper] Checking for pipe at token position: (916, 757.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (916, 757.21875)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (916, 757.21875)
+[ConnectionManager Debug] Checking for pipe at position (1342, 771)
 [ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
 [ConnectionPipe Debug] global curve point from visuals: (205, 538.9369)
 [ConnectionPipe Debug] global curve point from visuals: (305.92422, 538.9368)
@@ -609,76 +789,36 @@ Creating toolbar blocks
 [ConnectionPipe Debug] global curve point from visuals: (1518.0757, 538.9369)
 [ConnectionPipe Debug] global curve point from visuals: (1619, 538.9369)
 [ConnectionPipe Debug] Using _visuals points for curve.
-[ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (916, 757.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (939, 717)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (920, 751.9421), global: (920, 751.21875)
-[Debug InputHelper] Checking for pipe at token position: (920, 751.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (920, 751.21875)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (920, 751.21875)
-[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
-[ConnectionPipe Debug] global curve point from visuals: (205, 539.2767)
-[ConnectionPipe Debug] global curve point from visuals: (305.92422, 539.2766)
-[ConnectionPipe Debug] global curve point from visuals: (397.30396, 539.2766)
-[ConnectionPipe Debug] global curve point from visuals: (480.19977, 539.2767)
-[ConnectionPipe Debug] global curve point from visuals: (555.67206, 539.27673)
-[ConnectionPipe Debug] global curve point from visuals: (624.78125, 539.2767)
-[ConnectionPipe Debug] global curve point from visuals: (688.588, 539.2767)
-[ConnectionPipe Debug] global curve point from visuals: (748.15265, 539.2766)
-[ConnectionPipe Debug] global curve point from visuals: (804.5361, 539.27673)
-[ConnectionPipe Debug] global curve point from visuals: (858.7982, 539.2767)
-[ConnectionPipe Debug] global curve point from visuals: (912, 539.2767)
-[ConnectionPipe Debug] global curve point from visuals: (965.2018, 539.2767)
-[ConnectionPipe Debug] global curve point from visuals: (1019.464, 539.2767)
-[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 539.2767)
-[ConnectionPipe Debug] global curve point from visuals: (1135.412, 539.2767)
-[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 539.2767)
-[ConnectionPipe Debug] global curve point from visuals: (1268.328, 539.2767)
-[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 539.2767)
-[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 539.2767)
-[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 539.2767)
-[ConnectionPipe Debug] global curve point from visuals: (1619, 539.2767)
+[ConnectionPipe Debug] global curve point from visuals: (205, 538.9369)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 538.9368)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 538.9368)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 538.9369)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 538.93695)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 538.9369)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 538.9369)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 538.9368)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 538.93695)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 538.9369)
+[ConnectionPipe Debug] global curve point from visuals: (912, 538.9369)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 538.9369)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 538.9369)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 538.9369)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 538.9369)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 538.9369)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 538.9369)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 538.9369)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 538.9369)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 538.9369)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 538.9369)
 [ConnectionPipe Debug] Using _visuals points for curve.
 [ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (920, 751.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (941, 715)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (922, 749.71094), global: (922, 749.21875)
-[Debug InputHelper] Checking for pipe at token position: (922, 749.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (922, 749.21875)
+[ConnectionHelper] No pipe found at position: (1342, 771)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1341, 770)
+[Debug DragHelper] Updated block position to: (1341, 770)
+[Debug InputHelper] Checking for pipe at token position: (1341, 770)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1341, 770)
 [ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (922, 749.21875)
-[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
-[ConnectionPipe Debug] global curve point from visuals: (205, 539.5078)
-[ConnectionPipe Debug] global curve point from visuals: (305.92422, 539.5078)
-[ConnectionPipe Debug] global curve point from visuals: (397.30396, 539.5078)
-[ConnectionPipe Debug] global curve point from visuals: (480.19977, 539.5078)
-[ConnectionPipe Debug] global curve point from visuals: (555.67206, 539.50793)
-[ConnectionPipe Debug] global curve point from visuals: (624.78125, 539.5078)
-[ConnectionPipe Debug] global curve point from visuals: (688.588, 539.5078)
-[ConnectionPipe Debug] global curve point from visuals: (748.15265, 539.5078)
-[ConnectionPipe Debug] global curve point from visuals: (804.5361, 539.50793)
-[ConnectionPipe Debug] global curve point from visuals: (858.7982, 539.5078)
-[ConnectionPipe Debug] global curve point from visuals: (912, 539.5078)
-[ConnectionPipe Debug] global curve point from visuals: (965.2018, 539.5078)
-[ConnectionPipe Debug] global curve point from visuals: (1019.464, 539.5078)
-[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 539.5078)
-[ConnectionPipe Debug] global curve point from visuals: (1135.412, 539.5078)
-[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 539.5078)
-[ConnectionPipe Debug] global curve point from visuals: (1268.328, 539.5078)
-[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 539.5078)
-[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 539.5078)
-[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 539.5078)
-[ConnectionPipe Debug] global curve point from visuals: (1619, 539.5078)
-[ConnectionPipe Debug] Using _visuals points for curve.
-[ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (922, 749.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (946, 711)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (927, 745.5536), global: (927, 745.21875)
-[Debug InputHelper] Checking for pipe at token position: (927, 745.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (927, 745.21875)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (927, 745.21875)
+[ConnectionManager Debug] Checking for pipe at position (1341, 770)
 [ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
 [ConnectionPipe Debug] global curve point from visuals: (205, 539.66516)
 [ConnectionPipe Debug] global curve point from visuals: (305.92422, 539.6651)
@@ -702,14 +842,36 @@ Creating toolbar blocks
 [ConnectionPipe Debug] global curve point from visuals: (1518.0757, 539.66516)
 [ConnectionPipe Debug] global curve point from visuals: (1619, 539.66516)
 [ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 539.66516)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 539.6651)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 539.6651)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 539.66516)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 539.6652)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 539.66516)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 539.66516)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 539.6651)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 539.6652)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 539.66516)
+[ConnectionPipe Debug] global curve point from visuals: (912, 539.66516)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 539.66516)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 539.66516)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 539.66516)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 539.66516)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 539.66516)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 539.66516)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 539.66516)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 539.66516)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 539.66516)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 539.66516)
+[ConnectionPipe Debug] Using _visuals points for curve.
 [ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (927, 745.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (948, 707)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (929, 741.4466), global: (929, 741.21875)
-[Debug InputHelper] Checking for pipe at token position: (929, 741.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (929, 741.21875)
+[ConnectionHelper] No pipe found at position: (1341, 770)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1341, 770)
+[Debug DragHelper] Updated block position to: (1341, 770)
+[Debug InputHelper] Checking for pipe at token position: (1341, 770)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1341, 770)
 [ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (929, 741.21875)
+[ConnectionManager Debug] Checking for pipe at position (1341, 770)
 [ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
 [ConnectionPipe Debug] global curve point from visuals: (205, 539.77216)
 [ConnectionPipe Debug] global curve point from visuals: (305.92422, 539.7721)
@@ -733,358 +895,35 @@ Creating toolbar blocks
 [ConnectionPipe Debug] global curve point from visuals: (1518.0757, 539.77216)
 [ConnectionPipe Debug] global curve point from visuals: (1619, 539.77216)
 [ConnectionPipe Debug] Using _visuals points for curve.
-[ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (929, 741.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (950, 700)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (931, 734.3738), global: (931, 734.21875)
-[Debug InputHelper] Checking for pipe at token position: (931, 734.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (931, 734.21875)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (931, 734.21875)
-[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
-[ConnectionPipe Debug] global curve point from visuals: (205, 539.845)
-[ConnectionPipe Debug] global curve point from visuals: (305.92422, 539.8449)
-[ConnectionPipe Debug] global curve point from visuals: (397.30396, 539.8449)
-[ConnectionPipe Debug] global curve point from visuals: (480.19977, 539.845)
-[ConnectionPipe Debug] global curve point from visuals: (555.67206, 539.84503)
-[ConnectionPipe Debug] global curve point from visuals: (624.78125, 539.845)
-[ConnectionPipe Debug] global curve point from visuals: (688.588, 539.845)
-[ConnectionPipe Debug] global curve point from visuals: (748.15265, 539.8449)
-[ConnectionPipe Debug] global curve point from visuals: (804.5361, 539.84503)
-[ConnectionPipe Debug] global curve point from visuals: (858.7982, 539.845)
-[ConnectionPipe Debug] global curve point from visuals: (912, 539.845)
-[ConnectionPipe Debug] global curve point from visuals: (965.2018, 539.845)
-[ConnectionPipe Debug] global curve point from visuals: (1019.464, 539.845)
-[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 539.845)
-[ConnectionPipe Debug] global curve point from visuals: (1135.412, 539.845)
-[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 539.845)
-[ConnectionPipe Debug] global curve point from visuals: (1268.328, 539.845)
-[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 539.845)
-[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 539.845)
-[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 539.845)
-[ConnectionPipe Debug] global curve point from visuals: (1619, 539.845)
+[ConnectionPipe Debug] global curve point from visuals: (205, 539.77216)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 539.7721)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 539.7721)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 539.77216)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 539.7722)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 539.77216)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 539.77216)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 539.7721)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 539.7722)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 539.77216)
+[ConnectionPipe Debug] global curve point from visuals: (912, 539.77216)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 539.77216)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 539.77216)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 539.77216)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 539.77216)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 539.77216)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 539.77216)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 539.77216)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 539.77216)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 539.77216)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 539.77216)
 [ConnectionPipe Debug] Using _visuals points for curve.
 [ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (931, 734.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (951, 686)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (932, 720.3242), global: (932, 720.21875)
-[Debug InputHelper] Checking for pipe at token position: (932, 720.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (932, 720.21875)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (932, 720.21875)
-[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
-[ConnectionPipe Debug] global curve point from visuals: (205, 539.89453)
-[ConnectionPipe Debug] global curve point from visuals: (305.92422, 539.8945)
-[ConnectionPipe Debug] global curve point from visuals: (397.30396, 539.8945)
-[ConnectionPipe Debug] global curve point from visuals: (480.19977, 539.89453)
-[ConnectionPipe Debug] global curve point from visuals: (555.67206, 539.8946)
-[ConnectionPipe Debug] global curve point from visuals: (624.78125, 539.89453)
-[ConnectionPipe Debug] global curve point from visuals: (688.588, 539.89453)
-[ConnectionPipe Debug] global curve point from visuals: (748.15265, 539.8945)
-[ConnectionPipe Debug] global curve point from visuals: (804.5361, 539.8946)
-[ConnectionPipe Debug] global curve point from visuals: (858.7982, 539.89453)
-[ConnectionPipe Debug] global curve point from visuals: (912, 539.89453)
-[ConnectionPipe Debug] global curve point from visuals: (965.2018, 539.89453)
-[ConnectionPipe Debug] global curve point from visuals: (1019.464, 539.89453)
-[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 539.89453)
-[ConnectionPipe Debug] global curve point from visuals: (1135.412, 539.89453)
-[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 539.89453)
-[ConnectionPipe Debug] global curve point from visuals: (1268.328, 539.89453)
-[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 539.89453)
-[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 539.89453)
-[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 539.89453)
-[ConnectionPipe Debug] global curve point from visuals: (1619, 539.89453)
-[ConnectionPipe Debug] Using _visuals points for curve.
-[ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (932, 720.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (951, 669)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (932, 703.2905), global: (932, 703.21875)
-[Debug InputHelper] Checking for pipe at token position: (932, 703.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (932, 703.21875)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (932, 703.21875)
-[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
-[ConnectionPipe Debug] global curve point from visuals: (205, 539.9282)
-[ConnectionPipe Debug] global curve point from visuals: (305.92422, 539.92816)
-[ConnectionPipe Debug] global curve point from visuals: (397.30396, 539.92816)
-[ConnectionPipe Debug] global curve point from visuals: (480.19977, 539.9282)
-[ConnectionPipe Debug] global curve point from visuals: (555.67206, 539.9283)
-[ConnectionPipe Debug] global curve point from visuals: (624.78125, 539.9282)
-[ConnectionPipe Debug] global curve point from visuals: (688.588, 539.9282)
-[ConnectionPipe Debug] global curve point from visuals: (748.15265, 539.92816)
-[ConnectionPipe Debug] global curve point from visuals: (804.5361, 539.9283)
-[ConnectionPipe Debug] global curve point from visuals: (858.7982, 539.9282)
-[ConnectionPipe Debug] global curve point from visuals: (912, 539.9282)
-[ConnectionPipe Debug] global curve point from visuals: (965.2018, 539.9282)
-[ConnectionPipe Debug] global curve point from visuals: (1019.464, 539.9282)
-[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 539.9282)
-[ConnectionPipe Debug] global curve point from visuals: (1135.412, 539.9282)
-[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 539.9282)
-[ConnectionPipe Debug] global curve point from visuals: (1268.328, 539.9282)
-[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 539.9282)
-[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 539.9282)
-[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 539.9282)
-[ConnectionPipe Debug] global curve point from visuals: (1619, 539.9282)
-[ConnectionPipe Debug] Using _visuals points for curve.
-[ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (932, 703.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (953, 651)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (934, 685.2676), global: (934, 685.21875)
-[Debug InputHelper] Checking for pipe at token position: (934, 685.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (934, 685.21875)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (934, 685.21875)
-[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
-[ConnectionPipe Debug] global curve point from visuals: (205, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (305.92422, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (397.30396, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (480.19977, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (555.67206, 539.95123)
-[ConnectionPipe Debug] global curve point from visuals: (624.78125, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (688.588, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (748.15265, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (804.5361, 539.95123)
-[ConnectionPipe Debug] global curve point from visuals: (858.7982, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (912, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (965.2018, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1019.464, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1135.412, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1268.328, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1619, 539.9512)
-[ConnectionPipe Debug] Using _visuals points for curve.
-[ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (934, 685.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (955, 637)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (936, 671.2676), global: (936, 671.21875)
-[Debug InputHelper] Checking for pipe at token position: (936, 671.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (936, 671.21875)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (936, 671.21875)
-[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
-[ConnectionPipe Debug] global curve point from visuals: (205, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (305.92422, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (397.30396, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (480.19977, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (555.67206, 539.95123)
-[ConnectionPipe Debug] global curve point from visuals: (624.78125, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (688.588, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (748.15265, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (804.5361, 539.95123)
-[ConnectionPipe Debug] global curve point from visuals: (858.7982, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (912, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (965.2018, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1019.464, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1135.412, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1268.328, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1619, 539.9512)
-[ConnectionPipe Debug] Using _visuals points for curve.
-[ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (936, 671.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (957, 616)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (938, 650.2676), global: (938, 650.21875)
-[Debug InputHelper] Checking for pipe at token position: (938, 650.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (938, 650.21875)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (938, 650.21875)
-[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
-[ConnectionPipe Debug] global curve point from visuals: (205, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (305.92422, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (397.30396, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (480.19977, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (555.67206, 539.95123)
-[ConnectionPipe Debug] global curve point from visuals: (624.78125, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (688.588, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (748.15265, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (804.5361, 539.95123)
-[ConnectionPipe Debug] global curve point from visuals: (858.7982, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (912, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (965.2018, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1019.464, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1135.412, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1268.328, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1619, 539.9512)
-[ConnectionPipe Debug] Using _visuals points for curve.
-[ConnectionManager Debug] No pipe found at position
-[ConnectionHelper] No pipe found at position: (938, 650.21875)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (960, 593)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (941, 627.2676), global: (941, 627.21875)
-[Debug InputHelper] Checking for pipe at token position: (941, 627.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (941, 627.21875)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (941, 627.21875)
-[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
-[ConnectionPipe Debug] global curve point from visuals: (205, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (305.92422, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (397.30396, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (480.19977, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (555.67206, 539.95123)
-[ConnectionPipe Debug] global curve point from visuals: (624.78125, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (688.588, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (748.15265, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (804.5361, 539.95123)
-[ConnectionPipe Debug] global curve point from visuals: (858.7982, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (912, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (965.2018, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1019.464, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1135.412, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1268.328, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1619, 539.9512)
-[ConnectionPipe Debug] Using _visuals points for curve.
-[ConnectionPipe] Point (941, 627.21875) is near pipe (distance: 87.26758)
-[ConnectionManager Debug] Found connection pipe - Source: F.Game.BlockLogic.Input, Target: F.Game.BlockLogic.Output
-[ConnectionHelper] Pipe found at position (941, 627.21875). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (969, 537)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (950, 571.2676), global: (950, 571.21875)
-[Debug InputHelper] Checking for pipe at token position: (950, 571.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (950, 571.21875)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (950, 571.21875)
-[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
-[ConnectionPipe Debug] global curve point from visuals: (205, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (305.92422, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (397.30396, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (480.19977, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (555.67206, 539.95123)
-[ConnectionPipe Debug] global curve point from visuals: (624.78125, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (688.588, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (748.15265, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (804.5361, 539.95123)
-[ConnectionPipe Debug] global curve point from visuals: (858.7982, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (912, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (965.2018, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1019.464, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1135.412, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1268.328, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1619, 539.9512)
-[ConnectionPipe Debug] Using _visuals points for curve.
-[ConnectionPipe] Point (950, 571.21875) is near pipe (distance: 31.267578)
-[ConnectionManager Debug] Found connection pipe - Source: F.Game.BlockLogic.Input, Target: F.Game.BlockLogic.Output
-[ConnectionHelper] Pipe found at position (950, 571.21875). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (974, 516)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (955, 550.2676), global: (955, 550.21875)
-[Debug InputHelper] Checking for pipe at token position: (955, 550.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (955, 550.21875)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (955, 550.21875)
-[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
-[ConnectionPipe Debug] global curve point from visuals: (205, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (305.92422, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (397.30396, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (480.19977, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (555.67206, 539.95123)
-[ConnectionPipe Debug] global curve point from visuals: (624.78125, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (688.588, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (748.15265, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (804.5361, 539.95123)
-[ConnectionPipe Debug] global curve point from visuals: (858.7982, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (912, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (965.2018, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1019.464, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1135.412, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1268.328, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1619, 539.9512)
-[ConnectionPipe Debug] Using _visuals points for curve.
-[ConnectionPipe] Point (955, 550.21875) is near pipe (distance: 10.267578)
-[ConnectionManager Debug] Found connection pipe - Source: F.Game.BlockLogic.Input, Target: F.Game.BlockLogic.Output
-[ConnectionHelper] Pipe found at position (955, 550.21875). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (976, 493)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (957, 527.2676), global: (957, 527.21875)
-[Debug InputHelper] Checking for pipe at token position: (957, 527.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (957, 527.21875)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (957, 527.21875)
-[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
-[ConnectionPipe Debug] global curve point from visuals: (205, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (305.92422, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (397.30396, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (480.19977, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (555.67206, 539.95123)
-[ConnectionPipe Debug] global curve point from visuals: (624.78125, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (688.588, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (748.15265, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (804.5361, 539.95123)
-[ConnectionPipe Debug] global curve point from visuals: (858.7982, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (912, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (965.2018, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1019.464, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1135.412, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1268.328, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1619, 539.9512)
-[ConnectionPipe Debug] Using _visuals points for curve.
-[ConnectionPipe] Point (957, 527.21875) is near pipe (distance: 12.732422)
-[ConnectionManager Debug] Found connection pipe - Source: F.Game.BlockLogic.Input, Target: F.Game.BlockLogic.Output
-[ConnectionHelper] Pipe found at position (957, 527.21875). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (977, 486)
-[Debug DragHelper] UpdateDrag (BlockLayer): block @Node2D@10 new local position: (958, 520.2676), global: (958, 520.21875)
-[Debug InputHelper] Checking for pipe at token position: (958, 520.21875)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (958, 520.21875)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionManager Debug] Checking for pipe at position (958, 520.21875)
-[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
-[ConnectionPipe Debug] global curve point from visuals: (205, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (305.92422, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (397.30396, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (480.19977, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (555.67206, 539.95123)
-[ConnectionPipe Debug] global curve point from visuals: (624.78125, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (688.588, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (748.15265, 539.9511)
-[ConnectionPipe Debug] global curve point from visuals: (804.5361, 539.95123)
-[ConnectionPipe Debug] global curve point from visuals: (858.7982, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (912, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (965.2018, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1019.464, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1135.412, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1268.328, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 539.9512)
-[ConnectionPipe Debug] global curve point from visuals: (1619, 539.9512)
-[ConnectionPipe Debug] Using _visuals points for curve.
-[ConnectionPipe] Point (958, 520.21875) is near pipe (distance: 19.732422)
-[ConnectionManager Debug] Found connection pipe - Source: F.Game.BlockLogic.Input, Target: F.Game.BlockLogic.Output
-[ConnectionHelper] Pipe found at position (958, 520.21875). Highlighting pipe.
-[Debug InputHelper] Block @Node2D@10 released at (977, 486)
-[Debug InputHelper] Attempting to connect block at position: (958, 520.21875)
+[ConnectionHelper] No pipe found at position: (1341, 770)
+[Debug InputHelper] Clicked dragged block @Node2D@10, placing it
+[Debug InputHelper] Placing block @Node2D@10 at (1341, 770)
+[Debug InputHelper] Attempting to connect block at position: (1341, 770.179)
 [ConnectionManager Debug] HandleBlockConnection triggered for block: 
-[ConnectionManager Debug] Checking for pipe at position (958, 520.21875)
+[ConnectionManager Debug] Checking for pipe at position (1341, 770.179)
 [ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
 [ConnectionPipe Debug] global curve point from visuals: (205, 539.9512)
 [ConnectionPipe Debug] global curve point from visuals: (305.92422, 539.9511)
@@ -1108,67 +947,881 @@ Creating toolbar blocks
 [ConnectionPipe Debug] global curve point from visuals: (1518.0757, 539.9512)
 [ConnectionPipe Debug] global curve point from visuals: (1619, 539.9512)
 [ConnectionPipe Debug] Using _visuals points for curve.
-[ConnectionPipe] Point (958, 520.21875) is near pipe (distance: 19.732422)
-[ConnectionManager Debug] Found connection pipe - Source: F.Game.BlockLogic.Input, Target: F.Game.BlockLogic.Output
-[ConnectionManager] Attempting to insert Add between Input and Output
-[ConnectionManager Debug] Block  HasConnections() returned: False
-(static insertion) Creating pipe between blocks: Input -> 
-From block type: F.Game.BlockLogic.Input, To block type: F.Game.Blocks.Add
-From socket type: F.Game.BlockLogic.Input, To socket type: Godot.Node2D
-[ConnectionPipe] Socket hierarchy - FromSocket: Input, ToSocket: BlockInputSocket
-[ConnectionPipe] Found blocks - Source: F.Game.BlockLogic.Input, Target: F.Game.Blocks.Add
-(static insertion) Creating pipe between blocks:  -> Output
-From block type: F.Game.Blocks.Add, To block type: F.Game.BlockLogic.Output
-From socket type: Godot.Node2D, To socket type: Godot.Node2D
-[ConnectionPipe] Socket hierarchy - FromSocket: BlockOutputSocket, ToSocket: BlockInputSocket
-[ConnectionPipe] Found blocks - Source: F.Game.Blocks.Add, Target: F.Game.BlockLogic.Output
-[ConnectionManager] Set connection for block Input to pipe @Node2D@19
-[ConnectionManager] Set connection for block  to pipe @Node2D@19
-[ConnectionManager] Set connection for block  to pipe @Node2D@20
-[ConnectionManager] Set connection for block Output to pipe @Node2D@20
-[BaseBlock Debug] Block  set to Connected. Current state: Connected
-[PipeRewiringHelper] Successfully connected block @Node2D@10 between Input and Output
-Creating pipe between blocks: Input -> 
-One or both blocks already have a connection! (Input or )
-Creating pipe between blocks:  -> Output
-One or both blocks already have a connection! ( or Output)
-Failed to create input pipe
-Failed to create output pipe
-[BaseBlock Debug] Block  set to Connected. Current state: Connected
-[ConnectionHelper Debug] Forced block @Node2D@10 to Connected state. Connection operation returned: True
-[Debug InputHelper] Successfully connected block @Node2D@10
+[ConnectionPipe Debug] global curve point from visuals: (205, 539.9512)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 539.9511)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 539.9511)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 539.9512)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 539.95123)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 539.9512)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 539.9512)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 539.9511)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 539.95123)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 539.9512)
+[ConnectionPipe Debug] global curve point from visuals: (912, 539.9512)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 539.9512)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 539.9512)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 539.9512)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 539.9512)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 539.9512)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 539.9512)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 539.9512)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 539.9512)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 539.9512)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 539.9512)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionManager Debug] No pipe found at position
+[ConnectionManager] No pipe close enough for connection.
+[Debug InputHelper] Failed to connect block @Node2D@10
+[BaseBlock Debug] Block @Node2D@10 state changed: Dragging -> Placed (SetPlaced: True)
+[Debug InputHelper] Block @Node2D@10 reverted to Placed state
 [Debug DragHelper] Entering EndDrag with block: @Node2D@10
-[Debug DragHelper] EndDrag called for block: @Node2D@10
+[BaseBlock Debug] Block @Node2D@10 state changed: Placed -> Placed (SetDragging: False)
+[Debug DragHelper] Block @Node2D@10 drag ended, Z-index set to 0
 [Debug InputHelper] Right-click on block: '@Node2D@10'. Returning to toolbar.
 [Debug ToolbarHelper] Entering ReturnBlockToToolbar for block: @Node2D@10
 [Debug ToolbarHelper] GameManager found: GameManager
-[Debug ToolbarHelper] ToolbarBlockContainer found: BlockContainer
-[Debug ToolbarHelper] Removing block from parent: BlockLayer
-[Debug ToolbarHelper] Adding block to toolbar container using toolbar.AddBlock.
+[Debug ToolbarHelper] Disconnecting block from ConnectionManager
 [Debug ToolbarHelper] (Static) Entering ReturnBlockToToolbar for block: @Node2D@10
+[Debug ToolbarHelper] Block state before return: Placed
+[Debug ToolbarHelper] (Static) Disconnecting block from ConnectionManager
+[Debug ToolbarHelper] (Static) Removing block from parent: BlockLayer
+[Debug ToolbarHelper] Resetting connections for block: @Node2D@10
+[BaseBlock Debug] Block @Node2D@10 resetting connections. Current state: Placed
+[BaseBlock Debug] Block @Node2D@10 reset input socket
+[BaseBlock Debug] Block @Node2D@10 reset output socket
+[BaseBlock Debug] Block @Node2D@10 finished resetting connections
+[BaseBlock Debug] Block @Node2D@10 state changed: Placed -> InToolbar (SetInToolbar: True)
+[BaseBlock Debug] Block @Node2D@10 state changed: InToolbar -> InToolbar (SetDragging: False)
+[BaseBlock Debug] Block @Node2D@10 state changed: InToolbar -> InToolbar (SetPlaced: False)
+[Debug ToolbarHelper] Set Z-index to 20 for toolbar block
+[Debug ToolbarHelper] Block state after return: InToolbar
 [Debug ToolbarHelper] (Static) Finished processing, block @Node2D@10 returned to toolbar via static helper.
-[Debug ToolbarHelper] Finished processing, block @Node2D@10 returned to toolbar.
-[Debug InputHelper] Block '@Node2D@7' is dragging; ending drag before returning to toolbar.
-[Debug DragHelper] Entering EndDrag with block: @Node2D@7
-[Debug DragHelper] EndDrag called for block: @Node2D@7
-[Debug InputHelper] Right-click on block: '@Node2D@7'. Returning to toolbar.
-[Debug ToolbarHelper] Entering ReturnBlockToToolbar for block: @Node2D@7
+[BaseBlock Debug] Block @Node2D@10 state changed: InToolbar -> InToolbar (SetInToolbar: True)
+[Debug InputHelper] No block found at position: (1436, 1043)
+[Debug InputHelper] Block '@Node2D@10' is in the toolbar. Moving to BlockLayer before dragging.
+[BaseBlock Debug] Block @Node2D@10 state changed: InToolbar -> Placed (SetInToolbar: False)
+[Debug InputHelper] Starting drag for block '@Node2D@10' at (1444, 1020)
+[Debug DragHelper] Entering StartDrag with block: @Node2D@10, clickPosition: (1444, 1020)
+[Debug DragHelper] Set Z-index to 25 for dragged block
+[Debug DragHelper] Positioned block at click position: (1444, 1020)
+[BaseBlock Debug] Block @Node2D@10 state changed: Placed -> Dragging (SetDragging: True)
+[Debug DragHelper] Block @Node2D@10 is now in dragging state
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1445, 1020)
+[Debug DragHelper] Updated block position to: (1445, 1020)
+[Debug InputHelper] Checking for pipe at token position: (1445, 1020)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1445, 1020)
+[ConnectionHelper] GameManager found: GameManager
+[ConnectionManager Debug] Checking for pipe at position (1445, 1020)
+[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionManager Debug] No pipe found at position
+[ConnectionHelper] No pipe found at position: (1445, 1020)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1445, 1019)
+[Debug DragHelper] Updated block position to: (1445, 1019)
+[Debug InputHelper] Checking for pipe at token position: (1445, 1019)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1445, 1019)
+[ConnectionHelper] GameManager found: GameManager
+[ConnectionManager Debug] Checking for pipe at position (1445, 1019)
+[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionManager Debug] No pipe found at position
+[ConnectionHelper] No pipe found at position: (1445, 1019)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1447, 1016)
+[Debug DragHelper] Updated block position to: (1447, 1016)
+[Debug InputHelper] Checking for pipe at token position: (1447, 1016)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1447, 1016)
+[ConnectionHelper] GameManager found: GameManager
+[ConnectionManager Debug] Checking for pipe at position (1447, 1016)
+[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionManager Debug] No pipe found at position
+[ConnectionHelper] No pipe found at position: (1447, 1016)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1456, 1007)
+[Debug DragHelper] Updated block position to: (1456, 1007)
+[Debug InputHelper] Checking for pipe at token position: (1456, 1007)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1456, 1007)
+[ConnectionHelper] GameManager found: GameManager
+[ConnectionManager Debug] Checking for pipe at position (1456, 1007)
+[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionManager Debug] No pipe found at position
+[ConnectionHelper] No pipe found at position: (1456, 1007)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1473, 997)
+[Debug DragHelper] Updated block position to: (1473, 997)
+[Debug InputHelper] Checking for pipe at token position: (1473, 997)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1473, 997)
+[ConnectionHelper] GameManager found: GameManager
+[ConnectionManager Debug] Checking for pipe at position (1473, 997)
+[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionManager Debug] No pipe found at position
+[ConnectionHelper] No pipe found at position: (1473, 997)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1487, 992)
+[Debug DragHelper] Updated block position to: (1487, 992)
+[Debug InputHelper] Checking for pipe at token position: (1487, 992)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1487, 992)
+[ConnectionHelper] GameManager found: GameManager
+[ConnectionManager Debug] Checking for pipe at position (1487, 992)
+[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionManager Debug] No pipe found at position
+[ConnectionHelper] No pipe found at position: (1487, 992)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1514, 985)
+[Debug DragHelper] Updated block position to: (1514, 985)
+[Debug InputHelper] Checking for pipe at token position: (1514, 985)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1514, 985)
+[ConnectionHelper] GameManager found: GameManager
+[ConnectionManager Debug] Checking for pipe at position (1514, 985)
+[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionManager Debug] No pipe found at position
+[ConnectionHelper] No pipe found at position: (1514, 985)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1519, 983)
+[Debug DragHelper] Updated block position to: (1519, 983)
+[Debug InputHelper] Checking for pipe at token position: (1519, 983)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1519, 983)
+[ConnectionHelper] GameManager found: GameManager
+[ConnectionManager Debug] Checking for pipe at position (1519, 983)
+[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionManager Debug] No pipe found at position
+[ConnectionHelper] No pipe found at position: (1519, 983)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1540, 978)
+[Debug DragHelper] Updated block position to: (1540, 978)
+[Debug InputHelper] Checking for pipe at token position: (1540, 978)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1540, 978)
+[ConnectionHelper] GameManager found: GameManager
+[ConnectionManager Debug] Checking for pipe at position (1540, 978)
+[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionManager Debug] No pipe found at position
+[ConnectionHelper] No pipe found at position: (1540, 978)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1554, 973)
+[Debug DragHelper] Updated block position to: (1554, 973)
+[Debug InputHelper] Checking for pipe at token position: (1554, 973)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1554, 973)
+[ConnectionHelper] GameManager found: GameManager
+[ConnectionManager Debug] Checking for pipe at position (1554, 973)
+[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionManager Debug] No pipe found at position
+[ConnectionHelper] No pipe found at position: (1554, 973)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1564, 971)
+[Debug DragHelper] Updated block position to: (1564, 971)
+[Debug InputHelper] Checking for pipe at token position: (1564, 971)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1564, 971)
+[ConnectionHelper] GameManager found: GameManager
+[ConnectionManager Debug] Checking for pipe at position (1564, 971)
+[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionManager Debug] No pipe found at position
+[ConnectionHelper] No pipe found at position: (1564, 971)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1565, 971)
+[Debug DragHelper] Updated block position to: (1565, 971)
+[Debug InputHelper] Checking for pipe at token position: (1565, 971)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1565, 971)
+[ConnectionHelper] GameManager found: GameManager
+[ConnectionManager Debug] Checking for pipe at position (1565, 971)
+[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionManager Debug] No pipe found at position
+[ConnectionHelper] No pipe found at position: (1565, 971)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1566, 971)
+[Debug DragHelper] Updated block position to: (1566, 971)
+[Debug InputHelper] Checking for pipe at token position: (1566, 971)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1566, 971)
+[ConnectionHelper] GameManager found: GameManager
+[ConnectionManager Debug] Checking for pipe at position (1566, 971)
+[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionManager Debug] No pipe found at position
+[ConnectionHelper] No pipe found at position: (1566, 971)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1570, 971)
+[Debug DragHelper] Updated block position to: (1570, 971)
+[Debug InputHelper] Checking for pipe at token position: (1570, 971)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1570, 971)
+[ConnectionHelper] GameManager found: GameManager
+[ConnectionManager Debug] Checking for pipe at position (1570, 971)
+[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionManager Debug] No pipe found at position
+[ConnectionHelper] No pipe found at position: (1570, 971)
+[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1571, 971)
+[Debug DragHelper] Updated block position to: (1571, 971)
+[Debug InputHelper] Checking for pipe at token position: (1571, 971)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1571, 971)
+[ConnectionHelper] GameManager found: GameManager
+[ConnectionManager Debug] Checking for pipe at position (1571, 971)
+[ConnectionManager Debug] Active pipes: 0, Connection pipes: 1
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionPipe Debug] global curve point from visuals: (205, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (305.92422, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (397.30396, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (480.19977, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (555.67206, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (624.78125, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (688.588, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (748.15265, 490.04877)
+[ConnectionPipe Debug] global curve point from visuals: (804.5361, 490.0489)
+[ConnectionPipe Debug] global curve point from visuals: (858.7982, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (912, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (965.2018, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1019.464, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1075.8472, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1135.412, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1199.2188, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1268.328, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1343.8002, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1426.6959, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1518.0757, 490.04883)
+[ConnectionPipe Debug] global curve point from visuals: (1619, 490.04883)
+[ConnectionPipe Debug] Using _visuals points for curve.
+[ConnectionManager Debug] No pipe found at position
+[ConnectionHelper] No pipe found at position: (1571, 971)
+[Debug InputHelper] Block '@Node2D@10' is dragging; ending drag before returning to toolbar.
+[Debug DragHelper] Entering EndDrag with block: @Node2D@10
+[BaseBlock Debug] Block @Node2D@10 state changed: Dragging -> Placed (SetDragging: False)
+[Debug DragHelper] Block @Node2D@10 drag ended, Z-index set to 0
+[Debug InputHelper] Right-click on block: '@Node2D@10'. Returning to toolbar.
+[Debug ToolbarHelper] Entering ReturnBlockToToolbar for block: @Node2D@10
 [Debug ToolbarHelper] GameManager found: GameManager
-[Debug ToolbarHelper] ToolbarBlockContainer found: BlockContainer
-[Debug ToolbarHelper] Removing block from parent: BlockContainer
-[Debug ToolbarHelper] Adding block to toolbar container using toolbar.AddBlock.
-[Debug ToolbarHelper] (Static) Entering ReturnBlockToToolbar for block: @Node2D@7
-[Debug ToolbarHelper] (Static) Finished processing, block @Node2D@7 returned to toolbar via static helper.
-[Debug ToolbarHelper] Finished processing, block @Node2D@7 returned to toolbar.
-[Debug InputHelper] Block '@Node2D@8' is dragging; ending drag before returning to toolbar.
-[Debug DragHelper] Entering EndDrag with block: @Node2D@8
-[Debug DragHelper] EndDrag called for block: @Node2D@8
-[Debug InputHelper] Right-click on block: '@Node2D@8'. Returning to toolbar.
-[Debug ToolbarHelper] Entering ReturnBlockToToolbar for block: @Node2D@8
-[Debug ToolbarHelper] GameManager found: GameManager
-[Debug ToolbarHelper] ToolbarBlockContainer found: BlockContainer
-[Debug ToolbarHelper] Removing block from parent: BlockContainer
-[Debug ToolbarHelper] Adding block to toolbar container using toolbar.AddBlock.
-[Debug ToolbarHelper] (Static) Entering ReturnBlockToToolbar for block: @Node2D@8
-[Debug ToolbarHelper] (Static) Finished processing, block @Node2D@8 returned to toolbar via static helper.
-[Debug ToolbarHelper] Finished processing, block @Node2D@8 returned to toolbar.
+[Debug ToolbarHelper] Disconnecting block from ConnectionManager
+[Debug ToolbarHelper] (Static) Entering ReturnBlockToToolbar for block: @Node2D@10
+[Debug ToolbarHelper] Block state before return: Placed
+[Debug ToolbarHelper] (Static) Disconnecting block from ConnectionManager
+[Debug ToolbarHelper] (Static) Removing block from parent: BlockLayer
+[Debug ToolbarHelper] Resetting connections for block: @Node2D@10
+[BaseBlock Debug] Block @Node2D@10 resetting connections. Current state: Placed
+[BaseBlock Debug] Block @Node2D@10 reset input socket
+[BaseBlock Debug] Block @Node2D@10 reset output socket
+[BaseBlock Debug] Block @Node2D@10 finished resetting connections
+[BaseBlock Debug] Block @Node2D@10 state changed: Placed -> InToolbar (SetInToolbar: True)
+[BaseBlock Debug] Block @Node2D@10 state changed: InToolbar -> InToolbar (SetDragging: False)
+[BaseBlock Debug] Block @Node2D@10 state changed: InToolbar -> InToolbar (SetPlaced: False)
+[Debug ToolbarHelper] Set Z-index to 20 for toolbar block
+[Debug ToolbarHelper] Block state after return: InToolbar
+[Debug ToolbarHelper] (Static) Finished processing, block @Node2D@10 returned to toolbar via static helper.
+[BaseBlock Debug] Block @Node2D@10 state changed: InToolbar -> InToolbar (SetInToolbar: True)

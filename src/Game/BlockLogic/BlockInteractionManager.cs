@@ -47,29 +47,4 @@ public partial class BlockInteractionManager : Node
         }
         return closestBlock;
     }
-
-    public override void _Input(InputEvent @event)
-    {
-        if (@event is InputEventMouseButton mouseEvent && mouseEvent.IsReleased() && (int)mouseEvent.ButtonIndex == (int)MouseButton.Left)
-        {
-            var gameManager = GetNode<GameManager>("/root/Main/GameManager");
-            if (gameManager?.ConnectionManager != null)
-            {
-                Vector2 mousePos = GetViewport().GetMousePosition();
-                BaseBlock? block = GetBlockAtPosition(mousePos);
-                if (block != null && block.State == BlockState.Dragging)
-                {
-                    bool result = gameManager.ConnectionManager.HandleBlockConnection(block, mousePos);
-                    if (result)
-                    {
-                        GD.Print($"[BlockInteractionManager Debug] Block {block.Name} connection established. State: {block.State}");
-                    }
-                    else
-                    {
-                        GD.Print($"[BlockInteractionManager Debug] Block {block.Name} connection attempt failed.");
-                    }
-                }
-            }
-        }
-    }
 }

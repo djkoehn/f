@@ -9,7 +9,7 @@ namespace F.Game.Connections;
 
 public partial class ConnectionManager : Node2D
 {
-    private readonly Dictionary<IBlock, ConnectionPipe> _blockToPipeMap = new();
+    private readonly Dictionary<IBlock, List<ConnectionPipe>> _blockToPipeMap = new();
     private readonly List<ConnectionPipe> _connections = new();
     private readonly ConnectionFactory _factory;
     private readonly ConnectionValidator _validator;
@@ -70,27 +70,87 @@ public partial class ConnectionManager : Node2D
         {
             AddChild(pipe);
             _connections.Add(pipe);
-            _blockToPipeMap[_inputBlock] = pipe;
-            _blockToPipeMap[_outputBlock] = pipe;
+            AddPipeToBlock(_inputBlock, pipe);
+            AddPipeToBlock(_outputBlock, pipe);
             GD.Print("Initial connection created successfully!");
         }
     }
 
-    public void RemoveConnection(IBlock block)
+    private void AddPipeToBlock(IBlock block, ConnectionPipe pipe)
     {
-        if (_blockToPipeMap.TryGetValue(block, out var pipe))
+        if (!_blockToPipeMap.ContainsKey(block))
         {
-            pipe.QueueFree();
-            _blockToPipeMap.Remove(block);
+            _blockToPipeMap[block] = new List<ConnectionPipe>();
         }
+        _blockToPipeMap[block].Add(pipe);
+        
+        // Update block's connection state if it's a BaseBlock
+        if (block is BaseBlock baseBlock)
+        {
+            if (pipe.SourceBlock == block)
+            {
+                baseBlock.SetOutputConnected(true);
+            }
+            if (pipe.TargetBlock == block)
+            {
+                baseBlock.SetInputConnected(true);
+            }
+        }
+    }
+
+    private void RemovePipeFromBlock(IBlock block, ConnectionPipe pipe)
+    {
+        if (_blockToPipeMap.TryGetValue(block, out var pipes))
+        {
+            pipes.Remove(pipe);
+            if (pipes.Count == 0)
+            {
+                _blockToPipeMap.Remove(block);
+            }
+            
+            // Update block's connection state if it's a BaseBlock
+            if (block is BaseBlock baseBlock)
+            {
+                if (pipe.SourceBlock == block)
+                {
+                    baseBlock.SetOutputConnected(false);
+                }
+                if (pipe.TargetBlock == block)
+                {
+                    baseBlock.SetInputConnected(false);
+                }
+            }
+        }
+    }
+
+    public void RemoveConnection(ConnectionPipe pipe)
+    {
+        // Remove from collections
+        if (pipe.SourceBlock != null)
+            RemovePipeFromBlock(pipe.SourceBlock, pipe);
+        if (pipe.TargetBlock != null)
+            RemovePipeFromBlock(pipe.TargetBlock, pipe);
+        
+        _connections.Remove(pipe);
+        _activePipes.Remove(pipe);
+
+        // Remove from scene if still attached
+        if (pipe.IsInsideTree())
+        {
+            pipe.GetParent()?.RemoveChild(pipe);
+        }
+        pipe.QueueFree();
     }
 
     public void ClearConnections()
     {
         var connectedBlocks = new List<IBlock>();
-        foreach (var (block, pipe) in _blockToPipeMap)
+        foreach (var (block, pipes) in _blockToPipeMap)
         {
-            pipe.QueueFree();
+            foreach (var pipe in pipes)
+            {
+                pipe.QueueFree();
+            }
             connectedBlocks.Add(block);
         }
 
@@ -118,12 +178,15 @@ public partial class ConnectionManager : Node2D
         }
 
         // Then check regular connections
-        foreach (var pipe in _connections)
+        foreach (var pipes in _blockToPipeMap.Values)
         {
-            if (pipe.IsPointNearPipe(position))
+            foreach (var pipe in pipes)
             {
-                GD.Print($"[ConnectionManager Debug] Found connection pipe - Source: {pipe.SourceBlock?.GetType()}, Target: {pipe.TargetBlock?.GetType()}");
-                return pipe;
+                if (pipe.IsPointNearPipe(position))
+                {
+                    GD.Print($"[ConnectionManager Debug] Found connection pipe - Source: {pipe.SourceBlock?.GetType()}, Target: {pipe.TargetBlock?.GetType()}");
+                    return pipe;
+                }
             }
         }
 
@@ -133,7 +196,13 @@ public partial class ConnectionManager : Node2D
 
     public void ClearAllHighlights()
     {
-        foreach (var pipe in _connections) pipe.SetHighlighted(false);
+        foreach (var pipes in _blockToPipeMap.Values)
+        {
+            foreach (var pipe in pipes)
+            {
+                pipe.SetHighlighted(false);
+            }
+        }
     }
 
     public bool HandleBlockConnection(IBlock block, Vector2 position)
@@ -175,8 +244,8 @@ public partial class ConnectionManager : Node2D
             // Remove the original pipe
             pipe.RemovePipe();
             _connections.Remove(pipe);
-            _blockToPipeMap.Remove(pipe.SourceBlock);
-            _blockToPipeMap.Remove(pipe.TargetBlock);
+            RemovePipeFromBlock(pipe.SourceBlock, pipe);
+            RemovePipeFromBlock(pipe.TargetBlock, pipe);
 
             // Create new Input -> Block and Block -> Output pipes
             var inputPipe = _factory.CreateConnection(pipe.SourceBlock, block);
@@ -186,8 +255,8 @@ public partial class ConnectionManager : Node2D
             {
                 AddChild(inputPipe);
                 _connections.Add(inputPipe);
-                _blockToPipeMap[pipe.SourceBlock] = inputPipe;
-                _blockToPipeMap[block] = inputPipe;
+                AddPipeToBlock(pipe.SourceBlock, inputPipe);
+                AddPipeToBlock(block, inputPipe);
             }
             else
             {
@@ -198,8 +267,8 @@ public partial class ConnectionManager : Node2D
             {
                 AddChild(outputPipe);
                 _connections.Add(outputPipe);
-                _blockToPipeMap[block] = outputPipe;
-                _blockToPipeMap[pipe.TargetBlock] = outputPipe;
+                AddPipeToBlock(block, outputPipe);
+                AddPipeToBlock(pipe.TargetBlock, outputPipe);
             }
             else
             {
@@ -254,8 +323,8 @@ public partial class ConnectionManager : Node2D
 
         AddChild(pipe);
         _connections.Add(pipe);
-        _blockToPipeMap[sourceBlock] = pipe;
-        _blockToPipeMap[targetBlock] = pipe;
+        AddPipeToBlock(sourceBlock, pipe);
+        AddPipeToBlock(targetBlock, pipe);
 
         return true;
     }
@@ -265,31 +334,22 @@ public partial class ConnectionManager : Node2D
         var connectionsToRemove = GetCurrentConnections(block);
         foreach (var pipe in connectionsToRemove)
         {
-            var otherBlock = pipe.GetOtherBlock(block);
-            if (otherBlock != null)
-            {
-                _blockToPipeMap.Remove(otherBlock);
-            }
-
-            pipe.QueueFree();
-            _blockToPipeMap.Remove(block);
-            _connections.Remove(pipe);
+            RemoveConnection(pipe);
         }
     }
 
     public bool IsBlockConnected(IBlock block)
     {
-        return _blockToPipeMap.ContainsKey(block);
+        return _blockToPipeMap.ContainsKey(block) && _blockToPipeMap[block].Count > 0;
     }
 
     public List<ConnectionPipe> GetCurrentConnections(IBlock block)
     {
-        var connections = new List<ConnectionPipe>();
-        if (_blockToPipeMap.TryGetValue(block, out var pipe))
+        if (_blockToPipeMap.TryGetValue(block, out var pipes))
         {
-            connections.Add(pipe);
+            return new List<ConnectionPipe>(pipes);
         }
-        return connections;
+        return new List<ConnectionPipe>();
     }
 
     public void AddPipe(ConnectionPipe pipe)
@@ -312,7 +372,7 @@ public partial class ConnectionManager : Node2D
         if (_blockToPipeMap.Count == 0) return (null, null);
         var firstEntry = _blockToPipeMap.First();
         var block = firstEntry.Key;
-        var pipe = firstEntry.Value;
+        var pipe = firstEntry.Value.First();
         var nextBlock = pipe.GetOtherBlock(block);
         return (nextBlock, pipe);
     }
@@ -329,15 +389,18 @@ public partial class ConnectionManager : Node2D
 
     public void ClearInsertionHighlights()
     {
-        foreach (var pipe in _activePipes)
+        foreach (var pipes in _blockToPipeMap.Values)
         {
-            pipe.ClearInsertionHighlight();
+            foreach (var pipe in pipes)
+            {
+                pipe.ClearInsertionHighlight();
+            }
         }
     }
 
     public void SetConnection(IBlock block, ConnectionPipe pipe)
     {
-        _blockToPipeMap[block] = pipe;
+        AddPipeToBlock(block, pipe);
         GD.Print($"[ConnectionManager] Set connection for block {block.Name} to pipe {pipe.Name}");
     }
 }
