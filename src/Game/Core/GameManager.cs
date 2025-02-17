@@ -35,6 +35,8 @@ public partial class GameManager : Node2D
 
         // Initialize managers
         TokenManager = new TokenManager(ConnectionManager, tokenLayer);
+        AddChild(TokenManager); // Add TokenManager to the scene tree
+        TokenManager.Name = "TokenManager"; // Set the name so it can be found by path
         _gameState = new GameStateManager(inventory);
         BlockFactory = new F.Game.Core.BlockFactory(this);
 
@@ -46,11 +48,6 @@ public partial class GameManager : Node2D
     {
         if (Instance == this)
             Instance = null;
-    }
-
-    public override void _Process(double delta)
-    {
-        TokenManager?.Update();
     }
 
     public BaseBlock? CreateBlock(F.Game.BlockLogic.BlockMetadata metadata, Node parent)

@@ -35,7 +35,7 @@ public partial class ToolbarBlockManager : Node
 
         GD.Print("Adding block of type: " + blockType);
 
-        var metadata = BlockMetadata.Create(blockType);
+        var metadata = BlockMetadata.GetMetadata    (blockType);
         if (metadata == null) return;
 
         // Load and instantiate the block scene

@@ -49,5 +49,17 @@ namespace F.Game.Connections.Helpers
             GD.Print("[PipeSelector Debug] No pipe found within hover distance");
             return null;
         }
+
+        public static ConnectionPipe? GetPipeAtPosition(Vector2 position, List<ConnectionPipe> connections)
+        {
+            foreach (var pipe in connections)
+            {
+                if (pipe.IsPointNearPipe(position))
+                {
+                    return pipe;
+                }
+            }
+            return null;
+        }
     }
 } 

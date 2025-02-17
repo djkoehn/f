@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=3 uid="uid://cmv2mosvu1k2p"]
+
+[ext_resource type="PackedScene" uid="uid://cmq1qjbdjfbug" path="res://scenes/BaseBlock.tscn" id="1_ovojw"]
+[ext_resource type="Shader" path="res://assets/shaders/blocks/DropShadow.gdshader" id="2_3qyy6"]
+[ext_resource type="Texture2D" uid="uid://bgh6pvt6irckb" path="res://assets/images/blocks/BlockBase.png" id="3_78it5"]
+[ext_resource type="Texture2D" uid="uid://be2sp66jv0ayn" path="res://assets/images/blocks/Mult2Top.png" id="4_krk3u"]
+[ext_resource type="FontFile" uid="uid://ccw0jvdcvtt16" path="res://assets/fonts/ProggyClean.ttf" id="5_r6k4q"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_shadow"]
+shader = ExtResource("2_3qyy6")
+shader_parameter/blur_amount = 4.261
+shader_parameter/shadow_opacity = 0.17
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_trj31"]
+resource_local_to_scene = true
+font = ExtResource("5_r6k4q")
+font_size = 60
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
+[node name="AddBlock" instance=ExtResource("1_ovojw")]
+
+[node name="shadow" type="Sprite2D" parent="." index="2"]
+z_index = -1
+material = SubResource("ShaderMaterial_shadow")
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_78it5")
+
+[node name="base" type="Sprite2D" parent="." index="3"]
+z_index = 1
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_78it5")
+
+[node name="Top" type="Sprite2D" parent="." index="4"]
+self_modulate = Color(0, 1, 0.116667, 1)
+z_index = 1
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("4_krk3u")
+
+[node name="Label" parent="." index="5"]
+z_index = 2
+offset_top = -102.667
+offset_bottom = -52.6667
+text = "Mult"
+label_settings = SubResource("LabelSettings_trj31")

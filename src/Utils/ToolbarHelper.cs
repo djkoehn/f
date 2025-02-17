@@ -1,163 +1,90 @@
-using F.Game.Toolbar;
-using F.Game.Core;
+using Godot;
 using F.Game.BlockLogic;
 using F.Game.Connections;
 
 namespace F.Utils
 {
+    // ToolbarHelper is now an instance class derived from Node
     public partial class ToolbarHelper : Node
     {
-        public void ReturnBlockToToolbar(BaseBlock block)
+        public void ReturnBlockToToolbar(BaseBlock block, Node container)
         {
-            GD.Print("[Debug ToolbarHelper] Entering ReturnBlockToToolbar for block: " + (string.IsNullOrEmpty(block.Name) ? block.GetName() : block.Name));
-            
-            // Retrieve the GameManager from the scene tree
-            var gameManager = GetTree().Root.GetNodeOrNull<GameManager>("/root/Main/GameManager");
-            if (gameManager == null)
+            if (block == null)
             {
-                GD.PrintErr("[Debug ToolbarHelper] GameManager not found in ToolbarHelper.");
+                GD.PrintErr("ReturnBlockToToolbar: block is null.");
                 return;
             }
-            
-            GD.Print("[Debug ToolbarHelper] GameManager found: " + gameManager.Name);
-            // Retrieve the toolbar container node; assumed path is 'Toolbar/BlockContainer' under GameManager
-            var toolbar = gameManager.GetNodeOrNull<Node>("Toolbar/BlockContainer");
-            if (toolbar == null)
+            if (block.GetTree() == null)
             {
-                GD.PrintErr("[Debug ToolbarHelper] ToolbarBlockContainer not found in GameManager.");
+                GD.PrintErr("ReturnBlockToToolbar: block is not in the scene tree.");
                 return;
             }
 
-            // Get connected blocks before disconnecting
-            IBlock? inputBlock = null;
-            IBlock? outputBlock = null;
-            
-            if (gameManager.ConnectionManager != null)
+            if (container != null)
             {
-                // Get all current connections for the block
-                var connections = gameManager.ConnectionManager.GetCurrentConnections(block);
-                foreach (var pipe in connections)
+                // First, handle any existing connections
+                var connectionManager = block.GetNode<ConnectionManager>("/root/Main/GameManager/BlockLayer");
+                if (connectionManager != null)
                 {
-                    if (pipe.SourceBlock == block)
+                    // Get all current connections before we disconnect
+                    var connections = connectionManager.GetCurrentConnections(block);
+                    if (connections.Count > 0)
                     {
-                        outputBlock = pipe.TargetBlock; // The block we were outputting to
-                        GD.Print($"[Debug ToolbarHelper] Found output connection to: {outputBlock.GetType().Name}");
-                    }
-                    else if (pipe.TargetBlock == block)
-                    {
-                        inputBlock = pipe.SourceBlock; // The block that was inputting to us
-                        GD.Print($"[Debug ToolbarHelper] Found input connection from: {inputBlock.GetType().Name}");
-                    }
-                }
+                        // Find the source and target blocks that need to be reconnected
+                        IBlock? sourceBlock = null;
+                        IBlock? targetBlock = null;
+                        
+                        foreach (var pipe in connections)
+                        {
+                            if (pipe.SourceBlock == block && pipe.TargetBlock != null)
+                            {
+                                targetBlock = pipe.TargetBlock;
+                            }
+                            else if (pipe.TargetBlock == block && pipe.SourceBlock != null)
+                            {
+                                sourceBlock = pipe.SourceBlock;
+                            }
+                        }
 
-                GD.Print("[Debug ToolbarHelper] Disconnecting block from ConnectionManager");
-                gameManager.ConnectionManager.DisconnectBlock(block);
+                        // Disconnect the block first
+                        connectionManager.DisconnectBlock(block);
 
-                // If we found both input and output blocks, reconnect them
-                if (inputBlock != null && outputBlock != null)
-                {
-                    GD.Print($"[Debug ToolbarHelper] Attempting to reconnect {inputBlock.GetType().Name} to {outputBlock.GetType().Name}");
-                    // First reset their connection states
-                    if (inputBlock is BaseBlock inBlock) inBlock.ResetConnections();
-                    if (outputBlock is BaseBlock outBlock) outBlock.ResetConnections();
-
-                    // Create new connection using CreatePipeForInsertion to bypass connection checks
-                    var newPipe = ConnectionFactory.CreatePipeForInsertion(inputBlock, outputBlock);
-                    if (newPipe != null)
-                    {
-                        gameManager.ConnectionManager.AddChild(newPipe);
-                        gameManager.ConnectionManager.SetConnection(inputBlock, newPipe);
-                        gameManager.ConnectionManager.SetConnection(outputBlock, newPipe);
-                        GD.Print($"[Debug ToolbarHelper] Successfully reconnected {inputBlock.GetType().Name} to {outputBlock.GetType().Name}");
+                        // If we found both blocks, reconnect them
+                        if (sourceBlock != null && targetBlock != null)
+                        {
+                            connectionManager.ConnectBlocks(sourceBlock, targetBlock);
+                        }
                     }
                     else
                     {
-                        GD.PrintErr("[Debug ToolbarHelper] Failed to create new connection between remaining blocks");
+                        // If no connections, just disconnect
+                        connectionManager.DisconnectBlock(block);
                     }
                 }
-            }
-            
-            ReturnBlockToToolbar(block, toolbar);
-        }
-
-        // Updated static method to accept any Node type that can be a parent
-        public static void ReturnBlockToToolbar(BaseBlock block, Node container)
-        {
-            GD.Print("[Debug ToolbarHelper] (Static) Entering ReturnBlockToToolbar for block: " + (string.IsNullOrEmpty(block.Name) ? block.GetName() : block.Name));
-            GD.Print($"[Debug ToolbarHelper] Block state before return: {block.State}");
-            
-            // First ensure all connections are properly disconnected through the GameManager
-            var gameManager = block.GetTree().Root.GetNodeOrNull<GameManager>("/root/Main/GameManager");
-            if (gameManager?.ConnectionManager != null)
-            {
-                // Get connected blocks before disconnecting
-                IBlock? inputBlock = null;
-                IBlock? outputBlock = null;
-                var connections = gameManager.ConnectionManager.GetCurrentConnections(block);
                 
-                foreach (var pipe in connections)
+                // Reset the block's connection state
+                block.ResetConnections();
+                
+                if (block.GetParent() != null)
                 {
-                    if (pipe.SourceBlock == block)
-                    {
-                        outputBlock = pipe.TargetBlock; // The block we were outputting to
-                    }
-                    else if (pipe.TargetBlock == block)
-                    {
-                        inputBlock = pipe.SourceBlock; // The block that was inputting to us
-                    }
+                    block.GetParent().RemoveChild(block);
+                }
+                container.AddChild(block);
+                block.ZIndex = ZIndexConfig.Layers.ToolbarBlock;
+
+                // If container is a ToolbarBlockContainer, update positions
+                if (container is F.Game.Toolbar.ToolbarBlockContainer toolbarContainer)
+                {
+                    toolbarContainer.UpdateBlockPositions();
+                    toolbarContainer.UpdateContainerSize();
                 }
 
-                GD.Print("[Debug ToolbarHelper] (Static) Disconnecting block from ConnectionManager");
-                gameManager.ConnectionManager.DisconnectBlock(block);
-
-                // If we found both input and output blocks, reconnect them
-                if (inputBlock != null && outputBlock != null)
-                {
-                    GD.Print($"[Debug ToolbarHelper] (Static) Attempting to reconnect {inputBlock.GetType().Name} to {outputBlock.GetType().Name}");
-                    gameManager.ConnectionManager.ConnectBlocks(inputBlock, outputBlock);
-                }
+                GD.Print($"ReturnBlockToToolbar: Block {block.Name} returned to toolbar.");
             }
-
-            if (block.GetParent() != null)
+            else
             {
-                GD.Print("[Debug ToolbarHelper] (Static) Removing block from parent: " + block.GetParent().Name);
-                block.GetParent().RemoveChild(block);
+                GD.PrintErr("ReturnBlockToToolbar: container is null.");
             }
-
-            // Reset all connection states before adding to toolbar
-            GD.Print($"[Debug ToolbarHelper] Resetting connections for block: {block.Name}");
-            block.ResetConnections();
-            
-            // Set state to InToolbar before adding to container to ensure proper state
-            block.SetInToolbar(true);
-            
-            container.AddChild(block);
-            block.Position = Vector2.Zero;
-            block.Scale = Vector2.One;
-            block.Rotation = 0;
-            block.SetDragging(false);
-            block.SetPlaced(false);
-            
-            // Set the correct Z-index for toolbar blocks
-            block.ZIndex = ZIndexConfig.Layers.ToolbarBlock;
-            block.ZAsRelative = false;
-            GD.Print($"[Debug ToolbarHelper] Set Z-index to {block.ZIndex} for toolbar block");
-            
-            // Call UpdateBlockPositions if the container implements IBlockContainer
-            if (container is IBlockContainer blockContainer)
-            {
-                blockContainer.UpdateBlockPositions();
-            }
-
-            // Ensure block is in group 'Blocks'
-            if (!block.IsInGroup("Blocks"))
-                block.AddToGroup("Blocks");
-
-            string blockNameStatic = block.Name;
-            if (string.IsNullOrEmpty(blockNameStatic))
-                blockNameStatic = block.GetName();
-            GD.Print($"[Debug ToolbarHelper] Block state after return: {block.State}");
-            GD.Print("[Debug ToolbarHelper] (Static) Finished processing, block " + blockNameStatic + " returned to toolbar via static helper.");
         }
     }
-} 
+}

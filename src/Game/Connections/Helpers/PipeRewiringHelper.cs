@@ -25,7 +25,7 @@ namespace F.Game.Connections.Helpers
             }
 
             // Get the sockets from the existing pipe
-            var (fromSocket, toSocket) = pipe.GetSockets();
+            (Node2D? fromSocket, Node2D? toSocket) = pipe.GetSockets();
             if (fromSocket == null || toSocket == null)
             {
                 GD.PrintErr("Failed to get sockets from existing pipe");

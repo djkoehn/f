@@ -1,10 +1,11 @@
+using F.Game.BlockLogic;
+
 namespace F.Utils
 {
     public partial class InputHelper : Node
     {
         private BlockInteractionManager? _blockManager;
         private DragHelper? _dragHelper;
-        private ToolbarHelper? _toolbarHelper;
         private BaseBlock? _currentDraggedBlock;
 
         public override void _Ready()
@@ -13,7 +14,6 @@ namespace F.Utils
 
             // Retrieve other helpers from the central HelperFunnel
             var hf = HelperFunnel.GetInstance();
-            _toolbarHelper = hf.GetNodeOrNull<ToolbarHelper>("ToolbarHelper");
             _dragHelper = hf?.GetNodeOrNull<DragHelper>("DragHelper");
 
             if (_dragHelper == null)
@@ -72,7 +72,26 @@ namespace F.Utils
                 }
 
                 GD.Print("[Debug InputHelper] Right-click on block: '" + blockName + "'. Returning to toolbar.");
-                _toolbarHelper?.ReturnBlockToToolbar(block);
+                
+                // Get the toolbar container
+                var toolbarContainer = GetNode<Control>("/root/Main/GameManager/Toolbar/BlockContainer");
+                if (toolbarContainer == null)
+                {
+                    GD.PrintErr("[Debug InputHelper] Could not find toolbar container for block return.");
+                    return;
+                }
+
+                // Retrieve the ToolbarHelper instance from HelperFunnel
+                var hf = HelperFunnel.GetInstance();
+                var toolbarHelper = hf?.GetNodeOrNull<F.Utils.ToolbarHelper>("ToolbarHelper");
+                if (toolbarHelper != null)
+                {
+                    toolbarHelper.ReturnBlockToToolbar(block, toolbarContainer);
+                }
+                else
+                {
+                    GD.PrintErr("ToolbarHelper instance not found in HelperFunnel.");
+                }
 
                 block.SetInToolbar(true);
                 GetViewport().SetInputAsHandled();
@@ -110,31 +129,22 @@ namespace F.Utils
             if (block.GetParent() is F.Game.Toolbar.ToolbarBlockContainer container)
             {
                 GD.Print("[Debug InputHelper] Block '" + blockName + "' is in the toolbar. Moving to BlockLayer before dragging.");
-                var blockLayer = GetTree().Root.GetNodeOrNull<Node2D>(BlockConfig.BlockLayerPath);
+                var blockLayer = GetNode<Node2D>("/root/Main/GameManager/BlockLayer");
                 if (blockLayer == null)
-                {
-                    var currentScene = GetTree().CurrentScene;
-                    if (currentScene != null)
-                        blockLayer = currentScene.GetNodeOrNull<Node2D>("GameManager/BlockLayer");
-                }
-
-                if (blockLayer != null)
-                {
-                    Vector2 globalPos = block.GlobalPosition;
-                    if (block.GetParent() is Control ctrl) {
-                        globalPos = ctrl.GlobalPosition + block.Position;
-                    }
-                    container.RemoveChild(block);
-                    blockLayer.AddChild(block);
-                    block.GlobalPosition = mouseEvent.GlobalPosition;
-                    block.SetInToolbar(false);
-                }
-                else
                 {
                     GD.PrintErr("[Debug InputHelper] Could not locate BlockLayer; not moving block.");
                     GetViewport().SetInputAsHandled();
                     return;
                 }
+
+                Vector2 globalPos = block.GlobalPosition;
+                if (block.GetParent() is Control ctrl) {
+                    globalPos = ctrl.GlobalPosition + block.Position;
+                }
+                container.RemoveChild(block);
+                blockLayer.AddChild(block);
+                block.GlobalPosition = mouseEvent.GlobalPosition;
+                block.SetInToolbar(false);
             }
 
             // Start dragging the block

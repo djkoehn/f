@@ -1,6 +1,26 @@
-[gd_scene load_steps=2 format=3 uid="uid://b1k8ouenybvvw"]
+[gd_scene load_steps=3 format=3 uid="uid://b1k8ouenybvvw"]
 
 [ext_resource type="Script" path="res://src/Game/Tokens/Token.cs" id="1_token"]
+[ext_resource type="Script" path="res://src/Game/Tokens/TokenVisuals.cs" id="2_visuals"]
 
 [node name="Token" type="Node2D"]
 script = ExtResource("1_token")
+
+[node name="TokenVisuals" type="Node2D" parent="."]
+script = ExtResource("2_visuals")
+
+[node name="ColorRect" type="ColorRect" parent="TokenVisuals"]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+color = Color(1, 0.843137, 0, 1)
+
+[node name="Label" type="Label" parent="TokenVisuals"]
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1

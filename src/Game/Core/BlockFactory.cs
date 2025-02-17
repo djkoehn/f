@@ -1,5 +1,6 @@
 using GM = F.Game.Core.GameManager;
 using F.Utils;
+using Godot;
 
 namespace F.Game.Core
 {
@@ -15,7 +16,9 @@ namespace F.Game.Core
         // Create a block given metadata and a parent node.
         public BaseBlock? CreateBlock(F.Game.BlockLogic.BlockMetadata metadata, Node parent)
         {
-            return _gameManager.CreateBlock(metadata, parent);
+            var block = GD.Load<PackedScene>(metadata.ScenePath).Instantiate<BaseBlock>();
+            block.Metadata = metadata;
+            return block;
         }
 
         // Create a toolbar block by creating the block and then applying toolbar configuration.

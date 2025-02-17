@@ -1,13 +1,16 @@
+using Godot;
+
 namespace F.Utils
 {
     // HelperFunnel acts as a central container for various helper instances (i.e. a basic DI container).
     public partial class HelperFunnel : Node
     {
-        // Expose helpers as public properties, using the null-forgiving operator to silence warnings.
+        // Expose helpers as public properties.
         public DragHelper? DragHelper { get; private set; } = null;
         public TweenHelper? TweenHelper { get; private set; } = null;
         // public ConnectionHelper ConnectionHelper { get; } = new ConnectionHelper();
-        public ToolbarHelper? ToolbarHelper { get; private set; } = null;
+        // Removed ToolbarHelper property because ToolbarHelper is now a static class.
+        // public ToolbarHelper? ToolbarHelper { get; private set; } = null;
         // If needed, we can add more helpers here. TweenHelper is static so it is not needed as an instance.
         // e.g. public SomeOtherHelper OtherHelper { get; private set; }
 
@@ -28,8 +31,7 @@ namespace F.Utils
             // ConnectionHelper = GetNode("ConnectionHelper") as ConnectionHelper;
             // if (ConnectionHelper == null) GD.PrintErr("ConnectionHelper not found or not of correct type in HelperFunnel");
 
-            ToolbarHelper = GetNode("ToolbarHelper") as ToolbarHelper;
-            if (ToolbarHelper == null) GD.PrintErr("ToolbarHelper not found or not of correct type in HelperFunnel");
+            // Removed ToolbarHelper initialization.
 
             // Initialize additional helpers as needed
             // OtherHelper = GetNode<SomeOtherHelper>("SomeOtherHelper");
@@ -76,7 +78,8 @@ namespace F.Utils
             GD.Print($"{indent}- {node.Name} ({node.GetType()})");
             foreach (var child in node.GetChildren())
             {
-                PrintSceneTree(child, depth + 1);
+                if (child is Node childNode)
+                    PrintSceneTree(childNode, depth + 1);
             }
         }
     }

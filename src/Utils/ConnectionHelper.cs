@@ -44,7 +44,7 @@ namespace F.Utils
             }
 
             // First clear all existing highlights
-            gameManager.ConnectionManager.ClearInsertionHighlights();
+            gameManager.ConnectionManager.ClearAllHighlights();
 
             // Then check for pipe at position and highlight if found
             var pipe = gameManager.ConnectionManager.GetPipeAtPosition(position);
@@ -103,7 +103,7 @@ namespace F.Utils
                 return;
             }
             
-            gameManager.ConnectionManager.ClearInsertionHighlights();
+            gameManager.ConnectionManager.ClearAllHighlights();
         }
 
     }

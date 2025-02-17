@@ -1,4 +1,11 @@
 using F.Game.Tokens;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
+using Microsoft.CodeAnalysis;
+using F.Game.Connections;
+using System.Dynamic;
+using RoslynScript = Microsoft.CodeAnalysis.Scripting.Script;
+using RoslynCSharpScript = Microsoft.CodeAnalysis.CSharp.Scripting.CSharpScript;
 // for IBlock, if needed
 
 namespace F.Game.BlockLogic
@@ -14,6 +21,8 @@ namespace F.Game.BlockLogic
         private bool _isInputConnected;
         private bool _isOutputConnected;
 
+        private ConnectionManager _connectionManager;
+
         string IBlock.Name
         {
             get => _blockName;
@@ -21,6 +30,7 @@ namespace F.Game.BlockLogic
         }
 
         public BlockState State { get; set; } = BlockState.InToolbar;
+        public BlockMetadata? Metadata { get; set; }
 
         public virtual void Initialize(BlockConfig config)
         {
@@ -39,10 +49,79 @@ namespace F.Game.BlockLogic
         // Declare the partial method for initializing dragging functionality; implementation provided in BaseBlock.Dragging.cs
         partial void InitializeDragging();
 
-        // Change the abstract method to a virtual method with a default implementation
         public virtual void ProcessToken(Token token)
         {
-            throw new NotImplementedException("ProcessToken must be implemented in derived block classes.");
+            GD.Print($"[BaseBlock Debug] Processing token in block {Name}");
+            
+            // First run the block-specific processing from metadata
+            if (Metadata != null && !string.IsNullOrEmpty(Metadata.ProcessTokenScript))
+            {
+                try
+                {
+                    // Create the script with a declared variable
+                    string scriptWithVar = $@"
+                        float Value = {token.Value};
+                        Action<string> Print = Godot.GD.Print;
+                        Action<string> PrintErr = Godot.GD.PrintErr;
+                        {Metadata.ProcessTokenScript}
+                        return Value;
+                    ";
+
+                    // Set up script options with necessary references and imports
+                    var options = ScriptOptions.Default
+                        .WithImports("System")
+                        .WithReferences(typeof(GD).Assembly)
+                        .WithOptimizationLevel(OptimizationLevel.Release);
+                    
+                    GD.Print($"[BaseBlock Debug] Executing script for block {Name} with script: {scriptWithVar}");
+                    var result = RoslynCSharpScript.RunAsync<float>(scriptWithVar, options).Result;
+                    
+                    // Update token value from result
+                    token.Value = result.ReturnValue;
+                    
+                    GD.Print($"[BaseBlock Debug] Script execution completed for block {Name}");
+                }
+                catch (Exception e)
+                {
+                    GD.PrintErr($"[BaseBlock Debug] Error processing token script in block {Name}: {e.Message}");
+                    // Continue with common processing even if script fails
+                }
+            }
+
+            // Then handle common token processing
+            ProcessTokenCommon(token);
+        }
+
+        protected void ProcessTokenCommon(Token token)
+        {
+            GD.Print($"[BaseBlock Debug] Starting common token processing in block {Name}");
+            
+            // Add this block to the token's processed blocks list
+            token.ProcessedBlocks.Add(this);
+            GD.Print($"[BaseBlock Debug] Added block {Name} to token's processed blocks");
+
+            // Handle token movement to next block or cleanup
+            if (_connectionManager != null)
+            {
+                var (nextBlock, pipe) = _connectionManager.GetNextConnection(this);
+                GD.Print($"[BaseBlock Debug] GetNextConnection returned nextBlock: {(nextBlock != null ? nextBlock.Name : "null")}, pipe: {(pipe != null ? "valid" : "null")}");
+                
+                if (nextBlock != null)
+                {
+                    GD.Print($"[BaseBlock Debug] Moving token from block {Name} to block {nextBlock.Name}");
+                    token.MoveTo(nextBlock);
+                }
+                else
+                {
+                    GD.Print($"[BaseBlock Debug] No next block found, destroying token in block {Name}");
+                    token.QueueFree();
+                }
+            }
+            else
+            {
+                GD.PrintErr($"[BaseBlock Debug] ConnectionManager is null in block {Name}, destroying token");
+                token.QueueFree();
+            }
         }
 
         // Default virtual implementation for HasConnections; override if needed
@@ -156,6 +235,7 @@ namespace F.Game.BlockLogic
             // Enable processing so that _Process callback is active
             SetProcess(true);
             GD.Print($"[Debug BaseBlock] {Name} initialization complete, Position: {GlobalPosition}, State: {State}");
+            _connectionManager = GetNode<ConnectionManager>("/root/Main/GameManager/BlockLayer");
         }
 
         public virtual void ResetConnections()

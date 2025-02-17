@@ -23,13 +23,39 @@ namespace F.Game.Toolbar
 
         public void AddBlock(BaseBlock block)
         {
-            ToolbarHelper.ReturnBlockToToolbar(block, this);
+            // Add the block to the scene tree first
+            AddChild(block);
+            block.ZIndex = ZIndexConfig.Layers.ToolbarBlock;
+            
+            var hf = F.Utils.HelperFunnel.GetInstance();
+            var toolbarHelper = hf?.GetNodeOrNull<F.Utils.ToolbarHelper>("ToolbarHelper");
+            if (toolbarHelper != null)
+            {
+                toolbarHelper.ReturnBlockToToolbar(block, this);
+            }
+            else
+            {
+                GD.PrintErr("ToolbarHelper instance not found in ToolbarBlockContainer.");
+            }
             UpdateContainerSize();
         }
 
         public void AddBlockWithoutAnimation(BaseBlock block)
         {
-            ToolbarHelper.ReturnBlockToToolbar(block, this);
+            // Add the block to the scene tree first
+            AddChild(block);
+            block.ZIndex = ZIndexConfig.Layers.ToolbarBlock;
+            
+            var hf = F.Utils.HelperFunnel.GetInstance();
+            var toolbarHelper = hf?.GetNodeOrNull<F.Utils.ToolbarHelper>("ToolbarHelper");
+            if (toolbarHelper != null)
+            {
+                toolbarHelper.ReturnBlockToToolbar(block, this);
+            }
+            else
+            {
+                GD.PrintErr("ToolbarHelper instance not found in ToolbarBlockContainer.");
+            }
         }
 
         public void PrepareSpaceForBlock()
@@ -73,14 +99,12 @@ namespace F.Game.Toolbar
             
             for (int i = 0; i < count; i++)
             {
-                // Keep current Y position
-                Vector2 pos = blocks[i].Position;
-                pos.X = startX + i * (blockWidth + spacing);
-                blocks[i].Position = pos;
+                // Set X position for spacing and Y to 0
+                blocks[i].Position = new Vector2(startX + i * (blockWidth + spacing), 0);
             }
         }
 
-        private void UpdateContainerSize()
+        public void UpdateContainerSize()
         {
             var blocks = GetChildren().OfType<BaseBlock>().ToList();
             float blockWidth = 100f; // default block width 

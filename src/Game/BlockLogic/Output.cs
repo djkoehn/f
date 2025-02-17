@@ -6,6 +6,7 @@ public partial class Output : Node2D, IBlock
 {
     private Node2D? _inputSocket;
     private float _value;
+    private Label? _valueLabel;
 
     public new string Name { get; set; } = "Output";
     
@@ -13,9 +14,20 @@ public partial class Output : Node2D, IBlock
     {
         base._Ready();
         _inputSocket = GetNode<Node2D>("BlockInputSocket");
+        _valueLabel = GetNode<Label>("Value");
+        
         if (_inputSocket == null)
         {
             GD.PrintErr("Input socket not found for Output block. Ensure 'BlockInputSocket' exists in the scene.");
+        }
+        
+        if (_valueLabel == null)
+        {
+            GD.PrintErr("Value label not found for Output block. Ensure 'Value' label exists in the scene.");
+        }
+        else
+        {
+            _valueLabel.Show(); // Make sure the label is visible
         }
     }
 
@@ -42,6 +54,18 @@ public partial class Output : Node2D, IBlock
     public void ProcessToken(Token token)
     {
         _value = token.Value;
+        GD.Print($"[Output Debug] Received token with value: {_value}");
+        
+        if (_valueLabel != null)
+        {
+            _valueLabel.Text = _value.ToString("F1");
+            GD.Print($"[Output Debug] Updated value label to: {_valueLabel.Text}");
+        }
+        else
+        {
+            GD.PrintErr("[Output Debug] Value label is null, cannot display value!");
+        }
+        
         token.QueueFree();
     }
 

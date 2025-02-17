@@ -96,16 +96,22 @@ public partial class Toolbar : Control
         // Let BlockContainer handle block creation and management
         var blocks = _inventory.GetBlockMetadata();
         foreach (var pair in blocks)
+        {
             // Instantiate the block using BlockManager with BlockLayer as parent
             if (_gameManager.ConnectionManager is not null)
             {
-                var block = _gameManager.BlockFactory?.CreateBlock(pair.Value, _gameManager.ConnectionManager);
-                if (block is not null) _blockContainer.AddBlock(block);
+                var block = _gameManager.BlockFactory?.CreateBlock(pair.Value, _blockContainer);
+                if (block is not null)
+                {
+                    // Block is already created with _blockContainer as parent
+                    _blockContainer.AddBlock(block);
+                }
             }
             else
             {
                 GD.PrintErr("ConnectionManager is null, cannot create block!");
             }
+        }
     }
 
     public override void _Process(double delta)
@@ -177,7 +183,16 @@ public partial class Toolbar : Control
         returnAnim.ReturnCompleted += completedBlock =>
         {
             // Use ToolbarHelper to handle the actual return to toolbar
-            ToolbarHelper.ReturnBlockToToolbar(completedBlock, _blockContainer);
+            var hf = F.Utils.HelperFunnel.GetInstance();
+            var toolbarHelper = hf?.GetNodeOrNull<F.Utils.ToolbarHelper>("ToolbarHelper");
+            if (toolbarHelper != null)
+            {
+                toolbarHelper.ReturnBlockToToolbar(completedBlock, _blockContainer);
+            }
+            else
+            {
+                GD.PrintErr("ToolbarHelper instance not found in Toolbar.");
+            }
             GD.Print($"Block {completedBlock.Name} has returned home safely!");
         };
     }
