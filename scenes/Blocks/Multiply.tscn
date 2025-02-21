@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://cmv2mosvu1k2p"]
 
-[ext_resource type="PackedScene" uid="uid://cmq1qjbdjfbug" path="res://scenes/BaseBlock.tscn" id="1_ovojw"]
+[ext_resource type="PackedScene" uid="uid://cmq1qjbdjfbug" path="res://scenes/Utils/BaseBlock.tscn" id="1_ovojw"]
 [ext_resource type="Shader" path="res://assets/shaders/blocks/DropShadow.gdshader" id="2_3qyy6"]
 [ext_resource type="Texture2D" uid="uid://bgh6pvt6irckb" path="res://assets/images/blocks/BlockBase.png" id="3_78it5"]
 [ext_resource type="Texture2D" uid="uid://be2sp66jv0ayn" path="res://assets/images/blocks/Mult2Top.png" id="4_krk3u"]

@@ -75,6 +75,13 @@ public partial class ConnectionPipe : Node2D
             return;
         }
 
+        string sourceName = SourceBlock.Name ?? "unknown";
+        string targetName = TargetBlock.Name ?? "unknown";
+
+        // Set a unique name for the pipe based on the connected blocks
+        Name = $"Pipe_{sourceName}_{targetName}";
+        GD.Print($"[ConnectionPipe] Initialized pipe {Name} between {sourceName} and {targetName}");
+
         UpdateVisuals();
     }
 
@@ -91,6 +98,8 @@ public partial class ConnectionPipe : Node2D
         _isTemporary = true;
         _temporaryEndPoint = startBlock.GlobalPosition;
         SourceBlock = startBlock;
+        Name = $"TempPipe_{startBlock.Name}";
+        GD.Print($"[ConnectionPipe] Initialized temporary pipe {Name} from {startBlock.Name}");
         UpdateVisuals();
     }
 
@@ -107,6 +116,8 @@ public partial class ConnectionPipe : Node2D
         _isTemporary = true;
         _temporaryEndPoint = endPoint;
         SourceBlock = from;
+        Name = $"TempPipe_{from.Name}";
+        GD.Print($"[ConnectionPipe] Initialized temporary pipe {Name} from {from.Name}");
         UpdateVisuals();
     }
 

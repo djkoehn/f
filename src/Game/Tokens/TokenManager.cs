@@ -1,6 +1,5 @@
 using F.Audio;
 using F.Game.Connections;
-using Input = F.Game.BlockLogic.Input;
 using ConnectionManager = F.Game.Connections.ConnectionManager;
 
 namespace F.Game.Tokens;
@@ -24,7 +23,7 @@ public partial class TokenManager : Node
     public void SpawnToken(IBlock startBlock)
     {
         GD.Print("[TokenManager Debug] SpawnToken called");
-        var value = (startBlock as Input)?.GetValue() ?? 0f;
+        var value = (startBlock as BaseBlock)?.GetValue() ?? 1.0f;
         var token = _factory.CreateToken(startBlock, value);
 
         if (token == null)

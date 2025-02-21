@@ -8,6 +8,9 @@ namespace F.Utils
         // Now a static method that requires a Node context to obtain the GameManager
         public static bool TryConnectBlock(Node context, IBlock block, Vector2 position)
         {
+            string blockName = block.Name ?? "unknown";
+            GD.Print($"[ConnectionHelper Debug] Attempting to connect block {blockName} at position {position}");
+            
             var gameManager = context.GetTree().Root.GetNode<GameManager>($"/root/Main/GameManager");
             if (gameManager?.ConnectionManager == null)
             {

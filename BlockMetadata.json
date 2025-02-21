@@ -1,31 +1,42 @@
 {
   "blocks": [    {
       "id": "input",
-      "scenePath": "res://scenes/Blocks/Input.tscn", 
-      "processTokenScript": "// No processing needed for input block",
+      "scenePath": "res://scenes/Blocks/Input.tscn",
+      "processTokenScript": "Value = 1.0f;",
       "name": "Input",
-      "description": "Generates input tokens"
+      "description": "Generates input tokens",
+      "hasInputSocket": false,
+      "hasOutputSocket": true,
+      "isStationary": true,
+      "spawnOnSpace": true,
+      "displayValue": true
     },
     {
       "id": "output",
-      "scenePath":  "res://scenes/Blocks/Output.tscn",
+      "scenePath": "res://scenes/Blocks/Output.tscn",
       "processTokenScript": "Print($\"Output received token with value {Value}\");",
-      "name": "Output",  
-      "description": "Prints the token value"
+      "name": "Output",
+      "description": "Prints the token value",
+      "hasInputSocket": true,
+      "hasOutputSocket": false,
+      "isStationary": true,
+      "displayValue": true
     },
     {
       "id": "add",
       "scenePath": "res://scenes/Blocks/Add.tscn",
       "processTokenScript": "Value += 1.0f;",
       "name": "Add",
-      "description": "Adds a constant value to the token"
+      "description": "Adds a constant value to the token",
+      "displayValue": true
     },
     {
       "id": "multiply",
       "scenePath": "res://scenes/Blocks/Multiply.tscn",
       "processTokenScript": "Value *= 2.0f;",
       "name": "Multiply",
-      "description": "Multiplies the token by a constant value"
+      "description": "Multiplies the token by a constant value",
+      "displayValue": true
     }
   ]
 } 

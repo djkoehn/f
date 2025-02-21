@@ -19,7 +19,9 @@ namespace F.Game.Connections.Helpers
                     continue;
                 }
 
-                GD.Print($"[PipeSelector Debug] Checking pipe between {pipe.SourceBlock.GetType()} and {pipe.TargetBlock.GetType()}");
+                string sourceName = pipe.SourceBlock.Name ?? "unknown";
+                string targetName = pipe.TargetBlock.Name ?? "unknown";
+                GD.Print($"[PipeSelector Debug] Checking pipe between {sourceName} and {targetName}");
                 
                 var curvePoints = pipe.GetCurvePoints();
                 if (!curvePoints.Any())
@@ -35,14 +37,16 @@ namespace F.Game.Connections.Helpers
                     {
                         minDist = distance;
                         candidate = pipe;
-                        GD.Print($"[PipeSelector Debug] New best distance: {distance} for pipe between {pipe.SourceBlock.GetType()} and {pipe.TargetBlock.GetType()}");
+                        GD.Print($"[PipeSelector Debug] New best distance: {distance} for pipe between {sourceName} and {targetName}");
                     }
                 }
             }
 
             if (minDist <= hoverDistance && candidate != null)
             {
-                GD.Print($"[PipeSelector Debug] Selected pipe with distance {minDist}");
+                string sourceName = candidate.SourceBlock?.Name ?? "unknown";
+                string targetName = candidate.TargetBlock?.Name ?? "unknown";
+                GD.Print($"[PipeSelector Debug] Selected pipe between {sourceName} and {targetName} with distance {minDist}");
                 return candidate;
             }
 
@@ -50,16 +54,9 @@ namespace F.Game.Connections.Helpers
             return null;
         }
 
-        public static ConnectionPipe? GetPipeAtPosition(Vector2 position, List<ConnectionPipe> connections)
+        public static ConnectionPipe? GetPipeAtPosition(Vector2 position, List<ConnectionPipe> pipes)
         {
-            foreach (var pipe in connections)
-            {
-                if (pipe.IsPointNearPipe(position))
-                {
-                    return pipe;
-                }
-            }
-            return null;
+            return SelectPipe(pipes, position, PipeConfig.Interaction.HoverDistance);
         }
     }
 } 

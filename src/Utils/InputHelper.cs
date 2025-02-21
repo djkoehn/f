@@ -59,19 +59,17 @@ namespace F.Utils
             var block = _blockManager!.GetBlockAtPosition(mouseEvent.GlobalPosition);
             if (block != null)
             {
-                string blockName = ((IBlock)block).Name;
-                if (string.IsNullOrEmpty(blockName))
-                    blockName = block.GetName();
+                string blockName = ((IBlock)block).Name ?? "unknown";
 
                 // If the block is currently being dragged, first end the drag
                 if (block.State == BlockState.Dragging)
                 {
-                    GD.Print("[Debug InputHelper] Block '" + blockName + "' is dragging; ending drag before returning to toolbar.");
+                    GD.Print($"[Debug InputHelper] Block '{blockName}' is dragging; ending drag before returning to toolbar.");
                     _dragHelper?.EndDrag(block);
                     _currentDraggedBlock = null;
                 }
 
-                GD.Print("[Debug InputHelper] Right-click on block: '" + blockName + "'. Returning to toolbar.");
+                GD.Print($"[Debug InputHelper] Right-click on block: '{blockName}'. Returning to toolbar.");
                 
                 // Get the toolbar container
                 var toolbarContainer = GetNode<Control>("/root/Main/GameManager/Toolbar/BlockContainer");
@@ -113,9 +111,7 @@ namespace F.Utils
                 return;
             }
 
-            string blockName = ((BaseBlock)block).Name;
-            if (string.IsNullOrEmpty(blockName))
-                blockName = block.GetName();
+            string blockName = ((IBlock)block).Name ?? "unknown";
 
             // If we click on the currently dragged block, place it
             if (_currentDraggedBlock == block)
@@ -128,7 +124,7 @@ namespace F.Utils
             // If the block is in the toolbar, handle it specially
             if (block.GetParent() is F.Game.Toolbar.ToolbarBlockContainer container)
             {
-                GD.Print("[Debug InputHelper] Block '" + blockName + "' is in the toolbar. Moving to BlockLayer before dragging.");
+                GD.Print($"[Debug InputHelper] Block '{blockName}' is in the toolbar. Moving to BlockLayer before dragging.");
                 var blockLayer = GetNode<Node2D>("/root/Main/GameManager/BlockLayer");
                 if (blockLayer == null)
                 {
@@ -148,7 +144,7 @@ namespace F.Utils
             }
 
             // Start dragging the block
-            GD.Print("[Debug InputHelper] Starting drag for block '" + blockName + "' at " + mouseEvent.GlobalPosition);
+            GD.Print($"[Debug InputHelper] Starting drag for block '{blockName}' at {mouseEvent.GlobalPosition}");
             _currentDraggedBlock = block;
             _dragHelper?.StartDrag(block, mouseEvent.GlobalPosition);
             
@@ -178,9 +174,7 @@ namespace F.Utils
 
         private void PlaceBlock(BaseBlock block, Vector2 position)
         {
-            string blockName = ((IBlock)block).Name;
-            if (string.IsNullOrEmpty(blockName))
-                blockName = block.GetName();
+            string blockName = ((IBlock)block).Name ?? "unknown";
 
             GD.Print($"[Debug InputHelper] Placing block {blockName} at {position}");
             

@@ -6,8 +6,13 @@ namespace F.Game.BlockLogic
     {
         string Name { get; set; }
         void Initialize(object config);
+        BlockMetadata? Metadata { get; }
 
         bool HasConnections();
+        bool HasInputConnection();
+        bool HasOutputConnection();
+        void SetInputConnected(bool connected);
+        void SetOutputConnected(bool connected);
         void ProcessToken(Token token);
         Vector2 GlobalPosition { get; }
         Node GetParent();

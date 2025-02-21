@@ -12,11 +12,13 @@ public sealed class ConnectionFactory
 
     public ConnectionPipe CreateConnection(IBlock from, IBlock to)
     {
-        GD.Print($"Creating pipe between blocks: {from.Name} -> {to.Name}");
+        string fromName = from?.Name ?? "unknown";
+        string toName = to?.Name ?? "unknown";
+        GD.Print($"Creating pipe between blocks: {fromName} -> {toName}");
         
         // Try to retrieve sockets; if null, use the block itself if possible
-        var outputSocket = from.GetOutputSocket() as Node2D ?? (from as Node2D);
-        var inputSocket = to.GetInputSocket() as Node2D ?? (to as Node2D);
+        var outputSocket = from?.GetOutputSocket() as Node2D ?? (from as Node2D);
+        var inputSocket = to?.GetInputSocket() as Node2D ?? (to as Node2D);
 
         if (outputSocket == null || inputSocket == null)
         {
@@ -28,11 +30,11 @@ public sealed class ConnectionFactory
         if (ConnectionHelper.HasOutputConnection(from) || 
             ConnectionHelper.HasInputConnection(to))
         {
-            GD.PrintErr($"One or both blocks already have a connection! ({from.Name} or {to.Name})");
+            GD.PrintErr($"One or both blocks already have a connection! ({fromName} or {toName})");
             return null;
         }
         
-        if (from.GetParent() is ToolbarBlockContainer || to.GetParent() is ToolbarBlockContainer)
+        if (from?.GetParent() is ToolbarBlockContainer || to?.GetParent() is ToolbarBlockContainer)
             return null;
 
         var pipe = new ConnectionPipe();
@@ -51,10 +53,12 @@ public sealed class ConnectionFactory
     // Added a static method to create a connection pipe between two blocks
     public static ConnectionPipe CreatePipe(IBlock from, IBlock to)
     {
-        GD.Print($"(static) Creating pipe between blocks: {from.Name} -> {to.Name}");
+        string fromName = from?.Name ?? "unknown";
+        string toName = to?.Name ?? "unknown";
+        GD.Print($"(static) Creating pipe between blocks: {fromName} -> {toName}");
         
-        var outputSocket = from.GetOutputSocket() as Node2D ?? (from as Node2D);
-        var inputSocket = to.GetInputSocket() as Node2D ?? (to as Node2D);
+        var outputSocket = from?.GetOutputSocket() as Node2D ?? (from as Node2D);
+        var inputSocket = to?.GetInputSocket() as Node2D ?? (to as Node2D);
         
         if (outputSocket == null || inputSocket == null)
         {
@@ -63,13 +67,13 @@ public sealed class ConnectionFactory
         }
         
         // Enforce that a block can have only one connection per socket.
-        if (from.HasConnections() || to.HasConnections())
+        if (from?.HasConnections() == true || to?.HasConnections() == true)
         {
-            GD.PrintErr($"One or both blocks already have a connection! ({from.Name} or {to.Name})");
+            GD.PrintErr($"One or both blocks already have a connection! ({fromName} or {toName})");
             return null;
         }
         
-        if (from.GetParent() is ToolbarBlockContainer || to.GetParent() is ToolbarBlockContainer)
+        if (from?.GetParent() is ToolbarBlockContainer || to?.GetParent() is ToolbarBlockContainer)
             return null;
 
         var pipe = new ConnectionPipe();
@@ -80,20 +84,25 @@ public sealed class ConnectionFactory
     // New static method to create a pipe for insertion bypassing the connection check
     public static ConnectionPipe CreatePipeForInsertion(IBlock from, IBlock to)
     {
-        GD.Print($"(static insertion) Creating pipe between blocks: {from.Name} -> {to.Name}");
-        var outputSocket = from.GetOutputSocket() as Node2D ?? (from as Node2D);
-        var inputSocket = to.GetInputSocket() as Node2D ?? (to as Node2D);
+        string fromName = from?.Name ?? "unknown";
+        string toName = to?.Name ?? "unknown";
+        GD.Print($"[ConnectionFactory] Creating pipe between blocks: {fromName} -> {toName}");
+        
+        var outputSocket = from?.GetOutputSocket() as Node2D ?? (from as Node2D);
+        var inputSocket = to?.GetInputSocket() as Node2D ?? (to as Node2D);
+        
         if (outputSocket == null || inputSocket == null)
         {
-            GD.PrintErr($"Could not find required sockets! Output: {outputSocket != null}, Input: {inputSocket != null}");
+            GD.PrintErr($"[ConnectionFactory] Could not find required sockets for blocks {fromName} -> {toName}");
             return null;
         }
-        if (from.GetParent() is ToolbarBlockContainer || to.GetParent() is ToolbarBlockContainer)
+        
+        if (from?.GetParent() is ToolbarBlockContainer || to?.GetParent() is ToolbarBlockContainer)
             return null;
 
         // Print the actual types for debugging
-        GD.Print($"From block type: {from.GetType()}, To block type: {to.GetType()}");
-        GD.Print($"From socket type: {outputSocket.GetType()}, To socket type: {inputSocket.GetType()}");
+        GD.Print($"[ConnectionFactory] From block type: {from?.GetType()}, To block type: {to?.GetType()}");
+        GD.Print($"[ConnectionFactory] From socket type: {outputSocket.GetType()}, To socket type: {inputSocket.GetType()}");
 
         var pipe = new ConnectionPipe();
         pipe.Initialize(outputSocket, inputSocket);

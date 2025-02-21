@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://output"]
 
-[ext_resource type="Script" path="res://src/Game/BlockLogic/Output.cs" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://cmq1qjbdjfbug" path="res://scenes/Utils/BaseBlock.tscn" id="1_block"]
 [ext_resource type="Texture2D" uid="uid://dulyunrthlhoj" path="res://assets/images/blocks/Output.png" id="3_w6au7"]
 [ext_resource type="Shader" path="res://assets/shaders/blocks/OutputTrigger.gdshader" id="4_ripple"]
 
@@ -12,51 +12,31 @@ shader_parameter/fade_progress = 0.0
 shader_parameter/distortion_strength = 0.0
 shader_parameter/center = Vector2(0.5, 0.5)
 
-[node name="Output" type="Node2D" groups=["blocks"]]
+[node name="Output" instance=ExtResource("1_block")]
 z_index = 1
-script = ExtResource("1_script")
 
-[node name="RippleEffect" type="ColorRect" parent="."]
+[node name="RippleEffect" type="ColorRect" parent="." index="0"]
 z_index = -1
 z_as_relative = false
 material = SubResource("ShaderMaterial_ripple")
-offset_left = -3000.0
-offset_top = -2000.0
-offset_right = 1000.0
-offset_bottom = 2000.0
+offset_left = -1770.0
+offset_top = -1967.0
+offset_right = 2230.0
+offset_bottom = 2033.0
 mouse_filter = 2
 
-[node name="BlockInputSocket" type="Node2D" parent="."]
-position = Vector2(-128, 0)
+[node name="BlockInputSocket" parent="." index="1"]
+position = Vector2(0, 0)
 
-[node name="Socket" type="ColorRect" parent="BlockInputSocket"]
+[node name="BlockOutputSocket" parent="." index="2"]
 visible = false
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 8.0
-offset_bottom = 8.0
-color = Color(0.2, 0.4, 0.8, 1)
-metadata/_edit_use_anchors_ = true
+position = Vector2(0, 0)
 
-[node name="TokenSocket" type="Node2D" parent="."]
-position = Vector2(-128, 0)
+[node name="TokenSocket" type="Node2D" parent="." index="3"]
 
-[node name="base" type="Sprite2D" parent="."]
+[node name="base" type="Sprite2D" parent="." index="4"]
+visible = false
 texture = ExtResource("3_w6au7")
 
-[node name="Value" type="Label" parent="."]
+[node name="Label" parent="." index="5"]
 visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "0"
-horizontal_alignment = 1
-vertical_alignment = 1

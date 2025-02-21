@@ -1,25 +1,22 @@
 [gd_scene load_steps=3 format=3 uid="uid://input"]
 
-[ext_resource type="Script" path="res://src/Game/BlockLogic/Input.cs" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://cmq1qjbdjfbug" path="res://scenes/Utils/BaseBlock.tscn" id="1_block"]
 [ext_resource type="Texture2D" uid="uid://b06escqs0kpo8" path="res://assets/images/blocks/Input.png" id="2_a16m8"]
 
-[node name="Input" type="Node2D" groups=["blocks"]]
-script = ExtResource("1_script")
+[node name="Input" instance=ExtResource("1_block")]
 
-[node name="BlockOutputSocket" type="Node2D" parent="."]
-position = Vector2(128, 0)
-
-[node name="Socket" type="ColorRect" parent="BlockOutputSocket"]
+[node name="BlockInputSocket" parent="." index="0"]
 visible = false
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 8.0
-offset_bottom = 8.0
-color = Color(0.8, 0.4, 0.2, 1)
-metadata/_edit_use_anchors_ = true
+position = Vector2(0, 0)
 
-[node name="TokenSocket" type="Node2D" parent="."]
-position = Vector2(128, 0)
+[node name="BlockOutputSocket" parent="." index="1"]
+position = Vector2(0, 0)
 
-[node name="base" type="Sprite2D" parent="."]
+[node name="TokenSocket" type="Node2D" parent="." index="2"]
+
+[node name="base" type="Sprite2D" parent="." index="3"]
+visible = false
 texture = ExtResource("2_a16m8")
+
+[node name="Label" parent="." index="4"]
+visible = false

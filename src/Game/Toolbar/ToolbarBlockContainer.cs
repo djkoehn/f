@@ -27,6 +27,12 @@ namespace F.Game.Toolbar
             AddChild(block);
             block.ZIndex = ZIndexConfig.Layers.ToolbarBlock;
             
+            // Ensure the block's name is preserved
+            if (block.Metadata != null)
+            {
+                GD.Print($"[ToolbarBlockContainer] Adding block {block.Name} to toolbar");
+            }
+            
             var hf = F.Utils.HelperFunnel.GetInstance();
             var toolbarHelper = hf?.GetNodeOrNull<F.Utils.ToolbarHelper>("ToolbarHelper");
             if (toolbarHelper != null)

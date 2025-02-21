@@ -41,8 +41,8 @@ public partial class ConnectionManager : Node2D
         ZIndex = ZIndexConfig.Layers.Pipes;
 
         // Retrieve the input and output blocks
-        _inputBlock = GetNode<F.Game.BlockLogic.Input>("Input");
-        _outputBlock = GetNode<F.Game.BlockLogic.Output>("Output");
+        _inputBlock = GetNode<BaseBlock>("Input");
+        _outputBlock = GetNode<BaseBlock>("Output");
 
         if (_inputBlock == null || _outputBlock == null)
         {
@@ -58,7 +58,7 @@ public partial class ConnectionManager : Node2D
     {
         if (_inputBlock == null || _outputBlock == null) return;
 
-        GD.Print("Creating initial connection between Input and Output blocks...");
+        GD.Print($"Creating initial connection between {_inputBlock.Name} and {_outputBlock.Name} blocks...");
         var pipe = _factory.CreateConnection(_inputBlock, _outputBlock);
         if (pipe != null)
         {
@@ -81,6 +81,7 @@ public partial class ConnectionManager : Node2D
         {
             if (pipe.SourceBlock == block) baseBlock.SetOutputConnected(true);
             if (pipe.TargetBlock == block) baseBlock.SetInputConnected(true);
+            GD.Print($"[ConnectionManager] Set connection for block {block.Name} to pipe {pipe.Name}");
         }
     }
 
@@ -131,14 +132,21 @@ public partial class ConnectionManager : Node2D
         if (pipe?.SourceBlock == null || pipe.TargetBlock == null) return false;
 
         // Get block names for logging
-        string blockName = block.Name ?? block.GetType().Name;
-        string sourceName = pipe.SourceBlock.Name ?? pipe.SourceBlock.GetType().Name;
-        string targetName = pipe.TargetBlock.Name ?? pipe.TargetBlock.GetType().Name;
+        string blockName = block.Name ?? "unknown";
+        string sourceName = pipe.SourceBlock.Name ?? "unknown";
+        string targetName = pipe.TargetBlock.Name ?? "unknown";
 
         GD.Print($"[ConnectionManager Debug] Attempting to connect block {blockName} between {sourceName} and {targetName}");
 
+        // Prevent self-connections
+        if (block == pipe.SourceBlock || block == pipe.TargetBlock)
+        {
+            GD.Print($"[ConnectionManager Debug] Rejected self-connection attempt for block {blockName}");
+            return false;
+        }
+
         // Special handling for Input block connections
-        bool isSourceInput = pipe.SourceBlock is F.Game.BlockLogic.Input;
+        bool isSourceInput = pipe.SourceBlock.Metadata?.Id == "input";
         
         // If the block we're inserting has connections and we're not inserting after Input, reject
         if (block is BaseBlock baseBlock && baseBlock.HasConnections() && !isSourceInput)
@@ -147,16 +155,17 @@ public partial class ConnectionManager : Node2D
             return false;
         }
 
+        // First ensure we disconnect any existing connections for the block
+        DisconnectBlock(block);
         ClearAllHighlights();
 
         // Store the original blocks
         var sourceBlock = pipe.SourceBlock;
         var targetBlock = pipe.TargetBlock;
 
-        // First, reset the new block's connections
+        // Reset the new block's connections if it's a BaseBlock
         if (block is BaseBlock newBlock)
         {
-            DisconnectBlock(block);
             newBlock.ResetConnections();
         }
 
@@ -207,7 +216,9 @@ public partial class ConnectionManager : Node2D
 
     private void RestoreConnection(IBlock sourceBlock, IBlock targetBlock)
     {
-        GD.Print($"[ConnectionManager] Restoring connection between {sourceBlock.Name} and {targetBlock.Name}");
+        string sourceName = sourceBlock.Name ?? "unknown";
+        string targetName = targetBlock.Name ?? "unknown";
+        GD.Print($"[ConnectionManager] Restoring connection between {sourceName} and {targetName}");
         // Use CreatePipeForInsertion here too since we're restoring a connection
         var restoredPipe = ConnectionFactory.CreatePipeForInsertion(sourceBlock, targetBlock);
         if (restoredPipe != null)
@@ -290,7 +301,7 @@ public partial class ConnectionManager : Node2D
     public (IBlock? nextBlock, ConnectionPipe? pipe) GetNextConnection()
     {
         // Get the Input block as our starting point
-        var inputBlock = GetNode<F.Game.BlockLogic.Input>("Input");
+        var inputBlock = GetNode<BaseBlock>("Input");
         if (inputBlock == null) return (null, null);
 
         return GetNextConnection(inputBlock);
@@ -318,6 +329,7 @@ public partial class ConnectionManager : Node2D
     public void AddPipe(ConnectionPipe pipe)
     {
         _activePipes.Add(pipe);
+        _connections.Add(pipe);
         AddChild(pipe);
     }
 
@@ -326,13 +338,37 @@ public partial class ConnectionManager : Node2D
         if (_activePipes.Contains(pipe))
         {
             _activePipes.Remove(pipe);
+            _connections.Remove(pipe);
             pipe.QueueFree();
         }
     }
 
-    public void SetConnection(IBlock block, ConnectionPipe pipe)
+    public void SetConnection(IBlock block, ConnectionPipe pipe, bool isSource = true)
     {
         AddPipeToBlock(block, pipe);
-        GD.Print($"[ConnectionManager] Set connection for block {block.Name} to pipe {pipe.Name}");
+        
+        // Get the existing source and target blocks
+        var currentSource = isSource ? block : pipe.SourceBlock;
+        var currentTarget = isSource ? pipe.TargetBlock : block;
+        
+        // Re-initialize the pipe with the correct source and target
+        if (currentSource != null && currentTarget != null)
+        {
+            var sourceSocket = currentSource.GetOutputSocket() as Node2D;
+            var targetSocket = currentTarget.GetInputSocket() as Node2D;
+            if (sourceSocket != null && targetSocket != null)
+            {
+                pipe.Initialize(sourceSocket, targetSocket);
+                
+                // Set the connection state flags for both blocks
+                currentSource.SetOutputConnected(true);
+                currentTarget.SetInputConnected(true);
+                
+                GD.Print($"[ConnectionManager] Source block {currentSource.Name} output connected: {currentSource.HasOutputConnection()}");
+                GD.Print($"[ConnectionManager] Target block {currentTarget.Name} input connected: {currentTarget.HasInputConnection()}");
+            }
+        }
+        
+        GD.Print($"[ConnectionManager] Set {(isSource ? "source" : "target")} connection for block {block.Name} to pipe {pipe.Name}");
     }
 }

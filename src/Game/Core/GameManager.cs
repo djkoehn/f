@@ -21,12 +21,12 @@ public partial class GameManager : Node2D
         GD.Print("GameManager initialized as singleton");
 
         // Get required components
-        ConnectionManager = GetNode<ConnectionManager>("BlockLayer");
-        _blockInteractionManager = GetNode<BlockInteractionManager>("BlockInteractionManager");
+        var blockLayer = GetNode<ConnectionManager>("BlockLayer");
         var tokenLayer = GetNode<Node2D>("TokenLayer");
         var inventory = GetNode<InventoryType>("Inventory");
+        _blockInteractionManager = GetNode<BlockInteractionManager>("BlockInteractionManager");
 
-        if (ConnectionManager == null || inventory == null || tokenLayer == null ||
+        if (blockLayer == null || inventory == null || tokenLayer == null ||
             _blockInteractionManager == null)
         {
             GD.PrintErr("Required components not found!");
@@ -34,9 +34,12 @@ public partial class GameManager : Node2D
         }
 
         // Initialize managers
+        ConnectionManager = blockLayer;  // Store the reference
         TokenManager = new TokenManager(ConnectionManager, tokenLayer);
         AddChild(TokenManager); // Add TokenManager to the scene tree
         TokenManager.Name = "TokenManager"; // Set the name so it can be found by path
+        GD.Print("[GameManager] TokenManager initialized and added to scene tree");
+
         _gameState = new GameStateManager(inventory);
         BlockFactory = new F.Game.Core.BlockFactory(this);
 

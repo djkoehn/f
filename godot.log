@@ -3,1303 +3,1404 @@ Vulkan 1.2.283 - Forward+ - Using Device #0: Apple - Apple M4
 
 [ConnectionManager Debug] Constructor called.
 Failed to get Bounds ColorRect!
-Set BlockLayer Z-index to -5
-Set Input Z-index to 0
-Set Output Z-index to 0
-[Input Debug] Input processing enabled
+[Debug BaseBlock] Input _Ready called, adding to Blocks group
+[Debug BaseBlock] Input metadata: null
+[Debug BaseBlock] Input initialization started, Position: (275, 540), State: InToolbar
+[Debug BaseBlock] Output _Ready called, adding to Blocks group
+[Debug BaseBlock] Output metadata: null
+[Debug BaseBlock] Output initialization started, Position: (1650, 540), State: InToolbar
 [ConnectionManager Debug] _Ready called.
+[BlockMetadata Debug] Loading metadata for first time, looking for blockId: add
+[BlockMetadata Debug] JSON content length: 1222
+[BlockMetadata Debug] First 200 chars of JSON: {
+  "blocks": [    {
+      "id": "input",
+      "scenePath": "res://scenes/Blocks/Input.tscn",
+      "processTokenScript": "Value = 1.0f;",
+      "name": "Input",
+      "description": "Generates input
+[BlockMetadata Debug] Deserialization result: success
+[BlockMetadata Debug] Number of blocks: 4
+[BlockMetadata Debug] Cached block - Id: input, Name: Input, SpawnOnSpace: True
+[BlockMetadata Debug] Cached block - Id: output, Name: Output, SpawnOnSpace: False
+[BlockMetadata Debug] Cached block - Id: add, Name: Add, SpawnOnSpace: False
+[BlockMetadata Debug] Cached block - Id: multiply, Name: Multiply, SpawnOnSpace: False
+[BlockMetadata Debug] Looking up metadata for blockId: add
+[BlockMetadata Debug] Available cache keys: input, output, add, multiply
+[BlockMetadata Debug] Retrieved metadata for add - Name: Add, SpawnOnSpace: False
+[BlockMetadata Debug] Looking up metadata for blockId: multiply
+[BlockMetadata Debug] Available cache keys: input, output, add, multiply
+[BlockMetadata Debug] Retrieved metadata for multiply - Name: Multiply, SpawnOnSpace: False
+[BlockMetadata Debug] Looking up metadata for blockId: add
+[BlockMetadata Debug] Available cache keys: input, output, add, multiply
+[BlockMetadata Debug] Retrieved metadata for add - Name: Add, SpawnOnSpace: False
+[BlockMetadata Debug] Looking up metadata for blockId: multiply
+[BlockMetadata Debug] Available cache keys: input, output, add, multiply
+[BlockMetadata Debug] Retrieved metadata for multiply - Name: Multiply, SpawnOnSpace: False
+[BlockMetadata Debug] Looking up metadata for blockId: add
+[BlockMetadata Debug] Available cache keys: input, output, add, multiply
+[BlockMetadata Debug] Retrieved metadata for add - Name: Add, SpawnOnSpace: False
+[BlockMetadata Debug] Looking up metadata for blockId: multiply
+[BlockMetadata Debug] Available cache keys: input, output, add, multiply
+[BlockMetadata Debug] Retrieved metadata for multiply - Name: Multiply, SpawnOnSpace: False
+[BlockMetadata Debug] Looking up metadata for blockId: add
+[BlockMetadata Debug] Available cache keys: input, output, add, multiply
+[BlockMetadata Debug] Retrieved metadata for add - Name: Add, SpawnOnSpace: False
+[BlockMetadata Debug] Looking up metadata for blockId: multiply
+[BlockMetadata Debug] Available cache keys: input, output, add, multiply
+[BlockMetadata Debug] Retrieved metadata for multiply - Name: Multiply, SpawnOnSpace: False
 Blocks in Inventory: add0, multiply1, add2, multiply3, add4, multiply5, add6, multiply7
 [Debug HelperFunnel] Successfully found HelperFunnel instance
 GameManager initialized as singleton
 [TokenManager Debug] Initialized with ConnectionManager and TokenLayer
+[GameManager] TokenManager initialized and added to scene tree
 GameStateManager initialized.
 [Debug DragHelper] DragHelper initialized.
 [Debug HelperFunnel] Successfully found HelperFunnel instance
 HelperFunnel initialized with all helpers.
-[Input Debug] Initialized with TokenManager: True, ConnectionManager: True
+Set BlockLayer Z-index to -5
+Set Input Z-index to -4
+[BlockMetadata Debug] Looking up metadata for blockId: input
+[BlockMetadata Debug] Available cache keys: input, output, add, multiply
+[BlockMetadata Debug] Retrieved metadata for input - Name: Input, SpawnOnSpace: True
+[BaseBlock Debug] Setting metadata for block Input - Value: Id=input, SpawnOnSpace=True
+[SceneInitializer] Set Input block metadata - SpawnOnSpace: True
+[SceneInitializer] Input block connection state - HasOutputConnection: False, HasInputConnection: False
+Set Output Z-index to -4
+[BlockMetadata Debug] Looking up metadata for blockId: output
+[BlockMetadata Debug] Available cache keys: input, output, add, multiply
+[BlockMetadata Debug] Retrieved metadata for output - Name: Output, SpawnOnSpace: False
+[BaseBlock Debug] Setting metadata for block Output - Value: Id=output, SpawnOnSpace=False
+[SceneInitializer] Set Output block metadata - HasInputSocket: True
+[SceneInitializer] Output block connection state - HasOutputConnection: False, HasInputConnection: False
+[SceneInitializer] Creating initial connection between Input and Output blocks
+Creating pipe between blocks: Input -> Output
+[ConnectionPipe] Initialized pipe Pipe_Input_Output between Input and Output
+[ConnectionManager] Set connection for block Input to pipe Pipe_Input_Output
+[ConnectionManager] Set connection for block Output to pipe Pipe_Input_Output
+[SceneInitializer] Initial connection result: True
+[SceneInitializer] Connection state after connecting - Input(HasOutput: True), Output(HasInput: True)
+[Debug BaseBlock] Input attempting to initialize managers
+[Debug BaseBlock] Input managers initialized:
+  - ConnectionManager: found
+  - TokenManager: found
+[Debug BaseBlock] Input initialization complete
+[Debug BaseBlock] Output attempting to initialize managers
+[Debug BaseBlock] Output managers initialized:
+  - ConnectionManager: found
+  - TokenManager: found
+[Debug BaseBlock] Output initialization complete
 Creating initial connection between Input and Output blocks...
 Creating pipe between blocks: Input -> Output
+One or both blocks already have a connection! (Input or Output)
 Creating toolbar blocks
-[Debug BaseBlock] AddBlock _Ready called, adding to Blocks group
-[Debug BaseBlock] AddBlock initialization complete, Position: (1000, 1208), State: InToolbar
+[BlockFactory Debug] Creating block with metadata - Id: add, Name: Add, SpawnOnSpace: False
+[BaseBlock Debug] Setting metadata for block AddBlock - Value: Id=add, SpawnOnSpace=False
+[BlockFactory Debug] Created block Add0 with metadata Id: add, SpawnOnSpace: False
+[Debug BaseBlock] Add0 _Ready called, adding to Blocks group
+[Debug BaseBlock] Add0 metadata: ID=add, SpawnOnSpace=False
+[BaseBlock Debug] Block Add0 initialized value label with: 1
+[Debug BaseBlock] Add0 initialization started, Position: (1000, 1208), State: InToolbar
+[ToolbarBlockContainer] Adding block Add0 to toolbar
 [Debug HelperFunnel] Successfully found HelperFunnel instance
-[BaseBlock Debug] Block AddBlock resetting connections. Current state: InToolbar
-[BaseBlock Debug] Block AddBlock reset input socket
-[BaseBlock Debug] Block AddBlock reset output socket
-[BaseBlock Debug] Block AddBlock finished resetting connections
-ReturnBlockToToolbar: Block AddBlock returned to toolbar.
-[Debug BaseBlock] @Node2D@5 _Ready called, adding to Blocks group
-[Debug BaseBlock] @Node2D@5 initialization complete, Position: (1000, 1208), State: InToolbar
+[ToolbarHelper] Returning block Add0 to toolbar
+[BaseBlock Debug] Block Add0 resetting connections. Current state: InToolbar
+[BaseBlock Debug] Block Add0 reset input socket
+[BaseBlock Debug] Block Add0 reset output socket
+[BaseBlock Debug] Block Add0 finished resetting connections
+[ToolbarHelper] Block Add0 returned to toolbar successfully
+[BlockFactory Debug] Creating block with metadata - Id: multiply, Name: Multiply, SpawnOnSpace: False
+[BaseBlock Debug] Setting metadata for block AddBlock - Value: Id=multiply, SpawnOnSpace=False
+[BlockFactory Debug] Created block Multiply1 with metadata Id: multiply, SpawnOnSpace: False
+[Debug BaseBlock] Multiply1 _Ready called, adding to Blocks group
+[Debug BaseBlock] Multiply1 metadata: ID=multiply, SpawnOnSpace=False
+[BaseBlock Debug] Block Multiply1 initialized value label with: 1
+[Debug BaseBlock] Multiply1 initialization started, Position: (1000, 1208), State: InToolbar
+[ToolbarBlockContainer] Adding block Multiply1 to toolbar
 [Debug HelperFunnel] Successfully found HelperFunnel instance
-[BaseBlock Debug] Block @Node2D@5 resetting connections. Current state: InToolbar
-[BaseBlock Debug] Block @Node2D@5 reset input socket
-[BaseBlock Debug] Block @Node2D@5 reset output socket
-[BaseBlock Debug] Block @Node2D@5 finished resetting connections
-ReturnBlockToToolbar: Block @Node2D@5 returned to toolbar.
-[Debug BaseBlock] @Node2D@6 _Ready called, adding to Blocks group
-[Debug BaseBlock] @Node2D@6 initialization complete, Position: (1000, 1208), State: InToolbar
+[ToolbarHelper] Returning block Multiply1 to toolbar
+[BaseBlock Debug] Block Multiply1 resetting connections. Current state: InToolbar
+[BaseBlock Debug] Block Multiply1 reset input socket
+[BaseBlock Debug] Block Multiply1 reset output socket
+[BaseBlock Debug] Block Multiply1 finished resetting connections
+[ToolbarHelper] Block Multiply1 returned to toolbar successfully
+[BlockFactory Debug] Creating block with metadata - Id: add, Name: Add, SpawnOnSpace: False
+[BaseBlock Debug] Setting metadata for block AddBlock - Value: Id=add, SpawnOnSpace=False
+[BlockFactory Debug] Created block Add2 with metadata Id: add, SpawnOnSpace: False
+[Debug BaseBlock] Add2 _Ready called, adding to Blocks group
+[Debug BaseBlock] Add2 metadata: ID=add, SpawnOnSpace=False
+[BaseBlock Debug] Block Add2 initialized value label with: 1
+[Debug BaseBlock] Add2 initialization started, Position: (1000, 1208), State: InToolbar
+[ToolbarBlockContainer] Adding block Add2 to toolbar
 [Debug HelperFunnel] Successfully found HelperFunnel instance
-[BaseBlock Debug] Block @Node2D@6 resetting connections. Current state: InToolbar
-[BaseBlock Debug] Block @Node2D@6 reset input socket
-[BaseBlock Debug] Block @Node2D@6 reset output socket
-[BaseBlock Debug] Block @Node2D@6 finished resetting connections
-ReturnBlockToToolbar: Block @Node2D@6 returned to toolbar.
-[Debug BaseBlock] @Node2D@7 _Ready called, adding to Blocks group
-[Debug BaseBlock] @Node2D@7 initialization complete, Position: (1000, 1208), State: InToolbar
+[ToolbarHelper] Returning block Add2 to toolbar
+[BaseBlock Debug] Block Add2 resetting connections. Current state: InToolbar
+[BaseBlock Debug] Block Add2 reset input socket
+[BaseBlock Debug] Block Add2 reset output socket
+[BaseBlock Debug] Block Add2 finished resetting connections
+[ToolbarHelper] Block Add2 returned to toolbar successfully
+[BlockFactory Debug] Creating block with metadata - Id: multiply, Name: Multiply, SpawnOnSpace: False
+[BaseBlock Debug] Setting metadata for block AddBlock - Value: Id=multiply, SpawnOnSpace=False
+[BlockFactory Debug] Created block Multiply3 with metadata Id: multiply, SpawnOnSpace: False
+[Debug BaseBlock] Multiply3 _Ready called, adding to Blocks group
+[Debug BaseBlock] Multiply3 metadata: ID=multiply, SpawnOnSpace=False
+[BaseBlock Debug] Block Multiply3 initialized value label with: 1
+[Debug BaseBlock] Multiply3 initialization started, Position: (1000, 1208), State: InToolbar
+[ToolbarBlockContainer] Adding block Multiply3 to toolbar
 [Debug HelperFunnel] Successfully found HelperFunnel instance
-[BaseBlock Debug] Block @Node2D@7 resetting connections. Current state: InToolbar
-[BaseBlock Debug] Block @Node2D@7 reset input socket
-[BaseBlock Debug] Block @Node2D@7 reset output socket
-[BaseBlock Debug] Block @Node2D@7 finished resetting connections
-ReturnBlockToToolbar: Block @Node2D@7 returned to toolbar.
-[Debug BaseBlock] @Node2D@8 _Ready called, adding to Blocks group
-[Debug BaseBlock] @Node2D@8 initialization complete, Position: (1000, 1208), State: InToolbar
+[ToolbarHelper] Returning block Multiply3 to toolbar
+[BaseBlock Debug] Block Multiply3 resetting connections. Current state: InToolbar
+[BaseBlock Debug] Block Multiply3 reset input socket
+[BaseBlock Debug] Block Multiply3 reset output socket
+[BaseBlock Debug] Block Multiply3 finished resetting connections
+[ToolbarHelper] Block Multiply3 returned to toolbar successfully
+[BlockFactory Debug] Creating block with metadata - Id: add, Name: Add, SpawnOnSpace: False
+[BaseBlock Debug] Setting metadata for block AddBlock - Value: Id=add, SpawnOnSpace=False
+[BlockFactory Debug] Created block Add4 with metadata Id: add, SpawnOnSpace: False
+[Debug BaseBlock] Add4 _Ready called, adding to Blocks group
+[Debug BaseBlock] Add4 metadata: ID=add, SpawnOnSpace=False
+[BaseBlock Debug] Block Add4 initialized value label with: 1
+[Debug BaseBlock] Add4 initialization started, Position: (1000, 1208), State: InToolbar
+[ToolbarBlockContainer] Adding block Add4 to toolbar
 [Debug HelperFunnel] Successfully found HelperFunnel instance
-[BaseBlock Debug] Block @Node2D@8 resetting connections. Current state: InToolbar
-[BaseBlock Debug] Block @Node2D@8 reset input socket
-[BaseBlock Debug] Block @Node2D@8 reset output socket
-[BaseBlock Debug] Block @Node2D@8 finished resetting connections
-ReturnBlockToToolbar: Block @Node2D@8 returned to toolbar.
-[Debug BaseBlock] @Node2D@9 _Ready called, adding to Blocks group
-[Debug BaseBlock] @Node2D@9 initialization complete, Position: (1000, 1208), State: InToolbar
+[ToolbarHelper] Returning block Add4 to toolbar
+[BaseBlock Debug] Block Add4 resetting connections. Current state: InToolbar
+[BaseBlock Debug] Block Add4 reset input socket
+[BaseBlock Debug] Block Add4 reset output socket
+[BaseBlock Debug] Block Add4 finished resetting connections
+[ToolbarHelper] Block Add4 returned to toolbar successfully
+[BlockFactory Debug] Creating block with metadata - Id: multiply, Name: Multiply, SpawnOnSpace: False
+[BaseBlock Debug] Setting metadata for block AddBlock - Value: Id=multiply, SpawnOnSpace=False
+[BlockFactory Debug] Created block Multiply5 with metadata Id: multiply, SpawnOnSpace: False
+[Debug BaseBlock] Multiply5 _Ready called, adding to Blocks group
+[Debug BaseBlock] Multiply5 metadata: ID=multiply, SpawnOnSpace=False
+[BaseBlock Debug] Block Multiply5 initialized value label with: 1
+[Debug BaseBlock] Multiply5 initialization started, Position: (1000, 1208), State: InToolbar
+[ToolbarBlockContainer] Adding block Multiply5 to toolbar
 [Debug HelperFunnel] Successfully found HelperFunnel instance
-[BaseBlock Debug] Block @Node2D@9 resetting connections. Current state: InToolbar
-[BaseBlock Debug] Block @Node2D@9 reset input socket
-[BaseBlock Debug] Block @Node2D@9 reset output socket
-[BaseBlock Debug] Block @Node2D@9 finished resetting connections
-ReturnBlockToToolbar: Block @Node2D@9 returned to toolbar.
-[Debug BaseBlock] @Node2D@10 _Ready called, adding to Blocks group
-[Debug BaseBlock] @Node2D@10 initialization complete, Position: (1000, 1208), State: InToolbar
+[ToolbarHelper] Returning block Multiply5 to toolbar
+[BaseBlock Debug] Block Multiply5 resetting connections. Current state: InToolbar
+[BaseBlock Debug] Block Multiply5 reset input socket
+[BaseBlock Debug] Block Multiply5 reset output socket
+[BaseBlock Debug] Block Multiply5 finished resetting connections
+[ToolbarHelper] Block Multiply5 returned to toolbar successfully
+[BlockFactory Debug] Creating block with metadata - Id: add, Name: Add, SpawnOnSpace: False
+[BaseBlock Debug] Setting metadata for block AddBlock - Value: Id=add, SpawnOnSpace=False
+[BlockFactory Debug] Created block Add6 with metadata Id: add, SpawnOnSpace: False
+[Debug BaseBlock] Add6 _Ready called, adding to Blocks group
+[Debug BaseBlock] Add6 metadata: ID=add, SpawnOnSpace=False
+[BaseBlock Debug] Block Add6 initialized value label with: 1
+[Debug BaseBlock] Add6 initialization started, Position: (1000, 1208), State: InToolbar
+[ToolbarBlockContainer] Adding block Add6 to toolbar
 [Debug HelperFunnel] Successfully found HelperFunnel instance
-[BaseBlock Debug] Block @Node2D@10 resetting connections. Current state: InToolbar
-[BaseBlock Debug] Block @Node2D@10 reset input socket
-[BaseBlock Debug] Block @Node2D@10 reset output socket
-[BaseBlock Debug] Block @Node2D@10 finished resetting connections
-ReturnBlockToToolbar: Block @Node2D@10 returned to toolbar.
-[Debug BaseBlock] @Node2D@11 _Ready called, adding to Blocks group
-[Debug BaseBlock] @Node2D@11 initialization complete, Position: (1000, 1208), State: InToolbar
+[ToolbarHelper] Returning block Add6 to toolbar
+[BaseBlock Debug] Block Add6 resetting connections. Current state: InToolbar
+[BaseBlock Debug] Block Add6 reset input socket
+[BaseBlock Debug] Block Add6 reset output socket
+[BaseBlock Debug] Block Add6 finished resetting connections
+[ToolbarHelper] Block Add6 returned to toolbar successfully
+[BlockFactory Debug] Creating block with metadata - Id: multiply, Name: Multiply, SpawnOnSpace: False
+[BaseBlock Debug] Setting metadata for block AddBlock - Value: Id=multiply, SpawnOnSpace=False
+[BlockFactory Debug] Created block Multiply7 with metadata Id: multiply, SpawnOnSpace: False
+[Debug BaseBlock] Multiply7 _Ready called, adding to Blocks group
+[Debug BaseBlock] Multiply7 metadata: ID=multiply, SpawnOnSpace=False
+[BaseBlock Debug] Block Multiply7 initialized value label with: 1
+[Debug BaseBlock] Multiply7 initialization started, Position: (1000, 1208), State: InToolbar
+[ToolbarBlockContainer] Adding block Multiply7 to toolbar
 [Debug HelperFunnel] Successfully found HelperFunnel instance
-[BaseBlock Debug] Block @Node2D@11 resetting connections. Current state: InToolbar
-[BaseBlock Debug] Block @Node2D@11 reset input socket
-[BaseBlock Debug] Block @Node2D@11 reset output socket
-[BaseBlock Debug] Block @Node2D@11 finished resetting connections
-ReturnBlockToToolbar: Block @Node2D@11 returned to toolbar.
+[ToolbarHelper] Returning block Multiply7 to toolbar
+[BaseBlock Debug] Block Multiply7 resetting connections. Current state: InToolbar
+[BaseBlock Debug] Block Multiply7 reset input socket
+[BaseBlock Debug] Block Multiply7 reset output socket
+[BaseBlock Debug] Block Multiply7 finished resetting connections
+[ToolbarHelper] Block Multiply7 returned to toolbar successfully
+[Debug BaseBlock] Add0 attempting to initialize managers
+[Debug BaseBlock] Add0 managers initialized:
+  - ConnectionManager: found
+  - TokenManager: found
+[Debug BaseBlock] Add0 initialization complete
+[Debug BaseBlock] Multiply1 attempting to initialize managers
+[Debug BaseBlock] Multiply1 managers initialized:
+  - ConnectionManager: found
+  - TokenManager: found
+[Debug BaseBlock] Multiply1 initialization complete
+[Debug BaseBlock] Add2 attempting to initialize managers
+[Debug BaseBlock] Add2 managers initialized:
+  - ConnectionManager: found
+  - TokenManager: found
+[Debug BaseBlock] Add2 initialization complete
+[Debug BaseBlock] Multiply3 attempting to initialize managers
+[Debug BaseBlock] Multiply3 managers initialized:
+  - ConnectionManager: found
+  - TokenManager: found
+[Debug BaseBlock] Multiply3 initialization complete
+[Debug BaseBlock] Add4 attempting to initialize managers
+[Debug BaseBlock] Add4 managers initialized:
+  - ConnectionManager: found
+  - TokenManager: found
+[Debug BaseBlock] Add4 initialization complete
+[Debug BaseBlock] Multiply5 attempting to initialize managers
+[Debug BaseBlock] Multiply5 managers initialized:
+  - ConnectionManager: found
+  - TokenManager: found
+[Debug BaseBlock] Multiply5 initialization complete
+[Debug BaseBlock] Add6 attempting to initialize managers
+[Debug BaseBlock] Add6 managers initialized:
+  - ConnectionManager: found
+  - TokenManager: found
+[Debug BaseBlock] Add6 initialization complete
+[Debug BaseBlock] Multiply7 attempting to initialize managers
+[Debug BaseBlock] Multiply7 managers initialized:
+  - ConnectionManager: found
+  - TokenManager: found
+[Debug BaseBlock] Multiply7 initialization complete
 [ConnectionManager Debug] _Process running
-[Debug InputHelper] No block found at position: (1375, 1000)
-[Debug InputHelper] Block '@Node2D@11' is in the toolbar. Moving to BlockLayer before dragging.
-[BaseBlock Debug] Block @Node2D@11 state changed: InToolbar -> Placed (SetInToolbar: False)
-[Debug InputHelper] Starting drag for block '@Node2D@11' at (1443, 984)
-[Debug DragHelper] Entering StartDrag with block: @Node2D@11, clickPosition: (1443, 984)
-[Debug DragHelper] Set Z-index to 25 for dragged block
-[Debug DragHelper] Positioned block at click position: (1443, 984)
-[BaseBlock Debug] Block @Node2D@11 state changed: Placed -> Dragging (SetDragging: True)
-[Debug DragHelper] Block @Node2D@11 is now in dragging state
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1441, 984)
-[Debug DragHelper] Updated block position to: (1441, 984)
-[Debug InputHelper] Checking for pipe at token position: (1441, 984)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1441, 984)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1441, 984)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1439, 981)
-[Debug DragHelper] Updated block position to: (1439, 981)
-[Debug InputHelper] Checking for pipe at token position: (1439, 981)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1439, 981)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1439, 981)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1428, 966)
-[Debug DragHelper] Updated block position to: (1428, 966)
-[Debug InputHelper] Checking for pipe at token position: (1428, 966)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1428, 966)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1428, 966)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1423, 957)
-[Debug DragHelper] Updated block position to: (1423, 957)
-[Debug InputHelper] Checking for pipe at token position: (1423, 957)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1423, 957)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1423, 957)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1397, 891)
-[Debug DragHelper] Updated block position to: (1397, 891)
-[Debug InputHelper] Checking for pipe at token position: (1397, 891)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1397, 891)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1397, 891)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1360, 793)
-[Debug DragHelper] Updated block position to: (1360, 793)
-[Debug InputHelper] Checking for pipe at token position: (1360, 793)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1360, 793)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1360, 793)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1341, 745)
-[Debug DragHelper] Updated block position to: (1341, 745)
-[Debug InputHelper] Checking for pipe at token position: (1341, 745)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1341, 745)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1341, 745)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1329, 701)
-[Debug DragHelper] Updated block position to: (1329, 701)
-[Debug InputHelper] Checking for pipe at token position: (1329, 701)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1329, 701)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1329, 701)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1327, 660)
-[Debug DragHelper] Updated block position to: (1327, 660)
-[Debug InputHelper] Checking for pipe at token position: (1327, 660)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1327, 660)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1327, 660)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1324, 633)
-[Debug DragHelper] Updated block position to: (1324, 633)
-[Debug InputHelper] Checking for pipe at token position: (1324, 633)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1324, 633)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1324, 633)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1311, 594)
-[Debug DragHelper] Updated block position to: (1311, 594)
-[Debug InputHelper] Checking for pipe at token position: (1311, 594)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1311, 594)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1311, 594). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1274, 553)
-[Debug DragHelper] Updated block position to: (1274, 553)
-[Debug InputHelper] Checking for pipe at token position: (1274, 553)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1274, 553)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1274, 553). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1238, 529)
-[Debug DragHelper] Updated block position to: (1238, 529)
-[Debug InputHelper] Checking for pipe at token position: (1238, 529)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1238, 529)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1238, 529). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1218, 524)
-[Debug DragHelper] Updated block position to: (1218, 524)
-[Debug InputHelper] Checking for pipe at token position: (1218, 524)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1218, 524)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1218, 524). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1212, 523)
-[Debug DragHelper] Updated block position to: (1212, 523)
-[Debug InputHelper] Checking for pipe at token position: (1212, 523)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1212, 523)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1212, 523). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1208, 522)
-[Debug DragHelper] Updated block position to: (1208, 522)
-[Debug InputHelper] Checking for pipe at token position: (1208, 522)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1208, 522)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1208, 522). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1203, 515)
-[Debug DragHelper] Updated block position to: (1203, 515)
-[Debug InputHelper] Checking for pipe at token position: (1203, 515)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1203, 515)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1203, 515). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1184, 488)
-[Debug DragHelper] Updated block position to: (1184, 488)
-[Debug InputHelper] Checking for pipe at token position: (1184, 488)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1184, 488)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1184, 488). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1182, 485)
-[Debug DragHelper] Updated block position to: (1182, 485)
-[Debug InputHelper] Checking for pipe at token position: (1182, 485)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1182, 485)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1182, 485). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1181, 484)
-[Debug DragHelper] Updated block position to: (1181, 484)
-[Debug InputHelper] Checking for pipe at token position: (1181, 484)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1181, 484)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1181, 484). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1181, 482)
-[Debug DragHelper] Updated block position to: (1181, 482)
-[Debug InputHelper] Checking for pipe at token position: (1181, 482)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1181, 482)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1181, 482). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1181, 481)
-[Debug DragHelper] Updated block position to: (1181, 481)
-[Debug InputHelper] Checking for pipe at token position: (1181, 481)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1181, 481)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1181, 481). Highlighting pipe.
-[Debug InputHelper] Clicked dragged block @Node2D@11, placing it
-[Debug InputHelper] Placing block @Node2D@11 at (1181, 481)
-[Debug InputHelper] Attempting to connect block at position: (1181, 481.1062)
-[ConnectionManager Debug] Attempting to connect block  between Input and Output
-[BaseBlock Debug] Block @Node2D@11 resetting connections. Current state: Dragging
-[BaseBlock Debug] Block @Node2D@11 reset input socket
-[BaseBlock Debug] Block @Node2D@11 reset output socket
-[BaseBlock Debug] Block @Node2D@11 finished resetting connections
-[ConnectionManager Debug] Creating new connections for block 
-(static insertion) Creating pipe between blocks: Input -> 
-From block type: F.Game.BlockLogic.Input, To block type: F.Game.BlockLogic.BaseBlock
-From socket type: F.Game.BlockLogic.Input, To socket type: Godot.Node2D
-(static insertion) Creating pipe between blocks:  -> Output
-From block type: F.Game.BlockLogic.BaseBlock, To block type: F.Game.BlockLogic.Output
-From socket type: Godot.Node2D, To socket type: Godot.Node2D
-[BaseBlock Debug] Block @Node2D@11 state changed: Dragging -> Connected (CompleteConnection)
-[ConnectionManager] Successfully connected block  between Input and Output
-[BaseBlock Debug] Block @Node2D@11 state changed: Connected -> Connected (CompleteConnection)
-[ConnectionHelper Debug] Forced block @Node2D@11 to Connected state. Connection operation returned: True
-[Debug InputHelper] Successfully connected block @Node2D@11
-[Debug DragHelper] Entering EndDrag with block: @Node2D@11
-[BaseBlock Debug] Block @Node2D@11 state changed: Connected -> Connected (SetDragging: False)
-[Debug DragHelper] Block @Node2D@11 drag ended, Z-index set to 0
-[Debug InputHelper] Block '@Node2D@10' is in the toolbar. Moving to BlockLayer before dragging.
-[BaseBlock Debug] Block @Node2D@10 state changed: InToolbar -> Placed (SetInToolbar: False)
-[Debug InputHelper] Starting drag for block '@Node2D@10' at (1302, 988)
-[Debug DragHelper] Entering StartDrag with block: @Node2D@10, clickPosition: (1302, 988)
-[Debug DragHelper] Set Z-index to 25 for dragged block
-[Debug DragHelper] Positioned block at click position: (1302, 988)
-[BaseBlock Debug] Block @Node2D@10 state changed: Placed -> Dragging (SetDragging: True)
-[Debug DragHelper] Block @Node2D@10 is now in dragging state
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1302, 987)
-[Debug DragHelper] Updated block position to: (1302, 987)
-[Debug InputHelper] Checking for pipe at token position: (1302, 987)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1302, 987)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1302, 987)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1304, 983)
-[Debug DragHelper] Updated block position to: (1304, 983)
-[Debug InputHelper] Checking for pipe at token position: (1304, 983)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1304, 983)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1304, 983)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1305, 972)
-[Debug DragHelper] Updated block position to: (1305, 972)
-[Debug InputHelper] Checking for pipe at token position: (1305, 972)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1305, 972)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1305, 972)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1309, 952)
-[Debug DragHelper] Updated block position to: (1309, 952)
-[Debug InputHelper] Checking for pipe at token position: (1309, 952)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1309, 952)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1309, 952)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1311, 925)
-[Debug DragHelper] Updated block position to: (1311, 925)
-[Debug InputHelper] Checking for pipe at token position: (1311, 925)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1311, 925)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1311, 925)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1318, 893)
-[Debug DragHelper] Updated block position to: (1318, 893)
-[Debug InputHelper] Checking for pipe at token position: (1318, 893)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1318, 893)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1318, 893)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1338, 845)
-[Debug DragHelper] Updated block position to: (1338, 845)
-[Debug InputHelper] Checking for pipe at token position: (1338, 845)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1338, 845)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1338, 845)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1355, 812)
-[Debug DragHelper] Updated block position to: (1355, 812)
-[Debug InputHelper] Checking for pipe at token position: (1355, 812)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1355, 812)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1355, 812)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1367, 788)
-[Debug DragHelper] Updated block position to: (1367, 788)
-[Debug InputHelper] Checking for pipe at token position: (1367, 788)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1367, 788)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1367, 788)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1390, 719)
-[Debug DragHelper] Updated block position to: (1390, 719)
-[Debug InputHelper] Checking for pipe at token position: (1390, 719)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1390, 719)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1390, 719)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1406, 570)
-[Debug DragHelper] Updated block position to: (1406, 570)
-[Debug InputHelper] Checking for pipe at token position: (1406, 570)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1406, 570)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1406, 570). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1406, 498)
-[Debug DragHelper] Updated block position to: (1406, 498)
-[Debug InputHelper] Checking for pipe at token position: (1406, 498)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1406, 498)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1406, 498). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1408, 472)
-[Debug DragHelper] Updated block position to: (1408, 472)
-[Debug InputHelper] Checking for pipe at token position: (1408, 472)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1408, 472)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1408, 472). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1411, 458)
-[Debug DragHelper] Updated block position to: (1411, 458)
-[Debug InputHelper] Checking for pipe at token position: (1411, 458)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1411, 458)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1411, 458). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1412, 456)
-[Debug DragHelper] Updated block position to: (1412, 456)
-[Debug InputHelper] Checking for pipe at token position: (1412, 456)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1412, 456)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1412, 456). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1412, 455)
-[Debug DragHelper] Updated block position to: (1412, 455)
-[Debug InputHelper] Checking for pipe at token position: (1412, 455)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1412, 455)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1412, 455). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1412, 455)
-[Debug DragHelper] Updated block position to: (1412, 455)
-[Debug InputHelper] Checking for pipe at token position: (1412, 455)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1412, 455)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1412, 455). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1412, 454)
-[Debug DragHelper] Updated block position to: (1412, 454)
-[Debug InputHelper] Checking for pipe at token position: (1412, 454)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1412, 454)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1412, 454). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1412, 453)
-[Debug DragHelper] Updated block position to: (1412, 453)
-[Debug InputHelper] Checking for pipe at token position: (1412, 453)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1412, 453)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1412, 453). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1412, 456)
-[Debug DragHelper] Updated block position to: (1412, 456)
-[Debug InputHelper] Checking for pipe at token position: (1412, 456)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1412, 456)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1412, 456). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1412, 464)
-[Debug DragHelper] Updated block position to: (1412, 464)
-[Debug InputHelper] Checking for pipe at token position: (1412, 464)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1412, 464)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1412, 464). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1412, 468)
-[Debug DragHelper] Updated block position to: (1412, 468)
-[Debug InputHelper] Checking for pipe at token position: (1412, 468)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1412, 468)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1412, 468). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1412, 468)
-[Debug DragHelper] Updated block position to: (1412, 468)
-[Debug InputHelper] Checking for pipe at token position: (1412, 468)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1412, 468)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1412, 468). Highlighting pipe.
-[Debug InputHelper] Clicked dragged block @Node2D@10, placing it
-[Debug InputHelper] Placing block @Node2D@10 at (1412, 468)
-[Debug InputHelper] Attempting to connect block at position: (1412, 468)
-[ConnectionManager Debug] Attempting to connect block  between  and Output
-[BaseBlock Debug] Block @Node2D@10 resetting connections. Current state: Dragging
-[BaseBlock Debug] Block @Node2D@10 reset input socket
-[BaseBlock Debug] Block @Node2D@10 reset output socket
-[BaseBlock Debug] Block @Node2D@10 finished resetting connections
-[ConnectionManager Debug] Creating new connections for block 
-(static insertion) Creating pipe between blocks:  -> 
-From block type: F.Game.BlockLogic.BaseBlock, To block type: F.Game.BlockLogic.BaseBlock
-From socket type: Godot.Node2D, To socket type: Godot.Node2D
-(static insertion) Creating pipe between blocks:  -> Output
-From block type: F.Game.BlockLogic.BaseBlock, To block type: F.Game.BlockLogic.Output
-From socket type: Godot.Node2D, To socket type: Godot.Node2D
-[BaseBlock Debug] Block @Node2D@10 state changed: Dragging -> Connected (CompleteConnection)
-[ConnectionManager] Successfully connected block  between  and Output
-[BaseBlock Debug] Block @Node2D@10 state changed: Connected -> Connected (CompleteConnection)
-[ConnectionHelper Debug] Forced block @Node2D@10 to Connected state. Connection operation returned: True
-[Debug InputHelper] Successfully connected block @Node2D@10
-[Debug DragHelper] Entering EndDrag with block: @Node2D@10
-[BaseBlock Debug] Block @Node2D@10 state changed: Connected -> Connected (SetDragging: False)
-[Debug DragHelper] Block @Node2D@10 drag ended, Z-index set to 0
-[Debug InputHelper] Block '@Node2D@9' is in the toolbar. Moving to BlockLayer before dragging.
-[BaseBlock Debug] Block @Node2D@9 state changed: InToolbar -> Placed (SetInToolbar: False)
-[Debug InputHelper] Starting drag for block '@Node2D@9' at (1162, 996)
-[Debug DragHelper] Entering StartDrag with block: @Node2D@9, clickPosition: (1162, 996)
-[Debug DragHelper] Set Z-index to 25 for dragged block
-[Debug DragHelper] Positioned block at click position: (1162, 996)
-[BaseBlock Debug] Block @Node2D@9 state changed: Placed -> Dragging (SetDragging: True)
-[Debug DragHelper] Block @Node2D@9 is now in dragging state
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (1161, 995)
-[Debug DragHelper] Updated block position to: (1161, 995)
-[Debug InputHelper] Checking for pipe at token position: (1161, 995)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1161, 995)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1161, 995)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (1161, 995)
-[Debug DragHelper] Updated block position to: (1161, 995)
-[Debug InputHelper] Checking for pipe at token position: (1161, 995)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1161, 995)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1161, 995)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (1160, 994)
-[Debug DragHelper] Updated block position to: (1160, 994)
-[Debug InputHelper] Checking for pipe at token position: (1160, 994)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1160, 994)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1160, 994)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (1085, 866)
-[Debug DragHelper] Updated block position to: (1085, 866)
-[Debug InputHelper] Checking for pipe at token position: (1085, 866)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1085, 866)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1085, 866)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (1075, 840)
-[Debug DragHelper] Updated block position to: (1075, 840)
-[Debug InputHelper] Checking for pipe at token position: (1075, 840)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1075, 840)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1075, 840)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (1072, 834)
-[Debug DragHelper] Updated block position to: (1072, 834)
-[Debug InputHelper] Checking for pipe at token position: (1072, 834)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1072, 834)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1072, 834)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (1063, 817)
-[Debug DragHelper] Updated block position to: (1063, 817)
-[Debug InputHelper] Checking for pipe at token position: (1063, 817)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1063, 817)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1063, 817)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (1045, 794)
-[Debug DragHelper] Updated block position to: (1045, 794)
-[Debug InputHelper] Checking for pipe at token position: (1045, 794)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1045, 794)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1045, 794)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (1018, 763)
-[Debug DragHelper] Updated block position to: (1018, 763)
-[Debug InputHelper] Checking for pipe at token position: (1018, 763)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1018, 763)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1018, 763)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (979, 715)
-[Debug DragHelper] Updated block position to: (979, 715)
-[Debug InputHelper] Checking for pipe at token position: (979, 715)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (979, 715)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (979, 715)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (966, 697)
-[Debug DragHelper] Updated block position to: (966, 697)
-[Debug InputHelper] Checking for pipe at token position: (966, 697)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (966, 697)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (966, 697)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (963, 688)
-[Debug DragHelper] Updated block position to: (963, 688)
-[Debug InputHelper] Checking for pipe at token position: (963, 688)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (963, 688)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (963, 688)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (954, 672)
-[Debug DragHelper] Updated block position to: (954, 672)
-[Debug InputHelper] Checking for pipe at token position: (954, 672)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (954, 672)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (954, 672)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (932, 636)
-[Debug DragHelper] Updated block position to: (932, 636)
-[Debug InputHelper] Checking for pipe at token position: (932, 636)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (932, 636)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (932, 636)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (900, 587)
-[Debug DragHelper] Updated block position to: (900, 587)
-[Debug InputHelper] Checking for pipe at token position: (900, 587)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (900, 587)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (900, 587)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (880, 560)
-[Debug DragHelper] Updated block position to: (880, 560)
-[Debug InputHelper] Checking for pipe at token position: (880, 560)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (880, 560)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (880, 560). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (862, 537)
-[Debug DragHelper] Updated block position to: (862, 537)
-[Debug InputHelper] Checking for pipe at token position: (862, 537)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (862, 537)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (862, 537). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (858, 527)
-[Debug DragHelper] Updated block position to: (858, 527)
-[Debug InputHelper] Checking for pipe at token position: (858, 527)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (858, 527)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (858, 527). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (857, 525)
-[Debug DragHelper] Updated block position to: (857, 525)
-[Debug InputHelper] Checking for pipe at token position: (857, 525)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (857, 525)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (857, 525). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (854, 523)
-[Debug DragHelper] Updated block position to: (854, 523)
-[Debug InputHelper] Checking for pipe at token position: (854, 523)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (854, 523)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (854, 523). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (834, 519)
-[Debug DragHelper] Updated block position to: (834, 519)
-[Debug InputHelper] Checking for pipe at token position: (834, 519)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (834, 519)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (834, 519). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (813, 519)
-[Debug DragHelper] Updated block position to: (813, 519)
-[Debug InputHelper] Checking for pipe at token position: (813, 519)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (813, 519)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (813, 519). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (788, 519)
-[Debug DragHelper] Updated block position to: (788, 519)
-[Debug InputHelper] Checking for pipe at token position: (788, 519)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (788, 519)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (788, 519). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (774, 521)
-[Debug DragHelper] Updated block position to: (774, 521)
-[Debug InputHelper] Checking for pipe at token position: (774, 521)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (774, 521)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (774, 521). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (771, 522)
-[Debug DragHelper] Updated block position to: (771, 522)
-[Debug InputHelper] Checking for pipe at token position: (771, 522)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (771, 522)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (771, 522). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (769, 522)
-[Debug DragHelper] Updated block position to: (769, 522)
-[Debug InputHelper] Checking for pipe at token position: (769, 522)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (769, 522)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (769, 522). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (767, 520)
-[Debug DragHelper] Updated block position to: (767, 520)
-[Debug InputHelper] Checking for pipe at token position: (767, 520)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (767, 520)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (767, 520). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (763, 516)
-[Debug DragHelper] Updated block position to: (763, 516)
-[Debug InputHelper] Checking for pipe at token position: (763, 516)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (763, 516)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (763, 516). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (760, 509)
-[Debug DragHelper] Updated block position to: (760, 509)
-[Debug InputHelper] Checking for pipe at token position: (760, 509)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (760, 509)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (760, 509). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (760, 508)
-[Debug DragHelper] Updated block position to: (760, 508)
-[Debug InputHelper] Checking for pipe at token position: (760, 508)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (760, 508)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (760, 508). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (760, 506)
-[Debug DragHelper] Updated block position to: (760, 506)
-[Debug InputHelper] Checking for pipe at token position: (760, 506)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (760, 506)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (760, 506). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@9, position: (760, 506)
-[Debug DragHelper] Updated block position to: (760, 506)
-[Debug InputHelper] Checking for pipe at token position: (760, 506)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (760, 506)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (760, 506). Highlighting pipe.
-[Debug InputHelper] Clicked dragged block @Node2D@9, placing it
-[Debug InputHelper] Placing block @Node2D@9 at (760, 506)
-[Debug InputHelper] Attempting to connect block at position: (760, 506)
-[ConnectionManager Debug] Attempting to connect block  between Input and 
-[BaseBlock Debug] Block @Node2D@9 resetting connections. Current state: Dragging
-[BaseBlock Debug] Block @Node2D@9 reset input socket
-[BaseBlock Debug] Block @Node2D@9 reset output socket
-[BaseBlock Debug] Block @Node2D@9 finished resetting connections
-[ConnectionManager Debug] Creating new connections for block 
-(static insertion) Creating pipe between blocks: Input -> 
-From block type: F.Game.BlockLogic.Input, To block type: F.Game.BlockLogic.BaseBlock
-From socket type: F.Game.BlockLogic.Input, To socket type: Godot.Node2D
-(static insertion) Creating pipe between blocks:  -> 
-From block type: F.Game.BlockLogic.BaseBlock, To block type: F.Game.BlockLogic.BaseBlock
-From socket type: Godot.Node2D, To socket type: Godot.Node2D
-[BaseBlock Debug] Block @Node2D@9 state changed: Dragging -> Connected (CompleteConnection)
-[ConnectionManager] Successfully connected block  between Input and 
-[BaseBlock Debug] Block @Node2D@9 state changed: Connected -> Connected (CompleteConnection)
-[ConnectionHelper Debug] Forced block @Node2D@9 to Connected state. Connection operation returned: True
-[Debug InputHelper] Successfully connected block @Node2D@9
-[Debug DragHelper] Entering EndDrag with block: @Node2D@9
-[BaseBlock Debug] Block @Node2D@9 state changed: Connected -> Connected (SetDragging: False)
-[Debug DragHelper] Block @Node2D@9 drag ended, Z-index set to 0
-[Input Debug] Spacebar pressed
-[Input Debug] Checking for connections at socket position: (205, 539.845)
-[Input Debug] Found pipe: True
-[Input Debug] Has connections: True
-[Input Debug] Spawning token
-[TokenManager Debug] SpawnToken called
-[Input Debug] Using token socket position: (301, 539.845)
-[Input Debug] Using token socket position: (301, 539.845)
-USER ERROR: Node not found: "Sprite" (relative to "/root/Main/GameManager/TokenLayer/Token/TokenVisuals").
-   at: get_node (scene/main/node.cpp:1793)
-[TokenManager Debug] Token created with value 1
-[ConnectionManager Debug] Found next block in chain from Input: 
-[TokenManager Debug] Next block found: True
-[TokenManager Debug] Moving token to next block
-[BaseBlock Debug] Processing token in block @Node2D@9
-[BaseBlock Debug] Executing script for block @Node2D@9 with script: 
-                        float Value = 1;
-                        Action<string> Print = Godot.GD.Print;
-                        Action<string> PrintErr = Godot.GD.PrintErr;
-                        Value *= 2.0f;
-                        return Value;
-                    
-[BaseBlock Debug] Script execution completed for block @Node2D@9
-[BaseBlock Debug] Starting common token processing in block @Node2D@9
-[BaseBlock Debug] Added block @Node2D@9 to token's processed blocks
-[ConnectionManager Debug] Found next block in chain from : 
-[BaseBlock Debug] GetNextConnection returned nextBlock: , pipe: valid
-[BaseBlock Debug] Moving token from block @Node2D@9 to block 
-[BaseBlock Debug] Processing token in block @Node2D@11
-[BaseBlock Debug] Executing script for block @Node2D@11 with script: 
-                        float Value = 2;
-                        Action<string> Print = Godot.GD.Print;
-                        Action<string> PrintErr = Godot.GD.PrintErr;
-                        Value *= 2.0f;
-                        return Value;
-                    
-[BaseBlock Debug] Script execution completed for block @Node2D@11
-[BaseBlock Debug] Starting common token processing in block @Node2D@11
-[BaseBlock Debug] Added block @Node2D@11 to token's processed blocks
-[ConnectionManager Debug] Found next block in chain from : 
-[BaseBlock Debug] GetNextConnection returned nextBlock: , pipe: valid
-[BaseBlock Debug] Moving token from block @Node2D@11 to block 
-[BaseBlock Debug] Processing token in block @Node2D@10
-[BaseBlock Debug] Executing script for block @Node2D@10 with script: 
-                        float Value = 4;
-                        Action<string> Print = Godot.GD.Print;
-                        Action<string> PrintErr = Godot.GD.PrintErr;
-                        Value += 1.0f;
-                        return Value;
-                    
-[BaseBlock Debug] Script execution completed for block @Node2D@10
-[BaseBlock Debug] Starting common token processing in block @Node2D@10
-[BaseBlock Debug] Added block @Node2D@10 to token's processed blocks
-[ConnectionManager Debug] Found next block in chain from : Output
-[BaseBlock Debug] GetNextConnection returned nextBlock: Output, pipe: valid
-[BaseBlock Debug] Moving token from block @Node2D@10 to block Output
-[Output Debug] Received token with value: 5
-[Output Debug] Updated value label to: 5.0
-[TokenManager Debug] Removed 1 completed tokens
-[Debug InputHelper] Block '@Node2D@7' is in the toolbar. Moving to BlockLayer before dragging.
-[BaseBlock Debug] Block @Node2D@7 state changed: InToolbar -> Placed (SetInToolbar: False)
-[Debug InputHelper] Starting drag for block '@Node2D@7' at (871, 979)
-[Debug DragHelper] Entering StartDrag with block: @Node2D@7, clickPosition: (871, 979)
-[Debug DragHelper] Set Z-index to 25 for dragged block
-[Debug DragHelper] Positioned block at click position: (871, 979)
-[BaseBlock Debug] Block @Node2D@7 state changed: Placed -> Dragging (SetDragging: True)
-[Debug DragHelper] Block @Node2D@7 is now in dragging state
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (880, 977)
-[Debug DragHelper] Updated block position to: (880, 977)
-[Debug InputHelper] Checking for pipe at token position: (880, 977)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (880, 977)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (880, 977)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (891, 974)
-[Debug DragHelper] Updated block position to: (891, 974)
-[Debug InputHelper] Checking for pipe at token position: (891, 974)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (891, 974)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (891, 974)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (908, 966)
-[Debug DragHelper] Updated block position to: (908, 966)
-[Debug InputHelper] Checking for pipe at token position: (908, 966)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (908, 966)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (908, 966)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (962, 941)
-[Debug DragHelper] Updated block position to: (962, 941)
-[Debug InputHelper] Checking for pipe at token position: (962, 941)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (962, 941)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (962, 941)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1039, 904)
-[Debug DragHelper] Updated block position to: (1039, 904)
-[Debug InputHelper] Checking for pipe at token position: (1039, 904)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1039, 904)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1039, 904)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1063, 893)
-[Debug DragHelper] Updated block position to: (1063, 893)
-[Debug InputHelper] Checking for pipe at token position: (1063, 893)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1063, 893)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1063, 893)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1108, 874)
-[Debug DragHelper] Updated block position to: (1108, 874)
-[Debug InputHelper] Checking for pipe at token position: (1108, 874)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1108, 874)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1108, 874)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1151, 850)
-[Debug DragHelper] Updated block position to: (1151, 850)
-[Debug InputHelper] Checking for pipe at token position: (1151, 850)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1151, 850)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1151, 850)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1226, 813)
-[Debug DragHelper] Updated block position to: (1226, 813)
-[Debug InputHelper] Checking for pipe at token position: (1226, 813)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1226, 813)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1226, 813)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1251, 801)
-[Debug DragHelper] Updated block position to: (1251, 801)
-[Debug InputHelper] Checking for pipe at token position: (1251, 801)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1251, 801)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1251, 801)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1290, 780)
-[Debug DragHelper] Updated block position to: (1290, 780)
-[Debug InputHelper] Checking for pipe at token position: (1290, 780)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1290, 780)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1290, 780)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1335, 757)
-[Debug DragHelper] Updated block position to: (1335, 757)
-[Debug InputHelper] Checking for pipe at token position: (1335, 757)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1335, 757)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1335, 757)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1357, 741)
-[Debug DragHelper] Updated block position to: (1357, 741)
-[Debug InputHelper] Checking for pipe at token position: (1357, 741)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1357, 741)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1357, 741)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1373, 730)
-[Debug DragHelper] Updated block position to: (1373, 730)
-[Debug InputHelper] Checking for pipe at token position: (1373, 730)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1373, 730)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1373, 730)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1387, 722)
-[Debug DragHelper] Updated block position to: (1387, 722)
-[Debug InputHelper] Checking for pipe at token position: (1387, 722)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1387, 722)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1387, 722)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1404, 712)
-[Debug DragHelper] Updated block position to: (1404, 712)
-[Debug InputHelper] Checking for pipe at token position: (1404, 712)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1404, 712)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1404, 712)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1422, 701)
-[Debug DragHelper] Updated block position to: (1422, 701)
-[Debug InputHelper] Checking for pipe at token position: (1422, 701)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1422, 701)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1422, 701)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1439, 691)
-[Debug DragHelper] Updated block position to: (1439, 691)
-[Debug InputHelper] Checking for pipe at token position: (1439, 691)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1439, 691)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1439, 691)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1456, 678)
-[Debug DragHelper] Updated block position to: (1456, 678)
-[Debug InputHelper] Checking for pipe at token position: (1456, 678)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1456, 678)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1456, 678)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1468, 665)
-[Debug DragHelper] Updated block position to: (1468, 665)
-[Debug InputHelper] Checking for pipe at token position: (1468, 665)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1468, 665)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1468, 665)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1487, 645)
-[Debug DragHelper] Updated block position to: (1487, 645)
-[Debug InputHelper] Checking for pipe at token position: (1487, 645)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1487, 645)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1487, 645)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1501, 632)
-[Debug DragHelper] Updated block position to: (1501, 632)
-[Debug InputHelper] Checking for pipe at token position: (1501, 632)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1501, 632)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1501, 632)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1511, 625)
-[Debug DragHelper] Updated block position to: (1511, 625)
-[Debug InputHelper] Checking for pipe at token position: (1511, 625)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1511, 625)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1511, 625)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1514, 623)
-[Debug DragHelper] Updated block position to: (1514, 623)
-[Debug InputHelper] Checking for pipe at token position: (1514, 623)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1514, 623)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1514, 623)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1515, 622)
-[Debug DragHelper] Updated block position to: (1515, 622)
-[Debug InputHelper] Checking for pipe at token position: (1515, 622)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1515, 622)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1515, 622)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1515, 622)
-[Debug DragHelper] Updated block position to: (1515, 622)
-[Debug InputHelper] Checking for pipe at token position: (1515, 622)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1515, 622)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1515, 622)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1517, 621)
-[Debug DragHelper] Updated block position to: (1517, 621)
-[Debug InputHelper] Checking for pipe at token position: (1517, 621)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1517, 621)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1517, 621)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1518, 619)
-[Debug DragHelper] Updated block position to: (1518, 619)
-[Debug InputHelper] Checking for pipe at token position: (1518, 619)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1518, 619)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1518, 619)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1522, 616)
-[Debug DragHelper] Updated block position to: (1522, 616)
-[Debug InputHelper] Checking for pipe at token position: (1522, 616)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1522, 616)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] No pipe found at position: (1522, 616)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1530, 603)
-[Debug DragHelper] Updated block position to: (1530, 603)
-[Debug InputHelper] Checking for pipe at token position: (1530, 603)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1530, 603)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1530, 603). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1535, 589)
-[Debug DragHelper] Updated block position to: (1535, 589)
-[Debug InputHelper] Checking for pipe at token position: (1535, 589)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1535, 589)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1535, 589). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1537, 574)
-[Debug DragHelper] Updated block position to: (1537, 574)
-[Debug InputHelper] Checking for pipe at token position: (1537, 574)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1537, 574)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1537, 574). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1537, 557)
-[Debug DragHelper] Updated block position to: (1537, 557)
-[Debug InputHelper] Checking for pipe at token position: (1537, 557)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1537, 557)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1537, 557). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1537, 554)
-[Debug DragHelper] Updated block position to: (1537, 554)
-[Debug InputHelper] Checking for pipe at token position: (1537, 554)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1537, 554)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1537, 554). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1538, 553)
-[Debug DragHelper] Updated block position to: (1538, 553)
-[Debug InputHelper] Checking for pipe at token position: (1538, 553)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1538, 553)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1538, 553). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1539, 552)
-[Debug DragHelper] Updated block position to: (1539, 552)
-[Debug InputHelper] Checking for pipe at token position: (1539, 552)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1539, 552)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1539, 552). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1540, 551)
-[Debug DragHelper] Updated block position to: (1540, 551)
-[Debug InputHelper] Checking for pipe at token position: (1540, 551)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1540, 551)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1540, 551). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1540, 551)
-[Debug DragHelper] Updated block position to: (1540, 551)
-[Debug InputHelper] Checking for pipe at token position: (1540, 551)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1540, 551)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1540, 551). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1540, 549)
-[Debug DragHelper] Updated block position to: (1540, 549)
-[Debug InputHelper] Checking for pipe at token position: (1540, 549)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1540, 549)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1540, 549). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1541, 547)
-[Debug DragHelper] Updated block position to: (1541, 547)
-[Debug InputHelper] Checking for pipe at token position: (1541, 547)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1541, 547)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1541, 547). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1542, 546)
-[Debug DragHelper] Updated block position to: (1542, 546)
-[Debug InputHelper] Checking for pipe at token position: (1542, 546)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1542, 546)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1542, 546). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1542, 546)
-[Debug DragHelper] Updated block position to: (1542, 546)
-[Debug InputHelper] Checking for pipe at token position: (1542, 546)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1542, 546)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1542, 546). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1542, 544)
-[Debug DragHelper] Updated block position to: (1542, 544)
-[Debug InputHelper] Checking for pipe at token position: (1542, 544)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1542, 544)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1542, 544). Highlighting pipe.
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1542, 543)
-[Debug DragHelper] Updated block position to: (1542, 543)
-[Debug InputHelper] Checking for pipe at token position: (1542, 543)
-[ConnectionHelper] HighlightPipeAtPosition called with position: (1542, 543)
-[ConnectionHelper] GameManager found: GameManager
-[ConnectionHelper] Pipe found at position (1542, 543). Highlighting pipe.
-[Debug InputHelper] Clicked dragged block @Node2D@7, placing it
-[Debug InputHelper] Placing block @Node2D@7 at (1542, 543)
-[Debug InputHelper] Attempting to connect block at position: (1542, 543)
-[ConnectionManager Debug] Attempting to connect block  between  and Output
-[BaseBlock Debug] Block @Node2D@7 resetting connections. Current state: Dragging
-[BaseBlock Debug] Block @Node2D@7 reset input socket
-[BaseBlock Debug] Block @Node2D@7 reset output socket
-[BaseBlock Debug] Block @Node2D@7 finished resetting connections
-[ConnectionManager Debug] Creating new connections for block 
-(static insertion) Creating pipe between blocks:  -> 
-From block type: F.Game.BlockLogic.BaseBlock, To block type: F.Game.BlockLogic.BaseBlock
-From socket type: Godot.Node2D, To socket type: Godot.Node2D
-(static insertion) Creating pipe between blocks:  -> Output
-From block type: F.Game.BlockLogic.BaseBlock, To block type: F.Game.BlockLogic.Output
-From socket type: Godot.Node2D, To socket type: Godot.Node2D
-[BaseBlock Debug] Block @Node2D@7 state changed: Dragging -> Connected (CompleteConnection)
-[ConnectionManager] Successfully connected block  between  and Output
-[BaseBlock Debug] Block @Node2D@7 state changed: Connected -> Connected (CompleteConnection)
-[ConnectionHelper Debug] Forced block @Node2D@7 to Connected state. Connection operation returned: True
-[Debug InputHelper] Successfully connected block @Node2D@7
-[Debug DragHelper] Entering EndDrag with block: @Node2D@7
-[BaseBlock Debug] Block @Node2D@7 state changed: Connected -> Connected (SetDragging: False)
-[Debug DragHelper] Block @Node2D@7 drag ended, Z-index set to 0
-[Debug InputHelper] Starting drag for block '@Node2D@11' at (1197, 462)
-[Debug DragHelper] Entering StartDrag with block: @Node2D@11, clickPosition: (1197, 462)
-[Debug DragHelper] Set Z-index to 25 for dragged block
-[Debug DragHelper] Positioned block at click position: (1197, 462)
-[BaseBlock Debug] Block @Node2D@11 state changed: Connected -> Dragging (SetDragging: True)
-[Debug DragHelper] Block @Node2D@11 is now in dragging state
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1195, 462)
-[Debug DragHelper] Updated block position to: (1195, 462)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1181, 462)
-[Debug DragHelper] Updated block position to: (1181, 462)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1158, 468)
-[Debug DragHelper] Updated block position to: (1158, 468)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1128, 472)
-[Debug DragHelper] Updated block position to: (1128, 472)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1084, 484)
-[Debug DragHelper] Updated block position to: (1084, 484)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1040, 497)
-[Debug DragHelper] Updated block position to: (1040, 497)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (1028, 502)
-[Debug DragHelper] Updated block position to: (1028, 502)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (998, 513)
-[Debug DragHelper] Updated block position to: (998, 513)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (966, 524)
-[Debug DragHelper] Updated block position to: (966, 524)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (931, 537)
-[Debug DragHelper] Updated block position to: (931, 537)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (917, 546)
-[Debug DragHelper] Updated block position to: (917, 546)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (915, 549)
-[Debug DragHelper] Updated block position to: (915, 549)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (914, 551)
-[Debug DragHelper] Updated block position to: (914, 551)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (914, 552)
-[Debug DragHelper] Updated block position to: (914, 552)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (913, 558)
-[Debug DragHelper] Updated block position to: (913, 558)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (913, 560)
-[Debug DragHelper] Updated block position to: (913, 560)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (912, 566)
-[Debug DragHelper] Updated block position to: (912, 566)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (911, 570)
-[Debug DragHelper] Updated block position to: (911, 570)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (912, 573)
-[Debug DragHelper] Updated block position to: (912, 573)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (912, 574)
-[Debug DragHelper] Updated block position to: (912, 574)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (913, 574)
-[Debug DragHelper] Updated block position to: (913, 574)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (913, 574)
-[Debug DragHelper] Updated block position to: (913, 574)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (913, 574)
-[Debug DragHelper] Updated block position to: (913, 574)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (915, 574)
-[Debug DragHelper] Updated block position to: (915, 574)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@11, position: (932, 573)
-[Debug DragHelper] Updated block position to: (932, 573)
-[Debug InputHelper] Clicked dragged block @Node2D@11, placing it
-[Debug InputHelper] Placing block @Node2D@11 at (932, 573)
-[Debug InputHelper] Attempting to connect block at position: (932, 573)
-[ConnectionManager Debug] Attempting to connect block  between  and 
-[ConnectionManager Debug] Block  already has connections and not inserting after Input
-[Debug InputHelper] Failed to connect block @Node2D@11
-[BaseBlock Debug] Block @Node2D@11 state changed: Dragging -> Placed (SetPlaced: True)
-[Debug InputHelper] Block @Node2D@11 reverted to Placed state
-[Debug DragHelper] Entering EndDrag with block: @Node2D@11
-[BaseBlock Debug] Block @Node2D@11 state changed: Placed -> Placed (SetDragging: False)
-[Debug DragHelper] Block @Node2D@11 drag ended, Z-index set to 0
-[Debug InputHelper] No block found at position: (1358, 452)
-[Debug InputHelper] Starting drag for block '@Node2D@10' at (1396, 450)
-[Debug DragHelper] Entering StartDrag with block: @Node2D@10, clickPosition: (1396, 450)
-[Debug DragHelper] Set Z-index to 25 for dragged block
-[Debug DragHelper] Positioned block at click position: (1396, 450)
-[BaseBlock Debug] Block @Node2D@10 state changed: Connected -> Dragging (SetDragging: True)
-[Debug DragHelper] Block @Node2D@10 is now in dragging state
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1399, 450)
-[Debug DragHelper] Updated block position to: (1399, 450)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1402, 450)
-[Debug DragHelper] Updated block position to: (1402, 450)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1402, 450)
-[Debug DragHelper] Updated block position to: (1402, 450)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1307, 456)
-[Debug DragHelper] Updated block position to: (1307, 456)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1259, 456)
-[Debug DragHelper] Updated block position to: (1259, 456)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1200, 456)
-[Debug DragHelper] Updated block position to: (1200, 456)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1177, 456)
-[Debug DragHelper] Updated block position to: (1177, 456)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1159, 454)
-[Debug DragHelper] Updated block position to: (1159, 454)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1142, 451)
-[Debug DragHelper] Updated block position to: (1142, 451)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1127, 446)
-[Debug DragHelper] Updated block position to: (1127, 446)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1118, 444)
-[Debug DragHelper] Updated block position to: (1118, 444)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1117, 443)
-[Debug DragHelper] Updated block position to: (1117, 443)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1116, 443)
-[Debug DragHelper] Updated block position to: (1116, 443)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1112, 444)
-[Debug DragHelper] Updated block position to: (1112, 444)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1111, 445)
-[Debug DragHelper] Updated block position to: (1111, 445)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1111, 446)
-[Debug DragHelper] Updated block position to: (1111, 446)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1110, 448)
-[Debug DragHelper] Updated block position to: (1110, 448)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1109, 449)
-[Debug DragHelper] Updated block position to: (1109, 449)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1109, 451)
-[Debug DragHelper] Updated block position to: (1109, 451)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1109, 453)
-[Debug DragHelper] Updated block position to: (1109, 453)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1111, 456)
-[Debug DragHelper] Updated block position to: (1111, 456)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1111, 456)
-[Debug DragHelper] Updated block position to: (1111, 456)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1114, 459)
-[Debug DragHelper] Updated block position to: (1114, 459)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1116, 461)
-[Debug DragHelper] Updated block position to: (1116, 461)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1117, 462)
-[Debug DragHelper] Updated block position to: (1117, 462)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@10, position: (1117, 463)
-[Debug DragHelper] Updated block position to: (1117, 463)
-[Debug InputHelper] Clicked dragged block @Node2D@10, placing it
-[Debug InputHelper] Placing block @Node2D@10 at (1117, 463)
-[Debug InputHelper] Attempting to connect block at position: (1117, 463)
-[ConnectionManager Debug] Attempting to connect block  between  and 
-[ConnectionManager Debug] Block  already has connections and not inserting after Input
-[Debug InputHelper] Failed to connect block @Node2D@10
-[BaseBlock Debug] Block @Node2D@10 state changed: Dragging -> Placed (SetPlaced: True)
-[Debug InputHelper] Block @Node2D@10 reverted to Placed state
-[Debug DragHelper] Entering EndDrag with block: @Node2D@10
-[BaseBlock Debug] Block @Node2D@10 state changed: Placed -> Placed (SetDragging: False)
-[Debug DragHelper] Block @Node2D@10 drag ended, Z-index set to 0
-[Debug InputHelper] No block found at position: (1498, 514)
-[Debug InputHelper] Starting drag for block '@Node2D@7' at (1534, 554)
-[Debug DragHelper] Entering StartDrag with block: @Node2D@7, clickPosition: (1534, 554)
-[Debug DragHelper] Set Z-index to 25 for dragged block
-[Debug DragHelper] Positioned block at click position: (1534, 554)
-[BaseBlock Debug] Block @Node2D@7 state changed: Connected -> Dragging (SetDragging: True)
-[Debug DragHelper] Block @Node2D@7 is now in dragging state
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1532, 555)
-[Debug DragHelper] Updated block position to: (1532, 555)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1523, 556)
-[Debug DragHelper] Updated block position to: (1523, 556)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1512, 556)
-[Debug DragHelper] Updated block position to: (1512, 556)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1498, 556)
-[Debug DragHelper] Updated block position to: (1498, 556)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1474, 556)
-[Debug DragHelper] Updated block position to: (1474, 556)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1445, 558)
-[Debug DragHelper] Updated block position to: (1445, 558)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1409, 561)
-[Debug DragHelper] Updated block position to: (1409, 561)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1377, 563)
-[Debug DragHelper] Updated block position to: (1377, 563)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1351, 565)
-[Debug DragHelper] Updated block position to: (1351, 565)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1339, 566)
-[Debug DragHelper] Updated block position to: (1339, 566)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1336, 566)
-[Debug DragHelper] Updated block position to: (1336, 566)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1328, 566)
-[Debug DragHelper] Updated block position to: (1328, 566)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1322, 566)
-[Debug DragHelper] Updated block position to: (1322, 566)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1302, 570)
-[Debug DragHelper] Updated block position to: (1302, 570)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1284, 575)
-[Debug DragHelper] Updated block position to: (1284, 575)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1269, 580)
-[Debug DragHelper] Updated block position to: (1269, 580)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1257, 584)
-[Debug DragHelper] Updated block position to: (1257, 584)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1255, 585)
-[Debug DragHelper] Updated block position to: (1255, 585)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1246, 589)
-[Debug DragHelper] Updated block position to: (1246, 589)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1226, 594)
-[Debug DragHelper] Updated block position to: (1226, 594)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1212, 599)
-[Debug DragHelper] Updated block position to: (1212, 599)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1206, 601)
-[Debug DragHelper] Updated block position to: (1206, 601)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1207, 602)
-[Debug DragHelper] Updated block position to: (1207, 602)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1210, 602)
-[Debug DragHelper] Updated block position to: (1210, 602)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1227, 602)
-[Debug DragHelper] Updated block position to: (1227, 602)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1277, 602)
-[Debug DragHelper] Updated block position to: (1277, 602)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1310, 602)
-[Debug DragHelper] Updated block position to: (1310, 602)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1318, 602)
-[Debug DragHelper] Updated block position to: (1318, 602)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1327, 602)
-[Debug DragHelper] Updated block position to: (1327, 602)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1327, 601)
-[Debug DragHelper] Updated block position to: (1327, 601)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1326, 601)
-[Debug DragHelper] Updated block position to: (1326, 601)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1326, 601)
-[Debug DragHelper] Updated block position to: (1326, 601)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1327, 600)
-[Debug DragHelper] Updated block position to: (1327, 600)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1331, 599)
-[Debug DragHelper] Updated block position to: (1331, 599)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1335, 598)
-[Debug DragHelper] Updated block position to: (1335, 598)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1339, 597)
-[Debug DragHelper] Updated block position to: (1339, 597)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1347, 595)
-[Debug DragHelper] Updated block position to: (1347, 595)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1351, 594)
-[Debug DragHelper] Updated block position to: (1351, 594)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1353, 593)
-[Debug DragHelper] Updated block position to: (1353, 593)
-[Debug DragHelper] Entering UpdateDrag with block: @Node2D@7, position: (1353, 593)
-[Debug DragHelper] Updated block position to: (1353, 593)
-[Debug InputHelper] Clicked dragged block @Node2D@7, placing it
-[Debug InputHelper] Placing block @Node2D@7 at (1353, 593)
-[Debug InputHelper] Attempting to connect block at position: (1353, 593)
-[ConnectionManager Debug] Attempting to connect block  between  and 
-[ConnectionManager Debug] Block  already has connections and not inserting after Input
-[Debug InputHelper] Failed to connect block @Node2D@7
-[BaseBlock Debug] Block @Node2D@7 state changed: Dragging -> Placed (SetPlaced: True)
-[Debug InputHelper] Block @Node2D@7 reverted to Placed state
-[Debug DragHelper] Entering EndDrag with block: @Node2D@7
-[BaseBlock Debug] Block @Node2D@7 state changed: Placed -> Placed (SetDragging: False)
-[Debug DragHelper] Block @Node2D@7 drag ended, Z-index set to 0
-[Input Debug] Spacebar pressed
-[Input Debug] Checking for connections at socket position: (205, 539.9512)
-[Input Debug] Found pipe: True
-[Input Debug] Has connections: True
-[Input Debug] Spawning token
-[TokenManager Debug] SpawnToken called
-[Input Debug] Using token socket position: (301, 539.9512)
-[Input Debug] Using token socket position: (301, 539.9512)
-USER ERROR: Node not found: "Sprite" (relative to "/root/Main/GameManager/TokenLayer/Token/TokenVisuals").
-   at: get_node (scene/main/node.cpp:1793)
-[TokenManager Debug] Token created with value 1
-[ConnectionManager Debug] Found next block in chain from Input: 
-[TokenManager Debug] Next block found: True
-[TokenManager Debug] Moving token to next block
-[BaseBlock Debug] Processing token in block @Node2D@9
-[BaseBlock Debug] Executing script for block @Node2D@9 with script: 
-                        float Value = 1;
-                        Action<string> Print = Godot.GD.Print;
-                        Action<string> PrintErr = Godot.GD.PrintErr;
-                        Value *= 2.0f;
-                        return Value;
-                    
-[BaseBlock Debug] Script execution completed for block @Node2D@9
-[BaseBlock Debug] Starting common token processing in block @Node2D@9
-[BaseBlock Debug] Added block @Node2D@9 to token's processed blocks
-[ConnectionManager Debug] Found next block in chain from : 
-[BaseBlock Debug] GetNextConnection returned nextBlock: , pipe: valid
-[BaseBlock Debug] Moving token from block @Node2D@9 to block 
-[BaseBlock Debug] Processing token in block @Node2D@11
-[BaseBlock Debug] Executing script for block @Node2D@11 with script: 
-                        float Value = 2;
-                        Action<string> Print = Godot.GD.Print;
-                        Action<string> PrintErr = Godot.GD.PrintErr;
-                        Value *= 2.0f;
-                        return Value;
-                    
-[BaseBlock Debug] Script execution completed for block @Node2D@11
-[BaseBlock Debug] Starting common token processing in block @Node2D@11
-[BaseBlock Debug] Added block @Node2D@11 to token's processed blocks
-[ConnectionManager Debug] Found next block in chain from : 
-[BaseBlock Debug] GetNextConnection returned nextBlock: , pipe: valid
-[BaseBlock Debug] Moving token from block @Node2D@11 to block 
-[BaseBlock Debug] Processing token in block @Node2D@10
-[BaseBlock Debug] Executing script for block @Node2D@10 with script: 
-                        float Value = 4;
-                        Action<string> Print = Godot.GD.Print;
-                        Action<string> PrintErr = Godot.GD.PrintErr;
-                        Value += 1.0f;
-                        return Value;
-                    
-[BaseBlock Debug] Script execution completed for block @Node2D@10
-[BaseBlock Debug] Starting common token processing in block @Node2D@10
-[BaseBlock Debug] Added block @Node2D@10 to token's processed blocks
-[ConnectionManager Debug] Found next block in chain from : 
-[BaseBlock Debug] GetNextConnection returned nextBlock: , pipe: valid
-[BaseBlock Debug] Moving token from block @Node2D@10 to block 
-[BaseBlock Debug] Processing token in block @Node2D@7
-[BaseBlock Debug] Executing script for block @Node2D@7 with script: 
-                        float Value = 5;
-                        Action<string> Print = Godot.GD.Print;
-                        Action<string> PrintErr = Godot.GD.PrintErr;
-                        Value *= 2.0f;
-                        return Value;
-                    
-[BaseBlock Debug] Script execution completed for block @Node2D@7
-[BaseBlock Debug] Starting common token processing in block @Node2D@7
-[BaseBlock Debug] Added block @Node2D@7 to token's processed blocks
-[ConnectionManager Debug] Found next block in chain from : Output
-[BaseBlock Debug] GetNextConnection returned nextBlock: Output, pipe: valid
-[BaseBlock Debug] Moving token from block @Node2D@7 to block Output
-[Output Debug] Received token with value: 10
-[Output Debug] Updated value label to: 10.0
-[TokenManager Debug] Removed 1 completed tokens
+[Debug InputHelper] Block 'Multiply7' is in the toolbar. Moving to BlockLayer before dragging.
+[BaseBlock Debug] Block Multiply7 state changed: InToolbar -> Placed (SetInToolbar: False)
+[Debug InputHelper] Starting drag for block 'Multiply7' at (1461, 948)
+[Debug DragHelper] Entering StartDrag with block: Multiply7, clickPosition: (1461, 948)
+[Debug DragHelper] Set Z-index to 25 for dragged block Multiply7
+[Debug DragHelper] Positioned block Multiply7 at click position: (1461, 948)
+[BaseBlock Debug] Block Multiply7 state changed: Placed -> Dragging (SetDragging: True)
+[Debug DragHelper] Block Multiply7 is now in dragging state
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1461, 948)
+[Debug DragHelper] Updated block Multiply7 position to: (1461, 948)
+[Debug InputHelper] Checking for pipe at token position: (1461, 948)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1461, 948)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1461, 948) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1271.3439 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1180.3209 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1098.9634 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1026.2361 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 961.1161 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 902.6003 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 849.71606 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 801.5343 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 757.18445 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 715.8752 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 676.92065 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 639.7803 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 604.1153 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 569.8744 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 537.42053 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 507.70987 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 482.51764 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 464.64902 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 457.95554 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1461, 948)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1461, 947)
+[Debug DragHelper] Updated block Multiply7 position to: (1461, 947)
+[Debug InputHelper] Checking for pipe at token position: (1461, 947)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1461, 947)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1461, 947) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1270.984 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1179.9332 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1098.547 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1025.7903 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 960.64 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 902.0933 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 849.17755 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 800.9634 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 756.58 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 715.2359 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 676.2445 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 639.0649 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 603.3576 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 569.0711 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 536.56866 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 506.80804 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 481.56866 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 463.66348 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 456.95554 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1461, 947)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1460, 946)
+[Debug DragHelper] Updated block Multiply7 position to: (1460, 946)
+[Debug InputHelper] Checking for pipe at token position: (1460, 946)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1460, 946)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1460, 946) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1269.6915 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1178.6241 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1097.2217 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1024.4496 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 959.2848 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 900.7246 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 847.79663 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 799.57166 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 755.1791 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 713.8277 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 674.8316 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 637.65076 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 601.9472 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 567.6722 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 535.193 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 505.47412 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 480.30457 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 462.50912 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 455.96103 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1460, 946)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1460, 945)
+[Debug DragHelper] Updated block Multiply7 position to: (1460, 945)
+[Debug InputHelper] Checking for pipe at token position: (1460, 945)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1460, 945)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1460, 945) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1269.3326 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1178.2377 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1096.8065 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1024.0049 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 958.8099 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 900.2188 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 847.2593 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 799.0018 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 754.5757 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 713.1894 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 674.1564 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 636.9361 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 601.1901 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 566.86926 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 534.3413 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 504.57227 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 479.35535 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 461.52332 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 454.96106 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1460, 945)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1460, 941)
+[Debug DragHelper] Updated block Multiply7 position to: (1460, 941)
+[Debug InputHelper] Checking for pipe at token position: (1460, 941)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1460, 941)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1460, 941) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1267.9045 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1176.6989 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1095.1534 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1022.234 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 956.91833 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 898.2039 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 845.1181 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 796.731 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 752.1708 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 710.6444 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 671.46344 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 634.08514 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 598.1688 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 563.66406 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 530.93976 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 500.96863 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 475.56067 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 457.58078 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 450.96115 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1460, 941)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1460, 930)
+[Debug DragHelper] Updated block Multiply7 position to: (1460, 930)
+[Debug InputHelper] Checking for pipe at token position: (1460, 930)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1460, 930)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1460, 930) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1264.034 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1172.5273 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1090.67 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1017.4294 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 951.78406 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 892.732 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 839.3001 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 790.557 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 745.6279 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 703.7155 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 664.126 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 626.3099 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 589.92035 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 554.9029 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 521.6293 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 491.09027 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 465.14304 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 446.74405 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 439.9614 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1460, 930)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1460, 906)
+[Debug DragHelper] Updated block Multiply7 position to: (1460, 906)
+[Debug InputHelper] Checking for pipe at token position: (1460, 906)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1460, 906)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1460, 906) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1255.8823 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1163.7347 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1081.212 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1007.2839 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 940.931 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 881.1519 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 826.97217 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 777.45654 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 731.7235 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 688.9658 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 648.4764 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 609.69037 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 572.24506 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 536.0742 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 501.55304 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 469.71054 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 442.51144 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 423.12952 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 415.96198 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1460, 906)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1460, 856)
+[Debug DragHelper] Updated block Multiply7 position to: (1460, 856)
+[Debug InputHelper] Checking for pipe at token position: (1460, 856)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1460, 856)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1460, 856) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1240.2198 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1146.8145 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1062.979 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 987.687 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 919.9218 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 858.68134 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 802.9869 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 751.8934 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 704.5028 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 659.98395 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 617.59735 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 576.73846 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 537.00024 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 498.27753 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 460.9342 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 426.06674 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 395.88037 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 374.0902 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 365.96347 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1460, 856)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1458, 808)
+[Debug DragHelper] Updated block Multiply7 position to: (1458, 808)
+[Debug InputHelper] Checking for pipe at token position: (1458, 808)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1458, 808)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1458, 808) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1224.9824 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1130.4923 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1045.5186 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 969.03705 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 900.03156 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 837.4981 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 780.4522 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 727.93744 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 679.0382 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 632.8969 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 588.73865 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 545.9129 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 503.95828 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 462.71423 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 422.51154 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 384.49542 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 351.1324 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 326.81757 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 317.99048 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1458, 808)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1455, 764)
+[Debug DragHelper] Updated block Multiply7 position to: (1455, 764)
+[Debug InputHelper] Checking for pipe at token position: (1455, 764)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1455, 764)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1455, 764) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1207.88 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1112.2023 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1025.9742 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 948.1723 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 877.77844 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 813.7841 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 755.19495 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 701.03796 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 650.3716 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 602.30005 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 555.995 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 510.73334 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 465.95944 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 421.3997 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 377.27542 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 334.70847 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 296.4628 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 268.04163 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 258.14374 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1455, 764)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1455, 728)
+[Debug DragHelper] Updated block Multiply7 position to: (1455, 728)
+[Debug InputHelper] Checking for pipe at token position: (1455, 728)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1455, 728)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1455, 728) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1198.7423 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1102.2716 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1015.2005 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 936.5039 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 865.16113 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 800.1584 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 740.4918 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 685.1737 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 633.23926 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 583.75867 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 535.85376 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 488.73035 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 441.7318 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 394.44455 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 346.90857 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 300.06427 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 256.70798 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 223.2826 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 211.29836 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1455, 728)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1455, 696)
+[Debug DragHelper] Updated block Multiply7 position to: (1455, 696)
+[Debug InputHelper] Checking for pipe at token position: (1455, 696)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1455, 696)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1455, 696) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1192.4336 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1095.4075 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1007.7434 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 928.4149 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 856.3986 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 790.6758 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 730.2348 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 674.07544 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 621.2139 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 570.6916 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 521.58795 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 473.04553 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 424.31323 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 374.83493 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 324.43842 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 273.776 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 225.419 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 186.46675 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 171.93523 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1455, 696)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1455, 686)
+[Debug DragHelper] Updated block Multiply7 position to: (1455, 686)
+[Debug InputHelper] Checking for pipe at token position: (1455, 686)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1455, 686)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1455, 686) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1190.3612 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1093.1511 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1005.2904 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 925.7518 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 853.51074 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 787.54694 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 726.8459 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 670.40265 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 617.2267 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 566.3488 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 516.8327 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 467.7971 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 418.454 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 368.18918 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 316.737 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 264.60413 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 214.18631 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 172.71912 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 156.91963 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1455, 686)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1457, 651)
+[Debug DragHelper] Updated block Multiply7 position to: (1457, 651)
+[Debug InputHelper] Checking for pipe at token position: (1457, 651)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1457, 651)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1457, 651) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1187.9043 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1090.2953 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1002.00684 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 922.01025 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 849.27826 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 782.7863 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 721.5129 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 664.4426 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 610.56836 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 558.8961 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 508.45154 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 458.2948 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 407.54474 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 355.4334 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 301.4304 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 245.57098 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 189.4643 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 139.85449 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 118.442894 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1457, 651)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1457, 633)
+[Debug DragHelper] Updated block Multiply7 position to: (1457, 633)
+[Debug InputHelper] Checking for pipe at token position: (1457, 633)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1457, 633)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1457, 633) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1186.0524 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1088.2772 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 999.8106 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 919.623 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 846.686 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 779.973 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 718.4598 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 661.126 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 606.9574 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 554.94904 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 504.10965 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 453.47293 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 402.11475 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 349.19403 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 294.04736 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 236.45015 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 177.4832 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 123.1375 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 98.144196 for pipe between Input and Output
+[PipeSelector Debug] Selected pipe between Input and Output with distance 98.144196
+[ConnectionHelper] Pipe found at position (1457, 633). Highlighting pipe.
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1457, 580)
+[Debug DragHelper] Updated block Multiply7 position to: (1457, 580)
+[Debug InputHelper] Checking for pipe at token position: (1457, 580)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1457, 580)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1457, 580) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1182.7955 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1084.7269 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 995.945 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 915.41876 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 842.11774 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 775.01166 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 713.0705 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 655.2654 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 600.5684 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 547.954 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 496.39868 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 444.88516 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 392.40463 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 337.96686 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 280.62247 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 219.53085 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 154.22517 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 86.30159 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 43.788185 for pipe between Input and Output
+[PipeSelector Debug] Selected pipe between Input and Output with distance 43.788185
+[ConnectionHelper] Pipe found at position (1457, 580). Highlighting pipe.
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1445, 500)
+[Debug DragHelper] Updated block Multiply7 position to: (1445, 500)
+[Debug InputHelper] Checking for pipe at token position: (1445, 500)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1445, 500)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1445, 500) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1170.6073 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1072.5222 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 983.7228 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 903.1779 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 829.8569 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 762.7294 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 700.7651 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 642.93463 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 588.2096 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 535.5633 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 483.9709 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 432.41254 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 379.87573 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 325.36383 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 267.91626 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 206.6714 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 141.12958 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 73.08551 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 41.77982 for pipe between Input and Output
+[PipeSelector Debug] Selected pipe between Input and Output with distance 41.77982
+[ConnectionHelper] Pipe found at position (1445, 500). Highlighting pipe.
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1437, 467)
+[Debug DragHelper] Updated block Multiply7 position to: (1437, 467)
+[Debug InputHelper] Checking for pipe at token position: (1437, 467)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1437, 467)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1437, 467) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1164.1938 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1066.2551 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 977.6136 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 897.239 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 824.10205 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 757.1744 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 695.42896 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 637.84125 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 583.3904 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 531.0613 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 479.84744 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 428.7588 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 376.83328 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 323.16656 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 266.98477 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 207.86432 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 146.58553 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 89.91941 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 76.021774 for pipe between Input and Output
+[PipeSelector Debug] Selected pipe between Input and Output with distance 76.021774
+[ConnectionHelper] Pipe found at position (1437, 467). Highlighting pipe.
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1435, 447)
+[Debug DragHelper] Updated block Multiply7 position to: (1435, 447)
+[Debug InputHelper] Checking for pipe at token position: (1435, 447)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1435, 447)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1435, 447) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1163.6376 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1065.8319 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 977.3338 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 897.1139 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 824.1439 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 757.39746 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 695.8502 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 638.482 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 584.27856 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 532.2351 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 481.36124 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 430.6926 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 379.31042 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 326.38782 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 271.30234 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 213.96223 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 155.97562 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 105.92515 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 96.10611 for pipe between Input and Output
+[PipeSelector Debug] Selected pipe between Input and Output with distance 96.10611
+[ConnectionHelper] Pipe found at position (1435, 447). Highlighting pipe.
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1435, 438)
+[Debug DragHelper] Updated block Multiply7 position to: (1435, 438)
+[Debug InputHelper] Checking for pipe at token position: (1435, 438)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1435, 438)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1435, 438) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1164.4127 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1066.6782 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 978.2566 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 898.1191 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 825.2381 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 758.5878 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 697.1457 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 639.89355 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 585.82074 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 533.9277 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 483.23206 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 432.7825 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 381.68176 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 329.1407 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 274.60797 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 218.13852 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 161.65694 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 114.125854 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 105.075966 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1435, 438)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1435, 430)
+[Debug DragHelper] Updated block Multiply7 position to: (1435, 430)
+[Debug InputHelper] Checking for pipe at token position: (1435, 430)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1435, 430)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1435, 430) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1165.1575 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1067.4912 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 979.14294 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 899.0845 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 826.28864 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 759.7305 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 698.389 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 641.24786 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 587.29974 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 535.55 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 485.02393 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 434.78235 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 383.94788 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 331.76587 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 277.74902 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 222.07974 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 166.937 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 121.48953 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 113.03077 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1435, 430)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1435, 426)
+[Debug DragHelper] Updated block Multiply7 position to: (1435, 426)
+[Debug InputHelper] Checking for pipe at token position: (1435, 426)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1435, 426)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1435, 426) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1165.5555 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1067.9257 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 979.61664 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 899.6003 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 826.84985 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 760.34094 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 699.05286 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 641.9709 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 588.0891 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 536.4155 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 485.97943 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 435.848 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 385.1542 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 333.1612 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 279.41425 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 224.15892 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 169.69316 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 125.24981 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 117.063065 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1435, 426)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1435, 425)
+[Debug DragHelper] Updated block Multiply7 position to: (1435, 425)
+[Debug InputHelper] Checking for pipe at token position: (1435, 425)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1435, 425)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1435, 425) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1165.6641 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1068.0441 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 979.74567 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 899.74084 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 827.00275 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 760.5072 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 699.2337 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 642.1678 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 588.3041 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 536.6512 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 486.23953 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 436.138 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 385.48236 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 333.54053 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 279.86642 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 224.72227 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 170.43665 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 126.25527 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 118.13823 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1435, 425)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1435, 426)
+[Debug DragHelper] Updated block Multiply7 position to: (1435, 426)
+[Debug InputHelper] Checking for pipe at token position: (1435, 426)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1435, 426)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1435, 426) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1165.5835 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1067.956 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 979.6499 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 899.6365 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 826.8892 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 760.3837 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 699.0994 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 642.02155 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 588.1444 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 536.4762 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 486.04642 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 435.9227 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 385.23874 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 333.2589 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 279.53073 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 224.30408 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 169.88487 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 125.50942 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 117.3408 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1435, 426)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1435, 429)
+[Debug DragHelper] Updated block Multiply7 position to: (1435, 429)
+[Debug InputHelper] Checking for pipe at token position: (1435, 429)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1435, 429)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1435, 429) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1165.2941 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1067.6401 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 979.3054 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 899.2614 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 826.48114 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 759.93994 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 698.6167 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 641.4959 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 587.57056 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 535.847 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 485.35184 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 435.1481 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 384.362 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 332.2451 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 278.32126 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 222.795 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 167.88734 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 122.79214 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 114.429695 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1435, 429)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1435, 432)
+[Debug DragHelper] Updated block Multiply7 position to: (1435, 432)
+[Debug InputHelper] Checking for pipe at token position: (1435, 432)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1435, 432)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1435, 432) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1165.0122 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1067.3326 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 978.9701 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 898.8962 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 826.08374 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 759.50775 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 698.14655 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 640.9838 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 587.0115 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 535.2339 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 484.67484 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 434.39288 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 383.50677 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 331.2553 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 277.13898 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 221.3163 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 165.92003 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 120.0883 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 111.52331 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1435, 432)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1435, 434)
+[Debug DragHelper] Updated block Multiply7 position to: (1435, 434)
+[Debug InputHelper] Checking for pipe at token position: (1435, 434)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1435, 434)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1435, 434) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1164.8286 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1067.1321 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 978.7516 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 898.6582 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 825.82477 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 759.2261 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 697.8401 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 640.65 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 586.647 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 534.83405 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 484.2333 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 433.90018 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 382.94864 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 330.60895 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 276.3661 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 220.34769 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 164.6258 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 118.293686 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 109.58852 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1435, 434)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1435, 435)
+[Debug DragHelper] Updated block Multiply7 position to: (1435, 435)
+[Debug InputHelper] Checking for pipe at token position: (1435, 435)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1435, 435)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1435, 435) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1164.738 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1067.0333 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 978.64386 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 898.5409 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 825.6971 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 759.08716 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 697.68896 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 640.4854 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 586.46716 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 534.63684 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 484.0155 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 433.65707 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 382.67316 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 330.28983 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 275.98425 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 219.86859 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 163.984 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 117.398865 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 108.62201 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1435, 435)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1435, 440)
+[Debug DragHelper] Updated block Multiply7 position to: (1435, 440)
+[Debug InputHelper] Checking for pipe at token position: (1435, 440)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1435, 440)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1435, 440) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1164.2982 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1066.5531 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 978.12024 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 897.9706 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 825.0764 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 758.41205 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 696.9544 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 639.6851 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 585.5931 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 533.67786 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 482.956 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 432.4742 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 381.33218 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 328.73523 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 274.12186 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 217.52629 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 160.82983 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 112.95124 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 103.79899 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1435, 440)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1436, 443)
+[Debug DragHelper] Updated block Multiply7 position to: (1436, 443)
+[Debug InputHelper] Checking for pipe at token position: (1436, 443)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1436, 443)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1436, 443) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1165.041 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1067.272 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 978.8133 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 898.63574 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 825.7115 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 759.0142 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 697.52075 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 640.21173 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 586.0747 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 534.1075 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 483.32367 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 432.76526 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 381.52396 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 328.79095 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 273.97736 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 217.05847 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 159.7765 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 110.785805 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 100.640564 for pipe between Input and Output
+[PipeSelector Debug] No pipe found within hover distance
+[ConnectionHelper] No pipe found at position: (1436, 443)
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1437, 448)
+[Debug DragHelper] Updated block Multiply7 position to: (1437, 448)
+[Debug InputHelper] Checking for pipe at token position: (1437, 448)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1437, 448)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1437, 448) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1165.6324 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1067.8257 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 979.3263 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 899.10486 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 826.13306 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 759.38446 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 697.83466 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 640.46326 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 586.2559 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 534.20764 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 483.3273 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 432.64975 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 381.25452 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 328.31134 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 273.18964 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 215.776 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 157.60399 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 106.944855 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 95.55633 for pipe between Input and Output
+[PipeSelector Debug] Selected pipe between Input and Output with distance 95.55633
+[ConnectionHelper] Pipe found at position (1437, 448). Highlighting pipe.
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1438, 452)
+[Debug DragHelper] Updated block Multiply7 position to: (1438, 452)
+[Debug InputHelper] Checking for pipe at token position: (1438, 452)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1438, 452)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1438, 452) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1166.3209 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1068.4854 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 979.9548 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 899.69977 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 826.6918 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 759.90375 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 698.31085 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 640.8917 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 586.63055 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 534.52 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 483.56555 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 432.7964 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 381.2826 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 328.17688 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 272.81583 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 215.01413 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 156.12946 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 104.05677 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 91.435234 for pipe between Input and Output
+[PipeSelector Debug] Selected pipe between Input and Output with distance 91.435234
+[ConnectionHelper] Pipe found at position (1438, 452). Highlighting pipe.
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1438, 454)
+[Debug DragHelper] Updated block Multiply7 position to: (1438, 454)
+[Debug InputHelper] Checking for pipe at token position: (1438, 454)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1438, 454)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1438, 454) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1166.1718 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1068.3226 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 979.7773 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 899.5065 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 826.4814 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 759.67487 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 698.06177 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 640.6203 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 586.33405 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 534.1945 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 483.2058 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 432.3944 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 380.82623 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 327.64655 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 272.17764 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 214.20381 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 155.01163 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 102.3719 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 89.513115 for pipe between Input and Output
+[PipeSelector Debug] Selected pipe between Input and Output with distance 89.513115
+[ConnectionHelper] Pipe found at position (1438, 454). Highlighting pipe.
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1438, 456)
+[Debug DragHelper] Updated block Multiply7 position to: (1438, 456)
+[Debug InputHelper] Checking for pipe at token position: (1438, 456)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1438, 456)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1438, 456) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1166.026 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1068.1635 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 979.6039 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 899.31757 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 826.2758 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 759.4512 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 697.81836 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 640.35504 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 586.0442 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 533.8764 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 482.85406 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 432.00128 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 380.3798 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 327.1276 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 271.55267 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 213.40916 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 153.91165 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 100.69857 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 87.59448 for pipe between Input and Output
+[PipeSelector Debug] Selected pipe between Input and Output with distance 87.59448
+[ConnectionHelper] Pipe found at position (1438, 456). Highlighting pipe.
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1438, 460)
+[Debug DragHelper] Updated block Multiply7 position to: (1438, 460)
+[Debug InputHelper] Checking for pipe at token position: (1438, 460)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1438, 460)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1438, 460) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1165.7449 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1067.8566 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 979.2692 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 898.95294 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 825.87897 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 759.0194 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 697.34845 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 639.84296 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 585.48456 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 533.262 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 482.17468 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 431.24182 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 379.51706 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 326.12396 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 270.34283 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 211.86755 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 151.76689 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 97.38887 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 83.76863 for pipe between Input and Output
+[PipeSelector Debug] Selected pipe between Input and Output with distance 83.76863
+[ConnectionHelper] Pipe found at position (1438, 460). Highlighting pipe.
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1439, 465)
+[Debug DragHelper] Updated block Multiply7 position to: (1439, 465)
+[Debug InputHelper] Checking for pipe at token position: (1439, 465)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1439, 465)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1439, 465) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1166.4105 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1068.4915 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 979.8707 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 899.5186 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 826.4058 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 759.5042 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 697.7871 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 640.2305 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 585.8146 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 533.5254 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 482.3587 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 431.3276 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 379.47552 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 325.90747 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 269.8671 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 210.96623 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 150.05891 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 93.9271 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 78.69989 for pipe between Input and Output
+[PipeSelector Debug] Selected pipe between Input and Output with distance 78.69989
+[ConnectionHelper] Pipe found at position (1439, 465). Highlighting pipe.
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1440, 469)
+[Debug DragHelper] Updated block Multiply7 position to: (1440, 469)
+[Debug InputHelper] Checking for pipe at token position: (1440, 469)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1440, 469)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1440, 469) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1167.1586 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1069.2161 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 980.57025 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 900.19104 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 827.04895 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 760.1155 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 698.3636 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 640.76843 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 586.30884 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 533.9693 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 482.7425 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 431.63693 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 379.6881 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 325.98682 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 269.7483 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 210.51971 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 148.98009 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 91.39425 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 74.585945 for pipe between Input and Output
+[PipeSelector Debug] Selected pipe between Input and Output with distance 74.585945
+[ConnectionHelper] Pipe found at position (1440, 469). Highlighting pipe.
+[Debug DragHelper] Entering UpdateDrag with block: Multiply7, position: (1441, 471)
+[Debug DragHelper] Updated block Multiply7 position to: (1441, 471)
+[Debug InputHelper] Checking for pipe at token position: (1441, 471)
+[ConnectionHelper] HighlightPipeAtPosition called with position: (1441, 471)
+[ConnectionHelper] GameManager found: GameManager
+[PipeSelector Debug] Checking position (1441, 471) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1168.0369 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1070.0831 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 981.4251 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 901.03265 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 827.8763 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 760.9273 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 699.1583 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 641.54425 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 587.0633 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 534.69885 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 483.44235 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 432.29987 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 380.30286 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 326.53476 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 270.1959 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 210.79884 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 148.92369 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 90.49488 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 72.37582 for pipe between Input and Output
+[PipeSelector Debug] Selected pipe between Input and Output with distance 72.37582
+[ConnectionHelper] Pipe found at position (1441, 471). Highlighting pipe.
+[Debug InputHelper] Clicked dragged block Multiply7, placing it
+[Debug InputHelper] Placing block Multiply7 at (1441, 471)
+[Debug InputHelper] Attempting to connect block at position: (1441, 471)
+[ConnectionHelper Debug] Attempting to connect block Multiply7 at position (1441, 471)
+[PipeSelector Debug] Checking position (1441, 471) with hover distance 100
+[PipeSelector Debug] Checking pipe between Input and Output
+[PipeSelector Debug] New best distance: 1168.0369 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 1070.0831 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 981.4251 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 901.03265 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 827.8763 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 760.9273 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 699.1583 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 641.54425 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 587.0633 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 534.69885 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 483.44235 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 432.29987 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 380.30286 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 326.53476 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 270.1959 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 210.79884 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 148.92369 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 90.49488 for pipe between Input and Output
+[PipeSelector Debug] New best distance: 72.37582 for pipe between Input and Output
+[PipeSelector Debug] Selected pipe between Input and Output with distance 72.37582
+[ConnectionManager Debug] Attempting to connect block Multiply7 between Input and Output
+[BaseBlock Debug] Block Multiply7 resetting connections. Current state: Dragging
+[BaseBlock Debug] Block Multiply7 reset input socket
+[BaseBlock Debug] Block Multiply7 reset output socket
+[BaseBlock Debug] Block Multiply7 finished resetting connections
+[ConnectionManager Debug] Creating new connections for block Multiply7
+[ConnectionFactory] Creating pipe between blocks: Input -> Multiply7
+[ConnectionFactory] From block type: F.Game.BlockLogic.BaseBlock, To block type: F.Game.BlockLogic.BaseBlock
+[ConnectionFactory] From socket type: Godot.Node2D, To socket type: Godot.Node2D
+[ConnectionPipe] Initialized pipe Pipe_Input_Multiply7 between Input and Multiply7
+[ConnectionFactory] Creating pipe between blocks: Multiply7 -> Output
+[ConnectionFactory] From block type: F.Game.BlockLogic.BaseBlock, To block type: F.Game.BlockLogic.BaseBlock
+[ConnectionFactory] From socket type: Godot.Node2D, To socket type: Godot.Node2D
+[ConnectionPipe] Initialized pipe Pipe_Multiply7_Output between Multiply7 and Output
+[ConnectionManager] Set connection for block Input to pipe Pipe_Input_Multiply7
+[ConnectionManager] Set connection for block Multiply7 to pipe Pipe_Input_Multiply7
+[ConnectionManager] Set connection for block Multiply7 to pipe Pipe_Multiply7_Output
+[ConnectionManager] Set connection for block Output to pipe Pipe_Multiply7_Output
+[BaseBlock Debug] Block Multiply7 state changed: Dragging -> Connected (CompleteConnection)
+[ConnectionManager] Successfully connected block Multiply7 between Input and Output
+[BaseBlock Debug] Block Multiply7 state changed: Connected -> Connected (CompleteConnection)
+[ConnectionHelper Debug] Forced block Multiply7 to Connected state. Connection operation returned: True
+[Debug InputHelper] Successfully connected block Multiply7
+[Debug DragHelper] Entering EndDrag with block: Multiply7
+[Debug DragHelper] Block Multiply7 drag ended, Z-index set to -4
+[Debug InputHelper] Right-click on block: 'Multiply7'. Returning to toolbar.
+[Debug HelperFunnel] Successfully found HelperFunnel instance
+[ToolbarHelper] Returning block Multiply7 to toolbar
+[ToolbarHelper] Reconnecting Input to Output
+[ConnectionFactory] Creating pipe between blocks: Input -> Output
+[ConnectionFactory] From block type: F.Game.BlockLogic.BaseBlock, To block type: F.Game.BlockLogic.BaseBlock
+[ConnectionFactory] From socket type: Godot.Node2D, To socket type: Godot.Node2D
+[ConnectionPipe] Initialized pipe Pipe_Input_Output between Input and Output
+[ConnectionManager] Set connection for block Input to pipe Pipe_Input_Output
+[ConnectionPipe] Initialized pipe Pipe_Input_Output between Input and Output
+[ConnectionManager] Source block Input output connected: True
+[ConnectionManager] Target block Output input connected: True
+[ConnectionManager] Set source connection for block Input to pipe Pipe_Input_Output
+[ConnectionManager] Set connection for block Output to pipe Pipe_Input_Output
+[ConnectionPipe] Initialized pipe Pipe_Input_Output between Input and Output
+[ConnectionManager] Source block Input output connected: True
+[ConnectionManager] Target block Output input connected: True
+[ConnectionManager] Set target connection for block Output to pipe Pipe_Input_Output
+[BaseBlock Debug] Block Input state changed: InToolbar -> Connected (CompleteConnection)
+[BaseBlock Debug] Block Output state changed: InToolbar -> Connected (CompleteConnection)
+[BaseBlock Debug] Block Multiply7 resetting connections. Current state: Connected
+[BaseBlock Debug] Block Multiply7 reset input socket
+[BaseBlock Debug] Block Multiply7 reset output socket
+[BaseBlock Debug] Block Multiply7 finished resetting connections
+[ToolbarHelper] Block Multiply7 returned to toolbar successfully
+[BaseBlock Debug] Block Multiply7 state changed: Connected -> InToolbar (SetInToolbar: True)
