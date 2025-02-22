@@ -20,7 +20,7 @@ public partial class ToolbarBlockManager : Node
     public override void _Ready()
     {
         base._Ready();
-        _gameManager = GetNode<GMFG>("/root/Main/GameManager");
+        _gameManager = GetNode<GMFG>(SceneNodeConfig.Main.GameManager);
         _blockContainer = GetParent().GetNode<HBoxContainer>("BlockContainer");
         var hf = HelperFunnel.GetInstance();
         _dragHelper = hf?.GetNodeOrNull<DragHelper>("DragHelper");
@@ -70,11 +70,11 @@ public partial class ToolbarBlockManager : Node
     {
         if (_gameManager == null) return;
 
-        // Get the BlockLayer
-        var BlockLayer = _gameManager.GetNode<Node2D>("BlockLayer");
-        if (BlockLayer == null)
+        // Get the BlockLayerContent node
+        var blockLayerContent = _gameManager.GetNode<Node2D>("BlockLayer/BlockLayerViewport/BlockLayerContent");
+        if (blockLayerContent == null)
         {
-            GD.PrintErr("BlockLayer not found!");
+            GD.PrintErr("BlockLayerContent not found!");
             return;
         }
 
@@ -86,14 +86,29 @@ public partial class ToolbarBlockManager : Node
         if (key != null) _blocks.Remove(key);
         block.GetParent()?.RemoveChild(block);
 
-        // Move to BlockLayer and set properties
-        BlockLayer.AddChild(block);
-        block.GlobalPosition = globalPos;
-        block.State = BlockState.Dragging;
-        block.ZIndex = 100; // Set high z-index for dragging
+        // Move to BlockLayerContent and set properties
+        blockLayerContent.AddChild(block);
 
-        // Start dragging
-        _dragHelper?.StartDrag(block, globalPos);
+        // Convert global position to viewport coordinates
+        var blockLayer = _gameManager.GetNode<Node2D>("BlockLayer");
+        if (blockLayer != null)
+        {
+            // Convert global position to BlockLayer's local coordinates
+            var localPos = blockLayer.ToLocal(globalPos);
+            // Convert BlockLayer's local coordinates to viewport coordinates
+            var viewportPos = localPos + new Vector2(960, 540); // Center of viewport (1920x1080)
+            block.GlobalPosition = viewportPos;
+        }
+        else
+        {
+            block.GlobalPosition = globalPos;
+        }
+
+        block.State = BlockState.Dragging;
+        block.ZIndex = ZIndexConfig.Layers.DraggedBlock;
+
+        // Start dragging with the viewport position
+        _dragHelper?.StartDrag(block, block.GlobalPosition);
 
         UpdateBlockPositions();
     }

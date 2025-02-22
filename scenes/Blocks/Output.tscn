@@ -1,42 +1,29 @@
-[gd_scene load_steps=5 format=3 uid="uid://output"]
+[gd_scene load_steps=3 format=3 uid="uid://output"]
 
 [ext_resource type="PackedScene" uid="uid://cmq1qjbdjfbug" path="res://scenes/Utils/BaseBlock.tscn" id="1_block"]
 [ext_resource type="Texture2D" uid="uid://dulyunrthlhoj" path="res://assets/images/blocks/Output.png" id="3_w6au7"]
-[ext_resource type="Shader" path="res://assets/shaders/blocks/OutputTrigger.gdshader" id="4_ripple"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ripple"]
-shader = ExtResource("4_ripple")
-shader_parameter/ripple_progress = 0.432
-shader_parameter/ripple_width = 0.44
-shader_parameter/fade_progress = 0.0
-shader_parameter/distortion_strength = 0.0
-shader_parameter/center = Vector2(0.5, 0.5)
 
 [node name="Output" instance=ExtResource("1_block")]
 z_index = 1
 
-[node name="RippleEffect" type="ColorRect" parent="." index="0"]
-z_index = -1
-z_as_relative = false
-material = SubResource("ShaderMaterial_ripple")
-offset_left = -1770.0
-offset_top = -1967.0
-offset_right = 2230.0
-offset_bottom = 2033.0
-mouse_filter = 2
-
-[node name="BlockInputSocket" parent="." index="1"]
+[node name="BlockInputSocket" parent="." index="0"]
 position = Vector2(0, 0)
 
-[node name="BlockOutputSocket" parent="." index="2"]
+[node name="Socket" parent="BlockInputSocket" index="0"]
+visible = false
+
+[node name="BlockOutputSocket" parent="." index="1"]
 visible = false
 position = Vector2(0, 0)
 
-[node name="TokenSocket" type="Node2D" parent="." index="3"]
+[node name="Socket" parent="BlockOutputSocket" index="0"]
+visible = false
 
-[node name="base" type="Sprite2D" parent="." index="4"]
+[node name="TokenSocket" type="Node2D" parent="." index="2"]
+
+[node name="base" type="Sprite2D" parent="." index="3"]
 visible = false
 texture = ExtResource("3_w6au7")
 
-[node name="Label" parent="." index="5"]
+[node name="Label" parent="." index="4"]
 visible = false

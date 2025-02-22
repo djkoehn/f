@@ -12,7 +12,7 @@ public partial class BlockInteractionManager : Node
     public override void _Ready()
     {
         base._Ready();
-        _gameManager = GetNode<GameManager>("/root/Main/GameManager");
+        _gameManager = GetNode<GameManager>(SceneNodeConfig.Main.GameManager);
         _helperFunnel = HelperFunnel.GetInstance();
         ProcessMode = ProcessModeEnum.Always;
 

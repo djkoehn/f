@@ -1,5 +1,6 @@
 using F.Audio;
 using F.Game.Connections;
+using F.Game.Core;
 using ConnectionManager = F.Game.Connections.ConnectionManager;
 
 namespace F.Game.Tokens;
@@ -7,22 +8,80 @@ namespace F.Game.Tokens;
 public partial class TokenManager : Node
 {
     private readonly List<Token> _activeTokens = new();
-    private readonly ConnectionManager _connectionManager;
-    private readonly TokenFactory _factory;
-    private readonly Node2D _tokenLayer;
+    private ConnectionManager? _connectionManager;
+    private TokenFactory? _factory;
+    private Node2D? _tokenLayer;
 
-    public TokenManager(ConnectionManager connectionManager, Node2D tokenLayer)
+    public override void _Ready()
     {
-        _connectionManager = connectionManager;
-        _tokenLayer = tokenLayer;
+        // Get required components
+        var gameManager = GetParent<GameManager>();
+        if (gameManager == null)
+        {
+            GD.PrintErr("[TokenManager Debug] Failed to get GameManager");
+            return;
+        }
+
+        _tokenLayer = gameManager.GetNode<Node2D>("TokenLayer");
+        if (_tokenLayer == null)
+        {
+            GD.PrintErr("[TokenManager Debug] Failed to get TokenLayer");
+            return;
+        }
+
+        // Load the token scene
         var tokenScene = GD.Load<PackedScene>("res://scenes/Token.tscn");
+        if (tokenScene == null)
+        {
+            GD.PrintErr("[TokenManager Debug] Failed to load Token.tscn");
+            return;
+        }
+        
         _factory = new TokenFactory(_tokenLayer, tokenScene);
-        GD.Print("[TokenManager Debug] Initialized with ConnectionManager and TokenLayer");
+
+        // Defer ConnectionManager setup
+        CallDeferred(nameof(InitializeConnectionManager));
+    }
+
+    private void InitializeConnectionManager()
+    {
+        var gameManager = GetParent<GameManager>();
+        if (gameManager == null) return;
+
+        _connectionManager = gameManager.ConnectionManager;
+        if (_connectionManager == null)
+        {
+            GD.PrintErr("[TokenManager Debug] ConnectionManager still not ready, retrying in 0.1s");
+            var timer = new Timer();
+            AddChild(timer);
+            timer.OneShot = true;
+            timer.WaitTime = 0.1f;
+            timer.Timeout += () => {
+                timer.QueueFree();
+                InitializeConnectionManager();
+            };
+            timer.Start();
+            return;
+        }
+
+        GD.Print("[TokenManager Debug] Successfully initialized with ConnectionManager and TokenLayer");
     }
 
     public void SpawnToken(IBlock startBlock)
     {
         GD.Print("[TokenManager Debug] SpawnToken called");
+        if (_factory == null)
+        {
+            GD.PrintErr("[TokenManager Debug] TokenFactory is null");
+            return;
+        }
+
+        if (_connectionManager == null)
+        {
+            GD.PrintErr("[TokenManager Debug] ConnectionManager is null, token spawning aborted");
+            return;
+        }
+
         var value = (startBlock as BaseBlock)?.GetValue() ?? 1.0f;
         var token = _factory.CreateToken(startBlock, value);
 
@@ -36,23 +95,19 @@ public partial class TokenManager : Node
         GD.Print($"[TokenManager Debug] Token created with value {value}");
         AudioManager.Instance?.PlayTokenStart();
 
-        // Get the next block and send the token there
-        if (_connectionManager == null)
-        {
-            GD.PrintErr("[TokenManager Debug] ConnectionManager is null");
-            return;
-        }
-        var (nextBlock, pipe) = _connectionManager.GetNextConnection();
-        GD.Print($"[TokenManager Debug] Next block found: {nextBlock != null}");
+        var (nextBlock, pipe) = _connectionManager.GetNextConnection(startBlock);
+        GD.Print($"[TokenManager Debug] Next block found: {nextBlock != null}, pipe: {pipe != null}");
+        
         if (nextBlock != null)
         {
-            GD.Print("[TokenManager Debug] Moving token to next block");
+            GD.Print($"[TokenManager Debug] Moving token to next block: {nextBlock.Name}");
             token.MoveTo(nextBlock);
         }
         else
         {
-            GD.Print("[TokenManager Debug] No next block found, destroying token");
+            GD.PrintErr("[TokenManager Debug] No next block found, destroying token");
             token.QueueFree();
+            _activeTokens.Remove(token);
         }
     }
 

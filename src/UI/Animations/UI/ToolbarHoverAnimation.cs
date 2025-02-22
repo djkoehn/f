@@ -5,13 +5,13 @@ public sealed partial class ToolbarHoverAnimation : Node
     public delegate void PositionChangedHandler(Vector2 newPosition);
     public event PositionChangedHandler? PositionChanged;
 
-    // Separate Y values for toolbar (Control) and BlockLayer (Node2D)
-    private const float TOOLBAR_HIDDEN_Y = 1080f;
-    private const float TOOLBAR_VISIBLE_Y = 856f;
+    // Use config values for positioning
+    private const float TOOLBAR_HIDDEN_Y = ToolbarConfig.Animation.HideY;
+    private const float TOOLBAR_VISIBLE_Y = ToolbarConfig.Animation.ShowY;
     private const float BLOCKLAYER_HIDDEN_Y = 0f;
-    private const float BLOCKLAYER_VISIBLE_Y = -50f;
+    private const float BLOCKLAYER_VISIBLE_Y = -128f; // Move up to make room for toolbar
 
-    private const float DURATION = 0.3f;
+    private const float DURATION = ToolbarConfig.Animation.Duration;
     private Vector2 _startPos;
     private Vector2 _endPos;
     private float _time;
@@ -25,27 +25,48 @@ public sealed partial class ToolbarHoverAnimation : Node
         _isControl = target is Control;
         _time = 0f;
 
-        float startY, endY;
-        if (_target is Control)
+        // Initialize position to hidden state if not already set
+        if (_isControl)
         {
-            // For toolbar (Control): if showing, animate from hidden to visible
-            startY = show ? TOOLBAR_HIDDEN_Y : TOOLBAR_VISIBLE_Y;
-            endY = show ? TOOLBAR_VISIBLE_Y : TOOLBAR_HIDDEN_Y;
-        }
-        else if (_target is Node2D)
-        {
-            // For blocklayer (Node2D)
-            startY = show ? BLOCKLAYER_HIDDEN_Y : BLOCKLAYER_VISIBLE_Y;
-            endY = show ? BLOCKLAYER_VISIBLE_Y : BLOCKLAYER_HIDDEN_Y;
+            var control = _target as Control;
+            if (control != null && control.Position.Y == 0) // If at default position
+            {
+                control.Position = new Vector2(control.Position.X, TOOLBAR_HIDDEN_Y);
+            }
         }
         else
         {
-            startY = 0f;
-            endY = 0f;
+            var node2D = _target as Node2D;
+            if (node2D != null && node2D.Position.Y == 0) // If at default position
+            {
+                node2D.Position = new Vector2(node2D.Position.X, BLOCKLAYER_HIDDEN_Y);
+            }
+        }
+
+        float currentY = _isControl ? 
+            (_target as Control)?.Position.Y ?? TOOLBAR_HIDDEN_Y :
+            (_target as Node2D)?.Position.Y ?? BLOCKLAYER_HIDDEN_Y;
+
+        float startY, endY;
+        if (_isControl)
+        {
+            // When showing: start from current position and go to visible
+            // When hiding: start from current position and go to hidden
+            startY = currentY;
+            endY = show ? TOOLBAR_VISIBLE_Y : TOOLBAR_HIDDEN_Y;
+        }
+        else
+        {
+            // Same logic for BlockLayer
+            startY = currentY;
+            endY = show ? BLOCKLAYER_VISIBLE_Y : BLOCKLAYER_HIDDEN_Y;
         }
 
         _startPos = new Vector2(0, startY);
         _endPos = new Vector2(0, endY);
+        
+        GD.Print($"[ToolbarHoverAnimation] Initializing animation for {(_isControl ? "Control" : "Node2D")}, show: {show}");
+        GD.Print($"[ToolbarHoverAnimation] Current Y: {currentY}, Start Y: {startY}, End Y: {endY}");
     }
 
     public bool IsComplete => _time >= DURATION;

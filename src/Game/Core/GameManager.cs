@@ -2,6 +2,7 @@ using F.Game.Connections;
 using F.Game.Tokens;
 using F.Game.Core;
 using F.Utils;
+using F.Game.BlockLogic;
 using InventoryType = F.Game.Core.Inventory;
 
 namespace F.Game.Core;
@@ -25,9 +26,10 @@ public partial class GameManager : Node2D
         var tokenLayer = GetNode<Node2D>("TokenLayer");
         var inventory = GetNode<InventoryType>("Inventory");
         _blockInteractionManager = GetNode<BlockInteractionManager>("BlockInteractionManager");
+        TokenManager = GetNode<TokenManager>("TokenManager");
 
         if (blockLayer == null || inventory == null || tokenLayer == null ||
-            _blockInteractionManager == null)
+            _blockInteractionManager == null || TokenManager == null)
         {
             GD.PrintErr("Required components not found!");
             return;
@@ -35,16 +37,35 @@ public partial class GameManager : Node2D
 
         // Initialize managers
         ConnectionManager = blockLayer;  // Store the reference
-        TokenManager = new TokenManager(ConnectionManager, tokenLayer);
-        AddChild(TokenManager); // Add TokenManager to the scene tree
-        TokenManager.Name = "TokenManager"; // Set the name so it can be found by path
-        GD.Print("[GameManager] TokenManager initialized and added to scene tree");
-
         _gameState = new GameStateManager(inventory);
         BlockFactory = new F.Game.Core.BlockFactory(this);
 
         // Initialize game state
         _gameState.Initialize();
+
+        // Set metadata for input and output blocks
+        var inputBlock = GetNode<BaseBlock>("BlockLayer/BlockLayerViewport/BlockLayerContent/Input");
+        var outputBlock = GetNode<BaseBlock>("BlockLayer/BlockLayerViewport/BlockLayerContent/Output");
+
+        if (inputBlock != null)
+        {
+            var inputMetadata = BlockMetadata.GetMetadata("input");
+            if (inputMetadata != null)
+            {
+                inputBlock.Metadata = inputMetadata;
+                GD.Print($"[GameManager Debug] Set input block metadata - SpawnOnSpace: {inputMetadata.SpawnOnSpace}");
+            }
+        }
+
+        if (outputBlock != null)
+        {
+            var outputMetadata = BlockMetadata.GetMetadata("output");
+            if (outputMetadata != null)
+            {
+                outputBlock.Metadata = outputMetadata;
+                GD.Print($"[GameManager Debug] Set output block metadata - SpawnOnSpace: {outputMetadata.SpawnOnSpace}");
+            }
+        }
     }
 
     public override void _ExitTree()
@@ -55,31 +76,7 @@ public partial class GameManager : Node2D
 
     public BaseBlock? CreateBlock(F.Game.BlockLogic.BlockMetadata metadata, Node parent)
     {
-        if (string.IsNullOrEmpty(metadata.ScenePath))
-        {
-            GD.PrintErr($"ScenePath is empty for block {metadata.Id}");
-            return null;
-        }
-        var blockScene = GD.Load<PackedScene>(metadata.ScenePath);
-        if (blockScene == null)
-        {
-            GD.PrintErr($"Failed to load block scene at path: {metadata.ScenePath}");
-            return null;
-        }
-        var block = blockScene.Instantiate<BaseBlock>();
-        if (block == null)
-        {
-            GD.PrintErr($"Failed to instantiate block scene at path: {metadata.ScenePath}");
-            return null;
-        }
-        // Remove from existing parent if necessary
-        if (block.GetParent() != null)
-        {
-            block.GetParent().RemoveChild(block);
-        }
-        parent.AddChild(block);
-        block.Initialize(new BlockConfig { Name = metadata.Id });
-        return block;
+        return BlockFactory?.CreateBlock(metadata, parent);
     }
 
     // --- New Block Factory Methods ---

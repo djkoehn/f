@@ -12,9 +12,9 @@ public static class ToolbarConfig
 
     public static class Animation
     {
-        public const float HoverThreshold = 0.8f;
+        public const float HoverThreshold = 0.85f;
         public const float Duration = 0.3f;
-        public const float ShowY = 600f; // Toolbar visible position
+        public const float ShowY = 875f; // Adjusted toolbar visible position
         public const float HideY = 1080f; // Toolbar hidden position
         public const float ContainerDelay = 0.05f;
         public const float ReturnDuration = 0.5f;
@@ -23,7 +23,7 @@ public static class ToolbarConfig
     public static class Layout
     {
         public const float OffscreenOffset = 256f;
-        public const float ContainerOffset = -64f; // Adjusted to center blocks vertically
+        public const float ContainerOffset = 64f; // Adjusted to better center blocks vertically
         public const float BlockSpacing = 10f;
     }
 

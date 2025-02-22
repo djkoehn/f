@@ -57,7 +57,7 @@ namespace F.Utils
             }
 
             // Look for HelperFunnel as a direct child of Main
-            var helperFunnel = root.GetNodeOrNull<HelperFunnel>("/root/Main/HelperFunnel");
+            var helperFunnel = root.GetNodeOrNull<HelperFunnel>(SceneNodeConfig.Main.HelperFunnel);
             if (helperFunnel == null)
             {
                 GD.PrintErr("Failed to find HelperFunnel! Path: /root/Main/HelperFunnel");

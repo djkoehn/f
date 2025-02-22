@@ -10,7 +10,7 @@ namespace F.Utils
 
         public override void _Ready()
         {
-            _blockManager = GetNode<BlockInteractionManager>("/root/Main/GameManager/BlockInteractionManager");
+            _blockManager = GetNode<BlockInteractionManager>(SceneNodeConfig.GameManager.BlockInteractionManager);
 
             // Retrieve other helpers from the central HelperFunnel
             var hf = HelperFunnel.GetInstance();
@@ -30,7 +30,18 @@ namespace F.Utils
         {
             if (_blockManager == null) return;
             
-            if (@event is InputEventMouseButton mouseEvent)
+            if (@event is InputEventKey keyEvent && keyEvent.Pressed && keyEvent.Keycode == Key.Space)
+            {
+                // Find the Input block and trigger token spawn
+                var inputBlock = GetNode<BaseBlock>(SceneNodeConfig.GameManager.BlockLayer + "/BlockLayerViewport/BlockLayerContent/Input");
+                if (inputBlock != null)
+                {
+                    GD.Print("[InputHelper Debug] Space pressed, triggering token spawn");
+                    inputBlock.SpawnToken();
+                    GetViewport().SetInputAsHandled();
+                }
+            }
+            else if (@event is InputEventMouseButton mouseEvent)
             {
                 if (mouseEvent.ButtonIndex == MouseButton.Right && mouseEvent.Pressed)
                 {
@@ -72,7 +83,7 @@ namespace F.Utils
                 GD.Print($"[Debug InputHelper] Right-click on block: '{blockName}'. Returning to toolbar.");
                 
                 // Get the toolbar container
-                var toolbarContainer = GetNode<Control>("/root/Main/GameManager/Toolbar/BlockContainer");
+                var toolbarContainer = GetNode<Control>(SceneNodeConfig.Toolbar.BlockContainer);
                 if (toolbarContainer == null)
                 {
                     GD.PrintErr("[Debug InputHelper] Could not find toolbar container for block return.");
@@ -125,7 +136,7 @@ namespace F.Utils
             if (block.GetParent() is F.Game.Toolbar.ToolbarBlockContainer container)
             {
                 GD.Print($"[Debug InputHelper] Block '{blockName}' is in the toolbar. Moving to BlockLayer before dragging.");
-                var blockLayer = GetNode<Node2D>("/root/Main/GameManager/BlockLayer");
+                var blockLayer = GetNode<Node2D>(SceneNodeConfig.GameManager.BlockLayer);
                 if (blockLayer == null)
                 {
                     GD.PrintErr("[Debug InputHelper] Could not locate BlockLayer; not moving block.");

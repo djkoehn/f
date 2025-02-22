@@ -15,21 +15,28 @@ public sealed class TokenFactory
     {
         if (_tokenScene == null)
         {
-            GD.PrintErr("Token scene not found!");
+            GD.PrintErr("[TokenFactory Debug] Token scene not found!");
             return null;
         }
 
+        GD.Print($"[TokenFactory Debug] Creating token with value {value} for block {startBlock.Name}");
+        
         var token = _tokenScene.Instantiate<Token>();
         if (token == null)
         {
-            GD.PrintErr("Failed to instantiate token!");
+            GD.PrintErr("[TokenFactory Debug] Failed to instantiate token!");
             return null;
         }
 
+        // Add to layer first so _Ready() is called
+        _tokenLayer.AddChild(token);
+        
+        // Initialize after adding to tree
         token.Initialize(startBlock, value);
         token.GlobalPosition = startBlock.GetTokenPosition();
+        ZIndexConfig.SetZIndex(token, ZIndexConfig.Layers.Token);
 
-        _tokenLayer.AddChild(token);
+        GD.Print($"[TokenFactory Debug] Token created successfully at position {token.GlobalPosition}");
         return token;
     }
 }

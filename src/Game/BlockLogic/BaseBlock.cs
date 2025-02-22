@@ -110,7 +110,7 @@ namespace F.Game.BlockLogic
             GD.Print($"[Debug BaseBlock] {Name} attempting to initialize managers");
             
             // Get the GameManager using absolute path
-            var gameManager = GetNode<F.Game.Core.GameManager>("/root/Main/GameManager");
+            var gameManager = GetNode<F.Game.Core.GameManager>(SceneNodeConfig.Main.GameManager);
             if (gameManager == null)
             {
                 GD.PrintErr($"[Debug BaseBlock] {Name} failed to get GameManager reference");
@@ -153,13 +153,16 @@ namespace F.Game.BlockLogic
 
         public override void _Input(InputEvent @event)
         {
+            // Only process input events for the Input block
+            if (Name != "Input") return;
+
             if (@event is InputEventKey keyEvent && keyEvent.Pressed)
             {
-                GD.Print($"[BaseBlock Debug] Key event received for block {Name}. Key: {keyEvent.Keycode}, SpawnOnSpace: {Metadata?.SpawnOnSpace}");
+                GD.Print($"[BaseBlock Debug] Key event received for Input block. Key: {keyEvent.Keycode}");
                 
-                if (Metadata?.SpawnOnSpace == true && keyEvent.Keycode == Key.Space)
+                if (keyEvent.Keycode == Key.Space)
                 {
-                    GD.Print($"[BaseBlock Debug] Spacebar pressed for Input block {Name}, attempting to spawn token");
+                    GD.Print($"[BaseBlock Debug] Spacebar pressed for Input block, attempting to spawn token");
                     SpawnToken();
                 }
             }

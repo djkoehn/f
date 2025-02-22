@@ -14,87 +14,43 @@ public partial class SceneInitializer : Node
 
     private void InitializeZIndices()
     {
-        var main = GetTree().Root.GetNode<Node2D>("Main");
-        if (main == null) return;
+        var gameManager = GetNode<GameManager>(SceneNodeConfig.Main.GameManager);
+        if (gameManager == null) return;
 
-        // Set background
-        if (main.GetNode("Background") is Node2D background)
+        // Get blocks layer (absolute)
+        var blockLayer = gameManager.GetNode<Node2D>("BlockLayer");
+        if (blockLayer == null) return;
+
+        // Get viewport content
+        var viewportContent = blockLayer.GetNode<Node2D>("BlockLayerViewport/BlockLayerContent");
+        if (viewportContent == null) return;
+
+        // Set z-indices for blocks layer components
+        SetZIndex(blockLayer, ZIndexConfig.Layers.Block);
+        SetZIndex(viewportContent, ZIndexConfig.Layers.Block);
+
+        // Get bounds (relative to viewport content)
+        if (viewportContent.GetNode("Bounds/Background") is Node2D background)
             SetZIndex(background, ZIndexConfig.Layers.Background);
 
-        // Get GameManager and its components
-        var gameManager = main.GetNode<Node2D>("GameManager");
-        if (gameManager == null)
-        {
-            GD.PrintErr("[SceneInitializer] Failed to get GameManager");
-            return;
-        }
+        if (viewportContent.GetNode("Bounds") is Node2D bounds)
+            SetZIndex(bounds, ZIndexConfig.Layers.BoundsBorder);
 
-        var blockLayer = gameManager.GetNode<Node2D>("BlockLayer");
-        var connectionManager = blockLayer as ConnectionManager; // BlockLayer has ConnectionManager script
-        var tokenManager = gameManager.GetNode<TokenManager>("TokenManager");
+        // Get input/output blocks (relative to viewport content)
+        if (viewportContent.GetNode("Input") is Node2D input)
+            SetZIndex(input, ZIndexConfig.Layers.PlacedBlock, true); // Force relative for blocks
 
-        if (blockLayer == null || connectionManager == null)
-        {
-            GD.PrintErr($"[SceneInitializer] Failed to get required components - BlockLayer: {blockLayer != null}, ConnectionManager: {connectionManager != null}");
-            return;
-        }
+        if (viewportContent.GetNode("Output") is Node2D output)
+            SetZIndex(output, ZIndexConfig.Layers.PlacedBlock, true); // Force relative for blocks
 
-        SetZIndex(blockLayer, ZIndexConfig.Layers.Pipes);
-
-        // Declare variables at the start of the block
-        BaseBlock? input = null;
-        BaseBlock? output = null;
-
-        // Set input/output blocks and their metadata
-        if (blockLayer.GetNode("Input") is BaseBlock inputBlock)
-        {
-            input = inputBlock;
-            SetZIndex(input, ZIndexConfig.Layers.PlacedBlock);
-            var inputMetadata = BlockMetadata.GetMetadata("input");
-            if (inputMetadata != null)
-            {
-                input.Metadata = inputMetadata;
-                GD.Print($"[SceneInitializer] Set Input block metadata - SpawnOnSpace: {inputMetadata.SpawnOnSpace}");
-                GD.Print($"[SceneInitializer] Input block connection state - HasOutputConnection: {input.HasOutputConnection()}, HasInputConnection: {input.HasInputConnection()}");
-            }
-        }
-        if (blockLayer.GetNode("Output") is BaseBlock outputBlock)
-        {
-            output = outputBlock;
-            SetZIndex(output, ZIndexConfig.Layers.PlacedBlock);
-            var outputMetadata = BlockMetadata.GetMetadata("output");
-            if (outputMetadata != null)
-            {
-                output.Metadata = outputMetadata;
-                GD.Print($"[SceneInitializer] Set Output block metadata - HasInputSocket: {outputMetadata.HasInputSocket}");
-                GD.Print($"[SceneInitializer] Output block connection state - HasOutputConnection: {output.HasOutputConnection()}, HasInputConnection: {output.HasInputConnection()}");
-            }
-        }
-
-        // Create initial connection between Input and Output blocks
-        if (input != null && output != null)
-        {
-            GD.Print("[SceneInitializer] Creating initial connection between Input and Output blocks");
-            if (connectionManager != null)
-            {
-                bool connected = connectionManager.ConnectBlocks(input, output);
-                GD.Print($"[SceneInitializer] Initial connection result: {connected}");
-                if (connected)
-                {
-                    GD.Print($"[SceneInitializer] Connection state after connecting - Input(HasOutput: {input.HasOutputConnection()}), Output(HasInput: {output.HasInputConnection()})");
-                }
-            }
-        }
-
-        // Set toolbar
+        // Set toolbar (absolute)
         if (gameManager.GetNode("Toolbar") is Node2D toolbar)
             SetZIndex(toolbar, ZIndexConfig.Layers.Toolbar);
     }
 
-    private void SetZIndex(Node2D node, int zIndex)
+    private void SetZIndex(Node2D node, int zIndex, bool forceRelative = false)
     {
-        node.ZIndex = zIndex;
-        node.ZAsRelative = false;
-        GD.Print($"Set {node.Name} Z-index to {zIndex}");
+        if (node == null) return;
+        ZIndexConfig.SetZIndex(node, zIndex, forceRelative);
     }
 }

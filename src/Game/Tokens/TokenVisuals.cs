@@ -13,6 +13,7 @@ public partial class TokenVisuals : Node2D
     private Label? _label;
     private Tween? _movementTween;
     private Sprite2D? _sprite;
+    private ShaderMaterial? _glowMaterial;
 
     public bool IsMovementComplete => !_isMoving;
 
@@ -21,6 +22,7 @@ public partial class TokenVisuals : Node2D
         base._Ready();
         _sprite = GetNode<Sprite2D>("Sprite");
         _label = GetNode<Label>("Label");
+        _glowMaterial = GetNode<Sprite2D>("Sprite").Material as ShaderMaterial;
         UpdateValue(0);
         Connect(SignalName.MovementComplete, new Callable(this, nameof(OnMovementComplete)));
         Connect(SignalName.MovementStart, new Callable(this, nameof(OnMovementStart)));
@@ -34,7 +36,17 @@ public partial class TokenVisuals : Node2D
         _movementTween = CreateTween();
         _movementTween.SetTrans(Tween.TransitionType.Linear);
         _movementTween.SetEase(Tween.EaseType.InOut);
-        _movementTween.TweenProperty(this, "global_position", targetPosition, TokenConfig.Animation.MovementDuration);
+
+        // Set glow parameters
+        _glowMaterial?.SetShaderParameter("glow_width", TokenConfig.Visual.GlowWidth);
+        _glowMaterial?.SetShaderParameter("glow_intensity", TokenConfig.Visual.GlowIntensity);
+
+        // Set movement speed
+        var distance = (targetPosition - GlobalPosition).Length();
+        var duration = distance / TokenConfig.Movement.MoveSpeed;
+        duration = Math.Min(duration, TokenConfig.Animation.MovementDuration);
+
+        _movementTween.TweenProperty(this, "global_position", targetPosition, duration);
         _movementTween.TweenCallback(Callable.From(() => EmitSignal(SignalName.MovementComplete)));
 
         EmitSignal(SignalName.MovementStart);

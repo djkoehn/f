@@ -26,7 +26,7 @@ namespace F.Utils
                 GD.Print($"[ToolbarHelper] Returning block {blockName} to toolbar");
                 
                 // First, handle any existing connections
-                var connectionManager = block.GetNode<ConnectionManager>("/root/Main/GameManager/BlockLayer");
+                var connectionManager = block.GetNode<ConnectionManager>(SceneNodeConfig.GameManager.BlockLayer);
                 if (connectionManager != null)
                 {
                     // Get all current connections before we disconnect

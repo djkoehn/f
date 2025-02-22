@@ -34,15 +34,20 @@ public partial class ConnectionManager : Node2D
         _validator = new ConnectionValidator(bounds!);
     }
 
+    private Node2D? GetBlockLayerContent()
+    {
+        return GetNode<Node2D>(SceneNodeConfig.BlockLayer.BlockLayerContent);
+    }
+
     public override void _Ready()
     {
         GD.Print("[ConnectionManager Debug] _Ready called.");
         base._Ready();
         ZIndex = ZIndexConfig.Layers.Pipes;
 
-        // Retrieve the input and output blocks
-        _inputBlock = GetNode<BaseBlock>("Input");
-        _outputBlock = GetNode<BaseBlock>("Output");
+        // Retrieve the input and output blocks from the viewport content
+        _inputBlock = GetNode<BaseBlock>("/root/Main/GameManager/BlockLayer/BlockLayerViewport/BlockLayerContent/Input");
+        _outputBlock = GetNode<BaseBlock>("/root/Main/GameManager/BlockLayer/BlockLayerViewport/BlockLayerContent/Output");
 
         if (_inputBlock == null || _outputBlock == null)
         {
@@ -59,13 +64,27 @@ public partial class ConnectionManager : Node2D
         if (_inputBlock == null || _outputBlock == null) return;
 
         GD.Print($"Creating initial connection between {_inputBlock.Name} and {_outputBlock.Name} blocks...");
-        var pipe = _factory.CreateConnection(_inputBlock, _outputBlock);
+        var pipe = ConnectionFactory.CreatePipeForInsertion(_inputBlock, _outputBlock);
         if (pipe != null)
         {
-            AddChild(pipe);
-            _connections.Add(pipe);
-            AddPipeToBlock(_inputBlock, pipe);
-            AddPipeToBlock(_outputBlock, pipe);
+            // Get the BlockLayerContent node
+            var content = GetBlockLayerContent();
+            if (content != null)
+            {
+                // Add pipe to BlockLayerContent
+                content.AddChild(pipe);
+                // Set pipe z-index
+                ZIndexConfig.SetZIndex(pipe, ZIndexConfig.Layers.Pipes);
+                _connections.Add(pipe);
+                AddPipeToBlock(_inputBlock, pipe);
+                AddPipeToBlock(_outputBlock, pipe);
+                GD.Print($"[ConnectionManager] Successfully created initial connection in BlockLayerContent");
+            }
+            else
+            {
+                GD.PrintErr("[ConnectionManager] BlockLayerContent not found, initial connection failed");
+                pipe.QueueFree();
+            }
         }
     }
 
@@ -192,9 +211,20 @@ public partial class ConnectionManager : Node2D
             return false;
         }
 
-        // If both pipes were created successfully, add them
-        AddChild(inputPipe);
-        AddChild(outputPipe);
+        // Get the BlockLayerContent node
+        var content = GetBlockLayerContent();
+        if (content == null)
+        {
+            GD.PrintErr("[ConnectionManager Debug] BlockLayerContent not found");
+            inputPipe.QueueFree();
+            outputPipe.QueueFree();
+            RestoreConnection(sourceBlock, targetBlock);
+            return false;
+        }
+
+        // Add pipes to BlockLayerContent
+        content.AddChild(inputPipe);
+        content.AddChild(outputPipe);
         _connections.Add(inputPipe);
         _connections.Add(outputPipe);
         
@@ -219,14 +249,25 @@ public partial class ConnectionManager : Node2D
         string sourceName = sourceBlock.Name ?? "unknown";
         string targetName = targetBlock.Name ?? "unknown";
         GD.Print($"[ConnectionManager] Restoring connection between {sourceName} and {targetName}");
-        // Use CreatePipeForInsertion here too since we're restoring a connection
+        
         var restoredPipe = ConnectionFactory.CreatePipeForInsertion(sourceBlock, targetBlock);
         if (restoredPipe != null)
         {
-            AddChild(restoredPipe);
-            _connections.Add(restoredPipe);
-            AddPipeToBlock(sourceBlock, restoredPipe);
-            AddPipeToBlock(targetBlock, restoredPipe);
+            var content = GetBlockLayerContent();
+            if (content != null)
+            {
+                content.AddChild(restoredPipe);
+                ZIndexConfig.SetZIndex(restoredPipe, ZIndexConfig.Layers.Pipes);
+                _connections.Add(restoredPipe);
+                AddPipeToBlock(sourceBlock, restoredPipe);
+                AddPipeToBlock(targetBlock, restoredPipe);
+                GD.Print($"[ConnectionManager] Successfully restored connection in BlockLayerContent");
+            }
+            else
+            {
+                GD.PrintErr("[ConnectionManager] BlockLayerContent not found, connection failed");
+                restoredPipe.QueueFree();
+            }
         }
     }
 
@@ -255,15 +296,24 @@ public partial class ConnectionManager : Node2D
         if (IsBlockConnected(sourceBlock)) DisconnectBlock(sourceBlock);
         if (IsBlockConnected(targetBlock)) DisconnectBlock(targetBlock);
 
-        var pipe = _factory.CreateConnection(sourceBlock, targetBlock);
+        var pipe = ConnectionFactory.CreatePipeForInsertion(sourceBlock, targetBlock);
         if (pipe == null) return false;
 
-        AddChild(pipe);
-        _connections.Add(pipe);
-        AddPipeToBlock(sourceBlock, pipe);
-        AddPipeToBlock(targetBlock, pipe);
-
-        return true;
+        var content = GetBlockLayerContent();
+        if (content != null)
+        {
+            content.AddChild(pipe);
+            ZIndexConfig.SetZIndex(pipe, ZIndexConfig.Layers.Pipes);
+            _connections.Add(pipe);
+            AddPipeToBlock(sourceBlock, pipe);
+            AddPipeToBlock(targetBlock, pipe);
+            GD.Print($"[ConnectionManager] Successfully created connection in BlockLayerContent");
+            return true;
+        }
+        
+        GD.PrintErr("[ConnectionManager] BlockLayerContent not found, connection failed");
+        pipe.QueueFree();
+        return false;
     }
 
     public void DisconnectBlock(IBlock block)
@@ -301,7 +351,7 @@ public partial class ConnectionManager : Node2D
     public (IBlock? nextBlock, ConnectionPipe? pipe) GetNextConnection()
     {
         // Get the Input block as our starting point
-        var inputBlock = GetNode<BaseBlock>("Input");
+        var inputBlock = GetNode<BaseBlock>("/root/Main/GameManager/BlockLayer/BlockLayerViewport/BlockLayerContent/Input");
         if (inputBlock == null) return (null, null);
 
         return GetNextConnection(inputBlock);
@@ -330,7 +380,17 @@ public partial class ConnectionManager : Node2D
     {
         _activePipes.Add(pipe);
         _connections.Add(pipe);
-        AddChild(pipe);
+        var content = GetBlockLayerContent();
+        if (content != null)
+        {
+            content.AddChild(pipe);
+            ZIndexConfig.SetZIndex(pipe, ZIndexConfig.Layers.Pipes);
+        }
+        else
+        {
+            GD.PrintErr("[ConnectionManager] BlockLayerContent not found, pipe added to wrong node");
+            AddChild(pipe);
+        }
     }
 
     public void RemovePipe(ConnectionPipe pipe)
@@ -358,6 +418,18 @@ public partial class ConnectionManager : Node2D
             var targetSocket = currentTarget.GetInputSocket() as Node2D;
             if (sourceSocket != null && targetSocket != null)
             {
+                var content = GetBlockLayerContent();
+                if (content != null && pipe.GetParent() != content)
+                {
+                    // If pipe is already in the tree but in the wrong place, reparent it
+                    if (pipe.IsInsideTree())
+                    {
+                        pipe.GetParent()?.RemoveChild(pipe);
+                    }
+                    content.AddChild(pipe);
+                    ZIndexConfig.SetZIndex(pipe, ZIndexConfig.Layers.Pipes);
+                }
+
                 pipe.Initialize(sourceSocket, targetSocket);
                 
                 // Set the connection state flags for both blocks

@@ -8,6 +8,9 @@ namespace F.Game.Toolbar
         {
             // Allow child block nodes to receive input events
             MouseFilter = Control.MouseFilterEnum.Ignore;
+            
+            // Set initial size based on config
+            CustomMinimumSize = new Vector2(0, ToolbarConfig.Block.Height);
         }
 
         public void ClearBlocks()
@@ -26,23 +29,17 @@ namespace F.Game.Toolbar
             // Add the block to the scene tree first
             AddChild(block);
             block.ZIndex = ZIndexConfig.Layers.ToolbarBlock;
+            block.SetInToolbar(true);
+            
+            // Position the block
+            UpdateBlockPositions();
             
             // Ensure the block's name is preserved
             if (block.Metadata != null)
             {
-                GD.Print($"[ToolbarBlockContainer] Adding block {block.Name} to toolbar");
+                GD.Print($"[ToolbarBlockContainer] Added block {block.Name} to toolbar");
             }
             
-            var hf = F.Utils.HelperFunnel.GetInstance();
-            var toolbarHelper = hf?.GetNodeOrNull<F.Utils.ToolbarHelper>("ToolbarHelper");
-            if (toolbarHelper != null)
-            {
-                toolbarHelper.ReturnBlockToToolbar(block, this);
-            }
-            else
-            {
-                GD.PrintErr("ToolbarHelper instance not found in ToolbarBlockContainer.");
-            }
             UpdateContainerSize();
         }
 
@@ -74,10 +71,8 @@ namespace F.Game.Toolbar
             var blocks = GetChildren().OfType<BaseBlock>().ToList();
             if (blocks.Count == 0)
                 return GlobalPosition;
-            // Assume block width of 100 and spacing of 40
-            float blockWidth = 100f;
-            float spacing = 40f;
-            float x = blocks.Last().Position.X + blockWidth + spacing;
+            
+            float x = blocks.Last().Position.X + ToolbarConfig.Block.Width + ToolbarConfig.Block.Spacing;
             return new Vector2(x, blocks.Last().Position.Y);
         }
 
@@ -94,31 +89,30 @@ namespace F.Game.Toolbar
         public void UpdateBlockPositions()
         {
             var blocks = GetChildren().OfType<BaseBlock>().ToList();
-            float blockWidth = 100f; // default block width
-            float spacing = 40f;     // default spacing
             int count = blocks.Count;
             if (count == 0) return;
 
-            float totalWidth = count * blockWidth + (count - 1) * spacing;
+            float totalWidth = count * ToolbarConfig.Block.Width + (count - 1) * ToolbarConfig.Block.Spacing;
             // Center the blocks in the container
             float startX = -totalWidth / 2f;
             
             for (int i = 0; i < count; i++)
             {
                 // Set X position for spacing and Y to 0
-                blocks[i].Position = new Vector2(startX + i * (blockWidth + spacing), 0);
+                blocks[i].Position = new Vector2(
+                    startX + i * (ToolbarConfig.Block.Width + ToolbarConfig.Block.Spacing), 
+                    ToolbarConfig.Block.Height / 2f
+                );
             }
         }
 
         public void UpdateContainerSize()
         {
             var blocks = GetChildren().OfType<BaseBlock>().ToList();
-            float blockWidth = 100f; // default block width 
-            float spacing = 40f;     // default spacing
             int count = blocks.Count;
 
-            float totalWidth = count * (blockWidth + spacing);
-            Size = new Vector2(totalWidth, Size.Y);
+            float totalWidth = count * (ToolbarConfig.Block.Width + ToolbarConfig.Block.Spacing);
+            Size = new Vector2(totalWidth, ToolbarConfig.Block.Height);
 
             // Center the container in the toolbar
             var toolbar = GetParent<Toolbar>();
@@ -127,7 +121,10 @@ namespace F.Game.Toolbar
                 var toolbarVisuals = toolbar.GetNode<ToolbarVisuals>("ToolbarVisuals");
                 if (toolbarVisuals != null)
                 {
-                    Position = new Vector2((toolbarVisuals.Size.X / 2f) + spacing, Position.Y);
+                    Position = new Vector2(
+                        (toolbarVisuals.Size.X / 2f) + ToolbarConfig.Block.Spacing, 
+                        ToolbarConfig.Layout.ContainerOffset
+                    );
                 }
             }
         }

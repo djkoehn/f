@@ -1,69 +1,134 @@
 shader_type canvas_item;
+#ifndef SCREEN_PIXEL_SIZE
+	#define SCREEN_PIXEL_SIZE vec2(1.0/vec2(textureSize(SCREEN_TEXTURE, 0)))
+#endif
 
-// Quantization settings
-uniform float quantize_size : hint_range(0, 100, 1.0) = 20.0;
-uniform bool handle_scale = true;
-uniform float blur_amount : hint_range(0.0, 2.0) = 0.5;
+// Controls
+uniform float jpeg_quality : hint_range(0.0, 100.0, 1.0) = 100.0;
+uniform float block_size : hint_range(1.0, 16.0, 1.0) = 8.0;
+uniform float strobe_speed : hint_range(0.0, 2.0, 0.01) = 1.0; // Controls animation speed, 0 = static
 
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear;
 
-// Pass necessary matrices to fragment shader
-varying mat4 g_model_matrix;
-varying mat4 g_world_to_clip;
-varying vec2 g_vertex;
-varying float g_q_size;
-
-void vertex() {
-    // Get the canvas matrix scale for proper quantization
-    vec2 g_zoom = vec2(length(CANVAS_MATRIX[0].xyz), length(CANVAS_MATRIX[1].xyz));
-    g_q_size = quantize_size;
-    
-    // Setup matrices for quantization
-    g_model_matrix = MODEL_MATRIX;
-    g_world_to_clip = SCREEN_MATRIX * CANVAS_MATRIX;
-    g_vertex = VERTEX;
+// Random function that takes a vec2 and returns a random float
+float random(vec2 st) {
+    return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
 }
 
-vec4 blur(sampler2D tex, vec2 uv, vec2 pixel_offset_size) {
-    vec4 color = vec4(0.0);
-    float total_weight = 0.0;
+// Dynamic noise function that changes per-frame
+float dynamic_noise(vec2 uv, float time) {
+    vec2 noise_uv = uv + time * 0.1 * strobe_speed;
+    float noise = random(noise_uv);
+    float noise2 = random(noise_uv * 2.0 + 1234.5678);
+    return mix(noise, noise2, 0.5);
+}
+
+vec2 round_uv_to_block(vec2 uv) {
+    return floor(uv / (SCREEN_PIXEL_SIZE * block_size)) * (SCREEN_PIXEL_SIZE * block_size);
+}
+
+// Convert RGB to YCbCr
+vec3 rgb_to_ycbcr(vec3 rgb) {
+    return vec3(
+        0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b,
+        -0.169 * rgb.r - 0.331 * rgb.g + 0.500 * rgb.b,
+        0.500 * rgb.r - 0.419 * rgb.g - 0.081 * rgb.b
+    );
+}
+
+// Convert YCbCr to RGB
+vec3 ycbcr_to_rgb(vec3 ycbcr) {
+    return vec3(
+        ycbcr.x + 1.403 * ycbcr.z,
+        ycbcr.x - 0.344 * ycbcr.y - 0.714 * ycbcr.z,
+        ycbcr.x + 1.773 * ycbcr.y
+    );
+}
+
+// Exponential noise function similar to more-jpeg
+float exponential_noise(vec2 uv, float scale) {
+    vec2 noise_uv = uv * scale;
+    float noise = fract(sin(dot(noise_uv, vec2(12.9898, 78.233))) * 43758.5453);
+    return noise * noise; // Make it exponential
+}
+
+vec4 jpeg_artifacts(sampler2D tex, vec2 uv, float quality, float time) {
+    float compression = 1.0 - (quality / 100.0);
+    compression = pow(compression, 1.5);
     
-    for(float x = -2.0; x <= 2.0; x += 1.0) {
-        for(float y = -2.0; y <= 2.0; y += 1.0) {
-            vec2 offset = vec2(x, y) * pixel_offset_size * blur_amount;
-            float weight = exp(-(x*x + y*y) / 8.0);
-            color += textureLod(tex, uv + offset, 0.0) * weight;
-            total_weight += weight;
-        }
+    vec4 base_color = texture(tex, uv);
+    
+    // Use uniform block_size parameter
+    vec2 block_uv = floor(uv / (SCREEN_PIXEL_SIZE * block_size)) * (SCREEN_PIXEL_SIZE * block_size);
+    vec2 within_block = fract(uv / (SCREEN_PIXEL_SIZE * block_size));
+    
+    // Add dynamic noise to the UV coordinates with strobe control
+    vec2 noisy_uv = uv + (dynamic_noise(uv, time * strobe_speed) - 0.5) * SCREEN_PIXEL_SIZE * compression * 2.0;
+    vec4 pixel_color = base_color;
+    vec3 ycbcr = rgb_to_ycbcr(pixel_color.rgb);
+    
+    // Create horizontal scan-line effect with controlled time-based variation
+    float scan_pos = within_block.y * block_size + time * 4.0 * strobe_speed;
+    float scan_line = floor(scan_pos);
+    float scan_offset = abs(fract(scan_pos) - 0.5) * 2.0;
+    
+    // Extreme quantization with controlled random variation
+    float random_offset = (random(block_uv + time * strobe_speed) - 0.5) * 2.0;
+    float y_steps = mix(256.0, 3.0 + random_offset, compression);
+    float cb_steps = mix(256.0, 2.0, compression);
+    float cr_steps = mix(256.0, 2.0, compression);
+    
+    // Quantize with scan-line and controlled noise influence
+    float noise_factor = dynamic_noise(block_uv, time * strobe_speed) * compression * 0.1;
+    ycbcr.x = floor((ycbcr.x + noise_factor) * y_steps + scan_offset * compression) / y_steps;
+    
+    // Sample neighboring blocks for color bleeding
+    vec2 block_offset = SCREEN_PIXEL_SIZE * block_size;
+    vec3 ycbcr_right = rgb_to_ycbcr(texture(tex, uv + vec2(block_offset.x, 0.0)).rgb);
+    vec3 ycbcr_left = rgb_to_ycbcr(texture(tex, uv - vec2(block_offset.x, 0.0)).rgb);
+    
+    float luma_diff = abs(ycbcr.x - ycbcr_right.x) + abs(ycbcr.x - ycbcr_left.x);
+    float bleed_strength = smoothstep(0.1, 0.3, luma_diff) * compression;
+    
+    if (luma_diff > 0.2) {
+        vec2 random_shift = vec2(
+            random(block_uv + time * 0.5 * strobe_speed),
+            random(block_uv + time * 0.5 * strobe_speed + 1234.5678)
+        );
+        ycbcr.y += (random_shift.x - 0.5) * bleed_strength;
+        ycbcr.z += (random_shift.y - 0.5) * bleed_strength;
     }
     
-    return color / total_weight;
+    float edge_factor = max(abs(within_block.x - 0.5), abs(within_block.y - 0.5)) * 2.0;
+    float random_chroma = random(block_uv + vec2(time, time * 2.0) * strobe_speed);
+    float chroma_steps = mix(cb_steps, cb_steps * 0.5, edge_factor * compression);
+    ycbcr.yz = floor(ycbcr.yz * chroma_steps + (random_chroma - 0.5) * compression) / chroma_steps;
+    
+    vec3 final_color = ycbcr_to_rgb(ycbcr);
+    
+    float rgb_steps = mix(256.0, 4.0, compression * compression);
+    final_color = floor(final_color * rgb_steps + dynamic_noise(uv, time * strobe_speed) * compression) / rgb_steps;
+    
+    if (luma_diff > 0.3 && compression > 0.5) {
+        vec3 ring_color = vec3(1.0) - final_color;
+        float ring_strength = dynamic_noise(uv + time * strobe_speed, time * strobe_speed) * compression * 0.3 * scan_offset;
+        final_color = mix(final_color, ring_color, ring_strength);
+    }
+    
+    vec3 noise_color = vec3(
+        dynamic_noise(uv + vec2(0.0, time * strobe_speed), time * strobe_speed),
+        dynamic_noise(uv + vec2(1.0, time * strobe_speed), time * strobe_speed),
+        dynamic_noise(uv + vec2(2.0, time * strobe_speed), time * strobe_speed)
+    ) - 0.5;
+    final_color += noise_color * compression * 0.1;
+    
+    return vec4(clamp(final_color, 0.0, 1.0), pixel_color.a);
 }
 
 void fragment() {
-    vec4 screen_color;
-    
-    if (g_q_size == 0.0) {
-        screen_color = texture(SCREEN_TEXTURE, SCREEN_UV);
+    if (jpeg_quality >= 100.0) {
+        COLOR = texture(SCREEN_TEXTURE, SCREEN_UV);
     } else {
-        // Convert to world space for quantization
-        vec2 uv = (g_model_matrix * vec4(g_vertex, 0.0, 1.0)).xy;
-        
-        // Quantize to specified pixel size
-        uv /= g_q_size;
-        uv = floor(uv) + 0.5;
-        uv *= g_q_size;
-        
-        // Convert back to screen space
-        uv = (g_world_to_clip * vec4(uv, 0.0, 1.0)).xy;
-        uv = uv * 0.5 + 0.5;
-        
-        // Apply blur to the quantized result
-        screen_color = blur(SCREEN_TEXTURE, uv, SCREEN_PIXEL_SIZE);
-        
-        // Add a slight darkening effect
-        screen_color.rgb *= 0.95;
+        COLOR = jpeg_artifacts(SCREEN_TEXTURE, SCREEN_UV, jpeg_quality, TIME);
     }
-    
-    COLOR = screen_color;
 }

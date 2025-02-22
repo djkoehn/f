@@ -18,21 +18,19 @@ public partial class Toolbar : Control
     private ToolbarVisuals? _visuals;
     private ToolbarHoverAnimation? _currentAnimation; // Changed from AnimationPlayer to ToolbarHoverAnimation
     private bool _isHovered;
+    private Tween _showHideAnimation;
 
     public override void _Ready()
     {
         base._Ready();
 
-        // Set initial position
-        Position = new Vector2(0, ToolbarConfig.Animation.HideY);
-
         // Bottom anchors
-        // AnchorLeft = 0;
-        // AnchorRight = 1;
-        // AnchorTop = 1;
-        // AnchorBottom = 1;
-        // GrowHorizontal = GrowDirection.Both;
-        // GrowVertical = GrowDirection.Begin;
+        AnchorLeft = 0;
+        AnchorRight = 1;
+        AnchorTop = 1;
+        AnchorBottom = 1;
+        GrowHorizontal = GrowDirection.Both;
+        GrowVertical = GrowDirection.Begin;
 
         ZIndex = ZIndexConfig.Layers.Toolbar;
 
@@ -75,6 +73,17 @@ public partial class Toolbar : Control
             return;
         }
 
+        // Set initial position and layout
+        Position = new Vector2(0, ToolbarConfig.Animation.HideY);
+        
+        // Configure block container
+        _blockContainer.Position = new Vector2(0, ToolbarConfig.Layout.ContainerOffset);
+        _blockContainer.Size = new Vector2(0, ToolbarConfig.Block.Height + 20); // Height plus padding
+        _blockContainer.CustomMinimumSize = new Vector2(0, ToolbarConfig.Block.Height + 20);
+        
+        // Set spacing between blocks
+        _blockContainer.AddThemeConstantOverride("separation", (int)ToolbarConfig.Block.Spacing);
+        
         // Connect to inventory ready signal
         _inventory.InventoryReady += LoadBlocks;
 

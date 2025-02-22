@@ -37,6 +37,9 @@ public partial class Token : Node2D
             _visuals.Connect(TokenVisuals.SignalName.MovementComplete, new Callable(this, nameof(OnMovementComplete)));
             _visuals.Connect(TokenVisuals.SignalName.MovementStart, new Callable(this, nameof(OnMovementStart)));
         }
+        
+        // Set initial z-index
+        ZIndexConfig.SetZIndex(this, ZIndexConfig.Layers.Token);
     }
 
     public void MoveTo(IBlock nextBlock)
@@ -45,6 +48,9 @@ public partial class Token : Node2D
 
         _targetBlock = nextBlock;
         StartMovement(nextBlock);
+        
+        // Set processing z-index when moving between blocks
+        ZIndexConfig.SetZIndex(this, ZIndexConfig.Layers.ProcessingToken);
     }
 
     public void StartMovement(IBlock targetBlock)
@@ -73,6 +79,10 @@ public partial class Token : Node2D
 
         _isMoving = false;
         CurrentBlock = _targetBlock;
+        
+        // Return to normal z-index after processing
+        ZIndexConfig.SetZIndex(this, ZIndexConfig.Layers.Token);
+        
         _targetBlock.ProcessToken(this);
     }
 

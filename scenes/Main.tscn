@@ -1,8 +1,7 @@
-[gd_scene load_steps=20 format=3 uid="uid://main"]
+[gd_scene load_steps=27 format=3 uid="uid://main"]
 
 [ext_resource type="Script" path="res://src/Game/Core/GameManager.cs" id="1_game_manager"]
 [ext_resource type="Shader" path="res://assets/shaders/ui/Background1.gdshader" id="2_background"]
-[ext_resource type="Script" path="res://src/Game/Connections/ConnectionManager.cs" id="3_connection"]
 [ext_resource type="Script" path="res://src/Game/Core/Inventory.cs" id="4_inventory"]
 [ext_resource type="PackedScene" uid="uid://input" path="res://scenes/Blocks/Input.tscn" id="5_input"]
 [ext_resource type="Texture2D" uid="uid://crt7pap4i5ms6" path="res://assets/images/ui/Bounds/BlockLayerBack.png" id="6_a1vm8"]
@@ -11,61 +10,159 @@
 [ext_resource type="Script" path="res://src/Game/BlockLogic/BlockInteractionManager.cs" id="9_interaction"]
 [ext_resource type="Texture2D" uid="uid://dscjqmks04fon" path="res://assets/images/ui/Bounds/BoundsBorder.png" id="9_meqhw"]
 [ext_resource type="PackedScene" uid="uid://toolbar" path="res://scenes/UI/Toolbar.tscn" id="10_toolbar"]
+[ext_resource type="FontFile" uid="uid://ccw0jvdcvtt16" path="res://assets/fonts/ProggyClean.ttf" id="10_y05im"]
 [ext_resource type="Script" path="res://src/Game/Core/SceneInitializer.cs" id="11_initializer"]
 [ext_resource type="PackedScene" uid="uid://udiomanager" path="res://scenes/Utils/AudioManager.tscn" id="12_audio"]
-[ext_resource type="Texture2D" uid="uid://bd57a1urv4ne5" path="res://assets/images/ui/Indicators/ScoreIndicatorBase.png" id="15_yupvt"]
 [ext_resource type="PackedScene" uid="uid://046x2fiqli0x" path="res://scenes/Utils/HelperFunnel.tscn" id="16_6suwl"]
+[ext_resource type="Shader" path="res://assets/shaders/ui/SpaceBackground.gdshader" id="17_7d0e8"]
+[ext_resource type="Shader" path="res://assets/shaders/ui/BoundsSkew.gdshader" id="17_skew"]
+[ext_resource type="Script" path="res://src/Game/Core/BlockLayerSkewControl.cs" id="18_skew_control_fixed"]
+[ext_resource type="Script" path="res://src/Game/Tokens/TokenManager.cs" id="19_token_manager"]
+[ext_resource type="Script" path="res://src/Game/Connections/ConnectionManager.cs" id="20_connection_manager"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_878xv"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k5n15"]
 shader = ExtResource("2_background")
-shader_parameter/color1 = Color(0.267336, 0.636075, 0.806618, 1)
-shader_parameter/color2 = Color(0.0666667, 0.709804, 0.894118, 1)
+shader_parameter/color1 = Color(0.0534209, 0.0534209, 0.0534209, 1)
+shader_parameter/color2 = Color(0.0415072, 0.0415072, 0.0415072, 1)
 shader_parameter/time_scale = 0.01
-shader_parameter/distortion_strength = 0.0
+shader_parameter/distortion_strength = 0.118
 shader_parameter/interlace_size = 10.0
 shader_parameter/interlace_strength = 0.0
-shader_parameter/pattern_scale = 1.0
+shader_parameter/pattern_scale = 2.743
 shader_parameter/dither_size = 1.0
-shader_parameter/scroll_speed = Vector2(1, 0.3)
+shader_parameter/scroll_speed = Vector2(0.1, 0.1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1rma8"]
-size = Vector2(1250, 800)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_xidld"]
-shader = ExtResource("2_background")
-shader_parameter/color1 = Color(0, 0, 0, 1)
-shader_parameter/color2 = Color(0.258824, 0.243137, 0.231373, 1)
-shader_parameter/time_scale = 0.01
-shader_parameter/distortion_strength = 0.35
-shader_parameter/interlace_size = 100.0
-shader_parameter/interlace_strength = 0.0
-shader_parameter/pattern_scale = 6.161
-shader_parameter/dither_size = 2.0
-shader_parameter/scroll_speed = Vector2(-0.3, -0.3)
+size = Vector2(1253.33, 800)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yicpx"]
 shader = ExtResource("8_iqnkf")
-shader_parameter/quantize_size = 4.0
-shader_parameter/handle_scale = false
-shader_parameter/blur_amount = 2.0
+shader_parameter/jpeg_quality = 10.0
+shader_parameter/block_size = 3.0
+shader_parameter/strobe_speed = 0.18
+
+[sub_resource type="LabelSettings" id="LabelSettings_8g4u2"]
+font = ExtResource("10_y05im")
+font_size = 50
+font_color = Color(0, 0, 0, 1)
+shadow_color = Color(0.121569, 0.121569, 0.121569, 0.521569)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_skew"]
+shader = ExtResource("17_skew")
+shader_parameter/fov = 90.0
+shader_parameter/cull_back = true
+shader_parameter/y_rot = 0.0
+shader_parameter/x_rot = 0.0
+shader_parameter/inset = 0.1
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_layer"]
+viewport_path = NodePath("GameManager/BlockLayer/BlockLayerViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o3wkn"]
+shader = ExtResource("17_7d0e8")
+shader_parameter/bg_color = null
+shader_parameter/offset = Vector2(3.38, 0)
+shader_parameter/bigStarSlow = 1.89
+shader_parameter/mediumStarSlow = 1.0
+shader_parameter/smallStarSlow = 1.0
+shader_parameter/smallStarAmount = 0.001
+shader_parameter/mediumStarAmount = 0.0
+shader_parameter/bigStarAmount = 0.0
 
 [node name="Main" type="Node2D"]
 
 [node name="SceneInitializer" type="Node" parent="."]
 script = ExtResource("11_initializer")
 
-[node name="Background" type="ColorRect" parent="."]
-z_index = -10
-material = SubResource("ShaderMaterial_878xv")
-custom_minimum_size = Vector2(1920, 1080)
-offset_right = 1920.0
-offset_bottom = 1080.0
-
 [node name="GameManager" type="Node2D" parent="."]
 script = ExtResource("1_game_manager")
 
 [node name="BlockLayer" type="Node2D" parent="GameManager"]
-script = ExtResource("3_connection")
+script = ExtResource("20_connection_manager")
+
+[node name="BlockLayerViewport" type="SubViewport" parent="GameManager/BlockLayer"]
+transparent_bg = true
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="BlockLayerContent" type="Node2D" parent="GameManager/BlockLayer/BlockLayerViewport"]
+
+[node name="Input" parent="GameManager/BlockLayer/BlockLayerViewport/BlockLayerContent" instance=ExtResource("5_input")]
+position = Vector2(200, 540)
+scale = Vector2(0.75, 0.75)
+
+[node name="Output" parent="GameManager/BlockLayer/BlockLayerViewport/BlockLayerContent" instance=ExtResource("6_output")]
+z_index = 0
+position = Vector2(1720, 540)
+scale = Vector2(0.75, 0.75)
+
+[node name="Bounds" type="Area2D" parent="GameManager/BlockLayer/BlockLayerViewport/BlockLayerContent"]
+z_as_relative = false
+position = Vector2(960, 540)
+scale = Vector2(1.2, 1)
+
+[node name="Background" type="ColorRect" parent="GameManager/BlockLayer/BlockLayerViewport/BlockLayerContent/Bounds"]
+z_index = -10
+z_as_relative = false
+material = SubResource("ShaderMaterial_k5n15")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -627.0
+offset_top = -400.0
+offset_right = 627.0
+offset_bottom = 400.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GameManager/BlockLayer/BlockLayerViewport/BlockLayerContent/Bounds"]
+visible = false
+position = Vector2(0.833313, 0)
+shape = SubResource("RectangleShape2D_1rma8")
+
+[node name="Lens" type="ColorRect" parent="GameManager/BlockLayer/BlockLayerViewport/BlockLayerContent/Bounds"]
+material = SubResource("ShaderMaterial_yicpx")
+offset_left = -627.0
+offset_top = -400.0
+offset_right = 627.0
+offset_bottom = 400.0
+
+[node name="Border" type="TextureRect" parent="GameManager/BlockLayer/BlockLayerViewport/BlockLayerContent/Bounds"]
+z_index = 7
+z_as_relative = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("9_meqhw")
+
+[node name="Label" type="Label" parent="GameManager/BlockLayer/BlockLayerViewport/BlockLayerContent"]
+z_index = 7
+z_as_relative = false
+custom_minimum_size = Vector2(372, 50)
+layout_direction = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 775.0
+offset_top = 115.0
+offset_right = 1147.0
+offset_bottom = 165.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "SCORE PLACEHOLDER"
+label_settings = SubResource("LabelSettings_8g4u2")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BlockLayerSprite" type="Sprite2D" parent="GameManager/BlockLayer"]
+material = SubResource("ShaderMaterial_skew")
+position = Vector2(960, 540)
+texture = SubResource("ViewportTexture_layer")
+script = ExtResource("18_skew_control_fixed")
 
 [node name="BGFlair" type="Node2D" parent="GameManager/BlockLayer"]
 z_index = -2
@@ -74,73 +171,7 @@ z_index = -2
 position = Vector2(960, 1080)
 texture = ExtResource("6_a1vm8")
 
-[node name="Input" parent="GameManager/BlockLayer" instance=ExtResource("5_input")]
-position = Vector2(275, 540)
-scale = Vector2(0.75, 0.75)
-
-[node name="Output" parent="GameManager/BlockLayer" instance=ExtResource("6_output")]
-z_index = 0
-position = Vector2(1650, 540)
-scale = Vector2(0.75, 0.75)
-
-[node name="Bounds" type="Area2D" parent="GameManager/BlockLayer"]
-z_as_relative = false
-position = Vector2(960, 540)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="GameManager/BlockLayer/Bounds"]
-visible = false
-position = Vector2(625, 400)
-shape = SubResource("RectangleShape2D_1rma8")
-
-[node name="BorderBackground" type="ColorRect" parent="GameManager/BlockLayer/Bounds"]
-show_behind_parent = true
-z_index = -5
-z_as_relative = false
-material = SubResource("ShaderMaterial_xidld")
-custom_minimum_size = Vector2(1264, 800)
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
-[node name="Lens" type="ColorRect" parent="GameManager/BlockLayer/Bounds"]
-z_index = 5
-z_as_relative = false
-material = SubResource("ShaderMaterial_yicpx")
-offset_left = -621.0
-offset_top = -403.0
-offset_right = 619.0
-offset_bottom = 399.0
-
-[node name="border" type="TextureRect" parent="GameManager/BlockLayer/Bounds"]
-z_index = 5
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -813.0
-offset_top = -509.0
-offset_right = 815.0
-offset_bottom = 514.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("9_meqhw")
-
-[node name="Indicators" type="Node2D" parent="GameManager/BlockLayer"]
-z_index = 5
-z_as_relative = false
-scale = Vector2(1.42, 1.42)
-
-[node name="Sprite2D" type="Sprite2D" parent="GameManager/BlockLayer/Indicators"]
-position = Vector2(330, 140)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("15_yupvt")
-
 [node name="TokenLayer" type="Node2D" parent="GameManager"]
-z_as_relative = false
 
 [node name="Inventory" type="Node" parent="GameManager"]
 script = ExtResource("4_inventory")
@@ -150,9 +181,26 @@ script = ExtResource("9_interaction")
 
 [node name="Toolbar" parent="GameManager" instance=ExtResource("10_toolbar")]
 z_index = 15
+offset_top = 1080.0
 offset_right = 1920.0
-offset_bottom = 256.0
+offset_bottom = 1336.0
 mouse_filter = 1
+
+[node name="TokenManager" type="Node" parent="GameManager"]
+script = ExtResource("19_token_manager")
+
+[node name="Background" type="ColorRect" parent="GameManager"]
+z_index = -20
+material = SubResource("ShaderMaterial_o3wkn")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 1920.0
+offset_bottom = 1080.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="AudioManager" parent="." instance=ExtResource("12_audio")]
 script = null
