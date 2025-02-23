@@ -42,15 +42,19 @@ public partial class Token : Node2D
         ZIndexConfig.SetZIndex(this, ZIndexConfig.Layers.Token);
     }
 
-    public void MoveTo(IBlock nextBlock)
+    public void MoveTo(IBlock nextBlock, ConnectionPipe pipe)
     {
         if (nextBlock == null || CurrentBlock == null || _visuals == null) return;
 
         _targetBlock = nextBlock;
+        _currentPipe = pipe;
         StartMovement(nextBlock);
         
         // Set processing z-index when moving between blocks
         ZIndexConfig.SetZIndex(this, ZIndexConfig.Layers.ProcessingToken);
+
+        // Start pipe animation
+        _currentPipe?.StartTokenMovement(this);
     }
 
     public void StartMovement(IBlock targetBlock)
@@ -67,6 +71,12 @@ public partial class Token : Node2D
     {
         if (!_isMoving || _visuals == null) return;
 
+        // Update token's global position to match visuals
+        GlobalPosition = _visuals.GlobalPosition;
+
+        // Update pipe animation with current position
+        _currentPipe?.UpdateTokenPosition(this);
+
         if (_visuals.IsMovementComplete)
         {
             CompleteMovement();
@@ -80,6 +90,10 @@ public partial class Token : Node2D
         _isMoving = false;
         CurrentBlock = _targetBlock;
         
+        // End pipe animation
+        _currentPipe?.EndTokenMovement(this);
+        _currentPipe = null;
+
         // Return to normal z-index after processing
         ZIndexConfig.SetZIndex(this, ZIndexConfig.Layers.Token);
         

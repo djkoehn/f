@@ -1,4 +1,5 @@
 using F.Game.Connections.Helpers;
+using F.Game.Tokens;
 
 namespace F.Game.Connections;
 
@@ -11,6 +12,8 @@ public partial class ConnectionPipe : Node2D
     private bool _isTemporary;
     private bool _isInsertionHighlighted;
     private Vector2 _temporaryEndPoint;
+    private PipeVisuals? _pipeVisuals;
+    private bool _hasActiveToken;
 
     public Node2D? FromSocket => _fromSocket;
     public Node2D? ToSocket => _toSocket;
@@ -19,35 +22,116 @@ public partial class ConnectionPipe : Node2D
 
     public override void _Ready()
     {
-        // Create Line2D for outline
-        var outline = new Line2D
-        {
-            Name = "Outline",
-            DefaultColor = Colors.Black,
-            Width = 8.0f,
-            BeginCapMode = Line2D.LineCapMode.Round,
-            EndCapMode = Line2D.LineCapMode.Round,
-            ZIndex = ZIndexConfig.Layers.Pipes - 1,
-            ZAsRelative = false
-        };
-        AddChild(outline);
+        GD.Print($"[ConnectionPipe Debug] _Ready called on {Name}");
+        
+        // Set proper z-index for the pipe
+        ZIndexConfig.SetZIndex(this, ZIndexConfig.Layers.Pipes);
+        
+        // Try to get existing nodes first
+        var outline = GetNodeOrNull<Line2D>("Outline");
+        _pipeVisuals = GetNodeOrNull<PipeVisuals>("PipeVisuals");
+        
+        GD.Print($"[ConnectionPipe Debug] Found nodes: Outline: {outline != null}, PipeVisuals: {_pipeVisuals != null}");
 
-        // Create Line2D for visuals
-        _visuals = new Line2D
+        // Create outline if it doesn't exist
+        if (outline == null)
         {
-            Name = "VisualPipe",
-            DefaultColor = Colors.White,
-            Width = 4.0f,
-            BeginCapMode = Line2D.LineCapMode.Round,
-            EndCapMode = Line2D.LineCapMode.Round,
-            Points = new[] { Vector2.Zero, Vector2.Zero },
-            ZIndex = ZIndexConfig.Layers.Pipes,
-            ZAsRelative = false
-        };
-        AddChild(_visuals);
+            outline = new Line2D
+            {
+                Name = "Outline",
+                DefaultColor = Colors.Black,
+                Width = 8.0f,
+                BeginCapMode = Line2D.LineCapMode.Round,
+                EndCapMode = Line2D.LineCapMode.Round,
+                JointMode = Line2D.LineJointMode.Round,
+                ZIndex = -1,
+                ZAsRelative = true,
+                Antialiased = true
+            };
+            AddChild(outline);
+        }
 
-        ZIndex = ZIndexConfig.Layers.Pipes;
-        ZAsRelative = false;
+        // Create PipeVisuals if it doesn't exist
+        if (_pipeVisuals == null)
+        {
+            // Load the Connection scene
+            var connectionScene = GD.Load<PackedScene>("res://scenes/Connection.tscn");
+            if (connectionScene != null)
+            {
+                // Instance the scene
+                var instance = connectionScene.Instantiate<Node2D>();
+                if (instance != null)
+                {
+                    // Get PipeVisuals and its VisualPipe
+                    _pipeVisuals = instance.GetNode<PipeVisuals>("PipeVisuals");
+                    var visualPipe = _pipeVisuals?.GetNode<Line2D>("VisualPipe");
+                    var bulgeEffect = _pipeVisuals?.GetNode<Line2D>("BulgeEffect");
+                    
+                    if (_pipeVisuals != null && visualPipe != null && bulgeEffect != null)
+                    {
+                        // Store the original material
+                        var originalMaterial = bulgeEffect.Material as ShaderMaterial;
+                        
+                        // Clear ownership before moving nodes
+                        _pipeVisuals.Owner = null;
+                        visualPipe.Owner = null;
+                        bulgeEffect.Owner = null;
+                        
+                        // Remove from original parent and add to this node
+                        instance.RemoveChild(_pipeVisuals);
+                        AddChild(_pipeVisuals);
+                        
+                        // Set new ownership
+                        _pipeVisuals.Owner = this;
+                        visualPipe.Owner = this;
+                        bulgeEffect.Owner = this;
+                        
+                        // Set z-indices
+                        _pipeVisuals.ZIndex = 0;
+                        _pipeVisuals.ZAsRelative = true;
+                        visualPipe.ZIndex = 0;
+                        visualPipe.ZAsRelative = true;
+                        bulgeEffect.ZIndex = 1;
+                        bulgeEffect.ZAsRelative = true;
+                        
+                        // Ensure material is preserved
+                        if (originalMaterial != null)
+                        {
+                            // Create a duplicate of the material to avoid sharing
+                            var newMaterial = originalMaterial.Duplicate() as ShaderMaterial;
+                            if (newMaterial != null)
+                            {
+                                bulgeEffect.Material = newMaterial;
+                                GD.Print("[ConnectionPipe Debug] Created new shader material");
+                            }
+                        }
+                        
+                        GD.Print("[ConnectionPipe Debug] Successfully created PipeVisuals from scene");
+                    }
+                    
+                    // Clean up the temporary instance
+                    instance.QueueFree();
+                }
+            }
+            else
+            {
+                GD.PrintErr("[ConnectionPipe Debug] Failed to load Connection scene!");
+                _pipeVisuals = new PipeVisuals { Name = "PipeVisuals" };
+                AddChild(_pipeVisuals);
+                _pipeVisuals.Owner = this;
+            }
+        }
+
+        // Get the VisualPipe reference after PipeVisuals is ready
+        _visuals = _pipeVisuals?.GetNode<Line2D>("VisualPipe");
+        if (_visuals == null)
+        {
+            GD.PrintErr($"[ConnectionPipe Debug] Failed to get VisualPipe node from {_pipeVisuals?.Name}!");
+            var children = _pipeVisuals?.GetChildren().Select(c => c.Name.ToString()).ToList() ?? new List<string>();
+            GD.Print($"[ConnectionPipe Debug] PipeVisuals children: {string.Join(", ", children)}");
+            return;
+        }
+        GD.Print("[ConnectionPipe Debug] Successfully got VisualPipe node");
     }
 
     public void Initialize(Node2D fromSocket, Node2D toSocket)
@@ -153,10 +237,22 @@ public partial class ConnectionPipe : Node2D
         if (outline != null)
         {
             outline.ClearPoints();
-            foreach (var pt in _visuals.Points)
+            foreach (var pt in curvePoints)
             {
                 outline.AddPoint(pt);
             }
+        }
+
+        // Update shader parameters if material exists
+        if (_visuals.Material is ShaderMaterial material)
+        {
+            var points = new Vector2[50];  // Match shader's fixed size array
+            for (int i = 0; i < curvePoints.Count && i < 50; i++)
+            {
+                points[i] = ToGlobal(curvePoints[i]);
+            }
+            material.SetShaderParameter("curve_points", points);
+            material.SetShaderParameter("point_count", Mathf.Min(curvePoints.Count, 50));
         }
 
         // Hide pipe if either end block is not visible
@@ -267,5 +363,23 @@ public partial class ConnectionPipe : Node2D
     {
         if (IsInsideTree()) GetParent()?.RemoveChild(this);
         QueueFree();
+    }
+
+    public void StartTokenMovement(Token token)
+    {
+        _hasActiveToken = true;
+        _pipeVisuals?.StartTokenMovement();
+    }
+
+    public void UpdateTokenPosition(Token token)
+    {
+        if (!_hasActiveToken) return;
+        _pipeVisuals?.UpdateTokenPosition(token.GlobalPosition);
+    }
+
+    public void EndTokenMovement(Token token)
+    {
+        _hasActiveToken = false;
+        _pipeVisuals?.EndTokenMovement();
     }
 }

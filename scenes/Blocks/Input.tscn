@@ -12,6 +12,9 @@ position = Vector2(0, 0)
 [node name="BlockOutputSocket" parent="." index="1"]
 position = Vector2(0, 0)
 
+[node name="Socket" parent="BlockOutputSocket" index="0"]
+visible = false
+
 [node name="TokenSocket" type="Node2D" parent="." index="2"]
 
 [node name="base" type="Sprite2D" parent="." index="3"]

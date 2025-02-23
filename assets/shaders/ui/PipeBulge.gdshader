@@ -1,78 +1,55 @@
 shader_type canvas_item;
 
-uniform vec2 token_position;
-uniform vec2 curve_points[50];  // Fixed size array
-uniform int point_count;
-uniform float bulge_amount : hint_range(0.0, 2.0) = 1.5;  // Increased for larger effect
-uniform float bulge_softness : hint_range(0.0, 1.0) = 0.15;  // Decreased for sharper edge
-uniform vec4 line_color : source_color = vec4(1.0);  // Add color parameter
+// Basic parameters
+uniform float token_progress : hint_range(0.0, 1.0) = 0.0;  // Position along the pipe (0-1)
+uniform bool token_active = false;  // Whether to show the effect
+uniform vec4 line_color : source_color = vec4(1.0);  // Color of the line
 
-float get_distance_to_curve(vec2 point) {
-    float min_dist = 1e10;
-    vec2 closest_point = vec2(0.0);
-
-    // Need at least 2 points to form a line
-    if (point_count < 2) return min_dist;
-
-    // Check distance to each line segment
-    for (int i = 0; i < 49; i++) {  // Fixed size - 1
-        if (i >= point_count - 1) break;  // Early exit if we've processed all points
-
-        vec2 a = curve_points[i];
-        vec2 b = curve_points[i + 1];
-
-        // Line segment vector
-        vec2 line_vec = b - a;
-        float line_length = length(line_vec);
-
-        if (line_length == 0.0) continue;
-
-        // Normalized direction vector
-        vec2 line_dir = line_vec / line_length;
-
-        // Vector from point A to our test point
-        vec2 point_vec = point - a;
-
-        // Project point onto line segment
-        float t = clamp(dot(point_vec, line_dir), 0.0, line_length);
-
-        // Get closest point on line segment
-        vec2 closest = a + line_dir * t;
-
-        // Calculate distance
-        float dist = length(point - closest);
-        if (dist < min_dist) {
-            min_dist = dist;
-            closest_point = closest;
-        }
-    }
-
-    // Calculate distance to token position projected onto curve
-    float token_curve_dist = length(closest_point - token_position);
-
-    return vec2(min_dist, token_curve_dist).x;  // Return the distance to curve
-}
+// Effect parameters
+uniform float bulge_amount : hint_range(0.0, 10.0) = 3.0;  // How much the line bulges
+uniform float bulge_softness : hint_range(0.01, 1.0) = 0.15;  // How soft/sharp the bulge is
+uniform float base_width = 4.0;  // Base width of the line
 
 void fragment() {
-    // Get distance from current pixel to curve
-    vec2 pixel_pos = FRAGCOORD.xy;
-    float dist = get_distance_to_curve(pixel_pos);
-
-    // Calculate distance from token to pixel
-    float token_dist = length(pixel_pos - token_position);
-
-    // Create circular bulge effect
-    float base_width = 4.0;  // Increased base pipe width
-    float bulge_radius = 75.0;  // Significantly increased radius (5x from 15.0)
-    float bulge_falloff = exp(-token_dist * bulge_softness);
-    float bulge = bulge_amount * bulge_radius * bulge_falloff;
-
-    // Calculate final width with smooth transition
-    float width = base_width + bulge;
-
-    // Calculate alpha with sharp edge for circular appearance
-    float alpha = 1.0 - smoothstep(width - 0.5, width + 0.5, dist);
-
-    // Output color using the uniform color
-    COLOR = line_color * vec4(1.0, 1.0, 1.0, alpha);
+    // Get UV coordinates from Line2D
+    float along_line = UV.x;  // UV.x goes from 0 to 1 along the line
+    float across_line = UV.y; // UV.y goes from 0 to 1 across the line width
+    
+    // Calculate distance from token position, accounting for Line2D UV mapping
+    float dist = abs(along_line - token_progress);
+    
+    // Calculate bulge effect with sharper falloff
+    float bulge = 0.0;
+    if (token_active) {
+        // Exponential falloff for sharper effect
+        bulge = exp(-dist * (1.0 / bulge_softness)) * bulge_amount;
+        
+        // Add a secondary pulse effect
+        float pulse = sin(dist * 30.0 - TIME * 5.0) * 0.2;
+        bulge += pulse * exp(-dist * 5.0);
+    }
+    
+    // Calculate alpha based on vertical position with the bulge effect
+    float width_factor = 1.0 + bulge * 0.5;
+    float center_dist = abs(across_line - 0.5) / width_factor;
+    
+    // Sharper edge with smooth falloff
+    float alpha = smoothstep(0.5, 0.4, center_dist);
+    
+    // Add glow effect when token is active
+    float glow = 0.0;
+    if (token_active) {
+        glow = smoothstep(1.0, 0.0, dist * 5.0) * 0.5;
+        glow *= smoothstep(0.8, 0.0, center_dist);
+    }
+    
+    // Output final color with enhanced brightness for active token
+    COLOR = line_color;
+    COLOR.rgb *= 1.0 + glow * 2.0;  // Boost brightness for glow
+    COLOR.a = alpha + glow;
+    
+    // Add highlight at token position
+    if (token_active && dist < 0.05) {
+        COLOR.rgb += vec3(0.5) * (1.0 - dist * 20.0);
+    }
 }

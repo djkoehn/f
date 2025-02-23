@@ -264,7 +264,7 @@ namespace F.Game.BlockLogic
             if (nextBlock != null)
             {
                 GD.Print($"[BaseBlock Debug] Moving token to next block: {nextBlock.Name}");
-                token.MoveTo(nextBlock);
+                token.MoveTo(nextBlock, pipe);
             }
             else
             {

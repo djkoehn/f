@@ -46,7 +46,11 @@ public partial class TokenVisuals : Node2D
         var duration = distance / TokenConfig.Movement.MoveSpeed;
         duration = Math.Min(duration, TokenConfig.Animation.MovementDuration);
 
+        // Create parallel tweens for both this node and its parent
+        _movementTween.Parallel();
         _movementTween.TweenProperty(this, "global_position", targetPosition, duration);
+        _movementTween.TweenProperty(GetParent<Node2D>(), "global_position", targetPosition, duration);
+
         _movementTween.TweenCallback(Callable.From(() => EmitSignal(SignalName.MovementComplete)));
 
         EmitSignal(SignalName.MovementStart);

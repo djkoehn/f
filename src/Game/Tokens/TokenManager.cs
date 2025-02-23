@@ -101,7 +101,7 @@ public partial class TokenManager : Node
         if (nextBlock != null)
         {
             GD.Print($"[TokenManager Debug] Moving token to next block: {nextBlock.Name}");
-            token.MoveTo(nextBlock);
+            token.MoveTo(nextBlock, pipe);
         }
         else
         {
