@@ -88,7 +88,6 @@ position = Vector2(960, 540)
 scale = Vector2(1.2, 1)
 
 [node name="Background" type="ColorRect" parent="GameManager/BlockLayer/BlockLayerViewport/BlockLayerContent/Bounds"]
-visible = false
 z_index = -10
 z_as_relative = false
 anchors_preset = 8
@@ -105,12 +104,10 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GameManager/BlockLayer/BlockLayerViewport/BlockLayerContent/Bounds"]
-visible = false
 position = Vector2(0.833313, 0)
 shape = SubResource("RectangleShape2D_1rma8")
 
 [node name="Lens" type="ColorRect" parent="GameManager/BlockLayer/BlockLayerViewport/BlockLayerContent/Bounds"]
-visible = false
 material = SubResource("ShaderMaterial_yicpx")
 offset_left = -627.0
 offset_top = -400.0
@@ -118,7 +115,6 @@ offset_right = 627.0
 offset_bottom = 400.0
 
 [node name="Border" type="TextureRect" parent="GameManager/BlockLayer/BlockLayerViewport/BlockLayerContent/Bounds"]
-visible = false
 z_index = 7
 z_as_relative = false
 custom_minimum_size = Vector2(1600, 1000)
@@ -130,7 +126,6 @@ grow_vertical = 2
 texture = ExtResource("9_meqhw")
 
 [node name="Label" type="Label" parent="GameManager/BlockLayer/BlockLayerViewport/BlockLayerContent"]
-visible = false
 z_index = 7
 z_as_relative = false
 custom_minimum_size = Vector2(372, 50)
@@ -156,7 +151,6 @@ texture = SubResource("ViewportTexture_layer")
 script = ExtResource("18_skew_control_fixed")
 
 [node name="BGFlair" type="Node2D" parent="GameManager/BlockLayer"]
-visible = false
 z_index = -2
 
 [node name="Back" type="Sprite2D" parent="GameManager/BlockLayer/BGFlair"]
@@ -182,7 +176,6 @@ mouse_filter = 1
 script = ExtResource("19_token_manager")
 
 [node name="Background" type="ColorRect" parent="GameManager"]
-visible = false
 z_index = -20
 material = SubResource("ShaderMaterial_o3wkn")
 anchors_preset = 8

@@ -31,40 +31,57 @@ public partial class Token : Node2D
         if (_visuals == null)
         {
             GD.PrintErr("TokenVisuals node not found!");
+            return;
         }
-        else
-        {
-            _visuals.Connect(TokenVisuals.SignalName.MovementComplete, new Callable(this, nameof(OnMovementComplete)));
-            _visuals.Connect(TokenVisuals.SignalName.MovementStart, new Callable(this, nameof(OnMovementStart)));
-        }
+        
+        _visuals.Connect(TokenVisuals.SignalName.MovementComplete, new Callable(this, nameof(OnMovementComplete)));
+        _visuals.Connect(TokenVisuals.SignalName.MovementStart, new Callable(this, nameof(OnMovementStart)));
         
         // Set initial z-index
         ZIndexConfig.SetZIndex(this, ZIndexConfig.Layers.Token);
     }
 
-    public void MoveTo(IBlock nextBlock, ConnectionPipe pipe)
+    public override void _ExitTree()
     {
-        if (nextBlock == null || CurrentBlock == null || _visuals == null) return;
+        base._ExitTree();
+        
+        // Cleanup signals
+        if (_visuals != null)
+        {
+            if (_visuals.IsConnected(TokenVisuals.SignalName.MovementComplete, new Callable(this, nameof(OnMovementComplete))))
+            {
+                _visuals.Disconnect(TokenVisuals.SignalName.MovementComplete, new Callable(this, nameof(OnMovementComplete)));
+            }
+            if (_visuals.IsConnected(TokenVisuals.SignalName.MovementStart, new Callable(this, nameof(OnMovementStart))))
+            {
+                _visuals.Disconnect(TokenVisuals.SignalName.MovementStart, new Callable(this, nameof(OnMovementStart)));
+            }
+        }
+        
+        // Cleanup pipe
+        if (_currentPipe != null)
+        {
+            _currentPipe.EndTokenMovement(this);
+            _currentPipe = null;
+        }
+    }
+
+    public void MoveTo(IBlock nextBlock, ConnectionPipe? pipe = null)
+    {
+        if (nextBlock == null || _visuals == null) return;
 
         _targetBlock = nextBlock;
         _currentPipe = pipe;
-        StartMovement(nextBlock);
         
         // Set processing z-index when moving between blocks
         ZIndexConfig.SetZIndex(this, ZIndexConfig.Layers.ProcessingToken);
 
-        // Start pipe animation
-        _currentPipe?.StartTokenMovement(this);
-    }
-
-    public void StartMovement(IBlock targetBlock)
-    {
-        if (_visuals == null) return;
-
+        // Start movement animation
         _isMoving = true;
-        _targetBlock = targetBlock;
-        var targetPosition = targetBlock.GetTokenPosition();
-        _visuals.StartMovement(targetPosition);
+        _visuals.StartMovement(nextBlock.GetTokenPosition());
+        
+        // Start pipe animation if we have a pipe
+        _currentPipe?.StartTokenMovement(this);
     }
 
     public override void _Process(double delta)
@@ -116,19 +133,20 @@ public partial class Token : Node2D
     public void StopMovement()
     {
         _isMoving = false;
-        if (_visuals != null)
+        _visuals?.StopMovement();
+        
+        // Cleanup pipe animation
+        if (_currentPipe != null)
         {
-            _visuals.StopMovement();
+            _currentPipe.EndTokenMovement(this);
+            _currentPipe = null;
         }
     }
 
     public void UpdateValue(float value)
     {
         Value = value;
-        if (_visuals != null)
-        {
-            _visuals.UpdateValue(value);
-        }
+        _visuals?.UpdateValue(value);
     }
 
     public float GetValue()
@@ -138,25 +156,11 @@ public partial class Token : Node2D
 
     public void TriggerHitEffect()
     {
-        if (_visuals != null)
-        {
-            _visuals.TriggerHitEffect();
-        }
+        _visuals?.TriggerHitEffect();
     }
 
     public void TriggerAnimation()
     {
-        if (_visuals != null)
-        {
-            _visuals.TriggerAnimation();
-        }
-    }
-
-    public void MoveToBlock(IBlock nextBlock)
-    {
-        if (nextBlock == null || _visuals == null) return;
-
-        _targetBlock = nextBlock;
-        StartMovement(nextBlock);
+        _visuals?.TriggerAnimation();
     }
 }

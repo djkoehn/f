@@ -12,6 +12,7 @@ public partial class TokenVisuals : Node2D
     private bool _isMoving;
     private Label? _label;
     private Tween? _movementTween;
+    private Tween? _animationTween;
     private Sprite2D? _sprite;
     private ShaderMaterial? _glowMaterial;
 
@@ -20,31 +21,68 @@ public partial class TokenVisuals : Node2D
     public override void _Ready()
     {
         base._Ready();
+        
+        // Get required nodes
         _sprite = GetNode<Sprite2D>("Sprite");
         _label = GetNode<Label>("Label");
-        _glowMaterial = GetNode<Sprite2D>("Sprite").Material as ShaderMaterial;
+        
+        // Setup shader material
+        if (_sprite != null)
+        {
+            _glowMaterial = _sprite.Material as ShaderMaterial;
+            if (_glowMaterial == null)
+            {
+                GD.PrintErr("Glow shader material not found on token sprite!");
+            }
+        }
+        
         UpdateValue(0);
         Connect(SignalName.MovementComplete, new Callable(this, nameof(OnMovementComplete)));
         Connect(SignalName.MovementStart, new Callable(this, nameof(OnMovementStart)));
     }
 
+    public override void _ExitTree()
+    {
+        base._ExitTree();
+        
+        // Kill any active tweens
+        _movementTween?.Kill();
+        _animationTween?.Kill();
+        
+        // Cleanup signals
+        if (IsConnected(SignalName.MovementComplete, new Callable(this, nameof(OnMovementComplete))))
+        {
+            Disconnect(SignalName.MovementComplete, new Callable(this, nameof(OnMovementComplete)));
+        }
+        if (IsConnected(SignalName.MovementStart, new Callable(this, nameof(OnMovementStart))))
+        {
+            Disconnect(SignalName.MovementStart, new Callable(this, nameof(OnMovementStart)));
+        }
+    }
+
     public void StartMovement(Vector2 targetPosition)
     {
-        if (_movementTween != null && _movementTween.IsValid()) _movementTween.Kill();
+        // Kill any existing movement tween
+        _movementTween?.Kill();
 
         _isMoving = true;
         _movementTween = CreateTween();
         _movementTween.SetTrans(Tween.TransitionType.Linear);
         _movementTween.SetEase(Tween.EaseType.InOut);
 
-        // Set glow parameters
-        _glowMaterial?.SetShaderParameter("glow_width", TokenConfig.Visual.GlowWidth);
-        _glowMaterial?.SetShaderParameter("glow_intensity", TokenConfig.Visual.GlowIntensity);
+        // Set glow parameters if shader is available
+        if (_glowMaterial != null)
+        {
+            _glowMaterial.SetShaderParameter("glow_width", TokenConfig.Visual.GlowWidth);
+            _glowMaterial.SetShaderParameter("glow_intensity", TokenConfig.Visual.GlowIntensity);
+        }
 
-        // Set movement speed
+        // Calculate movement duration based on distance
         var distance = (targetPosition - GlobalPosition).Length();
-        var duration = distance / TokenConfig.Movement.MoveSpeed;
-        duration = Math.Min(duration, TokenConfig.Animation.MovementDuration);
+        var duration = Math.Min(
+            distance / TokenConfig.Movement.MoveSpeed,
+            TokenConfig.Animation.MovementDuration
+        );
 
         // Create parallel tweens for both this node and its parent
         _movementTween.Parallel();
@@ -58,11 +96,8 @@ public partial class TokenVisuals : Node2D
 
     public void StopMovement()
     {
-        if (_movementTween != null && _movementTween.IsValid()) 
-        {
-            _movementTween.Kill();
-            _isMoving = false;
-        }
+        _movementTween?.Kill();
+        _isMoving = false;
     }
 
     private void OnMovementComplete()
@@ -79,28 +114,33 @@ public partial class TokenVisuals : Node2D
     {
         if (_sprite == null) return;
 
-        var tween = CreateTween();
-        tween.SetTrans(Tween.TransitionType.Elastic);
-        tween.SetEase(Tween.EaseType.Out);
-        tween.TweenProperty(_sprite, "scale", Vector2.One * 1.5f, 0.3f);
-        tween.TweenProperty(_sprite, "scale", Vector2.One, 0.3f);
+        _animationTween?.Kill();
+        _animationTween = CreateTween();
+        _animationTween.SetTrans(Tween.TransitionType.Elastic);
+        _animationTween.SetEase(Tween.EaseType.Out);
+        _animationTween.TweenProperty(_sprite, "scale", Vector2.One * TokenConfig.Animation.ScaleFactor, TokenConfig.Animation.ScaleDuration);
+        _animationTween.TweenProperty(_sprite, "scale", Vector2.One, TokenConfig.Animation.ScaleDuration);
     }
 
     public void TriggerHitEffect()
     {
         if (_sprite == null) return;
 
-        var tween = CreateTween();
-        tween.SetTrans(Tween.TransitionType.Bounce);
-        tween.SetEase(Tween.EaseType.Out);
-        tween.TweenProperty(_sprite, "scale", Vector2.One * 1.2f, 0.1f);
-        tween.TweenProperty(_sprite, "scale", Vector2.One, 0.2f);
+        _animationTween?.Kill();
+        _animationTween = CreateTween();
+        _animationTween.SetTrans(Tween.TransitionType.Bounce);
+        _animationTween.SetEase(Tween.EaseType.Out);
+        _animationTween.TweenProperty(_sprite, "scale", Vector2.One * TokenConfig.Animation.HitScaleFactor, TokenConfig.Animation.HitScaleDuration);
+        _animationTween.TweenProperty(_sprite, "scale", Vector2.One, TokenConfig.Animation.HitScaleDuration * 2);
     }
 
     public void UpdateValue(float value)
     {
         _currentValue = value;
-        if (_label != null) _label.Text = value.ToString("F1");
+        if (_label != null)
+        {
+            _label.Text = value.ToString("F1");
+        }
     }
 
     public float GetValue()

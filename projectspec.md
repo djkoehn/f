@@ -31,8 +31,11 @@
 
 #### Block Types
 1. Interface Layer:
-   - `IBlock`: Interface for blocks
-     - Defines basic functionality such as socket access and token processing.
+   - `IBlock`: Interface defining block behavior including token processing and socket management
+   - New metadata-driven configuration system with properties:
+     - SpawnOnSpace: Controls token generation behavior
+     - DisplayValue: Toggles value display
+     - ProcessTokenScript: Defines block-specific token processing
 
 2. Block Hierarchy:
    - Stationary Blocks:
@@ -42,6 +45,10 @@
      - `BaseBlock`: Base for all placeable blocks; inherits Node2D and implements IBlock.
        - Handles dragging, state management (InToolbar/Dragging/Placed/Connected), and token processing.
        - Uses JSON metadata (via BlockMetadata) to drive block-specific behavior.
+       - Integrated shader support
+       - Dynamic token processing via scripting
+       - Debug logging system
+       - State management improvements
      - Operation Blocks:
        - Operation behavior (e.g. Add) is now defined via JSON metadata and processed by BaseBlock.
        - This approach removes the need for separate block-specific classes.
@@ -63,6 +70,11 @@
 2. `ConnectionPipe`: Visual representation of connections using Bezier curves and precise distance calculations.
 3. `ConnectionFactory`: Creates standard connections, validates sockets and block compatibility.
 4. `ConnectionValidator`: Checks bounds, compatibility, and rewiring constraints.
+- Enhanced PipeVisuals:
+  - Shader-based effects
+  - Token progress visualization
+  - Bulge effects for token movement
+  - Debug logging system
 
 #### Connection Flow
 1. Initial Setup:
@@ -71,6 +83,12 @@
    - Inserting a BaseBlock into an existing connection splits the connection into two segments.
 3. Pipe Detection:
    - Uses curve-based hit detection with visual feedback.
+
+#### Visual System
+- Shader-driven pipe effects
+- Dynamic bulge visualization
+- Token progress indicators
+- Configurable visual parameters
 
 ### Game Management (`F.Game.Core`)
 
@@ -89,39 +107,50 @@
    - Blocks are created using the metadata-driven system and managed in the toolbar.
    - Dedicated helper classes (e.g. `ToolbarHelper`) assist with block repositioning.
 
-### Utility Layer (`F.Utils.Helpers`)
+#### Core Components
+- Precise positioning system:
+  - Block width: 96f
+  - Block height: 96f
+  - Block spacing: 64f
+  - Configurable animation durations
 
-1. Connection Utilities: `ConnectionHelper`, `PipeRewiringHelper`, and `PipeCurveCalculator`.
-2. Input Handling: `InputHelper`, `DragHelper`, and `ToolbarHelper`.
-3. Animation: `TweenHelper` and `ToolbarHoverAnimation`.
+#### Layer Management
+- Structured Z-index system:
+  - Background: -10
+  - Pipes: -5
+  - Blocks: -4
+  - Tokens: -1
+  - UI: 15+
 
-## Game Mechanics
+### Configuration System
 
-### Token System
-- 3 tokens per round.
-- SPACE to spawn a token.
-- Block operations modify token values.
-- Output collects tokens for scoring.
-
-### Controls
-- SPACE: Spawn token.
-- Left Click: Manipulate blocks.
-- Right Click: Return block to toolbar.
-
-### Block Operations
-1. Input (Green, IBlock): Generates tokens.
-2. Operation (Blue/Purple, BaseBlock): Dynamically alters token values (behavior defined via JSON metadata).
-3. Output (Red, IBlock): Collects tokens for scoring.
-
-## Configuration System
-
-### Block Configuration
+#### Block Configuration
 - `BlockMetadata.json`: Contains JSON metadata for block configurations (ScenePath, ProcessTokenScript, Name, Description).
 - `BlockConfig`: Block-specific settings.
 - `PipeConfig`: Connection pipe settings.
 - `TokenConfig`: Token behavior settings.
 - `ToolbarConfig`: UI component settings.
 - `ZIndexConfig`: Manages visual layering.
+- Enhanced metadata properties:
+  - SpawnOnSpace
+  - DisplayValue
+  - ProcessTokenScript
+  - Socket configuration
+
+#### Visual Configuration
+- PipeConfig:
+  - Animation settings
+  - Visual parameters
+  - Shader effects
+- ZIndexConfig:
+  - Layered rendering system
+  - Relative/absolute positioning
+
+### Debug System
+- Comprehensive logging
+- Visual debugging
+- State tracking
+- Performance monitoring
 
 ## Audio System
 

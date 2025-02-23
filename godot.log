@@ -51,6 +51,17 @@ Failed to get Bounds ColorRect!
 [BlockMetadata Debug] Retrieved metadata for multiply - Name: Multiply, SpawnOnSpace: False
 Blocks in Inventory: add0, multiply1, add2, multiply3, add4, multiply5, add6, multiply7
 [Debug HelperFunnel] Successfully found HelperFunnel instance
+Glow shader material not found on token sprite!
+Glow shader material not found on token sprite!
+Glow shader material not found on token sprite!
+Glow shader material not found on token sprite!
+Glow shader material not found on token sprite!
+Glow shader material not found on token sprite!
+Glow shader material not found on token sprite!
+Glow shader material not found on token sprite!
+Glow shader material not found on token sprite!
+Glow shader material not found on token sprite!
+[TokenManager Debug] ConnectionManager not ready, retry 1/10 in 0.1s
 GameManager initialized as singleton
 GameStateManager initialized.
 [BlockMetadata Debug] Looking up metadata for blockId: input
@@ -173,7 +184,6 @@ Creating toolbar blocks
 [Debug BaseBlock] Multiply7 initialization started, Position: (1024, 1144), State: InToolbar
 [BaseBlock Debug] Block Multiply7 state changed: InToolbar -> InToolbar (SetInToolbar: True)
 [ToolbarBlockContainer] Added block Multiply7 to toolbar
-[TokenManager Debug] Successfully initialized with ConnectionManager and TokenLayer
 [Debug BaseBlock] Add0 attempting to initialize managers
 [Debug BaseBlock] Add0 managers initialized:
   - ConnectionManager: found
@@ -215,7 +225,15 @@ Creating toolbar blocks
   - TokenManager: found
 [Debug BaseBlock] Multiply7 initialization complete
 [ConnectionManager Debug] _Process running
-[Debug InputHelper] No block found at position: (1113, 287)
+[TokenManager Debug] Successfully initialized with ConnectionManager and TokenLayer
+[ToolbarHoverAnimation] Initializing animation for Node2D, show: True
+[ToolbarHoverAnimation] Current Y: 0, Start Y: 0, End Y: -128
+[ToolbarHoverAnimation] Initializing animation for Control, show: True
+[ToolbarHoverAnimation] Current Y: 1080, Start Y: 1080, End Y: 875
+[ToolbarHoverAnimation] Initializing animation for Node2D, show: False
+[ToolbarHoverAnimation] Current Y: -127.875, Start Y: -127.875, End Y: 0
+[ToolbarHoverAnimation] Initializing animation for Control, show: False
+[ToolbarHoverAnimation] Current Y: 875.2002, Start Y: 875.2002, End Y: 1080
 [InputHelper Debug] Space pressed, triggering token spawn
 [BaseBlock Debug] SpawnToken called for block Input
 [BaseBlock Debug] TokenManager exists: True
@@ -236,750 +254,1428 @@ Creating toolbar blocks
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 0.97711134
+  shader_time: 1.8554604
 [PipeVisuals Debug] Started token movement
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 0
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.0004114
+  shader_time: 1.8880671
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 0
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.0004114
+  shader_time: 1.8880671
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 0
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.017078
+  shader_time: 1.9047338
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.0466
+  token_progress: 0.03260667
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.017078
+  shader_time: 1.9047338
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.0466
+  token_progress: 0.03260667
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.0330571
+  shader_time: 1.9193507
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.07993333
+  token_progress: 0.049273342
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.0330571
+  shader_time: 1.9193507
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.07993333
+  token_progress: 0.049273342
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.0497237
+  shader_time: 1.9360174
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.11189134
+  token_progress: 0.06389034
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.0497237
+  shader_time: 1.9360174
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.11189134
+  token_progress: 0.06389034
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.0663904
+  shader_time: 1.952684
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.14522466
+  token_progress: 0.08055701
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.0663904
+  shader_time: 1.952684
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.14522466
+  token_progress: 0.08055701
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.083057
+  shader_time: 1.9693507
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.178558
+  token_progress: 0.09722366
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.083057
+  shader_time: 1.9693507
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.178558
+  token_progress: 0.09722366
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.0997237
+  shader_time: 1.9860173
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.21189134
+  token_progress: 0.113890335
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.0997237
+  shader_time: 1.9860173
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.21189134
+  token_progress: 0.113890335
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.1163903
+  shader_time: 2.002684
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.24522464
+  token_progress: 0.13055702
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.1163903
+  shader_time: 2.002684
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.24522464
+  token_progress: 0.13055702
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.133057
+  shader_time: 2.0193508
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.278558
+  token_progress: 0.14722367
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.133057
+  shader_time: 2.0193508
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.278558
+  token_progress: 0.14722367
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.1497236
+  shader_time: 2.0360174
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.31189135
+  token_progress: 0.16389033
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.1497236
+  shader_time: 2.0360174
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.31189135
+  token_progress: 0.16389033
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.1663903
+  shader_time: 2.052684
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.34522468
+  token_progress: 0.18055698
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.1663903
+  shader_time: 2.052684
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.34522468
+  token_progress: 0.18055698
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.183057
+  shader_time: 2.0693507
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.37855804
+  token_progress: 0.19722366
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.183057
+  shader_time: 2.0693507
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.37855804
+  token_progress: 0.19722366
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.1983347
+  shader_time: 2.0860174
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.41189134
+  token_progress: 0.21389031
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.1983347
+  shader_time: 2.0860174
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.41189134
+  token_progress: 0.21389031
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.2136124
+  shader_time: 2.102684
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.4424469
+  token_progress: 0.23055701
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.2136124
+  shader_time: 2.102684
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.4424469
+  token_progress: 0.23055701
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.2288902
+  shader_time: 2.1193507
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.47300243
+  token_progress: 0.24722366
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.2288902
+  shader_time: 2.1193507
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.47300243
+  token_progress: 0.24722366
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.2441679
+  shader_time: 2.1360173
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.503558
+  token_progress: 0.26389033
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.2441679
+  shader_time: 2.1360173
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.503558
+  token_progress: 0.26389033
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.2594457
+  shader_time: 2.152684
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.5341135
+  token_progress: 0.280557
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.2594457
+  shader_time: 2.152684
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.5341135
+  token_progress: 0.280557
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.2747555
+  shader_time: 2.1693506
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.56466913
+  token_progress: 0.29722366
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.2747555
+  shader_time: 2.1693506
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.56466913
+  token_progress: 0.29722366
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.2913735
+  shader_time: 2.1860173
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.59528875
+  token_progress: 0.3138903
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.2913735
+  shader_time: 2.1860173
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.59528875
+  token_progress: 0.3138903
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.3080401
+  shader_time: 2.202684
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.6285246
+  token_progress: 0.33055702
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.3080401
+  shader_time: 2.202684
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.6285246
+  token_progress: 0.33055702
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.3247068
+  shader_time: 2.2193506
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.661858
+  token_progress: 0.34722367
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.3247068
+  shader_time: 2.2193506
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.661858
+  token_progress: 0.34722367
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.3413734
+  shader_time: 2.2360172
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.6951913
+  token_progress: 0.36389032
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.3413734
+  shader_time: 2.2360172
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.6951913
+  token_progress: 0.36389032
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.3580401
+  shader_time: 2.2526839
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.7285247
+  token_progress: 0.380557
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.3580401
+  shader_time: 2.2526839
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.7285247
+  token_progress: 0.380557
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.3747067
+  shader_time: 2.2693505
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.761858
+  token_progress: 0.39722365
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.3747067
+  shader_time: 2.2693505
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.761858
+  token_progress: 0.39722365
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.3913734
+  shader_time: 2.2860172
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.7951913
+  token_progress: 0.4138903
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.3913734
+  shader_time: 2.2860172
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.7951913
+  token_progress: 0.4138903
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.40804
+  shader_time: 2.3026838
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.82852465
+  token_progress: 0.430557
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.40804
+  shader_time: 2.3026838
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.82852465
+  token_progress: 0.430557
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.4247067
+  shader_time: 2.3193505
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.861858
+  token_progress: 0.44722366
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.4247067
+  shader_time: 2.3193505
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.861858
+  token_progress: 0.44722366
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.4413733
+  shader_time: 2.3360171
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.8951913
+  token_progress: 0.46389034
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.4413733
+  shader_time: 2.3360171
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.8951913
+  token_progress: 0.46389034
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.45804
+  shader_time: 2.3526838
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.9285247
+  token_progress: 0.48055702
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.45804
+  shader_time: 2.3526838
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.9285247
+  token_progress: 0.48055702
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.4747066
+  shader_time: 2.3693504
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.96185803
+  token_progress: 0.49722368
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.4747066
+  shader_time: 2.3693504
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.96185803
+  token_progress: 0.49722368
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.4913733
+  shader_time: 2.386017
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.99519134
+  token_progress: 0.5138903
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.4913733
+  shader_time: 2.386017
 [PipeVisuals Debug] Set shader parameters:
-  token_progress: 0.99519134
+  token_progress: 0.5138903
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.50804
+  shader_time: 2.4026837
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.530557
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.4026837
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.530557
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.4193504
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.5472237
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.4193504
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.5472237
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.436017
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.56389034
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.436017
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.56389034
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.4526837
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.5805569
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.4526837
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.5805569
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.4693503
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.59722364
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.4693503
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.59722364
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.486017
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.6138903
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.486017
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.6138903
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.5026836
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.630557
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.5026836
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.630557
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.5193503
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.6472237
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.5193503
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.6472237
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.536017
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.6638903
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.536017
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.6638903
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.5526836
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.680557
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.5526836
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.680557
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.5693502
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.6972237
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.5693502
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.6972237
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.586017
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.7138903
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.586017
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.7138903
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.6026835
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.730557
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.6026835
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.730557
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.6193502
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.7472237
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.6193502
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.7472237
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.6360168
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.7638903
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.6360168
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.7638903
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.6526835
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.78055704
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.6526835
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.78055704
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.6693501
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.7972237
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.6693501
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.7972237
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.6860168
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.81389034
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.6860168
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.81389034
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.7026834
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.830557
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.7026834
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.830557
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.71935
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.84722364
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.71935
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.84722364
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.7360168
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.8638903
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.7360168
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.8638903
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.7526834
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.880557
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.7526834
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.880557
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.76935
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.89722365
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.76935
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.89722365
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.7860167
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.9138904
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.7860167
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.9138904
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.8026834
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.930557
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.8026834
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.930557
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.81935
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.9472237
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.81935
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.9472237
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.8360167
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.9638903
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.8360167
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.9638903
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.8526833
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.980557
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.8526833
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.980557
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.86935
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.9972237
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.86935
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 0.9972237
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 2.8860166
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.50804
+  shader_time: 2.8860166
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.5247066
+  shader_time: 2.9026833
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.5247066
+  shader_time: 2.9026833
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.5413733
+  shader_time: 2.91935
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.5413733
+  shader_time: 2.91935
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.5580399
+  shader_time: 2.9360166
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.5580399
+  shader_time: 2.9360166
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.5747066
+  shader_time: 2.9526832
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.5747066
+  shader_time: 2.9526832
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.5913732
+  shader_time: 2.9693499
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.5913732
+  shader_time: 2.9693499
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.6080399
+  shader_time: 2.9860165
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.6080399
+  shader_time: 2.9860165
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.6247065
+  shader_time: 3.0026832
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.6247065
+  shader_time: 3.0026832
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.6413732
+  shader_time: 3.0193498
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.6413732
+  shader_time: 3.0193498
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.6580398
+  shader_time: 3.0360165
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.6580398
+  shader_time: 3.0360165
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.6747065
+  shader_time: 3.052683
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.6747065
+  shader_time: 3.052683
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.6913731
+  shader_time: 3.0693498
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.6913731
+  shader_time: 3.0693498
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.7080398
+  shader_time: 3.0860164
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.7080398
+  shader_time: 3.0860164
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.7247064
+  shader_time: 3.102683
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.7247064
+  shader_time: 3.102683
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.7413731
+  shader_time: 3.1193497
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.7413731
+  shader_time: 3.1193497
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.7580397
+  shader_time: 3.1360164
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.7580397
+  shader_time: 3.1360164
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.7747064
+  shader_time: 3.152683
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.7747064
+  shader_time: 3.152683
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.791373
+  shader_time: 3.1693497
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.791373
+  shader_time: 3.1693497
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.8080397
+  shader_time: 3.1860163
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.8080397
+  shader_time: 3.1860163
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.8247063
+  shader_time: 3.202683
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.8247063
+  shader_time: 3.202683
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.841373
+  shader_time: 3.2193496
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.841373
+  shader_time: 3.2193496
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.8580396
+  shader_time: 3.2360163
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.8580396
+  shader_time: 3.2360163
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.8747063
+  shader_time: 3.252683
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.8747063
+  shader_time: 3.252683
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.8913729
+  shader_time: 3.2693496
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.8913729
+  shader_time: 3.2693496
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.9080396
+  shader_time: 3.2860162
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.9080396
+  shader_time: 3.2860162
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.9247062
+  shader_time: 3.3026829
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.9247062
+  shader_time: 3.3026829
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.9413729
+  shader_time: 3.3193495
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.9413729
+  shader_time: 3.3193495
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.9580395
+  shader_time: 3.3360162
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.9580395
+  shader_time: 3.3360162
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.9747062
+  shader_time: 3.3526828
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.9747062
+  shader_time: 3.3526828
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.9913728
+  shader_time: 3.3693495
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: True
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.9913728
+  shader_time: 3.3693495
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.3860161
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.3860161
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.4026828
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.4026828
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.4193494
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.4193494
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.436016
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.436016
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.4526827
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.4526827
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.4693494
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.4693494
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.486016
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.486016
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.5026827
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.5026827
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.5193493
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.5193493
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.536016
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.536016
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.5526826
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.5526826
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.5693493
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.5693493
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.586016
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.586016
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.6026826
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.6026826
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.6193492
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.6193492
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.636016
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.636016
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.6526825
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.6526825
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.6693492
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.6693492
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.6860158
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.6860158
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.7026825
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.7026825
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.7193491
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.7193491
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.7360158
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.7360158
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.7526824
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.7526824
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.769349
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.769349
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.7860157
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.7860157
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.8026824
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.8026824
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.819349
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.819349
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.8360157
+[PipeVisuals Debug] Set shader parameters:
+  token_progress: 1
+  token_active: True
+  bulge_amount: 5
+  bulge_softness: 0.1
+  shader_time: 3.8360157
 [PipeVisuals Debug] Set shader parameters:
   token_progress: 1
   token_active: False
   bulge_amount: 5
   bulge_softness: 0.1
-  shader_time: 1.9913728
+  shader_time: 3.8360157
 [PipeVisuals Debug] Ended token movement
-[BaseBlock Debug] Processing token in block Output, current value: 1
-[BaseBlock Debug] Executing script: Print($"Output received token with value {Value}");
-[BaseBlock Debug] Block Output processed token. New value: 1
-[BaseBlock Debug] Updated value label to: 1
-[BaseBlock Debug] No next block found, destroying token
-[TokenManager Debug] Removed 1 completed tokens
