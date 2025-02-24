@@ -1,10 +1,20 @@
 using F.UI.Animations;
 using ToolbarHoverAnimation = F.UI.Animations.UI.ToolbarHoverAnimation;
+using Godot;
+using F.Framework.Core.SceneTree;
 
 namespace F.Game.Toolbar
 {
-    public partial class ToolbarVisuals : Control
+    public partial class ToolbarVisuals : Control, IToolbarVisuals
     {
+        private ColorRect? _background;
+
+        public override void _Ready()
+        {
+            base._Ready();
+            _background = GetNode<ColorRect>("Background");
+        }
+
         public void UpdateBlockPositions()
         {
             GD.Print("ToolbarVisuals: Block positions updated.");
@@ -24,4 +34,4 @@ namespace F.Game.Toolbar
             }
         }
     }
-} 
+}

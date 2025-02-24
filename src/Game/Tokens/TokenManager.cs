@@ -1,15 +1,17 @@
+using Godot;
 using F.Audio;
-using F.Game.Connections;
+using F.Framework.Blocks;
+using F.Framework.Connections;
 using F.Game.Core;
-using ConnectionManager = F.Game.Connections.ConnectionManager;
+using F.Framework.Core.SceneTree;
 
 namespace F.Game.Tokens;
 
-public partial class TokenManager : Node
+public partial class TokenManager : Node, ITokenManager
 {
     private const float RETRY_INTERVAL = 0.1f;
     private const int MAX_RETRIES = 10;
-    
+
     private readonly List<Token> _activeTokens = new();
     private ConnectionManager? _connectionManager;
     private TokenFactory? _factory;
@@ -34,13 +36,13 @@ public partial class TokenManager : Node
         }
 
         // Load the token scene
-        var tokenScene = GD.Load<PackedScene>("res://scenes/Token.tscn");
+        var tokenScene = GD.Load<PackedScene>("res://scenes/UI/Token.tscn");
         if (tokenScene == null)
         {
             GD.PrintErr("[TokenManager Debug] Failed to load Token.tscn");
             return;
         }
-        
+
         _factory = new TokenFactory(_tokenLayer, tokenScene);
 
         // Initialize connection manager
@@ -123,7 +125,7 @@ public partial class TokenManager : Node
 
         var (nextBlock, pipe) = _connectionManager.GetNextConnection(currentBlock);
         GD.Print($"[TokenManager Debug] Next block found: {nextBlock != null}, pipe: {pipe != null}");
-        
+
         if (nextBlock != null)
         {
             GD.Print($"[TokenManager Debug] Moving token to next block: {nextBlock.Name}");
@@ -179,11 +181,19 @@ public partial class TokenManager : Node
 
     public override void _Process(double delta)
     {
-        // Remove completed tokens
-        var removedCount = _activeTokens.RemoveAll(token => !GodotObject.IsInstanceValid(token));
-        if (removedCount > 0)
+        // Update token positions and check for completion
+        foreach (var token in _activeTokens.ToList())
         {
-            GD.Print($"[TokenManager Debug] Removed {removedCount} completed tokens");
+            if (!GodotObject.IsInstanceValid(token))
+            {
+                _activeTokens.Remove(token);
+                continue;
+            }
+
+            if (!token.IsMoving && token.CurrentBlock != null)
+            {
+                MoveTokenToNextBlock(token, token.CurrentBlock);
+            }
         }
     }
 }

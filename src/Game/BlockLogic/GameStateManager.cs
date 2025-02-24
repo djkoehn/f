@@ -1,12 +1,14 @@
 using F.Game.Core;
+using F.Framework.Core;
+using F.Framework.Core.SceneTree;
 
 namespace F.Game.BlockLogic
 {
     public class GameStateManager
     {
-        private F.Game.Core.Inventory _inventory;
+        private readonly IInventory _inventory;
 
-        public GameStateManager(F.Game.Core.Inventory inventory)
+        public GameStateManager(IInventory inventory)
         {
             _inventory = inventory;
         }
@@ -17,4 +19,4 @@ namespace F.Game.BlockLogic
             GD.Print("GameStateManager initialized.");
         }
     }
-} 
+}

@@ -1,31 +1,32 @@
 using F.Game.Toolbar;
 using F.Game.Core;
-using HelperFunnel = F.Utils.HelperFunnel;
+using Godot;
+using F.Framework.Blocks;
+using F.Framework.Core;
 
 namespace F.Game.BlockLogic;
 
-public partial class BlockInteractionManager : Node
+public partial class BlockInteractionManager : Node, IBlockInteractionManager
 {
-    private GameManager? _gameManager;
-    private HelperFunnel? _helperFunnel;  // HelperFunnel for other helpers
-
     public override void _Ready()
     {
         base._Ready();
-        _gameManager = GetNode<GameManager>(SceneNodeConfig.Main.GameManager);
-        _helperFunnel = HelperFunnel.GetInstance();
         ProcessMode = ProcessModeEnum.Always;
-
-        if (_gameManager == null) GD.PrintErr("Failed to find GameManager!");
-        if (_helperFunnel == null) GD.PrintErr("Failed to find HelperFunnel!");
     }
 
     public override void _Process(double delta)
     {
-        if (_gameManager?.ConnectionManager == null) return;
+        if (Services.Instance?.Connections == null) return;
 
-        // Removing hover effects related to dragging as dragging is now removed
-        _gameManager.ConnectionManager.SetHoveredPipe(null);
+        try
+        {
+            Services.Instance.Connections.ClearAllHighlights();
+        }
+        catch (NullReferenceException)
+        {
+            // Ignore null reference exceptions during initialization
+            return;
+        }
     }
 
     // Public method to get a block at a given position

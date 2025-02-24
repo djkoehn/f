@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://services"]
+
+[ext_resource type="Script" path="res://src/Framework/Core/Services.cs" id="1_services"]
+[ext_resource type="Script" path="res://src/Framework/Core/Inventory.cs" id="2_inventory"]
+[ext_resource type="Script" path="res://src/Framework/Core/BlockMetadata.cs" id="3_metadata"]
+
+[node name="Services" type="Node"]
+script = ExtResource("1_services")
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource("2_inventory")
+
+[node name="BlockMetadata" type="Node" parent="."]
+script = ExtResource("3_metadata")

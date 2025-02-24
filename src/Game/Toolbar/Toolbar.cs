@@ -1,233 +1,203 @@
 using F.UI.Animations;
 using F.Game.Connections;
 using F.Game.Core;
-using InventoryType = F.Game.Core.Inventory;
 using F.Game.Toolbar;
 using BlockReturn = F.UI.Animations.Blocks.BlockReturn;
 using ToolbarHoverAnimation = F.UI.Animations.UI.ToolbarHoverAnimation;
+using Godot;
+using F.Framework.Core;
+using F.Framework.Blocks;
+using F.UI.Animations.Blocks;
+using F.UI.Animations.UI;
+using F.Framework.Core.SceneTree;
 
 namespace F.Game.Toolbar;
 
-public partial class Toolbar : Control
+public partial class Toolbar : Control, IToolbar
 {
-    private const float HOVER_THRESHOLD = 0.8f; // Show toolbar when mouse in bottom 20% of screen
-    private ToolbarBlockContainer? _blockContainer; // Now correct type!
-    private GameManager? _gameManager;
-    private InventoryType? _inventory;
-    private bool _isVisible; // Start hidden
-    private ToolbarVisuals? _visuals;
-    private ToolbarHoverAnimation? _currentAnimation; // Changed from AnimationPlayer to ToolbarHoverAnimation
-    private bool _isHovered;
-    private Tween _showHideAnimation;
+	private const float HOVER_THRESHOLD = 0.8f; // Show toolbar when mouse in bottom 20% of screen
+	private ToolbarBlockContainer? _blockContainer;
+	private bool _isVisible; // Start hidden
+	private ToolbarVisuals? _visuals;
+	private ToolbarHoverAnimation? _currentAnimation; // Changed from AnimationPlayer to ToolbarHoverAnimation
+	private bool _isHovered;
+	private Tween _showHideAnimation;
+	private HashSet<string> _loadedBlocks = new HashSet<string>();
 
-    public override void _Ready()
-    {
-        base._Ready();
+	public IToolbarVisuals ToolbarVisuals => _visuals ?? throw new System.Exception("ToolbarVisuals not initialized");
+	public IToolbarBlockContainer BlockContainer => _blockContainer ?? throw new System.Exception("BlockContainer not initialized");
 
-        // Bottom anchors
-        AnchorLeft = 0;
-        AnchorRight = 1;
-        AnchorTop = 1;
-        AnchorBottom = 1;
-        GrowHorizontal = GrowDirection.Both;
-        GrowVertical = GrowDirection.Begin;
+	public override void _Ready()
+	{
+		base._Ready();
 
-        ZIndex = ZIndexConfig.Layers.Toolbar;
+		// Bottom anchors
+		AnchorLeft = 0;
+		AnchorRight = 1;
+		AnchorTop = 1;
+		AnchorBottom = 1;
+		GrowHorizontal = GrowDirection.Both;
+		GrowVertical = GrowDirection.Begin;
 
-        // Ensure initial state matches position
-        _isHovered = false;
-        _isVisible = false;
+		ZIndex = ZIndexConfig.Layers.Toolbar;
 
-        // Wait one frame to ensure all nodes are ready
-        CallDeferred(nameof(InitializeGameManager));
-    }
+		// Ensure initial state matches position
+		_isHovered = false;
+		_isVisible = false;
 
-    private void InitializeGameManager()
-    {
-        _gameManager = GetParent<GameManager>();
-        if (_gameManager is null)
-        {
-            GD.PrintErr("GameManager not found!");
-            return;
-        }
+		// Wait one frame to ensure all nodes are ready
+		CallDeferred(nameof(InitializeGameManager));
+	}
 
-        _inventory = _gameManager.GetNode<InventoryType>("Inventory");
-        if (_inventory is null)
-        {
-            GD.PrintErr("Inventory not found!");
-            return;
-        }
+	private void InitializeGameManager()
+	{
+		_blockContainer = GetNode<ToolbarBlockContainer>("BlockContainer");
+		_visuals = GetNode<ToolbarVisuals>("ToolbarVisuals");
 
-        // Get direct child nodes
-        _visuals = GetNode<ToolbarVisuals>("ToolbarVisuals");
-        if (_visuals == null)
-        {
-            GD.PrintErr("ToolbarVisuals not found!");
-            return;
-        }
+		if (_blockContainer == null || _visuals == null)
+		{
+			GD.PrintErr("Required components not found!");
+			return;
+		}
 
-        _blockContainer = GetNode<ToolbarBlockContainer>("BlockContainer");
-        if (_blockContainer == null)
-        {
-            GD.PrintErr("BlockContainer not found!");
-            return;
-        }
+		// Set spacing between blocks
+		_blockContainer.AddThemeConstantOverride("separation", (int)ToolbarConfig.Block.Spacing);
 
-        // Set initial position and layout
-        Position = new Vector2(0, ToolbarConfig.Animation.HideY);
-        
-        // Configure block container
-        _blockContainer.Position = new Vector2(0, ToolbarConfig.Layout.ContainerOffset);
-        _blockContainer.Size = new Vector2(0, ToolbarConfig.Block.Height + 20); // Height plus padding
-        _blockContainer.CustomMinimumSize = new Vector2(0, ToolbarConfig.Block.Height + 20);
-        
-        // Set spacing between blocks
-        _blockContainer.AddThemeConstantOverride("separation", (int)ToolbarConfig.Block.Spacing);
-        
-        // Connect to inventory ready signal
-        _inventory.InventoryReady += LoadBlocks;
+		// Subscribe to inventory ready event
+		Services.Instance.Inventory.InventoryReady += LoadBlocks;
 
-        // Create blocks if inventory is already ready
-        if (_inventory.IsReady) LoadBlocks();
+		// Create blocks if inventory is already ready
+		if (Services.Instance.Inventory.IsReady)
+		{
+			LoadBlocks();
+		}
+	}
 
-        _blockContainer.UpdateBlockPositions();
-    }
+	private void LoadBlocks()
+	{
+		if (_blockContainer == null) return;
 
-    private void LoadBlocks()
-    {
-        if (_gameManager is null || _inventory is null || _blockContainer is null) return;
+		// Clear existing blocks
+		_blockContainer.ClearBlocks();
+		_loadedBlocks.Clear();
 
-        GD.Print("Creating toolbar blocks");
+		var blockMetadata = Services.Instance.Inventory.GetBlockMetadata();
+		foreach (var pair in blockMetadata)
+		{
+			var block = BlockFactory.CreateBlock(pair.Value, _blockContainer);
+			if (block != null)
+			{
+				block.Name = pair.Key;
+				_blockContainer.AddBlock(block);
+			}
+		}
 
-        // Clear existing blocks first
-        _blockContainer.ClearBlocks();
+		_blockContainer.UpdateBlockPositions();
+	}
 
-        // Let BlockContainer handle block creation and management
-        var blocks = _inventory.GetBlockMetadata();
-        foreach (var pair in blocks)
-        {
-            // Instantiate the block using BlockManager with BlockLayer as parent
-            if (_gameManager.ConnectionManager is not null)
-            {
-                var block = _gameManager.BlockFactory?.CreateBlock(pair.Value, _blockContainer);
-                if (block is not null)
-                {
-                    // Block is already created with _blockContainer as parent
-                    _blockContainer.AddBlock(block);
-                }
-            }
-            else
-            {
-                GD.PrintErr("ConnectionManager is null, cannot create block!");
-            }
-        }
-    }
+	public override void _ExitTree()
+	{
+		if (Services.Instance?.Inventory != null)
+		{
+			Services.Instance.Inventory.InventoryReady -= LoadBlocks;
+		}
+	}
 
-    public override void _Process(double delta)
-    {
-        base._Process(delta);
+	public override void _Process(double delta)
+	{
+		base._Process(delta);
 
-        if (_gameManager is null || _visuals is null) return;
+		if (_visuals is null) return;
 
-        // Get mouse position in viewport coordinates
-        var mousePos = GetViewport().GetMousePosition();
-        var viewportSize = GetViewport().GetVisibleRect().Size;
+		// Get mouse position in viewport coordinates
+		var mousePos = GetViewport().GetMousePosition();
+		var viewportSize = GetViewport().GetVisibleRect().Size;
 
-        // Calculate relative Y position (0 = top, 1 = bottom)
-        var relativeY = mousePos.Y / viewportSize.Y;
+		// Calculate relative Y position (0 = top, 1 = bottom)
+		var relativeY = mousePos.Y / viewportSize.Y;
 
-        // Show toolbar when mouse is in bottom portion of screen
-        var shouldShow = relativeY > HOVER_THRESHOLD;
+		// Show toolbar when mouse is in bottom portion of screen
+		var shouldShow = relativeY > HOVER_THRESHOLD;
 
-        if (shouldShow != _isHovered)
-        {
-            _isHovered = shouldShow;
-            
-            _visuals?.StartHoverAnimation(shouldShow);
-        }
-    }
+		if (shouldShow != _isHovered)
+		{
+			_isHovered = shouldShow;
 
-    private void OnBlockPositionsUpdated(float width)
-    {
-        _visuals?.UpdateBlockPositions();
-    }
+			_visuals?.StartHoverAnimation(shouldShow);
+		}
+	}
 
-    public bool IsPointInToolbar(Vector2 globalPoint)
-    {
-        return false;
-    }
+	private void OnBlockPositionsUpdated(float width)
+	{
+		_visuals?.UpdateBlockPositions();
+	}
 
-    public void ReturnBlockToToolbar(BaseBlock block)
-    {
-        if (_blockContainer == null || block == null) return;
+	public bool IsPointInToolbar(Vector2 globalPoint)
+	{
+		return false;
+	}
 
-        GD.Print($"Starting return journey for block {block.Name}...");
-        
-        // Handle connections before starting the return journey
-        var connectionManager = _gameManager?.ConnectionManager;
-        if (connectionManager != null)
-        {
-            // Get the input and output blocks before disconnecting
-            var inputBlock = connectionManager.GetNode<Node>("Input") as IBlock;
-            var outputBlock = connectionManager.GetNode<Node>("Output") as IBlock;
+	public void ReturnBlockToToolbar(BaseBlock block)
+	{
+		if (_blockContainer == null || block == null) return;
 
-            // Disconnect the block being returned
-            connectionManager.DisconnectBlock(block);
+		GD.Print($"Starting return journey for block {block.Name}...");
 
-            // Re-establish the Input->Output connection if we have both blocks
-            if (inputBlock != null && outputBlock != null)
-            {
-                connectionManager.ConnectBlocks(inputBlock, outputBlock);
-                GD.Print($"Re-established connection between Input and Output blocks");
-            }
-        }
+		// Handle connections before starting the return journey
+		var connectionManager = Services.Instance.Connections;
+		if (connectionManager != null)
+		{
+			// Get the input and output blocks before disconnecting
+			var inputBlock = connectionManager.GetNode<Node>("Input") as IBlock;
+			var outputBlock = connectionManager.GetNode<Node>("Output") as IBlock;
 
-        // Calculate where block will go for animation
-        var homePosition = _blockContainer.GetNextBlockPosition();
+			// Disconnect the block being returned
+			connectionManager.DisconnectBlock(block);
 
-        // Start block's journey home
-        var returnAnim = BlockReturn.Create(block, block.GlobalPosition, homePosition);
-        block.GetParent().AddChild(returnAnim);
+			// Re-establish the Input->Output connection if we have both blocks
+			if (inputBlock != null && outputBlock != null)
+			{
+				connectionManager.ConnectBlocks(inputBlock, outputBlock);
+				GD.Print($"Re-established connection between Input and Output blocks");
+			}
+		}
 
-        returnAnim.ReturnCompleted += completedBlock =>
-        {
-            // Use ToolbarHelper to handle the actual return to toolbar
-            var hf = F.Utils.HelperFunnel.GetInstance();
-            var toolbarHelper = hf?.GetNodeOrNull<F.Utils.ToolbarHelper>("ToolbarHelper");
-            if (toolbarHelper != null)
-            {
-                toolbarHelper.ReturnBlockToToolbar(completedBlock, _blockContainer);
-            }
-            else
-            {
-                GD.PrintErr("ToolbarHelper instance not found in Toolbar.");
-            }
-            GD.Print($"Block {completedBlock.Name} has returned home safely!");
-        };
-    }
+		// Calculate where block will go for animation
+		var homePosition = _blockContainer.GetNextBlockPosition();
 
-    public void AddBlock(BaseBlock block)
-    {
-        if (_blockContainer != null) _blockContainer.AddBlock(block);
-    }
+		// Start block's journey home
+		var returnAnim = BlockReturn.Create(block, block.GlobalPosition, homePosition);
+		block.GetParent().AddChild(returnAnim);
 
-    public void RemoveBlock(BaseBlock block)
-    {
-        if (_blockContainer != null) _blockContainer.RemoveBlock(block);
-    }
+		returnAnim.ReturnCompleted += completedBlock =>
+		{
+			_blockContainer.AddBlockWithoutAnimation(completedBlock);
+			GD.Print($"Block {completedBlock.Name} has returned home safely!");
+		};
+	}
 
-    public void ClearBlocks()
-    {
-        if (_blockContainer != null) _blockContainer.ClearBlocks();
-    }
+	public void AddBlock(BaseBlock block)
+	{
+		if (_blockContainer != null) _blockContainer.AddBlock(block);
+	}
 
-    private Vector2 GetBlockSpawnPosition()
-    {
-        if (_blockContainer == null)
-            // Fallback position if container not found
-            return GlobalPosition;
+	public void RemoveBlock(BaseBlock block)
+	{
+		if (_blockContainer != null) _blockContainer.RemoveBlock(block);
+	}
 
-        // Return position relative to the block container
-        return _blockContainer.GlobalPosition + new Vector2(0, -100);
-    }
+	public void ClearBlocks()
+	{
+		if (_blockContainer != null) _blockContainer.ClearBlocks();
+	}
+
+	private Vector2 GetBlockSpawnPosition()
+	{
+		if (_blockContainer == null)
+			// Fallback position if container not found
+			return GlobalPosition;
+
+		// Return position relative to the block container
+		return _blockContainer.GlobalPosition + new Vector2(0, -100);
+	}
 }

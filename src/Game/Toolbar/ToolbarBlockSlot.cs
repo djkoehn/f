@@ -1,18 +1,16 @@
+using Godot;
+using F.Framework.Blocks;
+
 namespace F.Game.Toolbar;
 
-public partial class ToolbarBlockSlot : Node2D // ADD PARTIAL KEYWORD!
+public class ToolbarBlockSlot
 {
-    private BaseBlock? _block;
+    public BaseBlock Block { get; }
+    public Vector2 Position { get; }
 
-    private bool HasBlock()
+    public ToolbarBlockSlot(BaseBlock block, Vector2 position)
     {
-        return _block != null;
-    }
-
-    private void AddBlock(BaseBlock block)
-    {
-        _block = block;
-        AddChild(block);
-        block.GlobalPosition = GlobalPosition; // Position block at slot center
+        Block = block;
+        Position = position;
     }
 }

@@ -1,4 +1,5 @@
 using F.Game.Tokens;
+using F.Framework.Core;
 
 namespace F.Game.BlockLogic
 {
@@ -24,4 +25,4 @@ namespace F.Game.BlockLogic
         void SetDragging(bool dragging);
         void SetPlaced(bool placed);
     }
-} 
+}

@@ -55,3 +55,10 @@ bld/
 *.userosscache
 *.sln.docstates
 
+build-and-run.sh
+godot.log
+.frc
+.cursor/rules/guidelines.mdc
+assets/
+
+*.puml

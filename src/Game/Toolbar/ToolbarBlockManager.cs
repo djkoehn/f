@@ -1,8 +1,7 @@
-using GMFG = F.Game.Core.GameManager;
-using BaseBlockFG = F.Game.BlockLogic.BaseBlock;
-using HelperFunnel = F.Utils.HelperFunnel;
-using F.Utils;
-using F.Game.Connections;
+using F.Framework.Core;
+using F.Framework.Blocks;
+using F.Framework.Connections;
+using Godot;
 
 namespace F.Game.Toolbar;
 
@@ -14,49 +13,31 @@ public partial class ToolbarBlockManager : Node
     private readonly Dictionary<string, BaseBlock> _blocks = new();
     private HBoxContainer? _blockContainer;
 
-    private GMFG? _gameManager;
-    private DragHelper? _dragHelper;
-
     public override void _Ready()
     {
         base._Ready();
-        _gameManager = GetNode<GMFG>(SceneNodeConfig.Main.GameManager);
         _blockContainer = GetParent().GetNode<HBoxContainer>("BlockContainer");
-        var hf = HelperFunnel.GetInstance();
-        _dragHelper = hf?.GetNodeOrNull<DragHelper>("DragHelper");
 
-        if (_gameManager == null || _blockContainer == null)
+        if (_blockContainer == null)
             GD.PrintErr("Required nodes not found in ToolbarBlockManager!");
     }
 
     public void AddBlock(string blockType)
     {
-        if (_gameManager == null || _blockContainer == null) return;
+        if (_blockContainer == null) return;
 
         GD.Print("Adding block of type: " + blockType);
 
-        var metadata = BlockMetadata.GetMetadata    (blockType);
+        var metadata = BlockMetadata.GetMetadata(blockType);
         if (metadata == null) return;
 
-        // Load and instantiate the block scene
-        var scene = GD.Load<PackedScene>(metadata.ScenePath);
-        if (scene == null)
-        {
-            GD.PrintErr($"Failed to load block scene: {metadata.ScenePath}");
-            return;
-        }
-
-        var block = scene.Instantiate<BaseBlock>();
+        // Let BlockManager create the block
+        var block = Services.Instance.Blocks.CreateBlock(metadata, _blockContainer);
         if (block == null)
         {
-            GD.PrintErr($"Failed to instantiate block: {blockType}");
+            GD.PrintErr($"Failed to create block: {blockType}");
             return;
         }
-
-        _blockContainer.AddChild(block);
-        block.SetProcessInput(true);
-        block.Scale = Vector2.One;
-        block.ZIndex = 10;
 
         // Connect to our local handler
         const string fixedBlockClickedSignal = "block_clicked";
@@ -68,47 +49,15 @@ public partial class ToolbarBlockManager : Node
 
     private void OnBlockClicked(BaseBlock block)
     {
-        if (_gameManager == null) return;
+        // Only handle blocks in InToolbar state
+        if (block.State != BlockState.InToolbar) return;
 
-        // Get the BlockLayerContent node
-        var blockLayerContent = _gameManager.GetNode<Node2D>("BlockLayer/BlockLayerViewport/BlockLayerContent");
-        if (blockLayerContent == null)
-        {
-            GD.PrintErr("BlockLayerContent not found!");
-            return;
-        }
-
-        // Get block's current global position before reparenting
-        var globalPos = block.GlobalPosition;
-
-        // Remove from blocks dictionary and toolbar
+        // Remove from blocks dictionary since it's leaving the toolbar
         var key = _blocks.FirstOrDefault(x => x.Value == block).Key;
         if (key != null) _blocks.Remove(key);
-        block.GetParent()?.RemoveChild(block);
 
-        // Move to BlockLayerContent and set properties
-        blockLayerContent.AddChild(block);
-
-        // Convert global position to viewport coordinates
-        var blockLayer = _gameManager.GetNode<Node2D>("BlockLayer");
-        if (blockLayer != null)
-        {
-            // Convert global position to BlockLayer's local coordinates
-            var localPos = blockLayer.ToLocal(globalPos);
-            // Convert BlockLayer's local coordinates to viewport coordinates
-            var viewportPos = localPos + new Vector2(960, 540); // Center of viewport (1920x1080)
-            block.GlobalPosition = viewportPos;
-        }
-        else
-        {
-            block.GlobalPosition = globalPos;
-        }
-
-        block.State = BlockState.Dragging;
-        block.ZIndex = ZIndexConfig.Layers.DraggedBlock;
-
-        // Start dragging with the viewport position
-        _dragHelper?.StartDrag(block, block.GlobalPosition);
+        // Let BlockManager handle the interaction
+        Services.Instance.Blocks.StartDrag(block, block.GlobalPosition);
 
         UpdateBlockPositions();
     }
@@ -125,71 +74,15 @@ public partial class ToolbarBlockManager : Node
     {
         if (_blockContainer == null) return;
 
-        // Get connected blocks before disconnecting
-        var connections = _gameManager?.ConnectionManager?.GetCurrentConnections(block);
-        IBlock? inputBlock = null;
-        IBlock? outputBlock = null;
+        // Let BlockManager handle the state change
+        Services.Instance.Blocks.ReturnBlockToToolbar(block);
 
-        // Store all pipes that need to be removed
-        var pipesToRemove = new List<ConnectionPipe>();
-
-        if (connections != null && connections.Count > 0)
+        // Add to our dictionary for tracking
+        var metadata = block.Metadata;
+        if (metadata != null)
         {
-            foreach (var pipe in connections)
-            {
-                pipesToRemove.Add(pipe);
-                // Store connected blocks based on their connection to our block
-                if (pipe.SourceBlock == block)
-                {
-                    outputBlock = pipe.TargetBlock; // The block we were outputting to
-                }
-                else if (pipe.TargetBlock == block)
-                {
-                    inputBlock = pipe.SourceBlock; // The block that was inputting to us
-                }
-            }
+            _blocks[metadata.Id] = block;
         }
-
-        // Disconnect the block from any existing pipes
-        if (_gameManager?.ConnectionManager != null)
-        {
-            // First remove all visual pipes
-            foreach (var pipe in pipesToRemove)
-            {
-                // Ensure the pipe is properly removed from the scene tree
-                if (pipe.IsInsideTree())
-                {
-                    pipe.GetParent()?.RemoveChild(pipe);
-                }
-                pipe.QueueFree();
-            }
-
-            // Then disconnect the block through the connection manager
-            _gameManager.ConnectionManager.DisconnectBlock(block);
-
-            // If we found both an input and output block, reconnect them
-            if (inputBlock != null && outputBlock != null)
-            {
-                // Reset their connection states before reconnecting
-                if (inputBlock is BaseBlock inBlock) inBlock.ResetConnections();
-                if (outputBlock is BaseBlock outBlock) outBlock.ResetConnections();
-
-                // Create new connection between the previously connected blocks
-                _gameManager.ConnectionManager.ConnectBlocks(inputBlock, outputBlock);
-            }
-        }
-
-        // Reset all connection states
-        block.ResetConnections();
-
-        // Reset the block's state to non-connected
-        block.State = BlockState.InToolbar;
-        block.SetDragging(false);
-        block.SetPlaced(false);
-
-        // Remove from current parent and add to toolbar container
-        block.GetParent()?.RemoveChild(block);
-        _blockContainer.AddChild(block);
 
         UpdateBlockPositions();
     }

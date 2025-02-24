@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxldf2d7tg2ie"]
+
+[ext_resource type="Script" path="res://src/Framework/Core/SceneTree/SceneTreeService.cs" id="1_service"]
+
+[node name="SceneTreeService" type="Node"]
+script = ExtResource("1_service")
