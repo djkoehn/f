@@ -22,11 +22,6 @@ config/icon="res://icon.svg"
 
 Services="*res://scenes/Services/Services.tscn"
 
-[debug]
-
-file_logging/log_path="res://godot.log"
-file_logging/max_log_files=1
-
 [display]
 
 window/size/viewport_width=1920
@@ -44,11 +39,7 @@ project/assembly_name="f"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/SuperSprite2D/plugin.cfg")
-
-[filesystem]
-
-import/blender/enabled=false
+enabled=PackedStringArray()
 
 [input]
 

@@ -1,7 +1,7 @@
-using Godot;
-using F.Audio;
 using F.Framework.Blocks;
 using F.Framework.Connections;
+using F.Framework.Logging;
+using Godot;
 
 namespace F.Game.Tokens;
 
@@ -11,7 +11,7 @@ public partial class Token : Node2D
     private bool _isMoving;
     private IBlock? _targetBlock;
     private TokenVisuals? _visuals;
-    public float Value { get; set; }
+    private float _value;
 
     public HashSet<IBlock> ProcessedBlocks { get; } = new();
 
@@ -19,11 +19,22 @@ public partial class Token : Node2D
 
     public bool IsMoving => !(_visuals?.IsMovementComplete ?? true);
 
+    public float Value
+    {
+        get => _value;
+        set
+        {
+            _value = value;
+            Logger.Token.Print($"Token value updated to {_value}");
+        }
+    }
+
     public void Initialize(IBlock startBlock, float initialValue = 0)
     {
         CurrentBlock = startBlock;
         Value = initialValue;
         GlobalPosition = startBlock.GetTokenPosition();
+        Logger.Token.Print($"Token initialized with value {Value}");
     }
 
     public override void _Ready()
@@ -32,7 +43,7 @@ public partial class Token : Node2D
         _visuals = GetNode<TokenVisuals>("TokenVisuals");
         if (_visuals == null)
         {
-            GD.PrintErr("TokenVisuals node not found!");
+            Logger.Token.Err("TokenVisuals node not found!");
             return;
         }
 
@@ -50,14 +61,13 @@ public partial class Token : Node2D
         // Cleanup signals
         if (_visuals != null)
         {
-            if (_visuals.IsConnected(TokenVisuals.SignalName.MovementComplete, new Callable(this, nameof(OnMovementComplete))))
-            {
-                _visuals.Disconnect(TokenVisuals.SignalName.MovementComplete, new Callable(this, nameof(OnMovementComplete)));
-            }
-            if (_visuals.IsConnected(TokenVisuals.SignalName.MovementStart, new Callable(this, nameof(OnMovementStart))))
-            {
+            if (_visuals.IsConnected(TokenVisuals.SignalName.MovementComplete,
+                    new Callable(this, nameof(OnMovementComplete))))
+                _visuals.Disconnect(TokenVisuals.SignalName.MovementComplete,
+                    new Callable(this, nameof(OnMovementComplete)));
+            if (_visuals.IsConnected(TokenVisuals.SignalName.MovementStart,
+                    new Callable(this, nameof(OnMovementStart))))
                 _visuals.Disconnect(TokenVisuals.SignalName.MovementStart, new Callable(this, nameof(OnMovementStart)));
-            }
         }
 
         // Cleanup pipe
@@ -84,6 +94,8 @@ public partial class Token : Node2D
 
         // Start pipe animation if we have a pipe
         _currentPipe?.StartTokenMovement(this);
+
+        Logger.Token.Print($"Moving token to {nextBlock.GetTokenPosition()}");
     }
 
     public override void _Process(double delta)
@@ -96,10 +108,7 @@ public partial class Token : Node2D
         // Update pipe animation with current position
         _currentPipe?.UpdateTokenPosition(this);
 
-        if (_visuals.IsMovementComplete)
-        {
-            CompleteMovement();
-        }
+        if (_visuals.IsMovementComplete) CompleteMovement();
     }
 
     private void CompleteMovement()
@@ -117,14 +126,13 @@ public partial class Token : Node2D
         ZIndexConfig.SetZIndex(this, ZIndexConfig.Layers.Token);
 
         _targetBlock.ProcessToken(this);
+
+        Logger.Token.Print("Token movement completed");
     }
 
     private void OnMovementComplete()
     {
-        if (_targetBlock != null)
-        {
-            CompleteMovement();
-        }
+        if (_targetBlock != null) CompleteMovement();
     }
 
     private void OnMovementStart()
@@ -143,6 +151,8 @@ public partial class Token : Node2D
             _currentPipe.EndTokenMovement(this);
             _currentPipe = null;
         }
+
+        Logger.Token.Print("Token movement stopped");
     }
 
     public void UpdateValue(float value)

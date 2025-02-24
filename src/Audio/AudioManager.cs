@@ -1,3 +1,6 @@
+using F.Framework.Logging;
+using Godot;
+
 namespace F.Audio;
 
 public partial class AudioManager : Node
@@ -16,29 +19,37 @@ public partial class AudioManager : Node
 
         Instance = this;
 
-        _blockSounds = GetNode<BlockSoundPlayer>("BlockSoundPlayer");
-        _tokenSounds = GetNode<TokenSoundPlayer>("TokenSoundPlayer");
+        _blockSounds = GetNode<BlockSoundPlayer>("BlockSounds");
+        _tokenSounds = GetNode<TokenSoundPlayer>("TokenSounds");
 
-        if (_blockSounds == null || _tokenSounds == null) GD.PrintErr("Required sound players not found!");
+        if (_blockSounds == null || _tokenSounds == null)
+        {
+            Logger.Game.Err("Required sound players not found!");
+            return;
+        }
     }
 
     public void PlayBlockConnect()
     {
         _blockSounds?.PlayConnect();
+        Logger.Game.Print("Playing block connect sound");
     }
 
     public void PlayBlockHit()
     {
         _blockSounds?.PlayHit();
+        Logger.Game.Print("Playing block hit sound");
     }
 
     public void PlayTokenStart()
     {
         _tokenSounds?.PlayStart();
+        Logger.Game.Print("Playing token start sound");
     }
 
-    public void PlayTraversalComplete()
+    public void PlayTokenComplete()
     {
-        _tokenSounds?.PlayTraversalComplete();
+        _tokenSounds?.PlayComplete();
+        Logger.Game.Print("Playing token complete sound");
     }
 }

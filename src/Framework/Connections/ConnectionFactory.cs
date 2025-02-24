@@ -1,13 +1,13 @@
-using Godot;
 using F.Framework.Blocks;
 using F.Game.Toolbar;
+using F.Framework.Logging;
 
 namespace F.Framework.Connections;
 
 public partial class ConnectionFactory : Node
 {
-    private readonly PackedScene _pipeScene;
     private readonly Node2D _blockLayer;
+    private readonly PackedScene _pipeScene;
 
     public ConnectionFactory(Node2D blockLayer)
     {
@@ -19,46 +19,50 @@ public partial class ConnectionFactory : Node
     {
         if (sourceBlock == null || targetBlock == null)
         {
-            GD.PrintErr("[ConnectionFactory] Cannot create pipe with null blocks");
+            Logger.Connection.Err("Cannot create pipe with null blocks");
             return null;
         }
 
-        GD.Print($"[ConnectionFactory] Creating pipe between blocks: {sourceBlock.Name} -> {targetBlock.Name}");
-        GD.Print($"[ConnectionFactory] From block type: {sourceBlock.GetType()}, To block type: {targetBlock.GetType()}");
+        Logger.Connection.Print($"Creating pipe between blocks: {sourceBlock.Name} -> {targetBlock.Name}");
+        Logger.Connection.Print(
+            $"From block type: {sourceBlock.GetType().Name}, To block type: {targetBlock.GetType().Name}");
 
-        var sourceSocket = sourceBlock.GetOutputSocket() as Node2D;
-        var targetSocket = targetBlock.GetInputSocket() as Node2D;
+        var fromSocket = sourceBlock.GetOutputSocket() as Node2D;
+        var toSocket = targetBlock.GetInputSocket() as Node2D;
 
-        if (sourceSocket == null || targetSocket == null)
+        if (fromSocket == null || toSocket == null)
         {
-            GD.PrintErr("[ConnectionFactory] One or both sockets are null");
+            Logger.Connection.Err("One or both sockets are null");
             return null;
         }
 
         // Enforce that a block can have only one connection per socket.
         if (sourceBlock.HasConnections() || targetBlock.HasConnections())
         {
-            GD.PrintErr($"[ConnectionFactory] One or both blocks already have a connection! ({sourceBlock.Name} or {targetBlock.Name})");
+            Logger.Connection.Err(
+                $"One or both blocks already have a connection! ({sourceBlock.Name} or {targetBlock.Name})");
             return null;
         }
 
         if (sourceBlock.GetParent() is ToolbarBlockContainer || targetBlock.GetParent() is ToolbarBlockContainer)
             return null;
 
-        GD.Print($"[ConnectionFactory] From socket type: {sourceSocket.GetType()}, To socket type: {targetSocket.GetType()}");
+        Logger.Connection.Print(
+            $"From socket type: {fromSocket.GetType()}, To socket type: {toSocket.GetType()}");
 
         var pipe = _pipeScene.Instantiate<ConnectionPipe>();
         if (pipe != null)
         {
             pipe.Name = $"Pipe_{sourceBlock.Name}_{targetBlock.Name}";
-            pipe.Initialize(sourceSocket, targetSocket);
-            GD.Print($"[ConnectionPipe] Initialized pipe {pipe.Name} between {sourceBlock.Name} and {targetBlock.Name}");
+            pipe.Initialize(fromSocket, toSocket);
+            Logger.Connection.Print(
+                $"Initialized pipe {pipe.Name} between {sourceBlock.Name} and {targetBlock.Name}");
 
             _blockLayer.AddChild(pipe);
             return pipe;
         }
 
-        GD.PrintErr("[ConnectionFactory] Failed to create pipe");
+        Logger.Connection.Err("Failed to create pipe");
         return null;
     }
 
@@ -73,16 +77,16 @@ public partial class ConnectionFactory : Node
     // New static method to create a pipe for insertion bypassing the connection check
     public static ConnectionPipe? CreatePipeForInsertion(IBlock from, IBlock to)
     {
-        string fromName = from?.Name ?? "unknown";
-        string toName = to?.Name ?? "unknown";
-        GD.Print($"[ConnectionFactory] Creating pipe between blocks: {fromName} -> {toName}");
+        var fromName = from?.Name ?? "unknown";
+        var toName = to?.Name ?? "unknown";
+        Logger.Connection.Print($"Creating pipe between blocks: {fromName} -> {toName}");
 
-        var outputSocket = from?.GetOutputSocket() as Node2D ?? (from as Node2D);
-        var inputSocket = to?.GetInputSocket() as Node2D ?? (to as Node2D);
+        var fromSocket = from?.GetOutputSocket() as Node2D ?? from as Node2D;
+        var toSocket = to?.GetInputSocket() as Node2D ?? to as Node2D;
 
-        if (outputSocket == null || inputSocket == null)
+        if (fromSocket == null || toSocket == null)
         {
-            GD.PrintErr($"[ConnectionFactory] Could not find required sockets for blocks {fromName} -> {toName}");
+            Logger.Connection.Err($"Could not find required sockets for blocks {fromName} -> {toName}");
             return null;
         }
 
@@ -90,30 +94,26 @@ public partial class ConnectionFactory : Node
             return null;
 
         // Print the actual types for debugging
-        GD.Print($"[ConnectionFactory] From block type: {from?.GetType()}, To block type: {to?.GetType()}");
-        GD.Print($"[ConnectionFactory] From socket type: {outputSocket.GetType()}, To socket type: {inputSocket.GetType()}");
+        Logger.Connection.Print($"From block type: {from?.GetType()}, To block type: {to?.GetType()}");
+        Logger.Connection.Print(
+            $"From socket type: {fromSocket.GetType()}, To socket type: {toSocket.GetType()}");
 
         var pipe = new ConnectionPipe();
-        pipe.Initialize(outputSocket, inputSocket);
+        pipe.Initialize(fromSocket, toSocket);
         return pipe;
     }
 
     public bool CanConnect(IBlock block, ConnectionPipe pipe)
     {
         if (block == pipe.SourceBlock)
-        {
             // Trying to connect to the source, check if block already has an output
             return !block.HasOutputConnection();
-        }
-        else if (block == pipe.TargetBlock)
-        {
+
+        if (block == pipe.TargetBlock)
             // Trying to connect to the target, check if block already has an input
             return !block.HasInputConnection();
-        }
-        else
-        {
-            // Not connecting to either end of the pipe
-            return false;
-        }
+
+        // Not connecting to either end of the pipe
+        return false;
     }
 }

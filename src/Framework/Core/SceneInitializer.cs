@@ -1,11 +1,8 @@
-using F.Game.BlockLogic;
-using F.Game.Connections;
-using F.Game.Tokens;
-using Godot;
 using F.Framework.Input;
-using Chickensoft.GodotNodeInterfaces;
+using F.Framework.Logging;
+using Godot;
 
-namespace F.Game.Core;
+namespace F.Framework.Core;
 
 public partial class SceneInitializer : Node
 {
@@ -22,7 +19,7 @@ public partial class SceneInitializer : Node
         var main = GetNode<Node2D>("/root/Main");
         if (main == null)
         {
-            GD.PrintErr("Failed to get Main scene");
+            Logger.Game.Err("Failed to get Main scene");
             return;
         }
 
@@ -50,6 +47,8 @@ public partial class SceneInitializer : Node
         // Set toolbar (absolute)
         if (main.GetNode("Toolbar") is Node2D toolbar)
             SetZIndex(toolbar, ZIndexConfig.Layers.Toolbar);
+
+        Logger.Game.Print("Scene initialization complete");
     }
 
     private void SetZIndex(Node2D node, int zIndex, bool forceRelative = false)

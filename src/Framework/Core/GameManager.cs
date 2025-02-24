@@ -1,106 +1,114 @@
-using Godot;
-using F.Game.Tokens;
-using F.Framework.Core;
-using F.Framework.Blocks;
-using F.Framework.Connections;
-using F.Framework.Core.SceneTree;
-using F.Game.BlockLogic;
 using Chickensoft.AutoInject;
 using Chickensoft.Introspection;
-using Chickensoft.GodotNodeInterfaces;
+using F.Framework.Blocks;
+using F.Framework.Blocks.Interfaces;
+using F.Framework.Connections;
+using F.Framework.Core.Interfaces;
+using F.Framework.Core.SceneTree;
+using F.Framework.Input;
+using F.Framework.Logging;
+using F.Game.BlockLogic;
+using F.Game.Core;
+using F.Game.Tokens;
+using F.Framework.Tokens.Interfaces;
+using IBlockInteractionManager = F.Game.BlockLogic.IBlockInteractionManager;
 
-namespace F.Game.Core;
+namespace F.Framework.Core;
 
 [Meta(typeof(IAutoNode))]
 public partial class GameManager : Node2D, IGameManager, IProvide<GameManager>, IProvide<IGameManager>
 {
-	private BlockInteractionManager? _blockInteractionManager;
+	private IBlockInteractionManager? _blockInteractionManager;
+	private ITokenManager? _tokenManager;
 	private GameStateManager? _gameState;
 	public static GameManager? Instance { get; private set; }
 	public ConnectionManager? ConnectionManager { get; private set; }
 	public TokenManager? TokenManagerImpl { get; private set; }
-	private BlockInteractionManager? _blockInteractionManagerImpl;
 
-	[Dependency]
-	public SceneTreeService SceneTreeService => this.DependOn<SceneTreeService>();
+	[Dependency] public SceneTreeService SceneTreeService => DependentExtensions.DependOn<SceneTreeService>(this);
 
-	public IBlockLayer BlockLayer => GetNode<Node2D>("BlockLayer") as IBlockLayer ?? throw new System.Exception("BlockLayer not found");
-	public ITokenLayer TokenLayer => GetNode<Node2D>("TokenLayer") as ITokenLayer ?? throw new System.Exception("TokenLayer not found");
-	public IInventory Inventory => Services.Instance.Inventory;
-	public F.Game.BlockLogic.IBlockInteractionManager BlockInteractionManager => _blockInteractionManager ?? throw new System.Exception("BlockInteractionManager not initialized");
-	public IToolbar Toolbar => GetNode<Control>("Toolbar") as IToolbar ?? throw new System.Exception("Toolbar not found");
-	public ITokenManager TokenManager => TokenManagerImpl ?? throw new System.Exception("TokenManager not initialized");
-	public ColorRect Background => GetNode<ColorRect>("Background");
+	public IBlockLayer BlockLayer =>
+		GetNode<Node2D>("BlockLayer") as IBlockLayer ?? throw new Exception("BlockLayer not found");
+
+	public ITokenLayer TokenLayer =>
+		GetNode<Node2D>("TokenLayer") as ITokenLayer ?? throw new Exception("TokenLayer not found");
+
+	public IInventory Inventory =>
+		GetNode<Node>("/root/Services/Inventory") as IInventory ?? throw new Exception("Inventory not found");
+
+	public IBlockInteractionManager BlockInteractionManager => _blockInteractionManager ??=
+		GetNode<Node>("BlockInteractionManager") as IBlockInteractionManager ?? throw new Exception(
+			"BlockInteractionManager not found");
+
+	public IToolbar Toolbar =>
+		GetNode<Node>("Toolbar") as IToolbar ?? throw new Exception("Toolbar not found");
+
+	public ITokenManager TokenManager => _tokenManager ??=
+		GetNode<Node>("TokenManager") as ITokenManager ?? throw new Exception("TokenManager not found");
+
+	public ColorRect Background =>
+		GetNode<ColorRect>("Background") ?? throw new Exception("Background not found");
 
 	public override void _Ready()
 	{
 		Instance = this;
-		GD.Print("GameManager initialized as singleton");
+		ProcessMode = ProcessModeEnum.Always;
+		Logger.Game.Print("GameManager initialized as singleton");
 		this.Provide();
 
-		// Get required components
-		ConnectionManager = GetNode<ConnectionManager>("ConnectionManager");
-		var blockLayer = GetNode<BlockLayer>("BlockLayer");
-		var tokenLayer = GetNode<Node2D>("TokenLayer");
-		_blockInteractionManager = GetNode<BlockInteractionManager>("BlockInteractionManager");
-		TokenManagerImpl = GetNode<TokenManager>("TokenManager");
-
-		if (blockLayer == null || tokenLayer == null ||
-			_blockInteractionManager == null || TokenManagerImpl == null || ConnectionManager == null)
+		try
 		{
-			GD.PrintErr("Required components not found!");
-			return;
-		}
+			// Initialize Input and Output blocks first
+			var inputBlock = GetNode<BaseBlock>("BlockLayer/Input");
+			var outputBlock = GetNode<BaseBlock>("BlockLayer/Output");
 
-		// Print node paths for debugging
-		GD.Print($"[GameManager] BlockLayer path: {blockLayer.GetPath()}");
-		GD.Print($"[GameManager] TokenLayer path: {tokenLayer.GetPath()}");
-		GD.Print($"[GameManager] Toolbar path: {GetNode<Control>("Toolbar")?.GetPath()}");
-
-		// Initialize managers
-		_gameState = new GameStateManager(Services.Instance.Inventory);
-		_blockInteractionManagerImpl = _blockInteractionManager;
-
-		// Initialize game state
-		_gameState.Initialize();
-
-		// Set metadata for input and output blocks
-		var inputBlock = GetNode<BaseBlock>("BlockLayer/Input");
-		var outputBlock = GetNode<BaseBlock>("BlockLayer/Output");
-
-		if (inputBlock != null)
-		{
-			inputBlock.Metadata = new BlockMetadata
+			if (inputBlock != null && outputBlock != null)
 			{
-				Id = "input",
-				Name = "Input",
-				HasInputSocket = false,
-				HasOutputSocket = true,
-				IsStationary = true,
-				SpawnOnSpace = false
-			};
-		}
+				// Set metadata for input and output blocks
+				inputBlock.Metadata = BlockMetadata.GetMetadata("input");
+				outputBlock.Metadata = BlockMetadata.GetMetadata("output");
 
-		if (outputBlock != null)
-		{
-			outputBlock.Metadata = new BlockMetadata
+				Logger.Game.Print($"Metadata initialized for {inputBlock.Name} Input");
+				Logger.Game.Print($"Metadata initialized for {outputBlock.Name} Output");
+			}
+			else
 			{
-				Id = "output",
-				Name = "Output",
-				HasInputSocket = true,
-				HasOutputSocket = false,
-				IsStationary = true,
-				SpawnOnSpace = false
-			};
+				Logger.Game.Err("Failed to get Input or Output blocks!");
+			}
+
+			var blockLayer = BlockLayer;
+			var tokenLayer = TokenLayer;
+			var toolbar = Toolbar;
+			var inventory = Inventory;
+
+			Logger.Game.Print($"BlockLayer path: {blockLayer.GetPath()}");
+			Logger.Game.Print($"TokenLayer path: {tokenLayer.GetPath()}");
+			Logger.Game.Print($"Toolbar path: {toolbar.GetPath()}");
+
+			// Initialize managers
+			_gameState = new GameStateManager(inventory);
+
+			// Initialize game state
+			_gameState.Initialize();
+
+			// Get required components
+			ConnectionManager = GetNode<ConnectionManager>("ConnectionManager");
+			TokenManagerImpl = GetNode<TokenManager>("TokenManager");
+
+			if (ConnectionManager == null || TokenManagerImpl == null)
+			{
+				Logger.Game.Err("Required components not found!");
+				return;
+			}
+
+			// Connect signals
+			inventory.InventoryReady += OnInventoryReady;
 		}
-
-		// Connect signals
-		Services.Instance.Inventory.InventoryReady += OnInventoryReady;
-	}
-
-	private void OnInventoryReady()
-	{
-		GD.Print("[GameManager Debug] Inventory is ready");
+		catch (Exception e)
+		{
+			Logger.Game.Err($"Error during initialization: {e.Message}");
+			Logger.Game.Err($"Stack trace: {e.StackTrace}");
+		}
 	}
 
 	public override void _Process(double delta)
@@ -114,14 +122,56 @@ public partial class GameManager : Node2D, IGameManager, IProvide<GameManager>, 
 			Instance = null;
 
 		// Cleanup
-		if (Services.Instance?.Inventory != null)
-		{
-			Services.Instance.Inventory.InventoryReady -= OnInventoryReady;
-		}
+		if (Inventory != null) Inventory.InventoryReady -= OnInventoryReady;
 	}
 
-	public override void _Notification(int what) => this.Notify(what);
+	public override void _Notification(int what)
+	{
+		this.Notify(what);
+	}
 
-	GameManager IProvide<GameManager>.Value() => this;
-	IGameManager IProvide<IGameManager>.Value() => this;
+	GameManager IProvide<GameManager>.Value()
+	{
+		return this;
+	}
+
+	IGameManager IProvide<IGameManager>.Value()
+	{
+		return this;
+	}
+
+	private void OnInventoryReady()
+	{
+		Logger.Game.Print("Inventory is ready");
+	}
+
+	public void Initialize()
+	{
+		// Initialize game state
+		_gameState?.Initialize();
+	}
+
+	public void HandleBlockPlaced(BaseBlock block)
+	{
+		Logger.Game.Print($"Block {block.Name} placed at {block.Position}");
+		// Add any specific handling for block placement
+	}
+
+	public void HandleBlockRemoved(BaseBlock block)
+	{
+		Logger.Game.Print($"Block {block.Name} removed from {block.Position}");
+		// Add any specific handling for block removal
+	}
+
+	public void HandleBlockDragStarted(BaseBlock block)
+	{
+		Logger.Game.Print($"Block {block.Name} drag started");
+		// Add any specific handling for drag start
+	}
+
+	public void HandleBlockDragEnded(BaseBlock block)
+	{
+		Logger.Game.Print($"Block {block.Name} drag ended");
+		// Add any specific handling for drag end
+	}
 }

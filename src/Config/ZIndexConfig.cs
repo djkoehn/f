@@ -23,11 +23,11 @@ public static class ZIndexConfig
         public const int BoundsBorder = 1;
 
         // Game elements (bottom to top)
-        public const int Pipes = -5;
-        public const int PlacedBlock = -4;
-        public const int Block = -4;
-        public const int Token = -1;
-        public const int ProcessingToken = 0;
+        public const int Pipes = -2;
+        public const int PlacedBlock = -1;
+        public const int Block = -1;
+        public const int Token = -2;
+        public const int ProcessingToken = -2;
 
         // UI elements (top)
         public const int Toolbar = 15;

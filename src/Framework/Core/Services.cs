@@ -1,42 +1,83 @@
-using Godot;
-using F.Framework.Input;
-using F.Framework.Connections;
+using Chickensoft.AutoInject;
+using Chickensoft.Introspection;
 using F.Framework.Blocks;
+using F.Framework.Blocks.Interfaces;
+using F.Framework.Connections;
+using F.Framework.Connections.Interfaces;
+using F.Framework.Core.Interfaces;
+using F.Framework.Core.Services;
+using F.Framework.Core.Services.Interfaces;
+using F.Framework.Input;
+using F.Framework.Input.Interfaces;
+using F.Framework.Logging;
+using F.Framework.Tokens;
+using F.Framework.Tokens.Interfaces;
 using F.Game.Core;
 using F.Game.Tokens;
-using F.Framework.Core.SceneTree;
 
-namespace F.Framework.Core;
+namespace F.Framework.Core.Services;
 
 /// <summary>
-/// Global services that are autoloaded by Godot.
-/// Access these through Services.Instance.
+///     Global services that are autoloaded by Godot.
+///     Access these through Services.Instance.
 /// </summary>
-public partial class Services : Node
+[Meta(typeof(IAutoNode))]
+public partial class Services : Node, IProvide<Services>
 {
-    public static Services? Instance { get; private set; }
-
-    public required IGameManager Game { get; set; }
-    public required InputManager Input { get; set; }
-    public required ConnectionManager Connections { get; set; }
-    public required BlockManager Blocks { get; set; }
-    public required TokenManager Tokens { get; set; }
-    public required IInventory Inventory { get; set; }
-    public required BlockMetadata BlockMetadata { get; set; }
-
-    private bool _isInitialized;
     private const float RETRY_INTERVAL = 0.1f;
     private const int MAX_RETRIES = 10;
     private int _initRetryCount;
+    private bool _isInitialized;
+    private ILogService? _log;
 
-    public override void _EnterTree()
+    public static Services? Instance { get; private set; }
+
+    public required IGameManager Game { get; set; }
+    public required IInputManager Input { get; set; }
+    public required F.Framework.Connections.Interfaces.IConnectionManager Connections { get; set; }
+    public required F.Framework.Blocks.Interfaces.IBlockService Blocks { get; set; }
+    public required F.Framework.Tokens.Interfaces.ITokenManager Tokens { get; set; }
+    public required IInventory Inventory { get; set; }
+    public required IBlockMetadata BlockMetadata { get; set; }
+    public required F.Framework.Core.Services.Interfaces.ISceneTreeService SceneTree { get; set; }
+
+    public Services()
+    {
+        // Default constructor
+    }
+
+    public Services(ILogService? log = null)
+    {
+        _log = log;
+    }
+
+    public override void _Ready()
     {
         if (Instance == null)
         {
             Instance = this;
-            // Initialize local services immediately
+
+            // Create required services
+            if (_log == null)
+            {
+                _log = new LogService();
+                AddChild(_log as Node);
+            }
+
+            var inventory = new Inventory();
+            AddChild(inventory);
+            Inventory = inventory;
+
+            var blockMetadata = new BlockMetadata();
+            AddChild(blockMetadata);
+            BlockMetadata = blockMetadata;
+
+            var sceneTreeService = new SceneTreeService(_log);
+            AddChild(sceneTreeService);
+            SceneTree = sceneTreeService;
+
+            // Initialize services
             InitializeLocalServices();
-            // Defer external services initialization to ensure scene tree is ready
             CallDeferred(nameof(InitializeExternalServices));
         }
         else
@@ -49,18 +90,16 @@ public partial class Services : Node
     {
         try
         {
-            // Initialize services that are children of this node
-            Inventory = GetNode<Inventory>("Inventory");
-            BlockMetadata = GetNode<BlockMetadata>("BlockMetadata");
-            Blocks = new BlockManager();
-            AddChild(Blocks);
+            // Initialize BlockService
+            var blockService = new BlockService(_log, BlockMetadata);
+            AddChild(blockService);
+            Blocks = blockService;
 
-            GD.Print("[Services] Successfully initialized local services");
+            _log?.Info("Successfully initialized local services");
         }
         catch (Exception e)
         {
-            GD.PrintErr("[Services] Failed to initialize local services: " + e.Message);
-            GD.PrintErr("[Services] Stack trace: " + e.StackTrace);
+            _log?.Error("Failed to initialize local services", e);
         }
     }
 
@@ -70,7 +109,7 @@ public partial class Services : Node
 
         try
         {
-            // Get references from scene tree
+            // Get the main scene first
             var mainScene = GetNode<GameManager>("/root/Main");
             if (mainScene == null)
             {
@@ -79,17 +118,26 @@ public partial class Services : Node
             }
 
             Game = mainScene;
-            Input = mainScene.GetNode<InputManager>("InputManager");
-            Connections = mainScene.GetNode<ConnectionManager>("ConnectionManager");
-            Tokens = mainScene.GetNode<TokenManager>("TokenManager");
+
+            // Create and add required managers in the correct order
+            var connectionManager = new ConnectionManager();
+            AddChild(connectionManager);
+            Connections = connectionManager;
+
+            var inputManager = new InputManager();
+            AddChild(inputManager);
+            Input = inputManager;
+
+            var tokenManager = new TokenManager();
+            AddChild(tokenManager);
+            Tokens = tokenManager;
 
             _isInitialized = true;
-            GD.Print("[Services] Successfully initialized all services");
+            _log?.Info("Successfully initialized all services");
         }
         catch (Exception e)
         {
-            GD.PrintErr("[Services] Failed to initialize external services: " + e.Message);
-            GD.PrintErr("[Services] Stack trace: " + e.StackTrace);
+            _log?.Error("Failed to initialize external services", e);
             RetryInitialization();
         }
     }
@@ -99,11 +147,11 @@ public partial class Services : Node
         _initRetryCount++;
         if (_initRetryCount >= MAX_RETRIES)
         {
-            GD.PrintErr($"[Services] Failed to initialize after {MAX_RETRIES} attempts");
+            _log.Error($"Failed to initialize after {MAX_RETRIES} attempts");
             return;
         }
 
-        GD.Print($"[Services] Services not ready, retry {_initRetryCount}/{MAX_RETRIES} in {RETRY_INTERVAL}s");
+        _log.Info($"Services not ready, retry {_initRetryCount}/{MAX_RETRIES} in {RETRY_INTERVAL}s");
         var timer = new Timer
         {
             OneShot = true,
@@ -120,9 +168,16 @@ public partial class Services : Node
 
     public override void _ExitTree()
     {
-        if (Instance == this)
-        {
-            Instance = null;
-        }
+        if (Instance == this) Instance = null;
+    }
+
+    public override void _Notification(int what)
+    {
+        this.Notify(what);
+    }
+
+    Services IProvide<Services>.Value()
+    {
+        return this;
     }
 }

@@ -1,13 +1,12 @@
-using Godot;
-using F.Framework.Core;
+using F.Framework.Logging;
 
 namespace F.Game.Core;
 
-public partial class Main : GameManager
+public partial class Main : Framework.Core.GameManager
 {
     public override void _Ready()
     {
         base._Ready();
-        GD.Print("[Main] Initialized");
+        Logger.Game.Print("Initialized");
     }
 }

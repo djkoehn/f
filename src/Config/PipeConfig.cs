@@ -13,8 +13,8 @@ public static class PipeConfig
     // Interaction
     public static class Interaction
     {
-        public const float HoverDistance = 100f;      // Distance for initial hover detection
-        public const float ConnectedDistance = 300f;  // Larger distance for connected blocks
+        public const float HoverDistance = 100f; // Distance for initial hover detection
+        public const float ConnectedDistance = 300f; // Larger distance for connected blocks
     }
 
     // Visuals
@@ -27,9 +27,9 @@ public static class PipeConfig
         // Shader parameters for pipe effects
         public static class ShaderEffects
         {
-            public const float BulgeAmount = 5.0f;       // Size of the bulge effect
-            public const float BulgeSoftness = 0.1f;     // Softness of the bulge falloff
-            public const float PipeWidth = 6.0f;         // Base width of the pipe line
+            public const float BulgeAmount = 5.0f; // Size of the bulge effect
+            public const float BulgeSoftness = 0.1f; // Softness of the bulge falloff
+            public const float PipeWidth = 6.0f; // Base width of the pipe line
         }
     }
 }

@@ -1,0 +1,36 @@
+{
+  "blocks": [
+    {
+      "id": "input",
+      "scene": "res://scenes/Blocks/Input.tscn",
+      "spawnHotkey": "space",
+      "hasInput": false,
+      "hasOutput": true,
+      "isToolbarBlock": true
+    },
+    {
+      "id": "output",
+      "scene": "res://scenes/Blocks/Output.tscn",
+      "spawnHotkey": "",
+      "hasInput": true,
+      "hasOutput": false,
+      "isToolbarBlock": true
+    },
+    {
+      "id": "add",
+      "scene": "res://scenes/Blocks/Add.tscn",
+      "spawnHotkey": "",
+      "hasInput": true,
+      "hasOutput": true,
+      "isToolbarBlock": true
+    },
+    {
+      "id": "multiply",
+      "scene": "res://scenes/Blocks/Multiply.tscn",
+      "spawnHotkey": "",
+      "hasInput": true,
+      "hasOutput": true,
+      "isToolbarBlock": true
+    }
+  ]
+}

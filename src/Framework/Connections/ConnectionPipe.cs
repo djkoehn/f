@@ -1,30 +1,29 @@
-using Godot;
 using F.Framework.Blocks;
-using F.Framework.Core;
 using F.Game.Tokens;
+using F.Framework.Logging;
 
 namespace F.Framework.Connections;
 
 public partial class ConnectionPipe : Node2D
 {
-    private Node2D? _fromSocket;
-    private Node2D? _toSocket;
-    private Line2D? _visuals;
-    private bool _isHighlighted;
-    private bool _isTemporary;
-    private bool _isInsertionHighlighted;
-    private Vector2 _temporaryEndPoint;
-    private PipeVisuals? _pipeVisuals;
     private bool _hasActiveToken;
+    private bool _isHighlighted;
+    private bool _isInsertionHighlighted;
+    private bool _isTemporary;
+    private PipeVisuals? _pipeVisuals;
+    private Vector2 _temporaryEndPoint;
+    private Line2D? _visuals;
 
-    public Node2D? FromSocket => _fromSocket;
-    public Node2D? ToSocket => _toSocket;
+    public Node2D? FromSocket { get; private set; }
+
+    public Node2D? ToSocket { get; private set; }
+
     public IBlock? SourceBlock { get; private set; }
     public IBlock? TargetBlock { get; private set; }
 
     public override void _Ready()
     {
-        GD.Print($"[ConnectionPipe Debug] _Ready called on {Name}");
+        Logger.Connection.Print($"_Ready called on {Name}");
 
         // Set proper z-index for the pipe
         ZIndexConfig.SetZIndex(this, ZIndexConfig.Layers.Pipes);
@@ -33,7 +32,7 @@ public partial class ConnectionPipe : Node2D
         var outline = GetNodeOrNull<Line2D>("Outline");
         _pipeVisuals = GetNodeOrNull<PipeVisuals>("PipeVisuals");
 
-        GD.Print($"[ConnectionPipe Debug] Found nodes: Outline: {outline != null}, PipeVisuals: {_pipeVisuals != null}");
+        Logger.Connection.Print($"Found nodes: Outline: {outline != null}, PipeVisuals: {_pipeVisuals != null}");
 
         // Create outline if it doesn't exist
         if (outline == null)
@@ -104,11 +103,11 @@ public partial class ConnectionPipe : Node2D
                             if (newMaterial != null)
                             {
                                 bulgeEffect.Material = newMaterial;
-                                GD.Print("[ConnectionPipe Debug] Created new shader material");
+                                Logger.Connection.Print("Created new shader material");
                             }
                         }
 
-                        GD.Print("[ConnectionPipe Debug] Successfully created PipeVisuals from scene");
+                        Logger.Connection.Print("Successfully created PipeVisuals from scene");
                     }
 
                     // Clean up the temporary instance
@@ -117,7 +116,7 @@ public partial class ConnectionPipe : Node2D
             }
             else
             {
-                GD.PrintErr("[ConnectionPipe Debug] Failed to load Connection scene!");
+                Logger.Connection.Err("Failed to load Connection scene!");
                 _pipeVisuals = new PipeVisuals { Name = "PipeVisuals" };
                 AddChild(_pipeVisuals);
                 _pipeVisuals.Owner = this;
@@ -128,18 +127,19 @@ public partial class ConnectionPipe : Node2D
         _visuals = _pipeVisuals?.GetNode<Line2D>("VisualPipe");
         if (_visuals == null)
         {
-            GD.PrintErr($"[ConnectionPipe Debug] Failed to get VisualPipe node from {_pipeVisuals?.Name}!");
+            Logger.Connection.Err($"Failed to get VisualPipe node from {_pipeVisuals?.Name}!");
             var children = _pipeVisuals?.GetChildren().Select(c => c.Name.ToString()).ToList() ?? new List<string>();
-            GD.Print($"[ConnectionPipe Debug] PipeVisuals children: {string.Join(", ", children)}");
+            Logger.Connection.Print($"PipeVisuals children: {string.Join(", ", children)}");
             return;
         }
-        GD.Print("[ConnectionPipe Debug] Successfully got VisualPipe node");
+
+        Logger.Connection.Print("Successfully got VisualPipe node");
     }
 
     public void Initialize(Node2D fromSocket, Node2D toSocket)
     {
-        _fromSocket = fromSocket;
-        _toSocket = toSocket;
+        FromSocket = fromSocket;
+        ToSocket = toSocket;
         _isTemporary = false;
 
         // Find blocks in hierarchy
@@ -157,16 +157,16 @@ public partial class ConnectionPipe : Node2D
 
         if (SourceBlock == null || TargetBlock == null)
         {
-            GD.PrintErr($"[ConnectionPipe] Failed to find blocks in hierarchy");
+            Logger.Connection.Err("Failed to find blocks in hierarchy");
             return;
         }
 
-        string sourceName = SourceBlock.Name ?? "unknown";
-        string targetName = TargetBlock.Name ?? "unknown";
+        var sourceName = SourceBlock.Name ?? "unknown";
+        var targetName = TargetBlock.Name ?? "unknown";
 
         // Set a unique name for the pipe based on the connected blocks
         Name = $"Pipe_{sourceName}_{targetName}";
-        GD.Print($"[ConnectionPipe] Initialized pipe {Name} between {sourceName} and {targetName}");
+        Logger.Connection.Print($"Initialized pipe {Name} between {sourceName} and {targetName}");
 
         UpdateVisuals();
     }
@@ -176,16 +176,16 @@ public partial class ConnectionPipe : Node2D
         var outputSocket = startBlock.GetOutputSocket() as Node2D;
         if (outputSocket == null)
         {
-            GD.PrintErr("[ConnectionPipe] Failed to get output socket for temporary connection");
+            Logger.Connection.Err("Failed to get output socket for temporary connection");
             return;
         }
 
-        _fromSocket = outputSocket;
+        FromSocket = outputSocket;
         _isTemporary = true;
         _temporaryEndPoint = startBlock.GlobalPosition;
         SourceBlock = startBlock;
         Name = $"TempPipe_{startBlock.Name}";
-        GD.Print($"[ConnectionPipe] Initialized temporary pipe {Name} from {startBlock.Name}");
+        Logger.Connection.Print($"Initialized temporary pipe {Name} from {startBlock.Name}");
         UpdateVisuals();
     }
 
@@ -194,16 +194,16 @@ public partial class ConnectionPipe : Node2D
         var outputSocket = from.GetOutputSocket() as Node2D;
         if (outputSocket == null)
         {
-            GD.PrintErr("[ConnectionPipe] Failed to get output socket for temporary connection");
+            Logger.Connection.Err("Failed to get output socket for temporary connection");
             return;
         }
 
-        _fromSocket = outputSocket;
+        FromSocket = outputSocket;
         _isTemporary = true;
         _temporaryEndPoint = endPoint;
         SourceBlock = from;
         Name = $"TempPipe_{from.Name}";
-        GD.Print($"[ConnectionPipe] Initialized temporary pipe {Name} from {from.Name}");
+        Logger.Connection.Print($"Initialized temporary pipe {Name} from {from.Name}");
         UpdateVisuals();
     }
 
@@ -216,68 +216,55 @@ public partial class ConnectionPipe : Node2D
 
     public override void _Process(double delta)
     {
-        if (_fromSocket == null || (_toSocket == null && !_isTemporary) || _visuals == null) return;
+        if (FromSocket == null || (ToSocket == null && !_isTemporary) || _visuals == null) return;
         UpdateVisuals();
     }
 
     private void UpdateVisuals()
     {
-        if (_fromSocket == null || (_toSocket == null && !_isTemporary) || _visuals == null) return;
+        if (FromSocket == null || (ToSocket == null && !_isTemporary) || _visuals == null) return;
 
-        var startPos = ToLocal(_fromSocket.GlobalPosition);
-        var endPos = _isTemporary ? ToLocal(_temporaryEndPoint) : ToLocal(_toSocket.GlobalPosition);
+        var startPos = ToLocal(FromSocket.GlobalPosition);
+        var endPos = _isTemporary ? ToLocal(_temporaryEndPoint) : ToLocal(ToSocket.GlobalPosition);
 
         var curvePoints = PipeCurveCalculator.CalculateCurvePoints(startPos, endPos);
 
         _visuals.ClearPoints();
-        foreach (var pt in curvePoints)
-        {
-            _visuals.AddPoint(pt);
-        }
+        foreach (var pt in curvePoints) _visuals.AddPoint(pt);
 
         var outline = GetNode<Line2D>("Outline");
         if (outline != null)
         {
             outline.ClearPoints();
-            foreach (var pt in curvePoints)
-            {
-                outline.AddPoint(pt);
-            }
+            foreach (var pt in curvePoints) outline.AddPoint(pt);
         }
 
         // Update shader parameters if material exists
         if (_visuals.Material is ShaderMaterial material)
         {
-            var points = new Vector2[50];  // Match shader's fixed size array
-            for (int i = 0; i < curvePoints.Count && i < 50; i++)
-            {
-                points[i] = ToGlobal(curvePoints[i]);
-            }
+            var points = new Vector2[50]; // Match shader's fixed size array
+            for (var i = 0; i < curvePoints.Count && i < 50; i++) points[i] = ToGlobal(curvePoints[i]);
             material.SetShaderParameter("curve_points", points);
             material.SetShaderParameter("point_count", Mathf.Min(curvePoints.Count, 50));
         }
 
         // Hide pipe if either end block is not visible
-        if (SourceBlock is Node2D sourceNode && !sourceNode.Visible ||
-            TargetBlock is Node2D targetNode && !targetNode.Visible)
-        {
+        if ((SourceBlock is Node2D sourceNode && !sourceNode.Visible) ||
+            (TargetBlock is Node2D targetNode && !targetNode.Visible))
             HidePipe();
-        }
         else
-        {
             ShowPipe();
-        }
     }
 
     public bool IsPointNearPipe(Vector2 point)
     {
-        if (_fromSocket == null || _toSocket == null || _visuals == null) return false;
+        if (FromSocket == null || ToSocket == null || _visuals == null) return false;
 
         var curvePoints = GetCurvePoints();
         if (curvePoints.Count == 0) return false;
 
-        float minDistance = float.MaxValue;
-        for (int i = 0; i < curvePoints.Count - 1; i++)
+        var minDistance = float.MaxValue;
+        for (var i = 0; i < curvePoints.Count - 1; i++)
         {
             var distance = DistanceToLineSegment(point, curvePoints[i], curvePoints[i + 1]);
             minDistance = Mathf.Min(minDistance, distance);
@@ -289,10 +276,10 @@ public partial class ConnectionPipe : Node2D
     private float DistanceToLineSegment(Vector2 point, Vector2 start, Vector2 end)
     {
         var line = end - start;
-        float len = line.Length();
+        var len = line.Length();
         if (len == 0) return point.DistanceTo(start);
 
-        float t = Mathf.Clamp(((point - start).Dot(line)) / (len * len), 0, 1);
+        var t = Mathf.Clamp((point - start).Dot(line) / (len * len), 0, 1);
         var projection = start + line * t;
 
         return point.DistanceTo(projection);
@@ -305,7 +292,10 @@ public partial class ConnectionPipe : Node2D
         return null;
     }
 
-    public (Node2D? From, Node2D? To) GetSockets() => (_fromSocket, _toSocket);
+    public (Node2D? From, Node2D? To) GetSockets()
+    {
+        return (FromSocket, ToSocket);
+    }
 
     public void SetHighlighted(bool highlighted)
     {
@@ -323,27 +313,27 @@ public partial class ConnectionPipe : Node2D
             _visuals.DefaultColor = highlighted ? new Color(0, 1, 0) : PipeConfig.Visual.LineColor;
 
             var outline = GetNode<Line2D>("Outline");
-            if (outline != null)
-            {
-                outline.Width = highlighted ? 10.0f : 8.0f;
-            }
+            if (outline != null) outline.Width = highlighted ? 10.0f : 8.0f;
         }
     }
 
-    public void ClearInsertionHighlight() => SetInsertionHighlight(false);
+    public void ClearInsertionHighlight()
+    {
+        SetInsertionHighlight(false);
+    }
 
-    public bool IsHighlighted() => _isInsertionHighlighted || _isHighlighted;
+    public bool IsHighlighted()
+    {
+        return _isInsertionHighlighted || _isHighlighted;
+    }
 
     public List<Vector2> GetCurvePoints()
     {
         List<Vector2> globalPoints = new();
         if (_visuals != null)
-        {
             foreach (var localPt in _visuals.Points)
-            {
                 globalPoints.Add(_visuals.ToGlobal(localPt));
-            }
-        }
+
         return globalPoints;
     }
 

@@ -1,25 +1,23 @@
-using Godot;
-
 namespace F.Framework.Connections;
 
 public static class PipeCurveCalculator
 {
     public static List<Vector2> CalculateCurvePoints(Vector2 start, Vector2 end)
     {
-        List<Vector2> points = new List<Vector2>();
+        var points = new List<Vector2>();
         // Using a configurable resolution if available, else default to 20
-        int resolution = 20;
+        var resolution = 20;
         // Optionally: resolution = PipeConfig.Visual.CurveResolution; if defined in your config
 
         // Calculate control points; these are basic and can be enhanced as needed
-        float controlOffset = (end - start).Length() * 0.5f;
-        Vector2 control1 = start + new Vector2(controlOffset, 0);
-        Vector2 control2 = end - new Vector2(controlOffset, 0);
+        var controlOffset = (end - start).Length() * 0.5f;
+        var control1 = start + new Vector2(controlOffset, 0);
+        var control2 = end - new Vector2(controlOffset, 0);
 
-        for (int i = 0; i <= resolution; i++)
+        for (var i = 0; i <= resolution; i++)
         {
-            float t = (float)i / resolution;
-            Vector2 pt = CubicBezier(start, control1, control2, end, t);
+            var t = (float)i / resolution;
+            var pt = CubicBezier(start, control1, control2, end, t);
             points.Add(pt);
         }
 
@@ -28,7 +26,7 @@ public static class PipeCurveCalculator
 
     private static Vector2 CubicBezier(Vector2 a, Vector2 b, Vector2 c, Vector2 d, float t)
     {
-        float oneMinusT = 1 - t;
+        var oneMinusT = 1 - t;
         return a * (oneMinusT * oneMinusT * oneMinusT) +
                b * (3 * t * oneMinusT * oneMinusT) +
                c * (3 * t * t * oneMinusT) +

@@ -1,19 +1,19 @@
-using F.UI.Animations;
+using F.Framework.Logging;
 
 namespace F.Framework.Connections;
 
 public partial class PipeVisuals : Node2D
 {
     private float _animationTime;
+    private Line2D? _bulgeEffect;
     private bool _isAnimating;
     private bool _isHovered;
     private Vector2[] _oldPoints = Array.Empty<Vector2>();
-    private Line2D? _visualPipe;
-    private Line2D? _bulgeEffect;
     private ShaderMaterial? _shaderMaterial;
-    private float _tokenProgress = 0f;
-    private bool _tokenActive = false;
-    private float _shaderTime = 0f;
+    private float _shaderTime;
+    private bool _tokenActive;
+    private float _tokenProgress;
+    private Line2D? _visualPipe;
 
     private void SetShaderParameters(ShaderMaterial material)
     {
@@ -26,12 +26,12 @@ public partial class PipeVisuals : Node2D
         material.SetShaderParameter("bulge_softness", PipeConfig.Visual.ShaderEffects.BulgeSoftness);
         material.SetShaderParameter("TIME", _shaderTime);
 
-        GD.Print("[PipeVisuals Debug] Set shader parameters:");
-        GD.Print($"  token_progress: {_tokenProgress}");
-        GD.Print($"  token_active: {_tokenActive}");
-        GD.Print($"  bulge_amount: {PipeConfig.Visual.ShaderEffects.BulgeAmount}");
-        GD.Print($"  bulge_softness: {PipeConfig.Visual.ShaderEffects.BulgeSoftness}");
-        GD.Print($"  shader_time: {_shaderTime}");
+        Logger.Connection.Print("[PipeVisuals Debug] Set shader parameters:");
+        Logger.Connection.Print($"  token_progress: {_tokenProgress}");
+        Logger.Connection.Print($"  token_active: {_tokenActive}");
+        Logger.Connection.Print($"  bulge_amount: {PipeConfig.Visual.ShaderEffects.BulgeAmount}");
+        Logger.Connection.Print($"  bulge_softness: {PipeConfig.Visual.ShaderEffects.BulgeSoftness}");
+        Logger.Connection.Print($"  shader_time: {_shaderTime}");
     }
 
     public override void _Ready()
@@ -44,27 +44,23 @@ public partial class PipeVisuals : Node2D
             _shaderMaterial = _bulgeEffect.Material as ShaderMaterial;
             if (_shaderMaterial != null)
             {
-                GD.Print("[PipeVisuals Debug] Found existing shader material on BulgeEffect");
+                Logger.Connection.Print("[PipeVisuals Debug] Found existing shader material on BulgeEffect");
                 SetShaderParameters(_shaderMaterial);
 
                 // Verify shader is properly loaded
                 if (_shaderMaterial.Shader == null)
-                {
-                    GD.PrintErr("[PipeVisuals Debug] Shader is null on material!");
-                }
+                    Logger.Connection.PrintErr("[PipeVisuals Debug] Shader is null on material!");
                 else
-                {
-                    GD.Print("[PipeVisuals Debug] Shader is properly loaded");
-                }
+                    Logger.Connection.Print("[PipeVisuals Debug] Shader is properly loaded");
             }
             else
             {
-                GD.PrintErr("[PipeVisuals Debug] No shader material found on BulgeEffect!");
+                Logger.Connection.PrintErr("[PipeVisuals Debug] No shader material found on BulgeEffect!");
             }
         }
         else
         {
-            GD.PrintErr("[PipeVisuals Debug] BulgeEffect node not found!");
+            Logger.Connection.PrintErr("[PipeVisuals Debug] BulgeEffect node not found!");
         }
 
         InitializeVisualPipe();
@@ -74,7 +70,7 @@ public partial class PipeVisuals : Node2D
     {
         if (_visualPipe == null || _bulgeEffect == null)
         {
-            GD.PrintErr("[PipeVisuals Debug] Cannot initialize null VisualPipe or BulgeEffect!");
+            Logger.Connection.PrintErr("[PipeVisuals Debug] Cannot initialize null VisualPipe or BulgeEffect!");
             return;
         }
 
@@ -85,18 +81,18 @@ public partial class PipeVisuals : Node2D
         _visualPipe.EndCapMode = Line2D.LineCapMode.Round;
         _visualPipe.Antialiased = true;
 
-        _bulgeEffect.Width = PipeConfig.Visual.ShaderEffects.PipeWidth * 2;  // Base width for shader
+        _bulgeEffect.Width = PipeConfig.Visual.ShaderEffects.PipeWidth * 2; // Base width for shader
         _bulgeEffect.DefaultColor = Colors.White;
         _bulgeEffect.JointMode = Line2D.LineJointMode.Round;
         _bulgeEffect.BeginCapMode = Line2D.LineCapMode.Round;
         _bulgeEffect.EndCapMode = Line2D.LineCapMode.Round;
         _bulgeEffect.TextureMode = Line2D.LineTextureMode.Stretch;
-        _bulgeEffect.TextureRepeat = Line2D.TextureRepeatEnum.Enabled;
+        _bulgeEffect.TextureRepeat = TextureRepeatEnum.Enabled;
         _bulgeEffect.Antialiased = true;
 
-        GD.Print("[PipeVisuals Debug] VisualPipe and BulgeEffect initialized");
-        GD.Print($"  VisualPipe width: {_visualPipe.Width}");
-        GD.Print($"  BulgeEffect width: {_bulgeEffect.Width}");
+        Logger.Connection.Print("[PipeVisuals Debug] VisualPipe and BulgeEffect initialized");
+        Logger.Connection.Print($"  VisualPipe width: {_visualPipe.Width}");
+        Logger.Connection.Print($"  BulgeEffect width: {_bulgeEffect.Width}");
     }
 
     public void UpdateVisuals(Vector2 startPoint, Vector2 endPoint)
@@ -114,10 +110,7 @@ public partial class PipeVisuals : Node2D
         _bulgeEffect.AddPoint(endPoint);
 
         // Update shader parameters
-        if (_shaderMaterial != null)
-        {
-            SetShaderParameters(_shaderMaterial);
-        }
+        if (_shaderMaterial != null) SetShaderParameters(_shaderMaterial);
     }
 
     public void SetHovered(bool isHovered)
@@ -143,7 +136,7 @@ public partial class PipeVisuals : Node2D
             _tokenActive = false;
             _tokenProgress = 0f;
             SetShaderParameters(_shaderMaterial);
-            GD.Print("[PipeVisuals Debug] Cleared bulge effect");
+            Logger.Connection.Print("[PipeVisuals Debug] Cleared bulge effect");
         }
     }
 
@@ -151,30 +144,27 @@ public partial class PipeVisuals : Node2D
     {
         if (_visualPipe == null || _bulgeEffect == null)
         {
-            GD.PrintErr("[PipeVisuals Debug] VisualPipe or BulgeEffect is null!");
+            Logger.Connection.PrintErr("[PipeVisuals Debug] VisualPipe or BulgeEffect is null!");
             return;
         }
 
         // Calculate progress along the line
         if (_visualPipe.Points.Length >= 2)
         {
-            Vector2 startPoint = _visualPipe.Points[0];
-            Vector2 endPoint = _visualPipe.Points[^1];
+            var startPoint = _visualPipe.Points[0];
+            var endPoint = _visualPipe.Points[^1];
 
             // Project token position onto the line from start to end
-            Vector2 lineDir = (endPoint - startPoint).Normalized();
-            Vector2 toToken = ToLocal(position) - startPoint;
-            float projection = toToken.Dot(lineDir);
-            float totalLength = (endPoint - startPoint).Length();
+            var lineDir = (endPoint - startPoint).Normalized();
+            var toToken = ToLocal(position) - startPoint;
+            var projection = toToken.Dot(lineDir);
+            var totalLength = (endPoint - startPoint).Length();
 
             // Calculate progress as ratio of projection to total length
             _tokenProgress = Mathf.Clamp(projection / totalLength, 0, 1);
 
             // Update shader parameters
-            if (_shaderMaterial != null)
-            {
-                SetShaderParameters(_shaderMaterial);
-            }
+            if (_shaderMaterial != null) SetShaderParameters(_shaderMaterial);
         }
     }
 
@@ -185,7 +175,7 @@ public partial class PipeVisuals : Node2D
             _tokenActive = true;
             _tokenProgress = 0f;
             SetShaderParameters(_shaderMaterial);
-            GD.Print("[PipeVisuals Debug] Started token movement");
+            Logger.Connection.Print("[PipeVisuals Debug] Started token movement");
         }
     }
 
@@ -195,7 +185,7 @@ public partial class PipeVisuals : Node2D
         {
             _tokenActive = false;
             SetShaderParameters(_shaderMaterial);
-            GD.Print("[PipeVisuals Debug] Ended token movement");
+            Logger.Connection.Print("[PipeVisuals Debug] Ended token movement");
         }
     }
 
@@ -210,10 +200,7 @@ public partial class PipeVisuals : Node2D
         // Update shader time
         _shaderTime += (float)delta;
 
-        if (_shaderMaterial != null && _tokenActive)
-        {
-            SetShaderParameters(_shaderMaterial);
-        }
+        if (_shaderMaterial != null && _tokenActive) SetShaderParameters(_shaderMaterial);
 
         if (!_isAnimating || _visualPipe == null || _bulgeEffect == null) return;
 

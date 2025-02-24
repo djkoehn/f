@@ -1,0 +1,3 @@
+@startuml BlockLogicMachine
+state "BlockLogicMachine State" as f_Framework_Blocks_LogicBlockImpl_State
+@enduml

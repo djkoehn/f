@@ -1,115 +1,103 @@
-using Chickensoft.LogicBlocks;
-using Chickensoft.Introspection;
 using Chickensoft.AutoInject;
+using Chickensoft.Introspection;
+using Chickensoft.LogicBlocks;
+using F.Framework.Logging;
 using Godot;
+using System;
 
 namespace F.Framework.Blocks;
 
-public static class BlockLogicInput
-{
-    public readonly record struct Interact;
-    public readonly record struct ReturnBlock;
-    public readonly record struct HoveredOverPipe;
-}
-
-[Meta(typeof(IDependent))]
-public partial class BlockLogicMachine : Node, IDependent
+[Meta, LogicBlock(typeof(State))]
+public partial class BlockLogicMachine : Node
 {
     private LogicBlockImpl? _logicBlock;
+    public event Action<State>? StateChanged;
 
-    [Dependency]
-    public new Node Owner => this.DependOn<Node>();
-
-    public event System.Action<LogicBlockImpl.BlockLogicState>? StateChanged;
+    public State Value => _logicBlock?.Value ?? State.InToolbar;
 
     public override void _Ready()
     {
-        _logicBlock = new LogicBlockImpl(this);
-        _logicBlock.Start();
-        GD.Print("[BlockLogicMachine Debug] State machine initialized");
+        base._Ready();
+        _logicBlock = new LogicBlockImpl();
+        _logicBlock.StateChanged += OnStateChanged;
+        Logger.Block.Print($"BlockLogicMachine {Name} ready");
     }
 
     public void Send<TInput>(TInput input) where TInput : struct
     {
-        if (_logicBlock == null) return;
-        var oldState = _logicBlock.Value;
-        var newState = _logicBlock.Input(input);
-        if (!ReferenceEquals(oldState, newState))
+        if (_logicBlock == null)
         {
-            GD.Print($"[BlockLogicMachine Debug] State transition: {oldState.GetType().Name} -> {newState.GetType().Name}");
-            StateChanged?.Invoke(newState);
+            Logger.Block.Err($"BlockLogicMachine {Name} has no logic block");
+            return;
         }
+
+        _logicBlock.Send(input);
     }
 
-    public override void _Notification(int what) => this.Notify(what);
-
-    [LogicBlock(typeof(BlockLogicState))]
-    public class LogicBlockImpl : LogicBlock<LogicBlockImpl.BlockLogicState>
+    private void OnStateChanged(State state)
     {
-        private readonly BlockLogicMachine _machine;
+        Logger.Block.Print($"BlockLogicMachine {Name} state changed to {state}");
+        StateChanged?.Invoke(state);
+    }
 
-        public LogicBlockImpl(BlockLogicMachine machine)
+    public override void _ExitTree()
+    {
+        if (_logicBlock != null)
         {
-            _machine = machine;
-            // Initialize all possible states
-            Set(new BlockLogicState.InToolbarState());
-            Set(new BlockLogicState.DraggingState());
-            Set(new BlockLogicState.PlacedState());
-            Set(new BlockLogicState.ConnectedState());
-            Set(new BlockLogicState.ConnectedAndDraggingState());
-        }
-
-        public override Transition GetInitialState() => To<BlockLogicState.InToolbarState>();
-
-        public abstract record BlockLogicState : StateLogic<BlockLogicState>
-        {
-            public record InToolbarState : BlockLogicState, IGet<BlockLogicInput.Interact>
-            {
-                public InToolbarState() => OnAttach(() => GD.Print("[BlockLogicMachine Debug] Entered InToolbarState"));
-                public Transition On(in BlockLogicInput.Interact _)
-                {
-                    GD.Print("[BlockLogicMachine Debug] InToolbarState received Interact input, transitioning to DraggingState");
-                    return To<DraggingState>();
-                }
-            }
-
-            public record DraggingState : BlockLogicState,
-              IGet<BlockLogicInput.Interact>,
-              IGet<BlockLogicInput.ReturnBlock>,
-              IGet<BlockLogicInput.HoveredOverPipe>
-            {
-                public DraggingState() => OnAttach(() => GD.Print("[BlockLogicMachine Debug] Entered DraggingState"));
-                public Transition On(in BlockLogicInput.Interact _) => To<PlacedState>();
-                public Transition On(in BlockLogicInput.ReturnBlock _) => To<InToolbarState>();
-                public Transition On(in BlockLogicInput.HoveredOverPipe _) => To<ConnectedState>();
-            }
-
-            public record PlacedState : BlockLogicState,
-              IGet<BlockLogicInput.Interact>,
-              IGet<BlockLogicInput.ReturnBlock>
-            {
-                public PlacedState() => OnAttach(() => GD.Print("[BlockLogicMachine Debug] Entered PlacedState"));
-                public Transition On(in BlockLogicInput.Interact _) => To<DraggingState>();
-                public Transition On(in BlockLogicInput.ReturnBlock _) => To<InToolbarState>();
-            }
-
-            public record ConnectedState : BlockLogicState,
-              IGet<BlockLogicInput.Interact>,
-              IGet<BlockLogicInput.ReturnBlock>
-            {
-                public ConnectedState() => OnAttach(() => GD.Print("[BlockLogicMachine Debug] Entered ConnectedState"));
-                public Transition On(in BlockLogicInput.Interact _) => To<ConnectedAndDraggingState>();
-                public Transition On(in BlockLogicInput.ReturnBlock _) => To<InToolbarState>();
-            }
-
-            public record ConnectedAndDraggingState : BlockLogicState,
-              IGet<BlockLogicInput.Interact>,
-              IGet<BlockLogicInput.ReturnBlock>
-            {
-                public ConnectedAndDraggingState() => OnAttach(() => GD.Print("[BlockLogicMachine Debug] Entered ConnectedAndDraggingState"));
-                public Transition On(in BlockLogicInput.Interact _) => To<ConnectedState>();
-                public Transition On(in BlockLogicInput.ReturnBlock _) => To<InToolbarState>();
-            }
+            _logicBlock.StateChanged -= OnStateChanged;
+            _logicBlock = null;
         }
     }
+}
+
+[Meta, LogicBlock(typeof(State))]
+public partial class LogicBlockImpl : LogicBlock<State>
+{
+    public LogicBlockImpl() : base(State.InToolbar)
+    {
+        Logger.Block.Print("BlockLogicMachine initialized with state transitions");
+    }
+
+    public override Chickensoft.LogicBlocks.Transition GetInitialState() => To<State.InToolbarState>();
+}
+
+public abstract record State : StateLogic<State>
+{
+    public record InToolbarState : State
+    {
+        public Chickensoft.LogicBlocks.Transition On(in Input.Interact _) => To<DraggingState>();
+    }
+
+    public record DraggingState : State
+    {
+        public Chickensoft.LogicBlocks.Transition On(in Input.Interact _) => To<PlacedState>();
+        public Chickensoft.LogicBlocks.Transition On(in Input.HoveredOverPipe _) => To<ConnectedAndDraggingState>();
+    }
+
+    public record PlacedState : State
+    {
+        public Chickensoft.LogicBlocks.Transition On(in Input.Interact _) => To<DraggingState>();
+        public Chickensoft.LogicBlocks.Transition On(in Input.HoveredOverPipe _) => To<ConnectedState>();
+    }
+
+    public record ConnectedState : State
+    {
+        public Chickensoft.LogicBlocks.Transition On(in Input.Interact _) => To<ConnectedAndDraggingState>();
+        public Chickensoft.LogicBlocks.Transition On(in Input.ReturnBlock _) => To<InToolbarState>();
+    }
+
+    public record ConnectedAndDraggingState : State
+    {
+        public Chickensoft.LogicBlocks.Transition On(in Input.Interact _) => To<ConnectedState>();
+        public Chickensoft.LogicBlocks.Transition On(in Input.ReturnBlock _) => To<InToolbarState>();
+    }
+
+    public static readonly State InToolbar = new InToolbarState();
+}
+
+public static class Input
+{
+    public readonly record struct Interact;
+    public readonly record struct ReturnBlock;
+    public readonly record struct HoveredOverPipe;
 }

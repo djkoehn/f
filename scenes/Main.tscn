@@ -12,8 +12,8 @@
 [ext_resource type="Script" path="res://src/Framework/Input/InputManager.cs" id="9_input"]
 [ext_resource type="Script" path="res://src/Game/Tokens/TokenManager.cs" id="10_token"]
 [ext_resource type="Script" path="res://src/Game/BlockLogic/BlockInteractionManager.cs" id="11_block"]
-[ext_resource type="Script" path="res://src/Framework/Core/SceneTree/SceneTreePrinter.cs" id="13_printer"]
 [ext_resource type="Script" path="res://src/Framework/Core/BlockLayer.cs" id="14_layer"]
+[ext_resource type="Script" path="res://src/Framework/Core/TokenLayer.cs" id="15_token"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1rma8"]
 size = Vector2(1253.33, 800)
@@ -37,9 +37,6 @@ shader_parameter/bigStarAmount = 0.0
 [node name="Main" type="Node2D"]
 script = ExtResource("1_main")
 
-[node name="SceneTreePrinter" type="Node" parent="."]
-script = ExtResource("13_printer")
-
 [node name="ConnectionManager" type="Node2D" parent="."]
 script = ExtResource("8_connection")
 
@@ -56,7 +53,6 @@ script = ExtResource("11_block")
 script = ExtResource("14_layer")
 
 [node name="BGFlair" type="Node2D" parent="BlockLayer"]
-visible = false
 z_index = -2
 
 [node name="Back" type="Sprite2D" parent="BlockLayer/BGFlair"]
@@ -78,7 +74,6 @@ position = Vector2(960, 540)
 scale = Vector2(1.2, 1)
 
 [node name="Background" type="ColorRect" parent="BlockLayer/Bounds"]
-visible = false
 z_index = -2
 z_as_relative = false
 anchors_preset = 8
@@ -95,12 +90,10 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BlockLayer/Bounds"]
-visible = false
 position = Vector2(0.833313, 0)
 shape = SubResource("RectangleShape2D_1rma8")
 
 [node name="Border" type="TextureRect" parent="BlockLayer/Bounds"]
-visible = false
 z_index = 7
 z_as_relative = false
 custom_minimum_size = Vector2(1600, 1000)
@@ -131,6 +124,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TokenLayer" type="Node2D" parent="."]
+script = ExtResource("15_token")
 
 [node name="Toolbar" parent="." instance=ExtResource("6_toolbar")]
 z_index = 15
@@ -140,7 +134,6 @@ offset_bottom = 1336.0
 mouse_filter = 1
 
 [node name="Background" type="ColorRect" parent="."]
-visible = false
 z_index = -20
 material = SubResource("ShaderMaterial_o3wkn")
 anchors_preset = 8

@@ -1,3 +1,6 @@
+using F.Framework.Logging;
+using Godot;
+
 namespace F.UI.Animations.UI;
 
 public partial class PipeBulge : Node2D
@@ -9,6 +12,7 @@ public partial class PipeBulge : Node2D
     private float _progress;
     private float _speed = 1.0f;
     private Vector2 _startPoint;
+    private readonly Tween _tween;
 
     public override void _Ready()
     {
@@ -16,12 +20,14 @@ public partial class PipeBulge : Node2D
         _pipe = GetParent<Line2D>();
         if (_pipe == null)
         {
-            GD.PrintErr("PipeVisuals node not found!");
+            Logger.UI.Err("PipeVisuals node not found!");
             return;
         }
 
         InitializeShader();
         UpdatePoints();
+
+        _tween = CreateTween();
     }
 
     private void InitializeShader()
@@ -29,7 +35,7 @@ public partial class PipeBulge : Node2D
         var shader = GD.Load<Shader>("res://assets/shaders/ui/PipeBulge.gdshader");
         if (shader == null)
         {
-            GD.PrintErr("Failed to load PipeBulge shader!");
+            Logger.UI.Err("Failed to load PipeBulge shader!");
             return;
         }
 
@@ -95,5 +101,33 @@ public partial class PipeBulge : Node2D
     public ShaderMaterial? GetShaderMaterial()
     {
         return _material;
+    }
+
+    public void Start()
+    {
+        if (_material == null) return;
+
+        _tween.TweenMethod(
+            Callable.From((float value) => _material.SetShaderParameter("bulge_amount", value)),
+            0.0f,
+            1.0f,
+            0.5f
+        ).SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.Out);
+
+        _tween.TweenMethod(
+            Callable.From((float value) => _material.SetShaderParameter("bulge_amount", value)),
+            1.0f,
+            0.0f,
+            0.5f
+        ).SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.Out);
+    }
+
+    public void Cancel()
+    {
+        _tween.Kill();
+        if (_material != null)
+        {
+            _material.SetShaderParameter("bulge_amount", 0.0f);
+        }
     }
 }

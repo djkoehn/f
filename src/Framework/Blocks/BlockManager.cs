@@ -1,125 +1,81 @@
-using Godot;
 using F.Framework.Core;
+using F.Framework.Core.Interfaces;
+using F.Framework.Core.Services;
+using F.Game.BlockLogic;
+using F.Framework.Blocks.Interfaces;
+using F.Framework.Logging;
+using Chickensoft.AutoInject;
+using Chickensoft.Introspection;
 
 namespace F.Framework.Blocks;
 
-public partial class BlockManager : Node
+[Meta(typeof(IAutoNode))]
+public partial class BlockManager : Node, IBlockInteractionManager
 {
-    private BaseBlock? _draggedBlock;
-    private BaseBlock? _hoveredBlock;
+    private IBlockService? _blockService;
     private Vector2 _dragOffset;
+    private BaseBlock? _hoveredBlock;
+
+    public bool IsDragging => DraggedBlock != null;
+    public BaseBlock? DraggedBlock { get; private set; }
+
+    public BlockManager(IBlockService? blockService = null)
+    {
+        _blockService = blockService;
+    }
+
+    public override void _Ready()
+    {
+        if (_blockService == null)
+        {
+            _blockService = GetNode<BlockService>("../BlockService");
+        }
+        this.Notify((int)Node.NotificationReady);
+    }
+
+    public override void _Notification(int what)
+    {
+        this.Notify(what);
+    }
 
     public void Initialize()
     {
         // Initialize block management
+        ProcessMode = ProcessModeEnum.Always;
     }
 
     public BaseBlock? GetBlockAtPosition(Vector2 position)
     {
-        BaseBlock? closestBlock = null;
-        float closestDistance = 50.0f; // picking threshold in pixels
-
-        foreach (Node node in GetTree().GetNodesInGroup("Blocks"))
-        {
-            if (node is BaseBlock block)
-            {
-                float distance = block.GlobalPosition.DistanceTo(position);
-                if (distance < closestDistance)
-                {
-                    closestDistance = distance;
-                    closestBlock = block;
-                }
-            }
-        }
-        return closestBlock;
+        return _blockService.GetBlockAtPosition(position);
     }
 
     public void StartDrag(BaseBlock block, Vector2 position)
     {
-        if (block.State == BlockState.InToolbar)
-        {
-            _draggedBlock = block;
-            _dragOffset = block.GlobalPosition - position;
-            // Send input to trigger state change, which will handle reparenting
-            block.GetLogicMachine()?.Send(new BlockLogicInput.Interact());
-            GD.Print($"[BlockManager Debug] Sent drag input to block {block.Name}");
-        }
+        _blockService.StartDrag(block, position);
     }
 
     public void UpdateDrag(Vector2 position)
     {
-        if (_draggedBlock == null) return;
-        _draggedBlock.GlobalPosition = position + _dragOffset;
+        _blockService.UpdateDrag(position);
     }
 
     public void EndDrag()
     {
-        if (_draggedBlock == null) return;
-        // Send input to trigger state change
-        _draggedBlock.GetLogicMachine()?.Send(new BlockLogicInput.Interact());
-        _draggedBlock = null;
+        _blockService.EndDrag();
     }
-
-    public bool IsDragging => _draggedBlock != null;
-    public BaseBlock? DraggedBlock => _draggedBlock;
 
     public void SetHoveredBlock(BaseBlock? block)
     {
-        if (_hoveredBlock == block) return;
-
-        if (_hoveredBlock != null)
-        {
-            // Clear previous hover state
-        }
-
-        _hoveredBlock = block;
-
-        if (_hoveredBlock != null)
-        {
-            // Set new hover state
-        }
+        _blockService.SetHoveredBlock(block);
     }
 
     public BaseBlock? CreateBlock(BlockMetadata metadata, Node parent)
     {
-        if (string.IsNullOrEmpty(metadata.ScenePath))
-        {
-            GD.PrintErr($"Block {metadata.Id} has no scene path");
-            return null;
-        }
-
-        var scene = GD.Load<PackedScene>(metadata.ScenePath);
-        if (scene == null)
-        {
-            GD.PrintErr($"Failed to load block scene: {metadata.ScenePath}");
-            return null;
-        }
-
-        var block = scene.Instantiate<BaseBlock>();
-        if (block == null)
-        {
-            GD.PrintErr($"Failed to instantiate block: {metadata.Id}");
-            return null;
-        }
-
-        block.Name = metadata.Id + GetUniqueBlockId();
-        block.Metadata = metadata;
-        block.SetProcessInput(true);
-
-        // Add to parent
-        parent.AddChild(block);
-        GD.Print($"[BlockManager] Created block {block.Name} in {parent.Name}");
-
-        return block;
+        return _blockService.CreateBlock(metadata, parent);
     }
-
-    private int _blockIdCounter = 0;
-    private int GetUniqueBlockId() => _blockIdCounter++;
 
     public void ReturnBlockToToolbar(BaseBlock block)
     {
-        if (block.GetLogicMachine() == null) return;
-        block.GetLogicMachine().Send(new BlockLogicInput.ReturnBlock());
-        GD.Print($"[BlockManager Debug] Sent return to toolbar input to block {block.Name}");
+        _blockService.ReturnBlockToToolbar(block);
     }
 }

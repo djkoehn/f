@@ -1,0 +1,21 @@
+@startuml BlockState
+state "BlockState State" as BlockState_State {
+  state "InToolbar" as BlockState_State_InToolbar
+  state "Dragging" as BlockState_State_Dragging
+  state "Placed" as BlockState_State_Placed
+  state "Connected" as BlockState_State_Connected
+  state "ConnectedAndDragging" as BlockState_State_ConnectedAndDragging
+}
+
+BlockState_State_Connected --> BlockState_State_ConnectedAndDragging : Interact
+BlockState_State_Connected --> BlockState_State_InToolbar : ReturnBlock
+BlockState_State_ConnectedAndDragging --> BlockState_State_Connected : Interact
+BlockState_State_ConnectedAndDragging --> BlockState_State_InToolbar : ReturnBlock
+BlockState_State_Dragging --> BlockState_State_Connected : HoveredOverPipe
+BlockState_State_Dragging --> BlockState_State_InToolbar : ReturnBlock
+BlockState_State_Dragging --> BlockState_State_Placed : Interact
+BlockState_State_InToolbar --> BlockState_State_Dragging : Interact
+BlockState_State_Placed --> BlockState_State_Dragging : Interact
+BlockState_State_Placed --> BlockState_State_InToolbar : ReturnBlock
+[*] --> BlockState_State_InToolbar
+@enduml

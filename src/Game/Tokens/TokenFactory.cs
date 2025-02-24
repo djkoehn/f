@@ -1,37 +1,38 @@
+using F.Framework.Blocks;
+using F.Framework.Logging;
+using Godot;
+
 namespace F.Game.Tokens;
 
 public sealed class TokenFactory
 {
     private const int INITIAL_POOL_SIZE = 10;
     private const int MAX_POOL_SIZE = 50;
-    
+
     private readonly Node2D _tokenLayer;
-    private readonly PackedScene _tokenScene;
     private readonly Queue<Token> _tokenPool = new();
+    private readonly PackedScene _tokenScene;
     private int _totalTokensCreated;
 
     public TokenFactory(Node2D tokenLayer, PackedScene tokenScene)
     {
         _tokenLayer = tokenLayer;
         _tokenScene = tokenScene;
-        
+
         // Pre-populate pool
-        for (var i = 0; i < INITIAL_POOL_SIZE; i++)
-        {
-            CreatePooledToken();
-        }
+        for (var i = 0; i < INITIAL_POOL_SIZE; i++) CreatePooledToken();
     }
 
     public Token? CreateToken(IBlock startBlock, float value)
     {
         if (_tokenScene == null)
         {
-            GD.PrintErr("[TokenFactory Debug] Token scene not found!");
+            Logger.Token.Err("Failed to load token scene");
             return null;
         }
 
-        GD.Print($"[TokenFactory Debug] Creating token with value {value} for block {startBlock.Name}");
-        
+        Logger.Token.Print($"Creating token with value {value} for block {startBlock.Name}");
+
         Token token;
         if (_tokenPool.Count > 0)
         {
@@ -51,9 +52,10 @@ public sealed class TokenFactory
             token = _tokenScene.Instantiate<Token>();
             if (token == null)
             {
-                GD.PrintErr("[TokenFactory Debug] Failed to instantiate token!");
+                Logger.Token.Err("Failed to instantiate token");
                 return null;
             }
+
             _tokenLayer.AddChild(token);
         }
 
@@ -62,7 +64,7 @@ public sealed class TokenFactory
         token.GlobalPosition = startBlock.GetTokenPosition();
         ZIndexConfig.SetZIndex(token, ZIndexConfig.Layers.Token);
 
-        GD.Print($"[TokenFactory Debug] Token created successfully at position {token.GlobalPosition}");
+        Logger.Token.Print($"Token created successfully at position {token.GlobalPosition}");
         return token;
     }
 
@@ -71,12 +73,12 @@ public sealed class TokenFactory
         var token = _tokenScene.Instantiate<Token>();
         if (token == null)
         {
-            GD.PrintErr("[TokenFactory Debug] Failed to instantiate pooled token!");
+            Logger.Token.Err("Failed to instantiate pooled token!");
             return null;
         }
 
         _tokenLayer.AddChild(token);
-        token.Visible = false;  // Hide initially
+        token.Visible = false; // Hide initially
         _totalTokensCreated++;
         _tokenPool.Enqueue(token);
         return token;
@@ -95,7 +97,7 @@ public sealed class TokenFactory
         token.Visible = false;
         token.GlobalPosition = Vector2.Zero;
         token.StopMovement();
-        
+
         // Return to pool
         _tokenPool.Enqueue(token);
     }

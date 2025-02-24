@@ -1,0 +1,52 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"godotTools.editorPath.godot4": "/Applications/Godot_mono.app",
+		"explorerExclude.backup": {},
+		"terminal.integrated.profiles.osx": {
+			"bash": {
+				"path": "bash",
+				"args": [
+					"-l"
+				],
+				"icon": "terminal-bash"
+			},
+			"zsh": {
+				"path": "zsh",
+				"args": [
+					"-l"
+				]
+			},
+			"fish": {
+				"path": "fish",
+				"args": [
+					"-l"
+				]
+			},
+			"tmux": {
+				"path": "tmux",
+				"icon": "terminal-tmux"
+			},
+			"pwsh": {
+				"path": "pwsh",
+				"icon": "terminal-powershell"
+			}
+		},
+		"files.exclude": {
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			"**/Thumbs.db": true,
+			"__pycache__": true,
+			".git": true,
+			".vscode/": true,
+			"f.code-workspace": true
+		}
+	}
+}

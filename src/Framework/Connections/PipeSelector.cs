@@ -1,54 +1,60 @@
+using F.Framework.Blocks;
+using F.Framework.Logging;
+using Godot;
+
 namespace F.Framework.Connections;
 
 public static class PipeSelector
 {
-    public static ConnectionPipe? GetPipeAtPosition(Vector2 position, IEnumerable<ConnectionPipe> pipes)
+    public static ConnectionPipe? FindClosestPipe(Vector2 position, IEnumerable<ConnectionPipe> pipes)
     {
-        ConnectionPipe? candidate = null;
-        float minDist = float.MaxValue;
+        Logger.Connection.Print($"Checking position {position} with hover distance {PipeConfig.Interaction.HoverDistance}");
 
-        // GD.Print($"[PipeSelector Debug] Checking position {position} with hover distance {PipeConfig.Interaction.HoverDistance}");
+        ConnectionPipe? closestPipe = null;
+        float closestDistance = float.MaxValue;
 
         foreach (var pipe in pipes)
         {
-            if (pipe.SourceBlock == null || pipe.TargetBlock == null)
+            if (pipe.FromSocket == null || pipe.ToSocket == null)
             {
-                // GD.Print($"[PipeSelector Debug] Skipping pipe with null blocks");
+                Logger.Connection.Print("Skipping pipe with null blocks");
                 continue;
             }
 
-            string sourceName = pipe.SourceBlock.Name ?? "unknown";
-            string targetName = pipe.TargetBlock.Name ?? "unknown";
-            // GD.Print($"[PipeSelector Debug] Checking pipe between {sourceName} and {targetName}");
+            var sourceName = pipe.FromSocket.Name;
+            var targetName = pipe.ToSocket.Name;
+            Logger.Connection.Print($"Checking pipe between {sourceName} and {targetName}");
 
             var curvePoints = pipe.GetCurvePoints();
-            if (!curvePoints.Any())
+            if (curvePoints == null || curvePoints.Length == 0)
             {
-                // GD.Print("[PipeSelector Debug] No curve points found for pipe");
+                Logger.Connection.Print("No curve points found for pipe");
                 continue;
             }
 
-            foreach (var pt in curvePoints)
+            var distance = float.MaxValue;
+            foreach (var point in curvePoints)
             {
-                float distance = position.DistanceTo(pt);
-                if (distance < minDist)
-                {
-                    minDist = distance;
-                    candidate = pipe;
-                    // GD.Print($"[PipeSelector Debug] New best distance: {distance} for pipe between {sourceName} and {targetName}");
-                }
+                distance = Mathf.Min(distance, position.DistanceTo(point));
+            }
+
+            if (distance < closestDistance)
+            {
+                closestDistance = distance;
+                closestPipe = pipe;
+                Logger.Connection.Print($"New best distance: {distance} for pipe between {sourceName} and {targetName}");
             }
         }
 
-        if (minDist <= PipeConfig.Interaction.HoverDistance && candidate != null)
+        if (closestPipe != null && closestDistance <= PipeConfig.Interaction.HoverDistance)
         {
-            string sourceName = candidate.SourceBlock?.Name ?? "unknown";
-            string targetName = candidate.TargetBlock?.Name ?? "unknown";
-            // GD.Print($"[PipeSelector Debug] Selected pipe between {sourceName} and {targetName}");
-            return candidate;
+            var sourceName = closestPipe.FromSocket?.Name ?? "unknown";
+            var targetName = closestPipe.ToSocket?.Name ?? "unknown";
+            Logger.Connection.Print($"Selected pipe between {sourceName} and {targetName}");
+            return closestPipe;
         }
 
-        // GD.Print("[PipeSelector Debug] No pipe found within hover distance");
+        Logger.Connection.Print("No pipe found within hover distance");
         return null;
     }
 }

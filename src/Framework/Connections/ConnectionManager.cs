@@ -1,179 +1,111 @@
-using Godot;
 using F.Framework.Blocks;
-using F.Framework.Core;
-using F.Game.Connections;
-using F.Game.Core;
-using F.UI.Animations;
-using F.UI.Animations.UI;
+using F.Framework.Connections.Interfaces;
+using F.Framework.Core.Services;
+using F.Framework.Logging;
+using F.Game.Toolbar;
 using F.Framework.Core.SceneTree;
+using F.Game.Connections;
+using F.UI.Animations.UI;
 
 namespace F.Framework.Connections;
 
 public partial class ConnectionManager : Node2D, IConnectionManager
 {
+    private readonly List<ConnectionPipe> _activePipes = new();
     private readonly Dictionary<IBlock, List<ConnectionPipe>> _blockConnections = new();
     private readonly ConnectionFactory _factory;
-    private readonly ConnectionValidator _validator;
+    private ConnectionValidator _validator;
+    private ConnectionPipe? _currentHighlightedPipe;
+    private bool _currentHoverState;
     private ConnectionPipe? _hoveredPipe;
     private IBlock? _inputBlock;
     private IBlock? _outputBlock;
+    private bool _processLogged;
     private ConnectionPipe? _temporaryConnection;
-    private List<ConnectionPipe> _activePipes = new List<ConnectionPipe>();
-    private ConnectionPipe? _currentHighlightedPipe = null;
-    private bool _currentHoverState = false;
-    private bool _processLogged = false;
+    private ColorRect? _bounds;
+    private const float RETRY_INTERVAL = 0.1f;
+    private const int MAX_RETRIES = 10;
+    private int _initRetryCount;
 
     public ConnectionManager()
     {
-        GD.Print("[ConnectionManager Debug] Constructor called.");
+        Logger.Connection.Print("Constructor called.");
         _factory = new ConnectionFactory(this);
-        var bounds = GetNodeOrNull<ColorRect>("Bounds");
-        if (bounds == null) GD.PrintErr("Failed to get Bounds ColorRect!");
-        _validator = new ConnectionValidator(bounds!);
-    }
-
-    private Node2D? GetBlockLayerContent()
-    {
-        return GetNode<Node2D>("../BlockLayer");
+        _validator = new ConnectionValidator(null!);
     }
 
     public override void _Ready()
     {
-        GD.Print("[ConnectionManager Debug] _Ready called.");
+        Logger.Connection.Print("Ready called.");
         base._Ready();
         ZIndex = ZIndexConfig.Layers.Pipes;
 
-        // Retrieve the input and output blocks from the viewport content
-        _inputBlock = GetNode<BaseBlock>("../BlockLayer/Input");
-        _outputBlock = GetNode<BaseBlock>("../BlockLayer/Output");
+        InitializeManager();
+    }
 
-        if (_inputBlock == null || _outputBlock == null)
+    private void InitializeManager()
+    {
+        // Get dependencies from Services
+        _inputBlock = Services.Instance?.Game?.BlockLayer?.Input;
+        _outputBlock = Services.Instance?.Game?.BlockLayer?.Output;
+
+        // Get the bounds from the correct path
+        _bounds = GetNode<ColorRect>("/root/Main/BlockLayer/Bounds/Background");
+        if (_bounds == null)
         {
-            GD.PrintErr("Input or Output block cannot be determined.");
+            Logger.Connection.Err("Failed to get Bounds ColorRect!");
+        }
+
+        // Create a new validator with the bounds
+        _validator = new ConnectionValidator(_bounds ?? null!);
+
+        if (_inputBlock?.Metadata == null || _outputBlock?.Metadata == null)
+        {
+            _initRetryCount++;
+            if (_initRetryCount >= MAX_RETRIES)
+            {
+                Logger.Connection.Err($"Failed to initialize after {MAX_RETRIES} attempts");
+                return;
+            }
+
+            Logger.Connection.Print($"Dependencies not ready, retry {_initRetryCount}/{MAX_RETRIES} in {RETRY_INTERVAL}s");
+            var timer = new Timer
+            {
+                OneShot = true,
+                WaitTime = RETRY_INTERVAL
+            };
+            AddChild(timer);
+            timer.Timeout += () =>
+            {
+                timer.QueueFree();
+                InitializeManager();
+            };
+            timer.Start();
             return;
         }
 
+        Logger.Connection.Print($"Successfully initialized with Input block ({_inputBlock.Name}) and Output block ({_outputBlock.Name})");
+
         // Defer initial connection creation
         CallDeferred(MethodName.CreateInitialConnection);
-    }
-
-    private void CreateInitialConnection()
-    {
-        if (_inputBlock == null || _outputBlock == null) return;
-
-        GD.Print($"Creating initial connection between {_inputBlock.Name} and {_outputBlock.Name} blocks...");
-        var pipe = ConnectionFactory.CreatePipeForInsertion(_inputBlock, _outputBlock);
-        if (pipe != null)
-        {
-            // Get the BlockLayerContent node
-            var content = GetBlockLayerContent();
-            if (content != null)
-            {
-                // Add pipe to BlockLayerContent
-                content.AddChild(pipe);
-                // Set pipe z-index
-                ZIndexConfig.SetZIndex(pipe, ZIndexConfig.Layers.Pipes);
-                _activePipes.Add(pipe);
-                AddPipeToBlock(_inputBlock, pipe);
-                AddPipeToBlock(_outputBlock, pipe);
-                GD.Print($"[ConnectionManager] Successfully created initial connection in BlockLayerContent");
-            }
-            else
-            {
-                GD.PrintErr("[ConnectionManager] BlockLayerContent not found, initial connection failed");
-                pipe.QueueFree();
-            }
-        }
-    }
-
-    private void AddPipeToBlock(IBlock block, ConnectionPipe pipe)
-    {
-        if (!_blockConnections.ContainsKey(block))
-        {
-            _blockConnections[block] = new List<ConnectionPipe>();
-        }
-        _blockConnections[block].Add(pipe);
-
-        if (block is BaseBlock baseBlock)
-        {
-            if (pipe.SourceBlock == block) baseBlock.SetOutputConnected(true);
-            if (pipe.TargetBlock == block) baseBlock.SetInputConnected(true);
-            GD.Print($"[ConnectionManager] Set connection for block {block.Name} to pipe {pipe.Name}");
-        }
-    }
-
-    private void RemovePipeFromBlock(IBlock block, ConnectionPipe pipe)
-    {
-        if (_blockConnections.TryGetValue(block, out var pipes))
-        {
-            pipes.Remove(pipe);
-            if (pipes.Count == 0) _blockConnections.Remove(block);
-
-            if (block is BaseBlock baseBlock)
-            {
-                if (pipe.SourceBlock == block) baseBlock.SetOutputConnected(false);
-                if (pipe.TargetBlock == block) baseBlock.SetInputConnected(false);
-            }
-        }
-    }
-
-    public void RemoveConnection(ConnectionPipe pipe)
-    {
-        if (pipe == null) return;
-
-        GD.Print($"[ConnectionManager] Removing connection pipe between {pipe.SourceBlock?.Name} and {pipe.TargetBlock?.Name}");
-
-        // Remove from both blocks' connection lists
-        if (pipe.SourceBlock != null)
-        {
-            if (_blockConnections.TryGetValue(pipe.SourceBlock, out var sourceConnections))
-            {
-                sourceConnections.Remove(pipe);
-                if (sourceConnections.Count == 0)
-                {
-                    _blockConnections.Remove(pipe.SourceBlock);
-                }
-            }
-        }
-
-        if (pipe.TargetBlock != null)
-        {
-            if (_blockConnections.TryGetValue(pipe.TargetBlock, out var targetConnections))
-            {
-                targetConnections.Remove(pipe);
-                if (targetConnections.Count == 0)
-                {
-                    _blockConnections.Remove(pipe.TargetBlock);
-                }
-            }
-        }
-
-        // Remove the pipe from the scene tree
-        pipe.QueueFree();
     }
 
     public void DisconnectBlock(IBlock block)
     {
         if (block == null) return;
 
-        GD.Print($"[ConnectionManager Debug] Disconnecting block {block.Name}");
+        Logger.Connection.Print($"Disconnecting block {block.Name}");
 
         // Get all connections for this block
         if (_blockConnections.TryGetValue(block, out var connections))
         {
             // Create a new list to avoid modification during enumeration
             var connectionsToRemove = connections.ToList();
-            foreach (var pipe in connectionsToRemove)
-            {
-                RemoveConnection(pipe);
-            }
+            foreach (var pipe in connectionsToRemove) RemoveConnection(pipe);
         }
 
         // Clear the block's connection state
-        if (block is BaseBlock baseBlock)
-        {
-            baseBlock.ResetConnections();
-        }
+        if (block is BaseBlock baseBlock) baseBlock.ResetConnections();
 
         _blockConnections.Remove(block);
     }
@@ -189,26 +121,26 @@ public partial class ConnectionManager : Node2D, IConnectionManager
         if (pipe?.SourceBlock == null || pipe.TargetBlock == null) return false;
 
         // Get block names for logging
-        string blockName = block.Name ?? "unknown";
-        string sourceName = pipe.SourceBlock.Name ?? "unknown";
-        string targetName = pipe.TargetBlock.Name ?? "unknown";
+        var blockName = block.Name ?? "unknown";
+        var sourceName = pipe.SourceBlock.Name ?? "unknown";
+        var targetName = pipe.TargetBlock.Name ?? "unknown";
 
-        GD.Print($"[ConnectionManager Debug] Attempting to connect block {blockName} between {sourceName} and {targetName}");
+        Logger.Connection.Print($"Attempting to connect block {blockName} between {sourceName} and {targetName}");
 
         // Prevent self-connections
         if (block == pipe.SourceBlock || block == pipe.TargetBlock)
         {
-            GD.Print($"[ConnectionManager Debug] Rejected self-connection attempt for block {blockName}");
+            Logger.Connection.Print($"Rejected self-connection attempt for block {blockName}");
             return false;
         }
 
         // Special handling for Input block connections
-        bool isSourceInput = pipe.SourceBlock.Metadata?.Id == "input";
+        var isSourceInput = pipe.SourceBlock.Metadata?.Id == "input";
 
         // If the block we're inserting has connections and we're not inserting after Input, reject
         if (block is BaseBlock baseBlock && baseBlock.HasConnections() && !isSourceInput)
         {
-            GD.Print($"[ConnectionManager Debug] Block {blockName} already has connections and not inserting after Input");
+            Logger.Connection.Print($"Block {blockName} already has connections and not inserting after Input");
             return false;
         }
 
@@ -221,21 +153,18 @@ public partial class ConnectionManager : Node2D, IConnectionManager
         var targetBlock = pipe.TargetBlock;
 
         // Reset the new block's connections if it's a BaseBlock
-        if (block is BaseBlock newBlock)
-        {
-            newBlock.ResetConnections();
-        }
+        if (block is BaseBlock newBlock) newBlock.ResetConnections();
 
         // Only remove the specific pipe we're replacing
         RemoveConnection(pipe);
 
-        GD.Print($"[ConnectionManager Debug] Creating new connections for block {blockName}");
+        Logger.Connection.Print($"Creating new connections for block {blockName}");
 
         // Create new connections using CreatePipeForInsertion
         var inputPipe = ConnectionFactory.CreatePipeForInsertion(sourceBlock, block);
         if (inputPipe == null)
         {
-            GD.PrintErr($"[ConnectionManager Debug] Failed to create input pipe from {sourceName} to {blockName}");
+            Logger.Connection.Err($"Failed to create input pipe from {sourceName} to {blockName}");
             RestoreConnection(sourceBlock, targetBlock);
             return false;
         }
@@ -243,7 +172,7 @@ public partial class ConnectionManager : Node2D, IConnectionManager
         var outputPipe = ConnectionFactory.CreatePipeForInsertion(block, targetBlock);
         if (outputPipe == null)
         {
-            GD.PrintErr($"[ConnectionManager Debug] Failed to create output pipe from {blockName} to {targetName}");
+            Logger.Connection.Err($"Failed to create output pipe from {blockName} to {targetName}");
             inputPipe.QueueFree();
             RestoreConnection(sourceBlock, targetBlock);
             return false;
@@ -253,7 +182,7 @@ public partial class ConnectionManager : Node2D, IConnectionManager
         var content = GetBlockLayerContent();
         if (content == null)
         {
-            GD.PrintErr("[ConnectionManager Debug] BlockLayerContent not found");
+            Logger.Connection.Err("BlockLayerContent not found");
             inputPipe.QueueFree();
             outputPipe.QueueFree();
             RestoreConnection(sourceBlock, targetBlock);
@@ -276,44 +205,17 @@ public partial class ConnectionManager : Node2D, IConnectionManager
         if (block is BaseBlock connectedBlock)
         {
             connectedBlock.CompleteConnection();
-            GD.Print($"[ConnectionManager] Successfully connected block {blockName} between {sourceName} and {targetName}");
+            Logger.Connection.Print($"Successfully connected block {blockName} between {sourceName} and {targetName}");
         }
 
         return true;
-    }
-
-    private void RestoreConnection(IBlock sourceBlock, IBlock targetBlock)
-    {
-        string sourceName = sourceBlock.Name ?? "unknown";
-        string targetName = targetBlock.Name ?? "unknown";
-        GD.Print($"[ConnectionManager] Restoring connection between {sourceName} and {targetName}");
-
-        var restoredPipe = ConnectionFactory.CreatePipeForInsertion(sourceBlock, targetBlock);
-        if (restoredPipe != null)
-        {
-            var content = GetBlockLayerContent();
-            if (content != null)
-            {
-                content.AddChild(restoredPipe);
-                ZIndexConfig.SetZIndex(restoredPipe, ZIndexConfig.Layers.Pipes);
-                _activePipes.Add(restoredPipe);
-                AddPipeToBlock(sourceBlock, restoredPipe);
-                AddPipeToBlock(targetBlock, restoredPipe);
-                GD.Print($"[ConnectionManager] Successfully restored connection in BlockLayerContent");
-            }
-            else
-            {
-                GD.PrintErr("[ConnectionManager] BlockLayerContent not found, connection failed");
-                restoredPipe.QueueFree();
-            }
-        }
     }
 
     public override void _Process(double delta)
     {
         if (!_processLogged)
         {
-            GD.Print("[ConnectionManager Debug] _Process running");
+            Logger.Connection.Print("_Process running");
             _processLogged = true;
         }
 
@@ -321,7 +223,7 @@ public partial class ConnectionManager : Node2D, IConnectionManager
 
         var mousePos = GetViewport().GetMousePosition();
         var viewportSize = GetViewport().GetVisibleRect().Size;
-        bool shouldShow = (mousePos.Y / viewportSize.Y) > 0.8;
+        var shouldShow = mousePos.Y / viewportSize.Y > 0.8;
 
         if (shouldShow != _currentHoverState)
         {
@@ -334,21 +236,15 @@ public partial class ConnectionManager : Node2D, IConnectionManager
     {
         if (sourceBlock == null || targetBlock == null)
         {
-            GD.PrintErr("[ConnectionManager] Cannot connect null blocks");
+            Logger.Connection.Err("[ConnectionManager] Cannot connect null blocks");
             return;
         }
 
-        GD.Print($"[ConnectionManager Debug] Creating new connection between {sourceBlock.Name} -> {targetBlock.Name}");
+        Logger.Connection.Print($"Creating new connection between {sourceBlock.Name} -> {targetBlock.Name}");
 
         // First disconnect any existing connections
-        if (sourceBlock is BaseBlock sourceBlockInstance)
-        {
-            sourceBlockInstance.ResetConnections();
-        }
-        if (targetBlock is BaseBlock targetBlockInstance)
-        {
-            targetBlockInstance.ResetConnections();
-        }
+        if (sourceBlock is BaseBlock sourceBlockInstance) sourceBlockInstance.ResetConnections();
+        if (targetBlock is BaseBlock targetBlockInstance) targetBlockInstance.ResetConnections();
 
         // Create the connection pipe
         var pipe = _factory.CreatePipe(sourceBlock, targetBlock);
@@ -356,40 +252,29 @@ public partial class ConnectionManager : Node2D, IConnectionManager
         {
             // Add to our connection tracking
             if (!_blockConnections.ContainsKey(sourceBlock))
-            {
                 _blockConnections[sourceBlock] = new List<ConnectionPipe>();
-            }
             if (!_blockConnections.ContainsKey(targetBlock))
-            {
                 _blockConnections[targetBlock] = new List<ConnectionPipe>();
-            }
 
             _blockConnections[sourceBlock].Add(pipe);
             _blockConnections[targetBlock].Add(pipe);
 
             // Update block states
-            if (sourceBlock is BaseBlock sourceBlockInst)
-            {
-                sourceBlockInst.SetOutputConnected(true);
-            }
-            if (targetBlock is BaseBlock targetBlockInst)
-            {
-                targetBlockInst.SetInputConnected(true);
-            }
+            if (sourceBlock is BaseBlock sourceBlockInst) sourceBlockInst.SetOutputConnected(true);
+            if (targetBlock is BaseBlock targetBlockInst) targetBlockInst.SetInputConnected(true);
 
-            GD.Print($"[ConnectionManager] Successfully connected blocks {sourceBlock.Name} -> {targetBlock.Name}");
+            Logger.Connection.Print($"Successfully connected blocks {sourceBlock.Name} -> {targetBlock.Name}");
         }
     }
 
-    public bool IsBlockConnected(IBlock block) =>
-        _blockConnections.ContainsKey(block) && _blockConnections[block].Count > 0;
+    public bool IsBlockConnected(IBlock block)
+    {
+        return _blockConnections.ContainsKey(block) && _blockConnections[block].Count > 0;
+    }
 
     public List<ConnectionPipe> GetCurrentConnections(IBlock block)
     {
-        if (_blockConnections.TryGetValue(block, out var connections))
-        {
-            return new List<ConnectionPipe>(connections);
-        }
+        if (_blockConnections.TryGetValue(block, out var connections)) return new List<ConnectionPipe>(connections);
         return new List<ConnectionPipe>();
     }
 
@@ -405,8 +290,131 @@ public partial class ConnectionManager : Node2D, IConnectionManager
 
         // Return the target block of the pipe
         var nextBlock = pipe.TargetBlock;
-        GD.Print($"[ConnectionManager Debug] Found next block in chain from {currentBlock.Name}: {nextBlock?.Name}");
+        Logger.Connection.Print($"Found next block in chain from {currentBlock.Name}: {nextBlock?.Name}");
         return (nextBlock, pipe);
+    }
+
+    public void ClearAllHighlights()
+    {
+        foreach (var pipe in _activePipes)
+        {
+            pipe.SetHighlighted(false);
+            pipe.ClearInsertionHighlight();
+        }
+    }
+
+    private Node2D? GetBlockLayerContent()
+    {
+        return Services.Instance?.Game?.BlockLayer as Node2D;
+    }
+
+    private void CreateInitialConnection()
+    {
+        if (_inputBlock == null || _outputBlock == null) return;
+
+        Logger.Connection.Print($"Creating initial connection between {_inputBlock.Name} and {_outputBlock.Name} blocks...");
+        var pipe = ConnectionFactory.CreatePipeForInsertion(_inputBlock, _outputBlock);
+        if (pipe != null)
+        {
+            // Get the BlockLayerContent node
+            var content = GetBlockLayerContent();
+            if (content != null)
+            {
+                // Add pipe to BlockLayerContent
+                content.AddChild(pipe);
+                // Set pipe z-index
+                ZIndexConfig.SetZIndex(pipe, ZIndexConfig.Layers.Pipes);
+                _activePipes.Add(pipe);
+                AddPipeToBlock(_inputBlock, pipe);
+                AddPipeToBlock(_outputBlock, pipe);
+                Logger.Connection.Print("Successfully created initial connection in BlockLayerContent");
+            }
+            else
+            {
+                Logger.Connection.Err("BlockLayerContent not found, initial connection failed");
+                pipe.QueueFree();
+            }
+        }
+    }
+
+    private void AddPipeToBlock(IBlock block, ConnectionPipe pipe)
+    {
+        if (!_blockConnections.ContainsKey(block)) _blockConnections[block] = new List<ConnectionPipe>();
+        _blockConnections[block].Add(pipe);
+
+        if (block is BaseBlock baseBlock)
+        {
+            if (pipe.SourceBlock == block) baseBlock.SetOutputConnected(true);
+            if (pipe.TargetBlock == block) baseBlock.SetInputConnected(true);
+            Logger.Connection.Print($"Set connection for block {block.Name} to pipe {pipe.Name}");
+        }
+    }
+
+    private void RemovePipeFromBlock(IBlock block, ConnectionPipe pipe)
+    {
+        if (_blockConnections.TryGetValue(block, out var pipes))
+        {
+            pipes.Remove(pipe);
+            if (pipes.Count == 0) _blockConnections.Remove(block);
+
+            if (block is BaseBlock baseBlock)
+            {
+                if (pipe.SourceBlock == block) baseBlock.SetOutputConnected(false);
+                if (pipe.TargetBlock == block) baseBlock.SetInputConnected(false);
+            }
+        }
+    }
+
+    public void RemoveConnection(ConnectionPipe pipe)
+    {
+        if (pipe == null) return;
+
+        Logger.Connection.Print($"Removing connection pipe between {pipe.SourceBlock?.Name} and {pipe.TargetBlock?.Name}");
+
+        // Remove from both blocks' connection lists
+        if (pipe.SourceBlock != null)
+            if (_blockConnections.TryGetValue(pipe.SourceBlock, out var sourceConnections))
+            {
+                sourceConnections.Remove(pipe);
+                if (sourceConnections.Count == 0) _blockConnections.Remove(pipe.SourceBlock);
+            }
+
+        if (pipe.TargetBlock != null)
+            if (_blockConnections.TryGetValue(pipe.TargetBlock, out var targetConnections))
+            {
+                targetConnections.Remove(pipe);
+                if (targetConnections.Count == 0) _blockConnections.Remove(pipe.TargetBlock);
+            }
+
+        // Remove the pipe from the scene tree
+        pipe.QueueFree();
+    }
+
+    private void RestoreConnection(IBlock sourceBlock, IBlock targetBlock)
+    {
+        var sourceName = sourceBlock.Name ?? "unknown";
+        var targetName = targetBlock.Name ?? "unknown";
+        Logger.Connection.Print($"Restoring connection between {sourceName} and {targetName}");
+
+        var restoredPipe = ConnectionFactory.CreatePipeForInsertion(sourceBlock, targetBlock);
+        if (restoredPipe != null)
+        {
+            var content = GetBlockLayerContent();
+            if (content != null)
+            {
+                content.AddChild(restoredPipe);
+                ZIndexConfig.SetZIndex(restoredPipe, ZIndexConfig.Layers.Pipes);
+                _activePipes.Add(restoredPipe);
+                AddPipeToBlock(sourceBlock, restoredPipe);
+                AddPipeToBlock(targetBlock, restoredPipe);
+                Logger.Connection.Print("Successfully restored connection in BlockLayerContent");
+            }
+            else
+            {
+                Logger.Connection.Err("BlockLayerContent not found, connection failed");
+                restoredPipe.QueueFree();
+            }
+        }
     }
 
     // Keep the parameterless version for backward compatibility with Input block
@@ -429,15 +437,6 @@ public partial class ConnectionManager : Node2D, IConnectionManager
             _hoveredPipe.SetHighlighted(true);
     }
 
-    public void ClearAllHighlights()
-    {
-        foreach (var pipe in _activePipes)
-        {
-            pipe.SetHighlighted(false);
-            pipe.ClearInsertionHighlight();
-        }
-    }
-
     public void AddPipe(ConnectionPipe pipe)
     {
         _activePipes.Add(pipe);
@@ -450,7 +449,7 @@ public partial class ConnectionManager : Node2D, IConnectionManager
         }
         else
         {
-            GD.PrintErr("[ConnectionManager] BlockLayerContent not found, pipe added to wrong node");
+            Logger.Connection.Err("[ConnectionManager] BlockLayerContent not found, pipe added to wrong node");
             AddChild(pipe);
         }
     }
@@ -484,10 +483,7 @@ public partial class ConnectionManager : Node2D, IConnectionManager
                 if (content != null && pipe.GetParent() != content)
                 {
                     // If pipe is already in the tree but in the wrong place, reparent it
-                    if (pipe.IsInsideTree())
-                    {
-                        pipe.GetParent()?.RemoveChild(pipe);
-                    }
+                    if (pipe.IsInsideTree()) pipe.GetParent()?.RemoveChild(pipe);
                     content.AddChild(pipe);
                     ZIndexConfig.SetZIndex(pipe, ZIndexConfig.Layers.Pipes);
                 }
@@ -498,11 +494,11 @@ public partial class ConnectionManager : Node2D, IConnectionManager
                 currentSource.SetOutputConnected(true);
                 currentTarget.SetInputConnected(true);
 
-                GD.Print($"[ConnectionManager] Source block {currentSource.Name} output connected: {currentSource.HasOutputConnection()}");
-                GD.Print($"[ConnectionManager] Target block {currentTarget.Name} input connected: {currentTarget.HasInputConnection()}");
+                Logger.Connection.Print($"Source block {currentSource.Name} output connected: {currentSource.HasOutputConnection()}");
+                Logger.Connection.Print($"Target block {currentTarget.Name} input connected: {currentTarget.HasInputConnection()}");
             }
         }
 
-        GD.Print($"[ConnectionManager] Set {(isSource ? "source" : "target")} connection for block {block.Name} to pipe {pipe.Name}");
+        Logger.Connection.Print($"[ConnectionManager] Set {(isSource ? "source" : "target")} connection for block {block.Name} to pipe {pipe.Name}");
     }
 }

@@ -1,37 +1,38 @@
-using F.UI.Animations;
-using ToolbarHoverAnimation = F.UI.Animations.UI.ToolbarHoverAnimation;
-using Godot;
 using F.Framework.Core.SceneTree;
+using ToolbarHoverAnimation = F.UI.Animations.UI.ToolbarHoverAnimation;
+using F.Framework.Core.Interfaces;
+using F.Framework.Logging;
 
-namespace F.Game.Toolbar
+namespace F.Game.Toolbar;
+
+public partial class ToolbarVisuals : Control, IToolbarVisuals
 {
-    public partial class ToolbarVisuals : Control, IToolbarVisuals
+    private ColorRect? _background;
+
+    public override void _Ready()
     {
-        private ColorRect? _background;
+        base._Ready();
+        _background = GetNode<ColorRect>("Background");
+    }
 
-        public override void _Ready()
+    public void UpdateBlockPositions()
+    {
+        // Update block positions in the toolbar
+        // This is called whenever blocks are added/removed
+        Logger.UI.Print("Block positions updated.");
+    }
+
+    public void StartHoverAnimation(bool show)
+    {
+        var parent = GetParent<Control>();
+        if (parent == null)
         {
-            base._Ready();
-            _background = GetNode<ColorRect>("Background");
+            Logger.UI.Err("Parent control not found for hover animation.");
+            return;
         }
 
-        public void UpdateBlockPositions()
-        {
-            GD.Print("ToolbarVisuals: Block positions updated.");
-        }
-
-        public void StartHoverAnimation(bool show)
-        {
-            // Get the parent node (the toolbar) and delegate the hover animation to it
-            var parentControl = GetParent<Control>();
-            if (parentControl != null)
-            {
-                ToolbarHoverAnimation.Create(parentControl, show);
-            }
-            else
-            {
-                GD.PrintErr("ToolbarVisuals: Parent control not found for hover animation.");
-            }
-        }
+        // Start the hover animation
+        var animation = new ToolbarHoverAnimation(parent, show);
+        AddChild(animation);
     }
 }

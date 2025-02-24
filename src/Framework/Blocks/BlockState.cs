@@ -1,4 +1,4 @@
-namespace F.Game.BlockLogic;
+namespace F.Framework.Blocks;
 
 public enum BlockState
 {

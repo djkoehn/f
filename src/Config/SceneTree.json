@@ -1,0 +1,40 @@
+{
+    "root": {
+        "type": "Node2D",
+        "name": "Main",
+        "children": {
+            "blockLayer": {
+                "type": "Node2D",
+                "name": "BlockLayer",
+                "children": {
+                    "input": {
+                        "type": "Node2D",
+                        "name": "Input"
+                    },
+                    "output": {
+                        "type": "Node2D",
+                        "name": "Output"
+                    },
+                    "bounds": {
+                        "type": "Area2D",
+                        "name": "Bounds",
+                        "children": {
+                            "background": {
+                                "type": "ColorRect",
+                                "name": "Background"
+                            }
+                        }
+                    }
+                }
+            },
+            "tokenLayer": {
+                "type": "Node2D",
+                "name": "TokenLayer"
+            },
+            "toolbar": {
+                "type": "Control",
+                "name": "Toolbar"
+            }
+        }
+    }
+}

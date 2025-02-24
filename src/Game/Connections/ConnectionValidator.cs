@@ -1,3 +1,5 @@
+using F.Framework.Blocks;
+
 namespace F.Game.Connections;
 
 public sealed class ConnectionValidator

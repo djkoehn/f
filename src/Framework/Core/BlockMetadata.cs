@@ -1,88 +1,107 @@
-using Newtonsoft.Json;
+using System.Text.Json;
+using F.Framework.Logging;
 using Godot;
 
 namespace F.Framework.Core;
 
-public partial class BlockMetadata : Node
+public class BlockMetadata : IBlockMetadata
 {
-    public string Id { get; set; } = "";
-    public string ScenePath { get; set; } = "";
-    public string ProcessTokenScript { get; set; } = "";
-    public new string Name { get; set; } = "";
-    public string Description { get; set; } = "";
-    public bool HasInputSocket { get; set; } = true;
-    public bool HasOutputSocket { get; set; } = true;
-    public bool IsStationary { get; set; } = false;
-    public bool SpawnOnSpace { get; set; } = false;
-    public bool DisplayValue { get; set; } = false;
+    private static readonly Dictionary<string, BlockMetadata> _metadataCache = new();
 
-    private static Dictionary<string, BlockMetadata> _metadataCache = new();
+    public string Id { get; private set; }
+    public string Scene { get; private set; }
+    public string SpawnHotkey { get; private set; }
+    public bool HasInput { get; private set; }
+    public bool HasOutput { get; private set; }
+    public bool IsToolbarBlock { get; private set; }
 
-    public override void _Ready()
+    private BlockMetadata(
+        string id,
+        string scene,
+        string spawnHotkey,
+        bool hasInput,
+        bool hasOutput,
+        bool isToolbarBlock)
     {
-        base._Ready();
-        // Initialize cache on ready
-        _ = GetMetadata("dummy"); // This will trigger cache loading
+        Id = id;
+        Scene = scene;
+        SpawnHotkey = spawnHotkey;
+        HasInput = hasInput;
+        HasOutput = hasOutput;
+        IsToolbarBlock = isToolbarBlock;
     }
 
-    public static BlockMetadata? GetMetadata(string blockId)
+    public static BlockMetadata? GetMetadata(string id)
     {
-        if (_metadataCache.Count == 0)
+        if (_metadataCache.TryGetValue(id, out var metadata))
         {
-            GD.Print($"[BlockMetadata Debug] Loading metadata for first time, looking for blockId: {blockId}");
-            string json;
-            if (FileAccess.FileExists("res://BlockMetadata.json"))
-            {
-                using var file = FileAccess.Open("res://BlockMetadata.json", FileAccess.ModeFlags.Read);
-                json = file.GetAsText();
-                GD.Print($"[BlockMetadata Debug] JSON content length: {json.Length}");
-                GD.Print($"[BlockMetadata Debug] First 200 chars of JSON: {json.Substring(0, Math.Min(200, json.Length))}");
-            }
-            else
-            {
-                GD.PrintErr("[BlockMetadata Debug] BlockMetadata.json not found at res://BlockMetadata.json");
-                return null;
-            }
-
-            try
-            {
-                var metadataFile = JsonConvert.DeserializeObject<BlockMetadataFile>(json);
-                GD.Print($"[BlockMetadata Debug] Deserialization result: {(metadataFile != null ? "success" : "null")}");
-                GD.Print($"[BlockMetadata Debug] Number of blocks: {metadataFile?.Blocks?.Length ?? 0}");
-
-                if (metadataFile?.Blocks != null)
-                {
-                    foreach (var m in metadataFile.Blocks)
-                    {
-                        _metadataCache[m.Id.ToLower()] = m;  // Store with lowercase ID
-                        GD.Print($"[BlockMetadata Debug] Cached block - Id: {m.Id.ToLower()}, Name: {m.Name}, SpawnOnSpace: {m.SpawnOnSpace}");
-                    }
-                }
-                else
-                {
-                    GD.PrintErr("[BlockMetadata Debug] Blocks array is null after deserialization");
-                }
-            }
-            catch (Exception e)
-            {
-                GD.PrintErr($"[BlockMetadata Debug] Error deserializing metadata: {e.Message}");
-                GD.PrintErr($"[BlockMetadata Debug] Stack trace: {e.StackTrace}");
-                return null;
-            }
-        }
-
-        var lookupId = blockId.ToLower();  // Convert lookup ID to lowercase
-        GD.Print($"[BlockMetadata Debug] Looking up metadata for blockId: {lookupId}");
-        GD.Print($"[BlockMetadata Debug] Available cache keys: {string.Join(", ", _metadataCache.Keys)}");
-
-        if (_metadataCache.TryGetValue(lookupId, out var metadata))
-        {
-            GD.Print($"[BlockMetadata Debug] Retrieved metadata for {lookupId} - Name: {metadata.Name}, SpawnOnSpace: {metadata.SpawnOnSpace}");
+            Logger.Block.Print($"Retrieved metadata for block {id} from cache");
             return metadata;
         }
 
-        GD.PrintErr($"[BlockMetadata Debug] No metadata found for blockId: {lookupId}");
-        return null;
+        var jsonPath = $"res://metadata/blocks/{id}.json";
+        Logger.Block.Print($"Loading metadata for block {id} from {jsonPath}");
+
+        var jsonContent = FileAccess.GetFileAsString(jsonPath);
+        if (string.IsNullOrEmpty(jsonContent))
+        {
+            Logger.Block.Err($"Failed to load metadata file for block {id}");
+            return null;
+        }
+
+        Logger.Block.Print($"Loaded JSON content for block {id} (length: {jsonContent.Length})");
+
+        try
+        {
+            var metadata = LoadMetadataFromJson(id, jsonContent);
+            if (metadata != null)
+            {
+                _metadataCache[id] = metadata;
+                Logger.Block.Print($"Cached metadata for block {id}");
+            }
+            return metadata;
+        }
+        catch (JsonException e)
+        {
+            Logger.Block.Err($"Failed to parse metadata JSON for block {id}: {e.Message}");
+            return null;
+        }
+    }
+
+    private static BlockMetadata? LoadMetadataFromJson(string id, string jsonContent)
+    {
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
+
+        try
+        {
+            var jsonData = JsonSerializer.Deserialize<JsonElement>(jsonContent, options);
+
+            var scene = jsonData.GetProperty("scene").GetString() ?? "";
+            var spawnHotkey = jsonData.GetProperty("spawnHotkey").GetString() ?? "";
+            var hasInput = jsonData.GetProperty("hasInput").GetBoolean();
+            var hasOutput = jsonData.GetProperty("hasOutput").GetBoolean();
+            var isToolbarBlock = jsonData.GetProperty("isToolbarBlock").GetBoolean();
+
+            var metadata = new BlockMetadata(
+                id,
+                scene,
+                spawnHotkey,
+                hasInput,
+                hasOutput,
+                isToolbarBlock
+            );
+
+            Logger.Block.Print($"Successfully parsed metadata for block {id}");
+            return metadata;
+        }
+        catch (KeyNotFoundException e)
+        {
+            Logger.Block.Err($"Missing required field in metadata JSON for block {id}: {e.Message}");
+            return null;
+        }
     }
 }
 

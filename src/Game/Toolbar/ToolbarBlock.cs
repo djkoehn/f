@@ -1,15 +1,19 @@
-using Godot;
-using F.Framework.Blocks;
 using Chickensoft.AutoInject;
 using Chickensoft.Introspection;
+using F.Framework.Blocks;
+using F.Framework.Logging;
 
 namespace F.Game.Toolbar;
 
 [Meta(typeof(IAutoNode))]
 public partial class ToolbarBlock : BaseBlock, IProvide<Node>, IDependent
 {
-    [Dependency]
-    public ToolbarBlockContainer Container => this.DependOn<ToolbarBlockContainer>();
+    [Dependency] public ToolbarBlockContainer Container => this.DependOn<ToolbarBlockContainer>();
+
+    Node IProvide<Node>.Value()
+    {
+        return this;
+    }
 
     public override void _Ready()
     {
@@ -19,16 +23,17 @@ public partial class ToolbarBlock : BaseBlock, IProvide<Node>, IDependent
 
     public override void SetInToolbar(bool value)
     {
+        Logger.UI.Print($"Block {Name} SetInToolbar: {value}");
         base.SetInToolbar(value);
         if (value)
         {
             Container.UpdateBlockPositions();
             Container.UpdateContainerSize();
         }
-        GD.Print($"[ToolbarBlock] Block {Name} SetInToolbar: {value}");
     }
 
-    public override void _Notification(int what) => this.Notify(what);
-
-    Node IProvide<Node>.Value() => this;
+    public override void _Notification(int what)
+    {
+        this.Notify(what);
+    }
 }

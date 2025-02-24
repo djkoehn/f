@@ -1,6 +1,9 @@
-using F.Framework.Core;
 using F.Framework.Blocks;
-using F.Framework.Connections;
+using F.Framework.Core;
+using F.Framework.Core.SceneTree;
+using F.Framework.Core.Services;
+using F.Framework.Core.Interfaces;
+using F.Framework.Logging;
 using Godot;
 
 namespace F.Game.Toolbar;
@@ -12,6 +15,7 @@ public partial class ToolbarBlockManager : Node
 
     private readonly Dictionary<string, BaseBlock> _blocks = new();
     private HBoxContainer? _blockContainer;
+    private Inventory? _inventory;
 
     public override void _Ready()
     {
@@ -19,32 +23,42 @@ public partial class ToolbarBlockManager : Node
         _blockContainer = GetParent().GetNode<HBoxContainer>("BlockContainer");
 
         if (_blockContainer == null)
-            GD.PrintErr("Required nodes not found in ToolbarBlockManager!");
-    }
-
-    public void AddBlock(string blockType)
-    {
-        if (_blockContainer == null) return;
-
-        GD.Print("Adding block of type: " + blockType);
-
-        var metadata = BlockMetadata.GetMetadata(blockType);
-        if (metadata == null) return;
-
-        // Let BlockManager create the block
-        var block = Services.Instance.Blocks.CreateBlock(metadata, _blockContainer);
-        if (block == null)
         {
-            GD.PrintErr($"Failed to create block: {blockType}");
+            Logger.UI.Err("Required nodes not found in ToolbarBlockManager!");
             return;
         }
 
-        // Connect to our local handler
-        const string fixedBlockClickedSignal = "block_clicked";
-        block.Connect(fixedBlockClickedSignal, new Callable(this, nameof(OnBlockClicked)));
+        _inventory = GetNode<Inventory>("/root/Game/Services/Inventory");
+        if (_inventory == null)
+        {
+            Logger.UI.Print("Inventory not available yet, deferring initialization");
+            return;
+        }
 
-        _blocks[blockType] = block;
-        UpdateBlockPositions();
+        InitializeBlocks();
+    }
+
+    private void InitializeBlocks()
+    {
+        if (_blockContainer == null || _inventory == null) return;
+
+        foreach (var blockType in _inventory.GetAllBlocks())
+        {
+            Logger.UI.Print($"Adding block of type: {blockType.Id}");
+            var block = BlockFactory.CreateToolbarBlock(blockType, _blockContainer);
+            if (block == null)
+            {
+                Logger.UI.Err($"Failed to create block: {blockType.Id}");
+                continue;
+            }
+
+            // Connect to our local handler
+            const string fixedBlockClickedSignal = "block_clicked";
+            block.Connect(fixedBlockClickedSignal, new Callable(this, nameof(OnBlockClicked)));
+
+            _blocks.Add(block.Name, block);
+            UpdateBlockPositions();
+        }
     }
 
     private void OnBlockClicked(BaseBlock block)
@@ -79,10 +93,7 @@ public partial class ToolbarBlockManager : Node
 
         // Add to our dictionary for tracking
         var metadata = block.Metadata;
-        if (metadata != null)
-        {
-            _blocks[metadata.Id] = block;
-        }
+        if (metadata != null) _blocks[metadata.Id] = block;
 
         UpdateBlockPositions();
     }
@@ -101,5 +112,14 @@ public partial class ToolbarBlockManager : Node
         if (_blockContainer == null) return;
         float totalWidth = _blockContainer.GetChildren().Count * (100 + 40); // Block width + separation from scene
         EmitSignal(SignalName.BlockPositionsUpdated, totalWidth);
+    }
+
+    public void CreateBlock(BlockMetadata metadata)
+    {
+        var block = Services.Instance?.Blocks?.CreateBlock(metadata as IBlockMetadata, this);
+        if (block != null)
+        {
+            _blocks.Add(block.Name, block);
+        }
     }
 }

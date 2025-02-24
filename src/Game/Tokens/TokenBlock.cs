@@ -1,15 +1,19 @@
-using Godot;
-using F.Framework.Blocks;
 using Chickensoft.AutoInject;
 using Chickensoft.Introspection;
+using F.Framework.Blocks;
+using F.Framework.Logging;
 
 namespace F.Game.Tokens;
 
 [Meta(typeof(IAutoNode))]
 public partial class TokenBlock : BaseBlock, IProvide<Node>, IDependent
 {
-    [Dependency]
-    public TokenManager TokenManager => this.DependOn<TokenManager>();
+    [Dependency] public TokenManager TokenManager => this.DependOn<TokenManager>();
+
+    Node IProvide<Node>.Value()
+    {
+        return this;
+    }
 
     public override void _Ready()
     {
@@ -19,18 +23,20 @@ public partial class TokenBlock : BaseBlock, IProvide<Node>, IDependent
 
     public override void SpawnToken()
     {
-        GD.Print($"[TokenBlock Debug] SpawnToken called for block {Name}");
+        Logger.Token.Print($"SpawnToken called for block {Name}");
+
         if (!HasOutputConnection())
         {
-            GD.PrintErr($"[TokenBlock Debug] Failed to spawn token - Block has no output connection");
+            Logger.Token.Err("Failed to spawn token - Block has no output connection");
             return;
         }
 
-        GD.Print($"[TokenBlock Debug] Spawning token from block {Name}");
-        TokenManager.SpawnToken(this);
+        Logger.Token.Print($"Spawning token from block {Name}");
+        Services.Instance?.Tokens?.SpawnToken(this);
     }
 
-    public override void _Notification(int what) => this.Notify(what);
-
-    Node IProvide<Node>.Value() => this;
+    public override void _Notification(int what)
+    {
+        this.Notify(what);
+    }
 }
