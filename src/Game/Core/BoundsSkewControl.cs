@@ -1,12 +1,10 @@
-using Godot;
-
 namespace F.Game.Core;
 
 public partial class BoundsSkewControl : Sprite2D
 {
+    private const float MAX_ROTATION = 5.0f; // Maximum rotation in degrees
     private Area2D _bounds;
     private ShaderMaterial _material;
-    private const float MAX_ROTATION = 5.0f; // Maximum rotation in degrees
 
     public override void _Ready()
     {
@@ -29,4 +27,4 @@ public partial class BoundsSkewControl : Sprite2D
         _material.SetShaderParameter("y_rot", normalizedPos.X * MAX_ROTATION);
         _material.SetShaderParameter("x_rot", normalizedPos.Y * MAX_ROTATION);
     }
-} 
+}

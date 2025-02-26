@@ -31,7 +31,9 @@ public static class SceneNodeConfig
         public const string Input = "/root/Main/GameManager/BlockLayer/Input";
         public const string Output = "/root/Main/GameManager/BlockLayer/Output";
         public const string Bounds = "/root/Main/GameManager/BlockLayer/Bounds";
-        public const string BlockLayerContent = "/root/Main/GameManager/BlockLayer/BlockLayerViewport/BlockLayerContent";
+
+        public const string BlockLayerContent =
+            "/root/Main/GameManager/BlockLayer/BlockLayerViewport/BlockLayerContent";
     }
 
     public static class HelperFunnel
@@ -47,4 +49,4 @@ public static class SceneNodeConfig
         public const string BlockSoundPlayer = "/root/Main/AudioManager/BlockSoundPlayer";
         public const string TokenSoundPlayer = "/root/Main/AudioManager/TokenSoundPlayer";
     }
-} 
+}

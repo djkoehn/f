@@ -5,13 +5,13 @@ public partial class Inventory : Node
     [Signal]
     public delegate void InventoryReadyEventHandler();
 
+    private const string INVENTORY_PATH = "res://Inventory.json";
+
     private readonly List<BaseBlock> _baseBlocks = new();
-    private readonly Dictionary<string, F.Game.BlockLogic.BlockMetadata> _blocks = new();
+    private readonly Dictionary<string, BlockMetadata> _blocks = new();
 
     public bool IsReady { get; private set; }
     public float TokenBaseValue { get; set; } = 1.0f;
-
-    private const string INVENTORY_PATH = "res://Inventory.json";
 
     public override void _Ready()
     {
@@ -25,7 +25,7 @@ public partial class Inventory : Node
         var jsonText = FileAccess.GetFileAsString(INVENTORY_PATH);
         var json = new Json();
         var parseResult = json.Parse(jsonText);
-        
+
         if (parseResult != Error.Ok)
         {
             GD.PrintErr($"Failed to parse Inventory.json: {json.GetErrorMessage()}");
@@ -40,17 +40,14 @@ public partial class Inventory : Node
         }
 
         var blocks = data["blocks"].AsStringArray();
-        foreach (var blockId in blocks)
-        {
-            AddBlockByType(blockId);
-        }
+        foreach (var blockId in blocks) AddBlockByType(blockId);
 
         GD.Print($"Blocks in Inventory: {string.Join(", ", _blocks.Keys)}"); // Debug print
     }
 
     public void AddBlockByType(string blockType)
     {
-        BlockMetadata? metadata = BlockMetadata.GetMetadata(blockType);
+        var metadata = BlockMetadata.GetMetadata(blockType);
         if (metadata != null)
         {
             // Create a unique ID for each block instance
@@ -59,36 +56,30 @@ public partial class Inventory : Node
         }
     }
 
-    private void AddBlockMetadata(string id, F.Game.BlockLogic.BlockMetadata metadata)
+    private void AddBlockMetadata(string id, BlockMetadata metadata)
     {
         if (!_blocks.ContainsKey(id)) _blocks[id] = metadata;
     }
 
-    public Dictionary<string, F.Game.BlockLogic.BlockMetadata> GetBlockMetadata()
+    public Dictionary<string, BlockMetadata> GetBlockMetadata()
     {
         // Return all blocks, including duplicates
         return _blocks;
     }
 
-    public F.Game.BlockLogic.BlockMetadata? GetBlock(string id)
+    public BlockMetadata? GetBlock(string id)
     {
         return _blocks.GetValueOrDefault(id);
     }
 
     public void AddBlock(BaseBlock block)
     {
-        if (!_baseBlocks.Contains(block))
-        {
-            _baseBlocks.Add(block);
-        }
+        if (!_baseBlocks.Contains(block)) _baseBlocks.Add(block);
     }
 
     public void RemoveBlock(BaseBlock block)
     {
-        if (_baseBlocks.Contains(block))
-        {
-            _baseBlocks.Remove(block);
-        }
+        if (_baseBlocks.Contains(block)) _baseBlocks.Remove(block);
     }
 
     public IEnumerable<BaseBlock> GetAllBlocks()
@@ -96,4 +87,3 @@ public partial class Inventory : Node
         return _baseBlocks;
     }
 }
- 

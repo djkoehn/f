@@ -1,4 +1,5 @@
 namespace F.Utils;
+
 // Marking the class as partial and extending Node, so it can be instanced in the scene
 [Tool]
 public partial class TweenHelper : Node
@@ -20,4 +21,4 @@ public partial class TweenHelper : Node
         tween.TweenProperty(node, "modulate:a", targetAlpha, duration);
         return tween;
     }
-} 
+}

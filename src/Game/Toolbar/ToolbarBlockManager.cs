@@ -1,8 +1,6 @@
-using GMFG = F.Game.Core.GameManager;
-using BaseBlockFG = F.Game.BlockLogic.BaseBlock;
-using HelperFunnel = F.Utils.HelperFunnel;
-using F.Utils;
 using F.Game.Connections;
+using GMFG = F.Game.Core.GameManager;
+using HelperFunnel = F.Utils.HelperFunnel;
 
 namespace F.Game.Toolbar;
 
@@ -13,9 +11,9 @@ public partial class ToolbarBlockManager : Node
 
     private readonly Dictionary<string, BaseBlock> _blocks = new();
     private HBoxContainer? _blockContainer;
+    private DragHelper? _dragHelper;
 
     private GMFG? _gameManager;
-    private DragHelper? _dragHelper;
 
     public override void _Ready()
     {
@@ -35,7 +33,7 @@ public partial class ToolbarBlockManager : Node
 
         GD.Print("Adding block of type: " + blockType);
 
-        var metadata = BlockMetadata.GetMetadata    (blockType);
+        var metadata = BlockMetadata.GetMetadata(blockType);
         if (metadata == null) return;
 
         // Load and instantiate the block scene
@@ -134,21 +132,14 @@ public partial class ToolbarBlockManager : Node
         var pipesToRemove = new List<ConnectionPipe>();
 
         if (connections != null && connections.Count > 0)
-        {
             foreach (var pipe in connections)
             {
                 pipesToRemove.Add(pipe);
                 // Store connected blocks based on their connection to our block
                 if (pipe.SourceBlock == block)
-                {
                     outputBlock = pipe.TargetBlock; // The block we were outputting to
-                }
-                else if (pipe.TargetBlock == block)
-                {
-                    inputBlock = pipe.SourceBlock; // The block that was inputting to us
-                }
+                else if (pipe.TargetBlock == block) inputBlock = pipe.SourceBlock; // The block that was inputting to us
             }
-        }
 
         // Disconnect the block from any existing pipes
         if (_gameManager?.ConnectionManager != null)
@@ -157,10 +148,7 @@ public partial class ToolbarBlockManager : Node
             foreach (var pipe in pipesToRemove)
             {
                 // Ensure the pipe is properly removed from the scene tree
-                if (pipe.IsInsideTree())
-                {
-                    pipe.GetParent()?.RemoveChild(pipe);
-                }
+                if (pipe.IsInsideTree()) pipe.GetParent()?.RemoveChild(pipe);
                 pipe.QueueFree();
             }
 

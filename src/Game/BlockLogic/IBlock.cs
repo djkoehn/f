@@ -1,27 +1,26 @@
 using F.Game.Tokens;
 
-namespace F.Game.BlockLogic
+namespace F.Game.BlockLogic;
+
+public interface IBlock
 {
-    public interface IBlock
-    {
-        string Name { get; set; }
-        void Initialize(object config);
-        BlockMetadata? Metadata { get; }
+    string Name { get; set; }
+    BlockMetadata? Metadata { get; }
+    Vector2 GlobalPosition { get; }
+    void Initialize(object config);
 
-        bool HasConnections();
-        bool HasInputConnection();
-        bool HasOutputConnection();
-        void SetInputConnected(bool connected);
-        void SetOutputConnected(bool connected);
-        void ProcessToken(Token token);
-        Vector2 GlobalPosition { get; }
-        Node GetParent();
+    bool HasConnections();
+    bool HasInputConnection();
+    bool HasOutputConnection();
+    void SetInputConnected(bool connected);
+    void SetOutputConnected(bool connected);
+    void ProcessToken(Token token);
+    Node GetParent();
 
-        Vector2 GetTokenPosition();
-        Node? GetInputSocket();
-        Node? GetOutputSocket();
+    Vector2 GetTokenPosition();
+    Node? GetInputSocket();
+    Node? GetOutputSocket();
 
-        void SetDragging(bool dragging);
-        void SetPlaced(bool placed);
-    }
-} 
+    void SetDragging(bool dragging);
+    void SetPlaced(bool placed);
+}

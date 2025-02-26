@@ -20,7 +20,6 @@ config/icon="res://icon.svg"
 
 [debug]
 
-file_logging/log_path="res://godot.log"
 file_logging/max_log_files=1
 
 [display]
@@ -38,11 +37,13 @@ window/stretch/aspect="expand"
 
 project/assembly_name="f"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/ColorPaletteManager/plugin.cfg", "res://addons/EditorUIHider/plugin.cfg", "res://addons/ToolbarAnimator/plugin.cfg", "res://addons/json_editor/plugin.cfg")
+
 [filesystem]
 
 import/blender/enabled=false
-
-
 
 [input]
 

@@ -1,4 +1,3 @@
-using F.Game.Toolbar;
 using F.Game.Core;
 using HelperFunnel = F.Utils.HelperFunnel;
 
@@ -7,7 +6,7 @@ namespace F.Game.BlockLogic;
 public partial class BlockInteractionManager : Node
 {
     private GameManager? _gameManager;
-    private HelperFunnel? _helperFunnel;  // HelperFunnel for other helpers
+    private HelperFunnel? _helperFunnel; // HelperFunnel for other helpers
 
     public override void _Ready()
     {
@@ -32,19 +31,18 @@ public partial class BlockInteractionManager : Node
     public BaseBlock? GetBlockAtPosition(Vector2 position)
     {
         BaseBlock? closestBlock = null;
-        float closestDistance = 50.0f; // picking threshold in pixels
-        foreach (Node node in GetTree().GetNodesInGroup("Blocks"))
-        {
+        var closestDistance = 50.0f; // picking threshold in pixels
+        foreach (var node in GetTree().GetNodesInGroup("Blocks"))
             if (node is BaseBlock block)
             {
-                float distance = block.GlobalPosition.DistanceTo(position);
+                var distance = block.GlobalPosition.DistanceTo(position);
                 if (distance < closestDistance)
                 {
                     closestDistance = distance;
                     closestBlock = block;
                 }
             }
-        }
+
         return closestBlock;
     }
 }

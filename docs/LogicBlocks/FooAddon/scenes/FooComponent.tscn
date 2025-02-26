@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/FooAddon/scripts/FooComponent.gd" id="1_foo_component"]
+
+[node name="FooComponent" type="Node"]
+script = ExtResource("1_foo_component")
+auto_start = true
+debug_mode = true
+initial_value = 1.0
+
+[node name="VisualRoot" type="Node3D" parent="."]
+
+[node name="StateLabel" type="Label3D" parent="VisualRoot"]
+text = "Bar1"
+font_size = 24
+
+[node name="ValueLabel" type="Label3D" parent="VisualRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+text = "1.0"
+font_size = 18

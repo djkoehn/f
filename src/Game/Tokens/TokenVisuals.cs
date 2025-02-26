@@ -8,34 +8,32 @@ public partial class TokenVisuals : Node2D
     [Signal]
     public delegate void MovementStartEventHandler();
 
+    private Tween? _animationTween;
+
     private float _currentValue;
+    private ShaderMaterial? _glowMaterial;
     private bool _isMoving;
     private Label? _label;
     private Tween? _movementTween;
-    private Tween? _animationTween;
     private Sprite2D? _sprite;
-    private ShaderMaterial? _glowMaterial;
 
     public bool IsMovementComplete => !_isMoving;
 
     public override void _Ready()
     {
         base._Ready();
-        
+
         // Get required nodes
         _sprite = GetNode<Sprite2D>("Sprite");
         _label = GetNode<Label>("Label");
-        
+
         // Setup shader material
         if (_sprite != null)
         {
             _glowMaterial = _sprite.Material as ShaderMaterial;
-            if (_glowMaterial == null)
-            {
-                GD.PrintErr("Glow shader material not found on token sprite!");
-            }
+            if (_glowMaterial == null) GD.PrintErr("Glow shader material not found on token sprite!");
         }
-        
+
         UpdateValue(0);
         Connect(SignalName.MovementComplete, new Callable(this, nameof(OnMovementComplete)));
         Connect(SignalName.MovementStart, new Callable(this, nameof(OnMovementStart)));
@@ -44,20 +42,16 @@ public partial class TokenVisuals : Node2D
     public override void _ExitTree()
     {
         base._ExitTree();
-        
+
         // Kill any active tweens
         _movementTween?.Kill();
         _animationTween?.Kill();
-        
+
         // Cleanup signals
         if (IsConnected(SignalName.MovementComplete, new Callable(this, nameof(OnMovementComplete))))
-        {
             Disconnect(SignalName.MovementComplete, new Callable(this, nameof(OnMovementComplete)));
-        }
         if (IsConnected(SignalName.MovementStart, new Callable(this, nameof(OnMovementStart))))
-        {
             Disconnect(SignalName.MovementStart, new Callable(this, nameof(OnMovementStart)));
-        }
     }
 
     public void StartMovement(Vector2 targetPosition)
@@ -118,7 +112,8 @@ public partial class TokenVisuals : Node2D
         _animationTween = CreateTween();
         _animationTween.SetTrans(Tween.TransitionType.Elastic);
         _animationTween.SetEase(Tween.EaseType.Out);
-        _animationTween.TweenProperty(_sprite, "scale", Vector2.One * TokenConfig.Animation.ScaleFactor, TokenConfig.Animation.ScaleDuration);
+        _animationTween.TweenProperty(_sprite, "scale", Vector2.One * TokenConfig.Animation.ScaleFactor,
+            TokenConfig.Animation.ScaleDuration);
         _animationTween.TweenProperty(_sprite, "scale", Vector2.One, TokenConfig.Animation.ScaleDuration);
     }
 
@@ -130,17 +125,15 @@ public partial class TokenVisuals : Node2D
         _animationTween = CreateTween();
         _animationTween.SetTrans(Tween.TransitionType.Bounce);
         _animationTween.SetEase(Tween.EaseType.Out);
-        _animationTween.TweenProperty(_sprite, "scale", Vector2.One * TokenConfig.Animation.HitScaleFactor, TokenConfig.Animation.HitScaleDuration);
+        _animationTween.TweenProperty(_sprite, "scale", Vector2.One * TokenConfig.Animation.HitScaleFactor,
+            TokenConfig.Animation.HitScaleDuration);
         _animationTween.TweenProperty(_sprite, "scale", Vector2.One, TokenConfig.Animation.HitScaleDuration * 2);
     }
 
     public void UpdateValue(float value)
     {
         _currentValue = value;
-        if (_label != null)
-        {
-            _label.Text = value.ToString("F1");
-        }
+        if (_label != null) _label.Text = value.ToString("F1");
     }
 
     public float GetValue()

@@ -8,170 +8,256 @@
 - `project.godot`: Godot project configuration
 - `icon.svg`: Project icon
 - `godot.log`: Godot logging
-- `BlockMetadata.json`: JSON file containing block metadata and configuration
+- `BlockMetaData.json`: JSON file containing block metadata and configuration
+- `Inventory.json`: Block inventory configuration
+- `build-and-run.sh`: Build and launch automation script
 
 ### Assets (`assets/`)
 - `audio/`: Sound effects and music
 - `fonts/`: Typography assets
 - `images/`: Visual assets and sprites
 - `shaders/`: Shader files for visual effects
+  - `BlockLayerSkew.gdshader`: Visual effects for block layer
+  - `SpaceBackground.gdshader`: Background effects
 
 ### Scenes (`scenes/`)
 - `Main.tscn`: Primary game scene
 - `Blocks/`: Block-related scenes
-  - `Input.tscn`: Input block scene (IBlock implementation)
-  - `Output.tscn`: Output block scene (IBlock implementation)
-  - `Add.tscn`: Operation block scene (now driven by BaseBlock and JSON metadata)
+  - `Input.tscn`: Input block scene
+  - `Output.tscn`: Output block scene
 - `UI/`: Interface scenes
-- `Utils/`: Utility scenes including AudioManager
+  - `Connection.tscn`: Connection pipe visuals
+  - `Token.tscn`: Token visuals
+  - `Toolbar.tscn`: Toolbar interface
+- `Services/`: Core services
+  - `Services.tscn`: Global service autoload
+  - `SceneTreeService.tscn`: Scene tree management
+
+### Addons (`addons/`)
+- `ColorPaletteManager/`: Color palette management plugin
+  - `ColorPaletteManager.gd`: Core palette management logic
+  - `Colors.tscn`: Color palette scene
+- `EditorUIHider/`: Editor UI customization plugin
+  - `EditorUIHider.gd`: UI visibility control
+  - Quality of life improvements for Godot Editor workflow
+
+### Documentation (`docs/`)
+- `api/`: Chickensoft package documentation
+  - `auto-inject/`: Dependency injection docs
+  - `collections/`: Data structure docs
+  - `godot-collections/`: Godot-specific collections
+  - `godot-node-interfaces/`: Node abstraction docs
+  - `introspection/`: Runtime type inspection
+  - `log/`: Logging framework docs
+  - `logic-blocks/`: State management docs
+    - Advanced states
+    - Domain integration
+    - Getting started guide
+    - Testing guidelines
+  - `save-file-builder/`: Save system docs
+  - `serialization/`: Data serialization docs
+  - `serialization-godot/`: Godot-specific serialization
+- `guides/`: Project guides
+  - `installation.md`: Setup instructions
+- `index.md`: Main documentation entry point
+
+### Source Structure (`src/`)
+- `Audio/`: Audio management system
+  - Sound players for blocks and tokens
+  - Audio manager implementation
+- `Config/`: Configuration systems
+  - Block metadata and inventory
+  - Color palettes
+  - Scene tree configuration
+- `Framework/`: Core framework components
+  - Block system implementation
+  - Connection management
+  - Core services and interfaces
+- `Game/`: Game-specific implementations
+  - Block logic and state management
+  - Token system
+  - Toolbar implementation
+- `UI/`: User interface components
+  - Animations and effects
+  - Custom controls
+  - Shader implementations
 
 ## Core Architecture
+
+### Service System
+1. Global Services (`Services.cs`):
+   - Autoloaded singleton managing core services
+   - Handles initialization and dependency injection
+   - Provides access to:
+     - Game Manager
+     - Input Manager
+     - Connection Manager
+     - Block Manager
+     - Token Manager
+     - Inventory
+     - Block Metadata
+
+2. Scene Tree Service:
+   - Manages scene hierarchy
+   - Provides path resolution
+   - Handles node relationships
 
 ### Block System
 
 #### Block Types
 1. Interface Layer:
-   - `IBlock`: Interface defining block behavior including token processing and socket management
-   - New metadata-driven configuration system with properties:
-     - SpawnOnSpace: Controls token generation behavior
-     - DisplayValue: Toggles value display
-     - ProcessTokenScript: Defines block-specific token processing
+   - `IBlock`: Core block interface
+   - Metadata-driven configuration:
+     - SpawnOnSpace: Token generation control
+     - DisplayValue: Value display toggle
+     - ProcessTokenScript: Token processing logic
+     - Socket configuration
+     - State management
 
 2. Block Hierarchy:
    - Stationary Blocks:
-     - `Input`: Generates tokens; fixed position.
-     - `Output`: Collects tokens; fixed position.
+     - `Input`: Token generator
+     - `Output`: Token collector
    - Dynamic Blocks:
-     - `BaseBlock`: Base for all placeable blocks; inherits Node2D and implements IBlock.
-       - Handles dragging, state management (InToolbar/Dragging/Placed/Connected), and token processing.
-       - Uses JSON metadata (via BlockMetadata) to drive block-specific behavior.
-       - Integrated shader support
-       - Dynamic token processing via scripting
-       - Debug logging system
-       - State management improvements
-     - Operation Blocks:
-       - Operation behavior (e.g. Add) is now defined via JSON metadata and processed by BaseBlock.
-       - This approach removes the need for separate block-specific classes.
+     - `BaseBlock`: Foundation class
+       - State machine integration
+       - Parent management
+       - Token processing
+       - Socket handling
+     - `ConnectionBlock`: Connection-aware block
+     - `TokenBlock`: Token-handling block
+     - `ToolbarBlock`: Toolbar-specific block
 
-#### Socket System
-- Node2D-based socket architecture.
-- Socket Types:
-  - Input Socket ("BlockInputSocket")
-  - Output Socket ("BlockOutputSocket")
-- Socket Distribution:
-  - Input blocks (IBlock): have output sockets.
-  - Output blocks (IBlock): have input sockets.
-  - BaseBlock derivatives: include both sockets.
+#### State Management
+1. Block Logic Machine:
+   - Implementation using Chickensoft.LogicBlocks v5.16.0
+   - States:
+     - InToolbar: Initial state for blocks in toolbar
+     - Dragging: Active when block is being dragged
+     - Placed: Block positioned in game area
+     - Connected: Block connected to pipe system
+     - ConnectedAndDragging: Connected block being repositioned
+   - Transitions:
+     - Interact: User interaction trigger
+     - ReturnBlock: Return to toolbar action
+     - HoveredOverPipe: Connection opportunity detected
+   - Features:
+     - State change event system
+     - Automatic parent management
+     - Logging integration
+     - Null safety checks
 
 ### Connection System
 
 #### Core Components
-1. `ConnectionManager`: Manages active connections, maps blocks to pipes, and handles the Input->Block->Output flow.
-2. `ConnectionPipe`: Visual representation of connections using Bezier curves and precise distance calculations.
-3. `ConnectionFactory`: Creates standard connections, validates sockets and block compatibility.
-4. `ConnectionValidator`: Checks bounds, compatibility, and rewiring constraints.
-- Enhanced PipeVisuals:
-  - Shader-based effects
-  - Token progress visualization
-  - Bulge effects for token movement
-  - Debug logging system
+1. `ConnectionManager`:
+   - Pipe management
+   - Block connection handling
+   - Connection validation
+   - Visual feedback
 
-#### Connection Flow
-1. Initial Setup:
-   - Direct connection between stationary blocks.
-2. Block Insertion:
-   - Inserting a BaseBlock into an existing connection splits the connection into two segments.
-3. Pipe Detection:
-   - Uses curve-based hit detection with visual feedback.
+2. `ConnectionPipe`:
+   - Bezier curve visualization
+   - Token movement effects
+   - Interaction detection
+   - Shader-based effects
+
+3. Connection Factory:
+   - Pipe creation
+   - Connection validation
+   - Block compatibility checks
 
 #### Visual System
-- Shader-driven pipe effects
-- Dynamic bulge visualization
-- Token progress indicators
-- Configurable visual parameters
-
-### Game Management (`F.Game.Core`)
-
-1. `GameManager`: Central game state management and block coordination.
-2. `Inventory`: Manages block availability and metadata (using BlockMetadata).
-3. `BlockInteractionManager`: Handles input, block selection, and drag operations.
-4. `BlockFactory`: Instantiates blocks using metadata and configures them appropriately.
-
-### UI System (`F.Game.Toolbar`)
-
-1. Core Components:
-   - `Toolbar`: Main toolbar container.
-   - `ToolbarBlockContainer`: Manages block layout in the toolbar.
-   - `ToolbarVisuals`: Visual components for the toolbar.
-2. Block Management:
-   - Blocks are created using the metadata-driven system and managed in the toolbar.
-   - Dedicated helper classes (e.g. `ToolbarHelper`) assist with block repositioning.
-
-#### Core Components
-- Precise positioning system:
-  - Block width: 96f
-  - Block height: 96f
-  - Block spacing: 64f
-  - Configurable animation durations
-
-#### Layer Management
-- Structured Z-index system:
+- Shader-driven effects:
+  - Dynamic bulge visualization
+  - Token progress indicators
+  - Hover effects
+- Z-index management:
   - Background: -10
   - Pipes: -5
   - Blocks: -4
   - Tokens: -1
   - UI: 15+
 
+### Input System
+
+#### Input Manager
+1. Core Functionality:
+   - Block dragging
+   - Connection handling
+   - Token spawning
+   - Toolbar interaction
+
+2. Input Actions:
+   - Left click: Block interaction
+   - Right click: Return to toolbar
+   - Space: Spawn token
+
+### Token System
+
+#### Token Manager
+1. Features:
+   - Token creation
+   - Movement handling
+   - Value processing
+   - Visual effects
+
+2. Token Types:
+   - Standard tokens
+   - Value-carrying tokens
+   - Visual feedback tokens
+
+### UI System
+
+#### Toolbar
+1. Components:
+   - `Toolbar`: Main container
+   - `ToolbarBlockContainer`: Block layout
+   - `ToolbarVisuals`: Visual effects
+   - `ToolbarBlock`: Block variant
+
+2. Features:
+   - Dynamic block positioning
+   - Hover animations
+   - Block spawning
+   - Return animations
+
 ### Configuration System
 
 #### Block Configuration
-- `BlockMetadata.json`: Contains JSON metadata for block configurations (ScenePath, ProcessTokenScript, Name, Description).
-- `BlockConfig`: Block-specific settings.
-- `PipeConfig`: Connection pipe settings.
-- `TokenConfig`: Token behavior settings.
-- `ToolbarConfig`: UI component settings.
-- `ZIndexConfig`: Manages visual layering.
-- Enhanced metadata properties:
-  - SpawnOnSpace
-  - DisplayValue
-  - ProcessTokenScript
+- `BlockMetaData.json`: Block definitions
+- `Inventory.json`: Available blocks
+- `ZIndexConfig`: Layer management
+- Enhanced metadata:
   - Socket configuration
-
-#### Visual Configuration
-- PipeConfig:
-  - Animation settings
+  - Processing scripts
   - Visual parameters
-  - Shader effects
-- ZIndexConfig:
-  - Layered rendering system
-  - Relative/absolute positioning
 
 ### Debug System
-- Comprehensive logging
-- Visual debugging
+- Integrated Chickensoft.Log.Godot logging framework
+- Categorized logging:
+  - Block: Block-related operations
+  - Connection: Pipe and connection events
+  - Game: Core game events
+  - UI: Interface interactions
+  - Token: Token management
+- Scene tree analysis
 - State tracking
+- Connection debugging
 - Performance monitoring
 
-## Audio System
-
-### Sound Management
-- `AudioManager`: Central audio control.
-- `BlockSoundPlayer`: Plays block-specific sounds.
-- `TokenSoundPlayer`: Plays token-related sounds.
-
-## Multi-Channel Processing (MCP)
-
-### Benefits
-- Independent processing channels.
-- Improved performance.
-- Scalable architecture.
-- Flexible event handling.
-- Enhanced debugging.
-- Responsive gameplay.
-
-### Implementation
-- Separate managers for different systems.
-- Event-driven communication.
-- State management per channel.
-- Synchronized updates.
-- Performance optimization 
+## Dependencies
+- Chickensoft.AutoInject (2.5.0): Dependency injection
+- Chickensoft.LogicBlocks (5.16.0): State management
+- Chickensoft.LogicBlocks.Generator (4.2.2): State machine code generation
+- Chickensoft.LogicBlocks.DiagramGenerator (5.16.0): State visualization
+- Chickensoft.GodotNodeInterfaces (2.4.0): Node abstraction
+- Chickensoft.Collections (1.13.0): Data structures
+- Chickensoft.Log (1.0.0): Core logging functionality
+- Chickensoft.Log.Godot (1.0.0): Godot-specific logging
+- Chickensoft.Introspection (2.2.0): Runtime type inspection
+- Chickensoft.Introspection.Generator (2.2.0): Metadata generation
+- Chickensoft.GoDotCollections (1.4.4): Godot-specific collections
+- Chickensoft.SaveFileBuilder (1.1.0): Save data management
+- Chickensoft.Serialization (2.2.0): Data serialization
+- Chickensoft.Serialization.Godot (0.7.5): Godot type serialization 

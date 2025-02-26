@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Godot.NET.Sdk/4.3.0">
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
@@ -11,18 +12,48 @@
         <FileLoggerParameters>LogFile=msbuild.log;Verbosity=detailed;Encoding=UTF-8</FileLoggerParameters>
         <BuildInParallel>true</BuildInParallel>
     </PropertyGroup>
+
     <ItemGroup>
-        <PackageReference Include="Friflo.Engine.ECS" Version="3.2.1" />
+        <!-- Chickensoft Core Libraries -->
+        <PackageReference Include="Chickensoft.AutoInject" Version="2.5.0" />
+        <PackageReference Include="Chickensoft.Collections" Version="1.13.0" />
+        <PackageReference Include="Chickensoft.GodotNodeInterfaces" Version="2.4.0" />
+        <PackageReference Include="Chickensoft.Introspection" Version="2.2.0" />
+        <PackageReference Include="Chickensoft.Introspection.Generator" Version="2.2.0" />
+        
+        <!-- Chickensoft LogicBlocks -->
+        <PackageReference Include="Chickensoft.LogicBlocks" Version="5.16.0" />
+        <PackageReference Include="Chickensoft.LogicBlocks.DiagramGenerator" Version="5.16.0" />
+        
+        <!-- Chickensoft Serialization -->
+        <PackageReference Include="Chickensoft.SaveFileBuilder" Version="1.1.0" />
+        <PackageReference Include="Chickensoft.Serialization" Version="2.2.0" />
+        <PackageReference Include="Chickensoft.Serialization.Godot" Version="0.7.5" />
+        
+        <!-- Godot Tools -->
         <PackageReference Include="GodotTools.IdeMessaging" Version="1.1.2" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.12.0" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="Ninject" Version="4.0.0-beta.1" />
+        
+        <!-- Code Analysis and Generation -->
         <PackageReference Include="roslynator.analyzers" Version="4.13.0">
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-          <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.8.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.8.0" />
+        
+        <!-- Testing Framework -->
+        <PackageReference Include="xunit" Version="2.7.0" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.7">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="Shouldly" Version="4.2.1" />
+        <PackageReference Include="Moq" Version="4.20.70" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
     </ItemGroup>
+
     <ItemGroup>
-        <Compile Remove="old commit ref/OldToolbar.cs" />
+        <Compile Remove="docs/**/*" />
     </ItemGroup>
 </Project>

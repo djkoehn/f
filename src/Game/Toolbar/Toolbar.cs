@@ -1,8 +1,5 @@
-using F.UI.Animations;
-using F.Game.Connections;
 using F.Game.Core;
 using InventoryType = F.Game.Core.Inventory;
-using F.Game.Toolbar;
 using BlockReturn = F.UI.Animations.Blocks.BlockReturn;
 using ToolbarHoverAnimation = F.UI.Animations.UI.ToolbarHoverAnimation;
 
@@ -12,13 +9,13 @@ public partial class Toolbar : Control
 {
     private const float HOVER_THRESHOLD = 0.8f; // Show toolbar when mouse in bottom 20% of screen
     private ToolbarBlockContainer? _blockContainer; // Now correct type!
+    private ToolbarHoverAnimation? _currentAnimation; // Changed from AnimationPlayer to ToolbarHoverAnimation
     private GameManager? _gameManager;
     private InventoryType? _inventory;
-    private bool _isVisible; // Start hidden
-    private ToolbarVisuals? _visuals;
-    private ToolbarHoverAnimation? _currentAnimation; // Changed from AnimationPlayer to ToolbarHoverAnimation
     private bool _isHovered;
+    private bool _isVisible; // Start hidden
     private Tween _showHideAnimation;
+    private ToolbarVisuals? _visuals;
 
     public override void _Ready()
     {
@@ -75,15 +72,15 @@ public partial class Toolbar : Control
 
         // Set initial position and layout
         Position = new Vector2(0, ToolbarConfig.Animation.HideY);
-        
+
         // Configure block container
         _blockContainer.Position = new Vector2(0, ToolbarConfig.Layout.ContainerOffset);
         _blockContainer.Size = new Vector2(0, ToolbarConfig.Block.Height + 20); // Height plus padding
         _blockContainer.CustomMinimumSize = new Vector2(0, ToolbarConfig.Block.Height + 20);
-        
+
         // Set spacing between blocks
         _blockContainer.AddThemeConstantOverride("separation", (int)ToolbarConfig.Block.Spacing);
-        
+
         // Connect to inventory ready signal
         _inventory.InventoryReady += LoadBlocks;
 
@@ -105,22 +102,18 @@ public partial class Toolbar : Control
         // Let BlockContainer handle block creation and management
         var blocks = _inventory.GetBlockMetadata();
         foreach (var pair in blocks)
-        {
             // Instantiate the block using BlockManager with BlockLayer as parent
             if (_gameManager.ConnectionManager is not null)
             {
                 var block = _gameManager.BlockFactory?.CreateBlock(pair.Value, _blockContainer);
                 if (block is not null)
-                {
                     // Block is already created with _blockContainer as parent
                     _blockContainer.AddBlock(block);
-                }
             }
             else
             {
                 GD.PrintErr("ConnectionManager is null, cannot create block!");
             }
-        }
     }
 
     public override void _Process(double delta)
@@ -142,7 +135,7 @@ public partial class Toolbar : Control
         if (shouldShow != _isHovered)
         {
             _isHovered = shouldShow;
-            
+
             _visuals?.StartHoverAnimation(shouldShow);
         }
     }
@@ -162,7 +155,7 @@ public partial class Toolbar : Control
         if (_blockContainer == null || block == null) return;
 
         GD.Print($"Starting return journey for block {block.Name}...");
-        
+
         // Handle connections before starting the return journey
         var connectionManager = _gameManager?.ConnectionManager;
         if (connectionManager != null)
@@ -178,7 +171,7 @@ public partial class Toolbar : Control
             if (inputBlock != null && outputBlock != null)
             {
                 connectionManager.ConnectBlocks(inputBlock, outputBlock);
-                GD.Print($"Re-established connection between Input and Output blocks");
+                GD.Print("Re-established connection between Input and Output blocks");
             }
         }
 
@@ -192,16 +185,12 @@ public partial class Toolbar : Control
         returnAnim.ReturnCompleted += completedBlock =>
         {
             // Use ToolbarHelper to handle the actual return to toolbar
-            var hf = F.Utils.HelperFunnel.GetInstance();
-            var toolbarHelper = hf?.GetNodeOrNull<F.Utils.ToolbarHelper>("ToolbarHelper");
+            var hf = HelperFunnel.GetInstance();
+            var toolbarHelper = hf?.GetNodeOrNull<ToolbarHelper>("ToolbarHelper");
             if (toolbarHelper != null)
-            {
                 toolbarHelper.ReturnBlockToToolbar(completedBlock, _blockContainer);
-            }
             else
-            {
                 GD.PrintErr("ToolbarHelper instance not found in Toolbar.");
-            }
             GD.Print($"Block {completedBlock.Name} has returned home safely!");
         };
     }

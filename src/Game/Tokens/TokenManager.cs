@@ -1,5 +1,4 @@
 using F.Audio;
-using F.Game.Connections;
 using F.Game.Core;
 using ConnectionManager = F.Game.Connections.ConnectionManager;
 
@@ -9,12 +8,12 @@ public partial class TokenManager : Node
 {
     private const float RETRY_INTERVAL = 0.1f;
     private const int MAX_RETRIES = 10;
-    
+
     private readonly List<Token> _activeTokens = new();
     private ConnectionManager? _connectionManager;
     private TokenFactory? _factory;
-    private Node2D? _tokenLayer;
     private int _initRetryCount;
+    private Node2D? _tokenLayer;
 
     public override void _Ready()
     {
@@ -40,7 +39,7 @@ public partial class TokenManager : Node
             GD.PrintErr("[TokenManager Debug] Failed to load Token.tscn");
             return;
         }
-        
+
         _factory = new TokenFactory(_tokenLayer, tokenScene);
 
         // Initialize connection manager
@@ -67,7 +66,8 @@ public partial class TokenManager : Node
                 return;
             }
 
-            GD.Print($"[TokenManager Debug] ConnectionManager not ready, retry {_initRetryCount}/{MAX_RETRIES} in {RETRY_INTERVAL}s");
+            GD.Print(
+                $"[TokenManager Debug] ConnectionManager not ready, retry {_initRetryCount}/{MAX_RETRIES} in {RETRY_INTERVAL}s");
             var timer = new Timer
             {
                 OneShot = true,
@@ -111,10 +111,7 @@ public partial class TokenManager : Node
     {
         if (!ValidateComponents()) return;
 
-        foreach (var block in startBlocks)
-        {
-            SpawnToken(block);
-        }
+        foreach (var block in startBlocks) SpawnToken(block);
     }
 
     private void MoveTokenToNextBlock(Token token, IBlock currentBlock)
@@ -123,7 +120,7 @@ public partial class TokenManager : Node
 
         var (nextBlock, pipe) = _connectionManager.GetNextConnection(currentBlock);
         GD.Print($"[TokenManager Debug] Next block found: {nextBlock != null}, pipe: {pipe != null}");
-        
+
         if (nextBlock != null)
         {
             GD.Print($"[TokenManager Debug] Moving token to next block: {nextBlock.Name}");
@@ -157,33 +154,23 @@ public partial class TokenManager : Node
     public void StopAllTokens()
     {
         foreach (var token in _activeTokens)
-        {
-            if (GodotObject.IsInstanceValid(token))
-            {
+            if (IsInstanceValid(token))
                 token.StopMovement();
-            }
-        }
     }
 
     public void ClearAllTokens()
     {
         foreach (var token in _activeTokens)
-        {
-            if (GodotObject.IsInstanceValid(token))
-            {
+            if (IsInstanceValid(token))
                 token.QueueFree();
-            }
-        }
+
         _activeTokens.Clear();
     }
 
     public override void _Process(double delta)
     {
         // Remove completed tokens
-        var removedCount = _activeTokens.RemoveAll(token => !GodotObject.IsInstanceValid(token));
-        if (removedCount > 0)
-        {
-            GD.Print($"[TokenManager Debug] Removed {removedCount} completed tokens");
-        }
+        var removedCount = _activeTokens.RemoveAll(token => !IsInstanceValid(token));
+        if (removedCount > 0) GD.Print($"[TokenManager Debug] Removed {removedCount} completed tokens");
     }
 }

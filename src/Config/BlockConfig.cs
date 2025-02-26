@@ -1,8 +1,7 @@
-namespace F.Config
+namespace F.Config;
+
+public class BlockConfig
 {
-    public class BlockConfig
-    {
-        public string Name { get; set; } = "";
-        public float? DefaultValue { get; set; } = null;
-    }
-} 
+    public string Name { get; set; } = "";
+    public float? DefaultValue { get; set; } = null;
+}

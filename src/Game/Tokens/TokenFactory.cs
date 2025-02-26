@@ -4,22 +4,19 @@ public sealed class TokenFactory
 {
     private const int INITIAL_POOL_SIZE = 10;
     private const int MAX_POOL_SIZE = 50;
-    
+
     private readonly Node2D _tokenLayer;
-    private readonly PackedScene _tokenScene;
     private readonly Queue<Token> _tokenPool = new();
+    private readonly PackedScene _tokenScene;
     private int _totalTokensCreated;
 
     public TokenFactory(Node2D tokenLayer, PackedScene tokenScene)
     {
         _tokenLayer = tokenLayer;
         _tokenScene = tokenScene;
-        
+
         // Pre-populate pool
-        for (var i = 0; i < INITIAL_POOL_SIZE; i++)
-        {
-            CreatePooledToken();
-        }
+        for (var i = 0; i < INITIAL_POOL_SIZE; i++) CreatePooledToken();
     }
 
     public Token? CreateToken(IBlock startBlock, float value)
@@ -31,7 +28,7 @@ public sealed class TokenFactory
         }
 
         GD.Print($"[TokenFactory Debug] Creating token with value {value} for block {startBlock.Name}");
-        
+
         Token token;
         if (_tokenPool.Count > 0)
         {
@@ -54,6 +51,7 @@ public sealed class TokenFactory
                 GD.PrintErr("[TokenFactory Debug] Failed to instantiate token!");
                 return null;
             }
+
             _tokenLayer.AddChild(token);
         }
 
@@ -76,7 +74,7 @@ public sealed class TokenFactory
         }
 
         _tokenLayer.AddChild(token);
-        token.Visible = false;  // Hide initially
+        token.Visible = false; // Hide initially
         _totalTokensCreated++;
         _tokenPool.Enqueue(token);
         return token;
@@ -95,7 +93,7 @@ public sealed class TokenFactory
         token.Visible = false;
         token.GlobalPosition = Vector2.Zero;
         token.StopMovement();
-        
+
         // Return to pool
         _tokenPool.Enqueue(token);
     }

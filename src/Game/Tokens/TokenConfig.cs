@@ -21,4 +21,4 @@ public static class TokenConfig
         public const float HitScaleFactor = 1.2f;
         public const float HitScaleDuration = 0.1f;
     }
-} 
+}

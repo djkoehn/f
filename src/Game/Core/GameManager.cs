@@ -1,8 +1,5 @@
 using F.Game.Connections;
 using F.Game.Tokens;
-using F.Game.Core;
-using F.Utils;
-using F.Game.BlockLogic;
 using InventoryType = F.Game.Core.Inventory;
 
 namespace F.Game.Core;
@@ -14,7 +11,7 @@ public partial class GameManager : Node2D
     public static GameManager? Instance { get; private set; }
     public ConnectionManager? ConnectionManager { get; private set; }
     public TokenManager? TokenManager { get; private set; }
-    public F.Game.Core.BlockFactory? BlockFactory { get; private set; }
+    public BlockFactory? BlockFactory { get; private set; }
 
     public override void _Ready()
     {
@@ -36,9 +33,9 @@ public partial class GameManager : Node2D
         }
 
         // Initialize managers
-        ConnectionManager = blockLayer;  // Store the reference
+        ConnectionManager = blockLayer; // Store the reference
         _gameState = new GameStateManager(inventory);
-        BlockFactory = new F.Game.Core.BlockFactory(this);
+        BlockFactory = new BlockFactory(this);
 
         // Initialize game state
         _gameState.Initialize();
@@ -63,7 +60,8 @@ public partial class GameManager : Node2D
             if (outputMetadata != null)
             {
                 outputBlock.Metadata = outputMetadata;
-                GD.Print($"[GameManager Debug] Set output block metadata - SpawnOnSpace: {outputMetadata.SpawnOnSpace}");
+                GD.Print(
+                    $"[GameManager Debug] Set output block metadata - SpawnOnSpace: {outputMetadata.SpawnOnSpace}");
             }
         }
     }
@@ -74,14 +72,14 @@ public partial class GameManager : Node2D
             Instance = null;
     }
 
-    public BaseBlock? CreateBlock(F.Game.BlockLogic.BlockMetadata metadata, Node parent)
+    public BaseBlock? CreateBlock(BlockMetadata metadata, Node parent)
     {
         return BlockFactory?.CreateBlock(metadata, parent);
     }
 
     // --- New Block Factory Methods ---
 
-    public BaseBlock? CreateToolbarBlock(F.Game.BlockLogic.BlockMetadata metadata)
+    public BaseBlock? CreateToolbarBlock(BlockMetadata metadata)
     {
         // Get the toolbar container node relative to GameManager
         var toolbarContainer = GetNodeOrNull<Container>("Toolbar/BlockContainer");
@@ -90,12 +88,10 @@ public partial class GameManager : Node2D
             GD.PrintErr("Toolbar container not found.");
             return null;
         }
+
         // Create the block using existing CreateBlock method
         var block = CreateBlock(metadata, toolbarContainer);
-        if (block != null)
-        {
-            ConfigureBlock(block);
-        }
+        if (block != null) ConfigureBlock(block);
         return block;
     }
 

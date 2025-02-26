@@ -3,7 +3,6 @@ namespace F.UI.Animations.UI;
 public sealed partial class ToolbarHoverAnimation : Node
 {
     public delegate void PositionChangedHandler(Vector2 newPosition);
-    public event PositionChangedHandler? PositionChanged;
 
     // Use config values for positioning
     private const float TOOLBAR_HIDDEN_Y = ToolbarConfig.Animation.HideY;
@@ -12,12 +11,12 @@ public sealed partial class ToolbarHoverAnimation : Node
     private const float BLOCKLAYER_VISIBLE_Y = -128f; // Move up to make room for toolbar
 
     private const float DURATION = ToolbarConfig.Animation.Duration;
-    private Vector2 _startPos;
-    private Vector2 _endPos;
-    private float _time;
+    private readonly bool _isControl;
 
     private readonly Node _target;
-    private readonly bool _isControl;
+    private Vector2 _endPos;
+    private Vector2 _startPos;
+    private float _time;
 
     private ToolbarHoverAnimation(Node target, bool show)
     {
@@ -30,22 +29,18 @@ public sealed partial class ToolbarHoverAnimation : Node
         {
             var control = _target as Control;
             if (control != null && control.Position.Y == 0) // If at default position
-            {
                 control.Position = new Vector2(control.Position.X, TOOLBAR_HIDDEN_Y);
-            }
         }
         else
         {
             var node2D = _target as Node2D;
             if (node2D != null && node2D.Position.Y == 0) // If at default position
-            {
                 node2D.Position = new Vector2(node2D.Position.X, BLOCKLAYER_HIDDEN_Y);
-            }
         }
 
-        float currentY = _isControl ? 
-            (_target as Control)?.Position.Y ?? TOOLBAR_HIDDEN_Y :
-            (_target as Node2D)?.Position.Y ?? BLOCKLAYER_HIDDEN_Y;
+        var currentY = _isControl
+            ? (_target as Control)?.Position.Y ?? TOOLBAR_HIDDEN_Y
+            : (_target as Node2D)?.Position.Y ?? BLOCKLAYER_HIDDEN_Y;
 
         float startY, endY;
         if (_isControl)
@@ -64,12 +59,14 @@ public sealed partial class ToolbarHoverAnimation : Node
 
         _startPos = new Vector2(0, startY);
         _endPos = new Vector2(0, endY);
-        
-        GD.Print($"[ToolbarHoverAnimation] Initializing animation for {(_isControl ? "Control" : "Node2D")}, show: {show}");
+
+        GD.Print(
+            $"[ToolbarHoverAnimation] Initializing animation for {(_isControl ? "Control" : "Node2D")}, show: {show}");
         GD.Print($"[ToolbarHoverAnimation] Current Y: {currentY}, Start Y: {startY}, End Y: {endY}");
     }
 
     public bool IsComplete => _time >= DURATION;
+    public event PositionChangedHandler? PositionChanged;
 
     public static ToolbarHoverAnimation Create(Node target, bool show)
     {
@@ -87,13 +84,9 @@ public sealed partial class ToolbarHoverAnimation : Node
         var newPosition = _startPos.Lerp(_endPos, easedT);
 
         if (_target is Node2D node2DTarget)
-        {
             node2DTarget.Position = newPosition;
-        }
         else
-        {
             _target.Set("position", newPosition);
-        }
 
         PositionChanged?.Invoke(newPosition);
 

@@ -54,7 +54,7 @@ public sealed partial class BlockReturn : Node2D
         if (IsComplete)
         {
             // DON'T TOUCH BLOCK HERE - Just emit signal and clean up
-            EmitSignal(BlockReturn.SignalName.ReturnCompleted, Block);
+            EmitSignal(SignalName.ReturnCompleted, Block);
             QueueFree();
         }
     }

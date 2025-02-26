@@ -1,4 +1,3 @@
-using F.Audio;
 using F.Game.Connections;
 
 namespace F.Game.Tokens;
@@ -33,10 +32,10 @@ public partial class Token : Node2D
             GD.PrintErr("TokenVisuals node not found!");
             return;
         }
-        
+
         _visuals.Connect(TokenVisuals.SignalName.MovementComplete, new Callable(this, nameof(OnMovementComplete)));
         _visuals.Connect(TokenVisuals.SignalName.MovementStart, new Callable(this, nameof(OnMovementStart)));
-        
+
         // Set initial z-index
         ZIndexConfig.SetZIndex(this, ZIndexConfig.Layers.Token);
     }
@@ -44,20 +43,19 @@ public partial class Token : Node2D
     public override void _ExitTree()
     {
         base._ExitTree();
-        
+
         // Cleanup signals
         if (_visuals != null)
         {
-            if (_visuals.IsConnected(TokenVisuals.SignalName.MovementComplete, new Callable(this, nameof(OnMovementComplete))))
-            {
-                _visuals.Disconnect(TokenVisuals.SignalName.MovementComplete, new Callable(this, nameof(OnMovementComplete)));
-            }
-            if (_visuals.IsConnected(TokenVisuals.SignalName.MovementStart, new Callable(this, nameof(OnMovementStart))))
-            {
+            if (_visuals.IsConnected(TokenVisuals.SignalName.MovementComplete,
+                    new Callable(this, nameof(OnMovementComplete))))
+                _visuals.Disconnect(TokenVisuals.SignalName.MovementComplete,
+                    new Callable(this, nameof(OnMovementComplete)));
+            if (_visuals.IsConnected(TokenVisuals.SignalName.MovementStart,
+                    new Callable(this, nameof(OnMovementStart))))
                 _visuals.Disconnect(TokenVisuals.SignalName.MovementStart, new Callable(this, nameof(OnMovementStart)));
-            }
         }
-        
+
         // Cleanup pipe
         if (_currentPipe != null)
         {
@@ -72,14 +70,14 @@ public partial class Token : Node2D
 
         _targetBlock = nextBlock;
         _currentPipe = pipe;
-        
+
         // Set processing z-index when moving between blocks
         ZIndexConfig.SetZIndex(this, ZIndexConfig.Layers.ProcessingToken);
 
         // Start movement animation
         _isMoving = true;
         _visuals.StartMovement(nextBlock.GetTokenPosition());
-        
+
         // Start pipe animation if we have a pipe
         _currentPipe?.StartTokenMovement(this);
     }
@@ -94,10 +92,7 @@ public partial class Token : Node2D
         // Update pipe animation with current position
         _currentPipe?.UpdateTokenPosition(this);
 
-        if (_visuals.IsMovementComplete)
-        {
-            CompleteMovement();
-        }
+        if (_visuals.IsMovementComplete) CompleteMovement();
     }
 
     private void CompleteMovement()
@@ -106,23 +101,20 @@ public partial class Token : Node2D
 
         _isMoving = false;
         CurrentBlock = _targetBlock;
-        
+
         // End pipe animation
         _currentPipe?.EndTokenMovement(this);
         _currentPipe = null;
 
         // Return to normal z-index after processing
         ZIndexConfig.SetZIndex(this, ZIndexConfig.Layers.Token);
-        
+
         _targetBlock.ProcessToken(this);
     }
 
     private void OnMovementComplete()
     {
-        if (_targetBlock != null)
-        {
-            CompleteMovement();
-        }
+        if (_targetBlock != null) CompleteMovement();
     }
 
     private void OnMovementStart()
@@ -134,7 +126,7 @@ public partial class Token : Node2D
     {
         _isMoving = false;
         _visuals?.StopMovement();
-        
+
         // Cleanup pipe animation
         if (_currentPipe != null)
         {

@@ -54,4 +54,8 @@ bld/
 *.user
 *.userosscache
 *.sln.docstates
+assets/
+.cursor/
+.frc
+!addons/.editorconfig
 
