@@ -1,6 +1,7 @@
 {
     "folders": [
         {
+            "name": "f",
             "path": "."
         }
     ],
@@ -12,10 +13,7 @@
             "**/CVS": true,
             "**/.DS_Store": true,
             "**/Thumbs.db": true,
-            "__pycache__": true,
-            ".git": true,
-            ".vscode/": true,
-            ".addons": true
+            "**/*.git": true
         },
         "explorerExclude.backup": {}
     }
