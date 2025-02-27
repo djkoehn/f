@@ -59,3 +59,25 @@ assets/
 .frc
 !addons/.editorconfig
 
+docs/
+docs/.gdignore
+docs/LogicBlocks/index.md
+docs/LogicBlocks/Foo/Foo.cs
+docs/LogicBlocks/Foo/Foo.tscn
+docs/LogicBlocks/Foo/FooData.cs
+docs/LogicBlocks/Foo/State/FooLogic.cs
+docs/LogicBlocks/Foo/State/FooLogic.Data.cs
+docs/LogicBlocks/Foo/State/FooLogic.Input.cs
+docs/LogicBlocks/Foo/State/FooLogic.Output.cs
+docs/LogicBlocks/Foo/State/FooLogic.State.cs
+docs/LogicBlocks/Foo/State/States/Foologic.Bar1State.cs
+docs/LogicBlocks/Foo/State/States/Foologic.Bar2State.cs
+docs/LogicBlocks/Foo/State/States/Foologic.Bar3State.cs
+docs/LogicBlocks/FooAddon/plugin.cfg
+docs/LogicBlocks/FooAddon/Plugin.gd
+docs/LogicBlocks/FooAddon/scenes/FooComponent.tscn
+docs/LogicBlocks/FooAddon/scripts/FooComponent.gd
+docs/LogicBlocks/examples/block_integration.md
+docs/LogicBlocks/examples/block_patterns.md
+docs/LogicBlocks/reference/index.md
+docs/LogicBlocks/structure/project_layout.md
