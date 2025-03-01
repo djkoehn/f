@@ -1,0 +1,20 @@
+@startuml PipeLogic
+state "PipeLogic State" as testing_Pipe_PipeLogic_State {
+  state "BlockHovering" as testing_Pipe_PipeLogic_State_BlockHovering
+  state "Connected" as testing_Pipe_PipeLogic_State_Connected
+  state "Splitting" as testing_Pipe_PipeLogic_State_Splitting
+}
+
+testing_Pipe_PipeLogic_State_BlockHovering --> testing_Pipe_PipeLogic_State_Connected : BlockExit
+testing_Pipe_PipeLogic_State_BlockHovering --> testing_Pipe_PipeLogic_State_Splitting : Click
+testing_Pipe_PipeLogic_State_Connected --> testing_Pipe_PipeLogic_State_BlockHovering : BlockEnter
+testing_Pipe_PipeLogic_State_Splitting --> testing_Pipe_PipeLogic_State_Splitting : SplitComplete
+
+testing_Pipe_PipeLogic_State_BlockHovering : None → StateChanged
+testing_Pipe_PipeLogic_State_BlockHovering : OnClick → SplitRequested
+testing_Pipe_PipeLogic_State_Connected : None → StateChanged
+testing_Pipe_PipeLogic_State_Splitting : None → StateChanged
+testing_Pipe_PipeLogic_State_Splitting : OnSplitComplete → Disposed
+
+[*] --> testing_Pipe_PipeLogic_State_Connected
+@enduml

@@ -1,0 +1,14 @@
+@startuml fooLogic
+state "fooLogic State" as testing_foo_fooLogic_State {
+  state "bar" as testing_foo_fooLogic_State_bar
+  state "foo" as testing_foo_fooLogic_State_foo
+}
+
+testing_foo_fooLogic_State_bar --> testing_foo_fooLogic_State_foo : toggle
+testing_foo_fooLogic_State_foo --> testing_foo_fooLogic_State_bar : toggle
+
+testing_foo_fooLogic_State_bar : None → StateChanged
+testing_foo_fooLogic_State_foo : None → StateChanged
+
+[*] --> testing_foo_fooLogic_State_foo
+@enduml

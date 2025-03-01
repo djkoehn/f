@@ -1,0 +1,19 @@
+@startuml BlockLogic
+state "BlockLogic State" as testing_Block_BlockLogic_State {
+  state "Dragging" as testing_Block_BlockLogic_State_Dragging
+  state "InToolbar" as testing_Block_BlockLogic_State_InToolbar
+  state "Placed" as testing_Block_BlockLogic_State_Placed
+}
+
+testing_Block_BlockLogic_State_Dragging --> testing_Block_BlockLogic_State_InToolbar : RightClick
+testing_Block_BlockLogic_State_Dragging --> testing_Block_BlockLogic_State_Placed : Click
+testing_Block_BlockLogic_State_InToolbar --> testing_Block_BlockLogic_State_Dragging : Click
+testing_Block_BlockLogic_State_Placed --> testing_Block_BlockLogic_State_Dragging : Click
+testing_Block_BlockLogic_State_Placed --> testing_Block_BlockLogic_State_InToolbar : RightClick
+
+testing_Block_BlockLogic_State_Dragging : None → StateChanged
+testing_Block_BlockLogic_State_InToolbar : None → StateChanged
+testing_Block_BlockLogic_State_Placed : None → StateChanged
+
+[*] --> testing_Block_BlockLogic_State_Placed
+@enduml

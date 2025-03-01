@@ -1,217 +1,69 @@
 Godot Engine v4.3.stable.mono.official.77dcf97d8 - https://godotengine.org
 Vulkan 1.2.283 - Forward+ - Using Device #0: Apple - Apple M4
 
-[ConnectionManager Debug] Constructor called.
-Failed to get Bounds ColorRect!
-[Debug BaseBlock] Input _Ready called, adding to Blocks group
-[Debug BaseBlock] Input metadata: null
-[Debug BaseBlock] Input initialization started, Position: (200, 540), State: InToolbar
-[Debug BaseBlock] Output _Ready called, adding to Blocks group
-[Debug BaseBlock] Output metadata: null
-[Debug BaseBlock] Output initialization started, Position: (1720, 540), State: InToolbar
-[ConnectionManager Debug] _Ready called.
-[BlockMetadata Debug] Loading metadata for first time, looking for blockId: add
-[BlockMetadata Debug] JSON content length: 1222
-[BlockMetadata Debug] First 200 chars of JSON: {
-  "blocks": [    {
-      "id": "input",
-      "scenePath": "res://scenes/Blocks/Input.tscn",
-      "processTokenScript": "Value = 1.0f;",
-      "name": "Input",
-      "description": "Generates input
-[BlockMetadata Debug] Deserialization result: success
-[BlockMetadata Debug] Number of blocks: 4
-[BlockMetadata Debug] Cached block - Id: input, Name: Input, SpawnOnSpace: True
-[BlockMetadata Debug] Cached block - Id: output, Name: Output, SpawnOnSpace: False
-[BlockMetadata Debug] Cached block - Id: add, Name: Add, SpawnOnSpace: False
-[BlockMetadata Debug] Cached block - Id: multiply, Name: Multiply, SpawnOnSpace: False
-[BlockMetadata Debug] Looking up metadata for blockId: add
-[BlockMetadata Debug] Available cache keys: input, output, add, multiply
-[BlockMetadata Debug] Retrieved metadata for add - Name: Add, SpawnOnSpace: False
-[BlockMetadata Debug] Looking up metadata for blockId: multiply
-[BlockMetadata Debug] Available cache keys: input, output, add, multiply
-[BlockMetadata Debug] Retrieved metadata for multiply - Name: Multiply, SpawnOnSpace: False
-[BlockMetadata Debug] Looking up metadata for blockId: add
-[BlockMetadata Debug] Available cache keys: input, output, add, multiply
-[BlockMetadata Debug] Retrieved metadata for add - Name: Add, SpawnOnSpace: False
-[BlockMetadata Debug] Looking up metadata for blockId: multiply
-[BlockMetadata Debug] Available cache keys: input, output, add, multiply
-[BlockMetadata Debug] Retrieved metadata for multiply - Name: Multiply, SpawnOnSpace: False
-[BlockMetadata Debug] Looking up metadata for blockId: add
-[BlockMetadata Debug] Available cache keys: input, output, add, multiply
-[BlockMetadata Debug] Retrieved metadata for add - Name: Add, SpawnOnSpace: False
-[BlockMetadata Debug] Looking up metadata for blockId: multiply
-[BlockMetadata Debug] Available cache keys: input, output, add, multiply
-[BlockMetadata Debug] Retrieved metadata for multiply - Name: Multiply, SpawnOnSpace: False
-[BlockMetadata Debug] Looking up metadata for blockId: add
-[BlockMetadata Debug] Available cache keys: input, output, add, multiply
-[BlockMetadata Debug] Retrieved metadata for add - Name: Add, SpawnOnSpace: False
-[BlockMetadata Debug] Looking up metadata for blockId: multiply
-[BlockMetadata Debug] Available cache keys: input, output, add, multiply
-[BlockMetadata Debug] Retrieved metadata for multiply - Name: Multiply, SpawnOnSpace: False
-Blocks in Inventory: add0, multiply1, add2, multiply3, add4, multiply5, add6, multiply7
-[Debug HelperFunnel] Successfully found HelperFunnel instance
-GameManager initialized as singleton
-GameStateManager initialized.
-[BlockMetadata Debug] Looking up metadata for blockId: input
-[BlockMetadata Debug] Available cache keys: input, output, add, multiply
-[BlockMetadata Debug] Retrieved metadata for input - Name: Input, SpawnOnSpace: True
-[BaseBlock Debug] Setting metadata for block Input - Value: Id=input, SpawnOnSpace=True
-[GameManager Debug] Set input block metadata - SpawnOnSpace: True
-[BlockMetadata Debug] Looking up metadata for blockId: output
-[BlockMetadata Debug] Available cache keys: input, output, add, multiply
-[BlockMetadata Debug] Retrieved metadata for output - Name: Output, SpawnOnSpace: False
-[BaseBlock Debug] Setting metadata for block Output - Value: Id=output, SpawnOnSpace=False
-[GameManager Debug] Set output block metadata - SpawnOnSpace: False
-[Debug DragHelper] DragHelper initialized.
-[Debug HelperFunnel] Successfully found HelperFunnel instance
-HelperFunnel initialized with all helpers.
-[Debug BaseBlock] Input attempting to initialize managers
-[Debug BaseBlock] Input managers initialized:
-  - ConnectionManager: found
-  - TokenManager: found
-[Debug BaseBlock] Input initialization complete
-[Debug BaseBlock] Output attempting to initialize managers
-[Debug BaseBlock] Output managers initialized:
-  - ConnectionManager: found
-  - TokenManager: found
-[Debug BaseBlock] Output initialization complete
-Creating initial connection between Input and Output blocks...
-[ConnectionFactory] Creating pipe between blocks: Input -> Output
-[ConnectionFactory] From block type: F.Game.BlockLogic.BaseBlock, To block type: F.Game.BlockLogic.BaseBlock
-[ConnectionFactory] From socket type: Godot.Node2D, To socket type: Godot.Node2D
-[ConnectionPipe] Initialized pipe Pipe_Input_Output between Input and Output
-[ConnectionManager] Set connection for block Input to pipe Pipe_Input_Output
-[ConnectionManager] Set connection for block Output to pipe Pipe_Input_Output
-[ConnectionManager] Successfully created initial connection in BlockLayerContent
-Creating toolbar blocks
-[BlockFactory Debug] Creating block with metadata - Id: add, Name: Add, SpawnOnSpace: False
-[BaseBlock Debug] Setting metadata for block AddBlock - Value: Id=add, SpawnOnSpace=False
-[BlockFactory Debug] Created block Add0 with metadata Id: add, SpawnOnSpace: False
-[Debug BaseBlock] Add0 _Ready called, adding to Blocks group
-[Debug BaseBlock] Add0 metadata: ID=add, SpawnOnSpace=False
-[BaseBlock Debug] Block Add0 initialized value label with: 1
-[Debug BaseBlock] Add0 initialization started, Position: (0, 1144), State: InToolbar
-[BaseBlock Debug] Block Add0 state changed: InToolbar -> InToolbar (SetInToolbar: True)
-[ToolbarBlockContainer] Added block Add0 to toolbar
-[BlockFactory Debug] Creating block with metadata - Id: multiply, Name: Multiply, SpawnOnSpace: False
-[BaseBlock Debug] Setting metadata for block AddBlock - Value: Id=multiply, SpawnOnSpace=False
-[BlockFactory Debug] Created block Multiply1 with metadata Id: multiply, SpawnOnSpace: False
-[Debug BaseBlock] Multiply1 _Ready called, adding to Blocks group
-[Debug BaseBlock] Multiply1 metadata: ID=multiply, SpawnOnSpace=False
-[BaseBlock Debug] Block Multiply1 initialized value label with: 1
-[Debug BaseBlock] Multiply1 initialization started, Position: (1024, 1144), State: InToolbar
-[BaseBlock Debug] Block Multiply1 state changed: InToolbar -> InToolbar (SetInToolbar: True)
-[ToolbarBlockContainer] Added block Multiply1 to toolbar
-[BlockFactory Debug] Creating block with metadata - Id: add, Name: Add, SpawnOnSpace: False
-[BaseBlock Debug] Setting metadata for block AddBlock - Value: Id=add, SpawnOnSpace=False
-[BlockFactory Debug] Created block Add2 with metadata Id: add, SpawnOnSpace: False
-[Debug BaseBlock] Add2 _Ready called, adding to Blocks group
-[Debug BaseBlock] Add2 metadata: ID=add, SpawnOnSpace=False
-[BaseBlock Debug] Block Add2 initialized value label with: 1
-[Debug BaseBlock] Add2 initialization started, Position: (1024, 1144), State: InToolbar
-[BaseBlock Debug] Block Add2 state changed: InToolbar -> InToolbar (SetInToolbar: True)
-[ToolbarBlockContainer] Added block Add2 to toolbar
-[BlockFactory Debug] Creating block with metadata - Id: multiply, Name: Multiply, SpawnOnSpace: False
-[BaseBlock Debug] Setting metadata for block AddBlock - Value: Id=multiply, SpawnOnSpace=False
-[BlockFactory Debug] Created block Multiply3 with metadata Id: multiply, SpawnOnSpace: False
-[Debug BaseBlock] Multiply3 _Ready called, adding to Blocks group
-[Debug BaseBlock] Multiply3 metadata: ID=multiply, SpawnOnSpace=False
-[BaseBlock Debug] Block Multiply3 initialized value label with: 1
-[Debug BaseBlock] Multiply3 initialization started, Position: (1024, 1144), State: InToolbar
-[BaseBlock Debug] Block Multiply3 state changed: InToolbar -> InToolbar (SetInToolbar: True)
-[ToolbarBlockContainer] Added block Multiply3 to toolbar
-[BlockFactory Debug] Creating block with metadata - Id: add, Name: Add, SpawnOnSpace: False
-[BaseBlock Debug] Setting metadata for block AddBlock - Value: Id=add, SpawnOnSpace=False
-[BlockFactory Debug] Created block Add4 with metadata Id: add, SpawnOnSpace: False
-[Debug BaseBlock] Add4 _Ready called, adding to Blocks group
-[Debug BaseBlock] Add4 metadata: ID=add, SpawnOnSpace=False
-[BaseBlock Debug] Block Add4 initialized value label with: 1
-[Debug BaseBlock] Add4 initialization started, Position: (1024, 1144), State: InToolbar
-[BaseBlock Debug] Block Add4 state changed: InToolbar -> InToolbar (SetInToolbar: True)
-[ToolbarBlockContainer] Added block Add4 to toolbar
-[BlockFactory Debug] Creating block with metadata - Id: multiply, Name: Multiply, SpawnOnSpace: False
-[BaseBlock Debug] Setting metadata for block AddBlock - Value: Id=multiply, SpawnOnSpace=False
-[BlockFactory Debug] Created block Multiply5 with metadata Id: multiply, SpawnOnSpace: False
-[Debug BaseBlock] Multiply5 _Ready called, adding to Blocks group
-[Debug BaseBlock] Multiply5 metadata: ID=multiply, SpawnOnSpace=False
-[BaseBlock Debug] Block Multiply5 initialized value label with: 1
-[Debug BaseBlock] Multiply5 initialization started, Position: (1024, 1144), State: InToolbar
-[BaseBlock Debug] Block Multiply5 state changed: InToolbar -> InToolbar (SetInToolbar: True)
-[ToolbarBlockContainer] Added block Multiply5 to toolbar
-[BlockFactory Debug] Creating block with metadata - Id: add, Name: Add, SpawnOnSpace: False
-[BaseBlock Debug] Setting metadata for block AddBlock - Value: Id=add, SpawnOnSpace=False
-[BlockFactory Debug] Created block Add6 with metadata Id: add, SpawnOnSpace: False
-[Debug BaseBlock] Add6 _Ready called, adding to Blocks group
-[Debug BaseBlock] Add6 metadata: ID=add, SpawnOnSpace=False
-[BaseBlock Debug] Block Add6 initialized value label with: 1
-[Debug BaseBlock] Add6 initialization started, Position: (1024, 1144), State: InToolbar
-[BaseBlock Debug] Block Add6 state changed: InToolbar -> InToolbar (SetInToolbar: True)
-[ToolbarBlockContainer] Added block Add6 to toolbar
-[BlockFactory Debug] Creating block with metadata - Id: multiply, Name: Multiply, SpawnOnSpace: False
-[BaseBlock Debug] Setting metadata for block AddBlock - Value: Id=multiply, SpawnOnSpace=False
-[BlockFactory Debug] Created block Multiply7 with metadata Id: multiply, SpawnOnSpace: False
-[Debug BaseBlock] Multiply7 _Ready called, adding to Blocks group
-[Debug BaseBlock] Multiply7 metadata: ID=multiply, SpawnOnSpace=False
-[BaseBlock Debug] Block Multiply7 initialized value label with: 1
-[Debug BaseBlock] Multiply7 initialization started, Position: (1024, 1144), State: InToolbar
-[BaseBlock Debug] Block Multiply7 state changed: InToolbar -> InToolbar (SetInToolbar: True)
-[ToolbarBlockContainer] Added block Multiply7 to toolbar
-[TokenManager Debug] Successfully initialized with ConnectionManager and TokenLayer
-[Debug BaseBlock] Add0 attempting to initialize managers
-[Debug BaseBlock] Add0 managers initialized:
-  - ConnectionManager: found
-  - TokenManager: found
-[Debug BaseBlock] Add0 initialization complete
-[Debug BaseBlock] Multiply1 attempting to initialize managers
-[Debug BaseBlock] Multiply1 managers initialized:
-  - ConnectionManager: found
-  - TokenManager: found
-[Debug BaseBlock] Multiply1 initialization complete
-[Debug BaseBlock] Add2 attempting to initialize managers
-[Debug BaseBlock] Add2 managers initialized:
-  - ConnectionManager: found
-  - TokenManager: found
-[Debug BaseBlock] Add2 initialization complete
-[Debug BaseBlock] Multiply3 attempting to initialize managers
-[Debug BaseBlock] Multiply3 managers initialized:
-  - ConnectionManager: found
-  - TokenManager: found
-[Debug BaseBlock] Multiply3 initialization complete
-[Debug BaseBlock] Add4 attempting to initialize managers
-[Debug BaseBlock] Add4 managers initialized:
-  - ConnectionManager: found
-  - TokenManager: found
-[Debug BaseBlock] Add4 initialization complete
-[Debug BaseBlock] Multiply5 attempting to initialize managers
-[Debug BaseBlock] Multiply5 managers initialized:
-  - ConnectionManager: found
-  - TokenManager: found
-[Debug BaseBlock] Multiply5 initialization complete
-[Debug BaseBlock] Add6 attempting to initialize managers
-[Debug BaseBlock] Add6 managers initialized:
-  - ConnectionManager: found
-  - TokenManager: found
-[Debug BaseBlock] Add6 initialization complete
-[Debug BaseBlock] Multiply7 attempting to initialize managers
-[Debug BaseBlock] Multiply7 managers initialized:
-  - ConnectionManager: found
-  - TokenManager: found
-[Debug BaseBlock] Multiply7 initialization complete
-[ConnectionManager Debug] _Process running
-[ToolbarHoverAnimation] Initializing animation for Node2D, show: True
-[ToolbarHoverAnimation] Current Y: 0, Start Y: 0, End Y: -128
-[ToolbarHoverAnimation] Initializing animation for Control, show: True
-[ToolbarHoverAnimation] Current Y: 1080, Start Y: 1080, End Y: 875
-[ToolbarHoverAnimation] Initializing animation for Node2D, show: False
-[ToolbarHoverAnimation] Current Y: -127.875, Start Y: -127.875, End Y: 0
-[ToolbarHoverAnimation] Initializing animation for Control, show: False
-[ToolbarHoverAnimation] Current Y: 875.2002, Start Y: 875.2002, End Y: 1080
-[ToolbarHoverAnimation] Initializing animation for Node2D, show: True
-[ToolbarHoverAnimation] Current Y: -0.12487793, Start Y: -0.12487793, End Y: -128
-[ToolbarHoverAnimation] Initializing animation for Control, show: True
-[ToolbarHoverAnimation] Current Y: 1079.8, Start Y: 1079.8, End Y: 875
-[ToolbarHoverAnimation] Initializing animation for Node2D, show: False
-[ToolbarHoverAnimation] Current Y: -127.87512, Start Y: -127.87512, End Y: 0
-[ToolbarHoverAnimation] Initializing animation for Control, show: False
-[ToolbarHoverAnimation] Current Y: 875.2002, Start Y: 875.2002, End Y: 1080
+Info (GoTest): > ^^ >> Started testing! :3
+Info (GoTest): > ^^ >> GameTest > Test suite started! :3
+USER ERROR: Cannot open file 'res://src/Game.tscn'.
+   at: load (scene/resources/resource_format_text.cpp:1367)
+USER ERROR: Failed loading resource: res://src/Game.tscn. Make sure resources have been imported by opening the project in the editor at least once.
+   at: _load (core/io/resource_loader.cpp:284)
+USER ERROR: Error loading resource: 'res://src/Game.tscn'.
+   at: load (core/core_bind.cpp:74)
+Info (GoTest): > !! >> GameTest::Setup [SetupAll] > Test failed! :(
+Info (GoTest): > ^^ >> GameTest::TestButtonUpdatesCounter [Test] > Test started! :3
+Info (GoTest): > !! >> GameTest::TestButtonUpdatesCounter [Test] > Test failed! :(
+Info (GoTest): > !! >> GameTest > Test suite error. Aborting! :(
+Info (GoTest): > ^^ >> BlockLogicTest > Test suite started! :3
+Info (GoTest): > ^^ >> BlockLogicTest::TestInitialState [Test] > Test started! :3
+Info (GoTest): > !! >> BlockLogicTest::TestInitialState [Test] > Test failed! :(
+Info (GoTest): > ^^ >> BlockLogicTest::TestClickTransition [Test] > Test started! :3
+Info (GoTest): > !! >> BlockLogicTest::TestClickTransition [Test] > Test failed! :(
+Info (GoTest): > !! >> BlockLogicTest > Test suite error. Aborting! :(
+Info (GoTest): > !! >> Finished testing! :(
+Info (GoTest): > !! >> GameTest::Setup [SetupAll] > Error occurred: Could not load scene from path, it very likely does not exist: res://src/Game.tscn
+ Error: 0 : Error (GoTest): Exception:
+ Error: 0 : Error (GoTest): System.ArgumentException: Could not load scene from path, it very likely does not exist: res://src/Game.tscn
+   at Chickensoft.GodotTestDriver.Fixture.LoadScene[T](String path, Boolean autoFree)
+   at Chickensoft.GodotTestDriver.Fixture.LoadScene[T](Boolean autoFree)
+   at Chickensoft.GodotTestDriver.Fixture.LoadAndAddScene[T](Boolean autoFree, Boolean autoRemoveFromRoot)
+   at f.Test.GameTest.Setup() in /Users/djkoehn/Documents/f/test/src/GameTest.cs:line 21
+   at Chickensoft.GoDotTest.TestMethod.Invoke(TestClass testInstance)
+   at Chickensoft.GoDotTest.TestMethod.Invoke(TestClass testInstance, Int32 timeoutMilliseconds)
+   at Chickensoft.GoDotTest.TestMethodExecutor.Run(ITestMethod method, TestClass instance, Int32 timeoutMilliseconds)
+   at Chickensoft.GoDotTest.TestExecutor.Run(Node sceneRoot, ITestSuite suite, ITestReporter reporter)
+Info (GoTest): > !! >> GameTest::TestButtonUpdatesCounter [Test] > Error occurred: Object reference not set to an instance of an object.
+ Error: 0 : Error (GoTest): Exception:
+ Error: 0 : Error (GoTest): System.NullReferenceException: Object reference not set to an instance of an object.
+   at f.Test.GameTest.<TestButtonUpdatesCounter>b__5_0() in /Users/djkoehn/Documents/f/test/src/GameTest.cs:line 30
+   at Chickensoft.GodotTestDriver.Drivers.NodeDriver`1.get_Root()
+   at Chickensoft.GodotTestDriver.Drivers.NodeDriver`1.get_PresentRoot()
+   at Chickensoft.GodotTestDriver.Drivers.BaseButtonDriver`1.get_Disabled()
+   at Chickensoft.GodotTestDriver.Drivers.BaseButtonDriver`1.ClickCenter(MouseButton button)
+   at f.Test.GameTest.TestButtonUpdatesCounter() in /Users/djkoehn/Documents/f/test/src/GameTest.cs:line 31
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+Info (GoTest): > !! >> BlockLogicTest::TestInitialState [Test] > Error occurred: Data of type f.Utils.TempBlockLogic.TempBlockLogic+State+InToolbar not found in the blackboard.
+ Error: 0 : Error (GoTest): Exception:
+ Error: 0 : Error (GoTest): System.Collections.Generic.KeyNotFoundException: Data of type f.Utils.TempBlockLogic.TempBlockLogic+State+InToolbar not found in the blackboard.
+   at Chickensoft.Serialization.SerializableBlackboard.GetBlackboardData(Type type)
+   at Chickensoft.LogicBlocks.LogicBlock`1.DefaultContext.Get[TDataType]()
+   at Chickensoft.LogicBlocks.LogicBlock`1.To[TStateType]()
+   at f.Utils.TempBlockLogic.TempBlockLogic.GetInitialState() in /Users/djkoehn/Documents/f/src/Utils/TempBlockLogic/TempBlockLogic.cs:line 8
+   at Chickensoft.LogicBlocks.LogicBlock`1.ProcessInputs[TInputType](Nullable`1 input)
+   at Chickensoft.LogicBlocks.LogicBlock`1.Start()
+   at f.Test.Blocks.BlockLogicTest.TestInitialState() in /Users/djkoehn/Documents/f/test/src/Blocks/BlockLogicTest.cs:line 24
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+Info (GoTest): > !! >> BlockLogicTest::TestClickTransition [Test] > Error occurred: Data of type f.Utils.TempBlockLogic.TempBlockLogic+State+InToolbar not found in the blackboard.
+ Error: 0 : Error (GoTest): Exception:
+ Error: 0 : Error (GoTest): System.Collections.Generic.KeyNotFoundException: Data of type f.Utils.TempBlockLogic.TempBlockLogic+State+InToolbar not found in the blackboard.
+   at Chickensoft.Serialization.SerializableBlackboard.GetBlackboardData(Type type)
+   at Chickensoft.LogicBlocks.LogicBlock`1.DefaultContext.Get[TDataType]()
+   at Chickensoft.LogicBlocks.LogicBlock`1.To[TStateType]()
+   at f.Utils.TempBlockLogic.TempBlockLogic.GetInitialState() in /Users/djkoehn/Documents/f/src/Utils/TempBlockLogic/TempBlockLogic.cs:line 8
+   at Chickensoft.LogicBlocks.LogicBlock`1.ProcessInputs[TInputType](Nullable`1 input)
+   at Chickensoft.LogicBlocks.LogicBlock`1.Start()
+   at f.Test.Blocks.BlockLogicTest.TestClickTransition() in /Users/djkoehn/Documents/f/test/src/Blocks/BlockLogicTest.cs:line 31
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+Info (GoTest): > !! >> Test results: Passed: 0 | Failed: 4 | Skipped: 0

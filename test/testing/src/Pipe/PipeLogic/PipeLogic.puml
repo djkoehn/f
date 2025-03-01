@@ -1,0 +1,13 @@
+@startuml
+hide empty description
+
+[*] --> Connected
+
+state Active {
+    Connected --> BlockHovering : BlockEnter
+    BlockHovering --> Connected : BlockExit
+    BlockHovering --> Splitting : Click
+    Splitting --> [*] : SplitComplete
+}
+
+@enduml

@@ -1,0 +1,23 @@
+r@startuml
+hide empty description
+
+state Disconnected {
+    [*] --> InToolbar
+    InToolbar --> Dragging : Click
+    Dragging --> Placed : Click
+    Placed --> Dragging : Click
+    Dragging --> InToolbar : RightClick
+    Placed --> InToolbar : RightClick
+}
+
+
+state Connected {
+    Disconnected --> Idle : ClickOnPipe
+    Idle --> Triggered : TokenHit
+    Triggered --> Idle : TokenRelease
+    Idle --> ConnectedDragging : Click
+    ConnectedDragging --> Idle : Click
+}
+Connected --> InToolbar : RightClick
+
+@enduml

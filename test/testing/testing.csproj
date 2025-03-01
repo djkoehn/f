@@ -1,0 +1,106 @@
+<Project Sdk="Godot.NET.Sdk/4.3.0">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net7.0</TargetFramework>
+    <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'ios' ">net8.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Chickensoft.GoDotTest" Version="1.6.1" />
+    <PackageReference Include="Chickensoft.GodotTestDriver" Version="3.0.2" />
+    <PackageReference Include="Chickensoft.LogicBlocks" Version="5.16.0" />
+    <PackageReference Include="Chickensoft.LogicBlocks.DiagramGenerator" Version="5.16.0" />
+    <PackageReference Include="Moq" Version="4.20.72" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Shouldly" Version="4.3.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="docs\2023-12-01-game-architecture\header.jpg" />
+    <Content Include="docs\2023-12-01-game-architecture\header.jpg.import" />
+    <Content Include="docs\2023-12-01-game-architecture\images\architecture_sanity.png" />
+    <Content Include="docs\2023-12-01-game-architecture\images\architecture_sanity.png.import" />
+    <Content Include="docs\2023-12-01-game-architecture\images\chess.png" />
+    <Content Include="docs\2023-12-01-game-architecture\images\chess.png.import" />
+    <Content Include="docs\2023-12-01-game-architecture\images\game_architecture.png" />
+    <Content Include="docs\2023-12-01-game-architecture\images\game_architecture.png.import" />
+    <Content Include="docs\2023-12-01-game-architecture\images\game_engine.png" />
+    <Content Include="docs\2023-12-01-game-architecture\images\game_engine.png.import" />
+    <Content Include="docs\2023-12-01-game-architecture\images\not_so_layered_architecture.png" />
+    <Content Include="docs\2023-12-01-game-architecture\images\not_so_layered_architecture.png.import" />
+    <Content Include="docs\2023-12-01-game-architecture\images\player.png" />
+    <Content Include="docs\2023-12-01-game-architecture\images\player.png.import" />
+    <Content Include="docs\2023-12-01-game-architecture\images\scene_explosion.png" />
+    <Content Include="docs\2023-12-01-game-architecture\images\scene_explosion.png.import" />
+    <Content Include="docs\2023-12-01-game-architecture\images\separating_game_logic.png" />
+    <Content Include="docs\2023-12-01-game-architecture\images\separating_game_logic.png.import" />
+    <Content Include="docs\2023-12-01-game-architecture\images\testing_abstractions.png" />
+    <Content Include="docs\2023-12-01-game-architecture\images\testing_abstractions.png.import" />
+    <Content Include="docs\2023-12-01-game-architecture\images\tree_based_dependencies.png" />
+    <Content Include="docs\2023-12-01-game-architecture\images\tree_based_dependencies.png.import" />
+    <Content Include="docs\2023-12-01-game-architecture\images\unit_tests.png" />
+    <Content Include="docs\2023-12-01-game-architecture\images\unit_tests.png.import" />
+    <Content Include="docs\2023-12-01-game-architecture\images\visual_component.png" />
+    <Content Include="docs\2023-12-01-game-architecture\images\visual_component.png.import" />
+    <Content Include="docs\2023-12-01-game-architecture\images\visual_game_logic.png" />
+    <Content Include="docs\2023-12-01-game-architecture\images\visual_game_logic.png.import" />
+    <Content Include="docs\2023-12-01-game-architecture\images\white_whale.png" />
+    <Content Include="docs\2023-12-01-game-architecture\images\white_whale.png.import" />
+    <Content Include="docs\2023-12-01-game-architecture\index.md" />
+    <Content Include="docs\2024-06-11-serialization-for-csharp-games\header.jpg" />
+    <Content Include="docs\2024-06-11-serialization-for-csharp-games\header.jpg.import" />
+    <Content Include="docs\2024-06-11-serialization-for-csharp-games\index.md" />
+    <Content Include="docs\2024-06-11-serialization-for-csharp-games\pyramid.jpg" />
+    <Content Include="docs\2024-06-11-serialization-for-csharp-games\pyramid.jpg.import" />
+    <Content Include="docs\2024-06-11-serialization-for-csharp-games\summer_2024.jpg" />
+    <Content Include="docs\2024-06-11-serialization-for-csharp-games\summer_2024.jpg.import" />
+    <Content Include="docs\godottest.md" />
+    <Content Include="docs\logic_blocks\01_why.md" />
+    <Content Include="docs\logic_blocks\02_installation.md" />
+    <Content Include="docs\logic_blocks\03_quick_start.md" />
+    <Content Include="docs\logic_blocks\04_basics\01_inputs.md" />
+    <Content Include="docs\logic_blocks\04_basics\02_states.md" />
+    <Content Include="docs\logic_blocks\04_basics\03_outputs.md" />
+    <Content Include="docs\logic_blocks\04_basics\04_errors.md" />
+    <Content Include="docs\logic_blocks\04_basics\05_bindings.md" />
+    <Content Include="docs\logic_blocks\04_basics\images\call_order.png" />
+    <Content Include="docs\logic_blocks\04_basics\images\call_order.png.import" />
+    <Content Include="docs\logic_blocks\04_basics\images\compound.png" />
+    <Content Include="docs\logic_blocks\04_basics\images\compound.png.import" />
+    <Content Include="docs\logic_blocks\04_basics\images\logic_block.png" />
+    <Content Include="docs\logic_blocks\04_basics\images\logic_block.png.import" />
+    <Content Include="docs\logic_blocks\04_basics\index.md" />
+    <Content Include="docs\logic_blocks\05_tutorial\01_timer_logic_block.md" />
+    <Content Include="docs\logic_blocks\05_tutorial\02_power.md" />
+    <Content Include="docs\logic_blocks\05_tutorial\03_coundown.md" />
+    <Content Include="docs\logic_blocks\05_tutorial\04_beeping.md" />
+    <Content Include="docs\logic_blocks\05_tutorial\index.md" />
+    <Content Include="docs\logic_blocks\06_testing\01_testing_logic_blocks.md" />
+    <Content Include="docs\logic_blocks\06_testing\02_testing_states.md" />
+    <Content Include="docs\logic_blocks\06_testing\03_testing_bindings.md" />
+    <Content Include="docs\logic_blocks\06_testing\index.md" />
+    <Content Include="docs\logic_blocks\07_serialization.md" />
+    <Content Include="docs\logic_blocks\08_tips_and_tricks.md" />
+    <Content Include="docs\logic_blocks\header.jpg" />
+    <Content Include="docs\logic_blocks\header.jpg.import" />
+    <Content Include="docs\logic_blocks\index.md" />
+    <Content Include="project.godot" />
+    <Content Include="src\Block\BlockGameScene.tscn" />
+    <Content Include="src\Block\BlockLogic\puml2logic.py" />
+    <Content Include="src\foo\Foo.tscn" />
+    <Content Include="src\foo\fooLogic\states\fooLogic.g.puml" />
+    <Content Include="src\foo\fooLogic\states\fooLogic.puml" />
+    <Content Include="src\foo\README.md" />
+    <Content Include="src\Game.tscn" />
+    <Content Include="src\Main.tscn" />
+    <Content Include="src\Pipe\PipeLogic\PipeLogic.puml" />
+    <Content Include="src\tools\BlockLogicAdv.puml" />
+    <Content Include="src\tools\puml2logic.py" />
+    <Content Include="test\src\Pipe\PipeNode.tscn" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\Common\" />
+    <Folder Include="test\src\Block\" />
+    <Folder Include="test\src\Pipe\PipeLogic\State\" />
+  </ItemGroup>
+</Project>

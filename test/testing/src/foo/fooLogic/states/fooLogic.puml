@@ -1,0 +1,7 @@
+@startuml
+
+[*] --> foo
+foo --> bar : toggle
+bar --> foo : toggle
+
+@enduml
