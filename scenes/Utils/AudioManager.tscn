@@ -3,4 +3,4 @@
 [ext_resource type="Script" path="res://src/Audio/AudioManager.cs" id="1_audio"]
 
 [node name="AudioManager" type="Node"]
-script = ExtResource("1_audio")
+script = ExtResource("1_audio") 

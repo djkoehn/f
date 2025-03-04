@@ -1,58 +1,81 @@
-using F.Framework.Logging;
-using Godot;
-
 namespace F.UI.Animations.UI;
 
-public class ToolbarHoverAnimation
+public sealed partial class ToolbarHoverAnimation : Node
 {
-    private readonly Node2D _target;
-    private readonly float _startY;
-    private readonly float _endY;
-    private readonly float _duration;
-    private readonly Tween _tween;
-    private bool _isHovering;
+    public delegate void PositionChangedHandler(Vector2 newPosition);
+    public event PositionChangedHandler? PositionChanged;
 
-    public ToolbarHoverAnimation(Node2D target, float hoverDistance = 10f, float duration = 0.3f)
+    // Separate Y values for toolbar (Control) and BlockLayer (Node2D)
+    private const float TOOLBAR_HIDDEN_Y = 1080f;
+    private const float TOOLBAR_VISIBLE_Y = 856f;
+    private const float BLOCKLAYER_HIDDEN_Y = 0f;
+    private const float BLOCKLAYER_VISIBLE_Y = -50f;
+
+    private const float DURATION = 0.3f;
+    private Vector2 _startPos;
+    private Vector2 _endPos;
+    private float _time;
+
+    private readonly Node _target;
+    private readonly bool _isControl;
+
+    private ToolbarHoverAnimation(Node target, bool show)
     {
         _target = target;
-        _startY = target.GlobalPosition.Y;
-        _endY = _startY - hoverDistance;
-        _duration = duration;
-        _tween = target.CreateTween();
+        _isControl = target is Control;
+        _time = 0f;
+
+        float startY, endY;
+        if (_target is Control)
+        {
+            // For toolbar (Control): if showing, animate from hidden to visible
+            startY = show ? TOOLBAR_HIDDEN_Y : TOOLBAR_VISIBLE_Y;
+            endY = show ? TOOLBAR_VISIBLE_Y : TOOLBAR_HIDDEN_Y;
+        }
+        else if (_target is Node2D)
+        {
+            // For blocklayer (Node2D)
+            startY = show ? BLOCKLAYER_HIDDEN_Y : BLOCKLAYER_VISIBLE_Y;
+            endY = show ? BLOCKLAYER_VISIBLE_Y : BLOCKLAYER_HIDDEN_Y;
+        }
+        else
+        {
+            startY = 0f;
+            endY = 0f;
+        }
+
+        _startPos = new Vector2(0, startY);
+        _endPos = new Vector2(0, endY);
     }
 
-    public void StartHover()
+    public bool IsComplete => _time >= DURATION;
+
+    public static ToolbarHoverAnimation Create(Node target, bool show)
     {
-        if (_isHovering) return;
-        _isHovering = true;
-
-        var currentY = _target.GlobalPosition.Y;
-        Logger.UI.Print($"Starting hover animation - Current Y: {currentY}, Start Y: {_startY}, End Y: {_endY}");
-
-        _tween.Kill();
-        _tween.TweenProperty(_target, "global_position:y", _endY, _duration)
-            .SetTrans(Tween.TransitionType.Expo)
-            .SetEase(Tween.EaseType.Out);
+        var animation = new ToolbarHoverAnimation(target, show);
+        target.AddChild(animation);
+        return animation;
     }
 
-    public void StopHover()
+    public override void _Process(double delta)
     {
-        if (!_isHovering) return;
-        _isHovering = false;
+        _time += (float)delta;
+        var t = Mathf.Min(_time / DURATION, 1.0f);
+        var easedT = Easing.OutExpo(t);
 
-        var currentY = _target.GlobalPosition.Y;
-        Logger.UI.Print($"Stopping hover animation - Current Y: {currentY}, Start Y: {_startY}, End Y: {_endY}");
+        var newPosition = _startPos.Lerp(_endPos, easedT);
 
-        _tween.Kill();
-        _tween.TweenProperty(_target, "global_position:y", _startY, _duration)
-            .SetTrans(Tween.TransitionType.Expo)
-            .SetEase(Tween.EaseType.Out);
-    }
+        if (_target is Node2D node2DTarget)
+        {
+            node2DTarget.Position = newPosition;
+        }
+        else
+        {
+            _target.Set("position", newPosition);
+        }
 
-    public void Cancel()
-    {
-        _tween.Kill();
-        _target.GlobalPosition = new Vector2(_target.GlobalPosition.X, _startY);
-        _isHovering = false;
+        PositionChanged?.Invoke(newPosition);
+
+        if (IsComplete) QueueFree();
     }
 }

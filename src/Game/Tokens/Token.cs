@@ -1,7 +1,5 @@
-using F.Framework.Blocks;
-using F.Framework.Connections;
-using F.Framework.Logging;
-using Godot;
+using F.Audio;
+using F.Game.Connections;
 
 namespace F.Game.Tokens;
 
@@ -11,7 +9,7 @@ public partial class Token : Node2D
     private bool _isMoving;
     private IBlock? _targetBlock;
     private TokenVisuals? _visuals;
-    private float _value;
+    public float Value { get; set; }
 
     public HashSet<IBlock> ProcessedBlocks { get; } = new();
 
@@ -19,22 +17,11 @@ public partial class Token : Node2D
 
     public bool IsMoving => !(_visuals?.IsMovementComplete ?? true);
 
-    public float Value
-    {
-        get => _value;
-        set
-        {
-            _value = value;
-            Logger.Token.Print($"Token value updated to {_value}");
-        }
-    }
-
     public void Initialize(IBlock startBlock, float initialValue = 0)
     {
         CurrentBlock = startBlock;
         Value = initialValue;
         GlobalPosition = startBlock.GetTokenPosition();
-        Logger.Token.Print($"Token initialized with value {Value}");
     }
 
     public override void _Ready()
@@ -43,72 +30,41 @@ public partial class Token : Node2D
         _visuals = GetNode<TokenVisuals>("TokenVisuals");
         if (_visuals == null)
         {
-            Logger.Token.Err("TokenVisuals node not found!");
-            return;
+            GD.PrintErr("TokenVisuals node not found!");
         }
-
-        _visuals.Connect(TokenVisuals.SignalName.MovementComplete, new Callable(this, nameof(OnMovementComplete)));
-        _visuals.Connect(TokenVisuals.SignalName.MovementStart, new Callable(this, nameof(OnMovementStart)));
-
-        // Set initial z-index
-        ZIndexConfig.SetZIndex(this, ZIndexConfig.Layers.Token);
-    }
-
-    public override void _ExitTree()
-    {
-        base._ExitTree();
-
-        // Cleanup signals
-        if (_visuals != null)
+        else
         {
-            if (_visuals.IsConnected(TokenVisuals.SignalName.MovementComplete,
-                    new Callable(this, nameof(OnMovementComplete))))
-                _visuals.Disconnect(TokenVisuals.SignalName.MovementComplete,
-                    new Callable(this, nameof(OnMovementComplete)));
-            if (_visuals.IsConnected(TokenVisuals.SignalName.MovementStart,
-                    new Callable(this, nameof(OnMovementStart))))
-                _visuals.Disconnect(TokenVisuals.SignalName.MovementStart, new Callable(this, nameof(OnMovementStart)));
-        }
-
-        // Cleanup pipe
-        if (_currentPipe != null)
-        {
-            _currentPipe.EndTokenMovement(this);
-            _currentPipe = null;
+            _visuals.Connect(TokenVisuals.SignalName.MovementComplete, new Callable(this, nameof(OnMovementComplete)));
+            _visuals.Connect(TokenVisuals.SignalName.MovementStart, new Callable(this, nameof(OnMovementStart)));
         }
     }
 
-    public void MoveTo(IBlock nextBlock, ConnectionPipe? pipe = null)
+    public void MoveTo(IBlock nextBlock)
     {
-        if (nextBlock == null || _visuals == null) return;
+        if (nextBlock == null || CurrentBlock == null || _visuals == null) return;
 
         _targetBlock = nextBlock;
-        _currentPipe = pipe;
+        StartMovement(nextBlock);
+    }
 
-        // Set processing z-index when moving between blocks
-        ZIndexConfig.SetZIndex(this, ZIndexConfig.Layers.ProcessingToken);
+    public void StartMovement(IBlock targetBlock)
+    {
+        if (_visuals == null) return;
 
-        // Start movement animation
         _isMoving = true;
-        _visuals.StartMovement(nextBlock.GetTokenPosition());
-
-        // Start pipe animation if we have a pipe
-        _currentPipe?.StartTokenMovement(this);
-
-        Logger.Token.Print($"Moving token to {nextBlock.GetTokenPosition()}");
+        _targetBlock = targetBlock;
+        var targetPosition = targetBlock.GetTokenPosition();
+        _visuals.StartMovement(targetPosition);
     }
 
     public override void _Process(double delta)
     {
         if (!_isMoving || _visuals == null) return;
 
-        // Update token's global position to match visuals
-        GlobalPosition = _visuals.GlobalPosition;
-
-        // Update pipe animation with current position
-        _currentPipe?.UpdateTokenPosition(this);
-
-        if (_visuals.IsMovementComplete) CompleteMovement();
+        if (_visuals.IsMovementComplete)
+        {
+            CompleteMovement();
+        }
     }
 
     private void CompleteMovement()
@@ -117,22 +73,15 @@ public partial class Token : Node2D
 
         _isMoving = false;
         CurrentBlock = _targetBlock;
-
-        // End pipe animation
-        _currentPipe?.EndTokenMovement(this);
-        _currentPipe = null;
-
-        // Return to normal z-index after processing
-        ZIndexConfig.SetZIndex(this, ZIndexConfig.Layers.Token);
-
         _targetBlock.ProcessToken(this);
-
-        Logger.Token.Print("Token movement completed");
     }
 
     private void OnMovementComplete()
     {
-        if (_targetBlock != null) CompleteMovement();
+        if (_targetBlock != null)
+        {
+            CompleteMovement();
+        }
     }
 
     private void OnMovementStart()
@@ -143,22 +92,19 @@ public partial class Token : Node2D
     public void StopMovement()
     {
         _isMoving = false;
-        _visuals?.StopMovement();
-
-        // Cleanup pipe animation
-        if (_currentPipe != null)
+        if (_visuals != null)
         {
-            _currentPipe.EndTokenMovement(this);
-            _currentPipe = null;
+            _visuals.StopMovement();
         }
-
-        Logger.Token.Print("Token movement stopped");
     }
 
     public void UpdateValue(float value)
     {
         Value = value;
-        _visuals?.UpdateValue(value);
+        if (_visuals != null)
+        {
+            _visuals.UpdateValue(value);
+        }
     }
 
     public float GetValue()
@@ -168,11 +114,25 @@ public partial class Token : Node2D
 
     public void TriggerHitEffect()
     {
-        _visuals?.TriggerHitEffect();
+        if (_visuals != null)
+        {
+            _visuals.TriggerHitEffect();
+        }
     }
 
     public void TriggerAnimation()
     {
-        _visuals?.TriggerAnimation();
+        if (_visuals != null)
+        {
+            _visuals.TriggerAnimation();
+        }
+    }
+
+    public void MoveToBlock(IBlock nextBlock)
+    {
+        if (nextBlock == null || _visuals == null) return;
+
+        _targetBlock = nextBlock;
+        StartMovement(nextBlock);
     }
 }

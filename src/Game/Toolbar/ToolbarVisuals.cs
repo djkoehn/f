@@ -1,38 +1,27 @@
-using F.Framework.Core.SceneTree;
+using F.UI.Animations;
 using ToolbarHoverAnimation = F.UI.Animations.UI.ToolbarHoverAnimation;
-using F.Framework.Core.Interfaces;
-using F.Framework.Logging;
 
-namespace F.Game.Toolbar;
-
-public partial class ToolbarVisuals : Control, IToolbarVisuals
+namespace F.Game.Toolbar
 {
-    private ColorRect? _background;
-
-    public override void _Ready()
+    public partial class ToolbarVisuals : Control
     {
-        base._Ready();
-        _background = GetNode<ColorRect>("Background");
-    }
-
-    public void UpdateBlockPositions()
-    {
-        // Update block positions in the toolbar
-        // This is called whenever blocks are added/removed
-        Logger.UI.Print("Block positions updated.");
-    }
-
-    public void StartHoverAnimation(bool show)
-    {
-        var parent = GetParent<Control>();
-        if (parent == null)
+        public void UpdateBlockPositions()
         {
-            Logger.UI.Err("Parent control not found for hover animation.");
-            return;
+            GD.Print("ToolbarVisuals: Block positions updated.");
         }
 
-        // Start the hover animation
-        var animation = new ToolbarHoverAnimation(parent, show);
-        AddChild(animation);
+        public void StartHoverAnimation(bool show)
+        {
+            // Get the parent node (the toolbar) and delegate the hover animation to it
+            var parentControl = GetParent<Control>();
+            if (parentControl != null)
+            {
+                ToolbarHoverAnimation.Create(parentControl, show);
+            }
+            else
+            {
+                GD.PrintErr("ToolbarVisuals: Parent control not found for hover animation.");
+            }
+        }
     }
-}
+} 

@@ -1,18 +1,33 @@
-using F.Framework.Blocks;
-
 namespace F.UI.Animations.UI;
 
-public class ToolbarContainerAnimation
+public sealed partial class ToolbarContainerAnimation : Node
 {
-    private readonly BaseBlock _block;
+    private const float DURATION = 0.4f;
+    private readonly List<(BaseBlock block, Vector2 startPos, Vector2 targetPos)> _blocks = new();
+    private float _time;
 
-    private ToolbarContainerAnimation(BaseBlock block)
+    public static ToolbarContainerAnimation Create(List<(BaseBlock block, Vector2 targetPos)> blocks)
     {
-        _block = block;
+        var anim = new ToolbarContainerAnimation();
+        foreach (var (block, target) in blocks) anim._blocks.Add((block, block.Position, target));
+        return anim;
     }
 
-    public static ToolbarContainerAnimation Create(BaseBlock block)
+    public override void _Process(double delta)
     {
-        return new ToolbarContainerAnimation(block);
+        _time = Mathf.Min(_time + (float)delta, DURATION);
+        var t = _time / DURATION;
+
+        // Use smooth easing for sliding
+        t = Easing.OutCubic(t);
+
+        foreach (var (block, start, target) in _blocks) block.Position = start.Lerp(target, t);
+
+        if (_time >= DURATION)
+        {
+            // Make sure blocks are exactly at target
+            foreach (var (block, _, target) in _blocks) block.Position = target;
+            QueueFree();
+        }
     }
 }

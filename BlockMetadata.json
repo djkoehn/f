@@ -1,0 +1,31 @@
+{
+  "blocks": [    {
+      "id": "input",
+      "scenePath": "res://scenes/Blocks/Input.tscn", 
+      "processTokenScript": "// No processing needed for input block",
+      "name": "Input",
+      "description": "Generates input tokens"
+    },
+    {
+      "id": "output",
+      "scenePath":  "res://scenes/Blocks/Output.tscn",
+      "processTokenScript": "Print($\"Output received token with value {Value}\");",
+      "name": "Output",  
+      "description": "Prints the token value"
+    },
+    {
+      "id": "add",
+      "scenePath": "res://scenes/Blocks/Add.tscn",
+      "processTokenScript": "Value += 1.0f;",
+      "name": "Add",
+      "description": "Adds a constant value to the token"
+    },
+    {
+      "id": "multiply",
+      "scenePath": "res://scenes/Blocks/Multiply.tscn",
+      "processTokenScript": "Value *= 2.0f;",
+      "name": "Multiply",
+      "description": "Multiplies the token by a constant value"
+    }
+  ]
+} 

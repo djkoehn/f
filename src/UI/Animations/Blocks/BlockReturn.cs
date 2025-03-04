@@ -1,37 +1,61 @@
-using F.Framework.Blocks;
-using F.Framework.Logging;
-using Godot;
-
 namespace F.UI.Animations.Blocks;
 
-public class BlockReturn
+public sealed partial class BlockReturn : Node2D
 {
-    private readonly BaseBlock _block;
-    private readonly Vector2 _startPosition;
-    private readonly Vector2 _endPosition;
-    private readonly float _duration;
-    private readonly Tween _tween;
+    [Signal]
+    public delegate void ReturnCompletedEventHandler(BaseBlock block);
 
-    public BlockReturn(BaseBlock block, Vector2 endPosition, float duration = 0.5f)
+    private const float DURATION = 0.3f;
+
+    private Vector2 _startPos;
+    private Vector2 _targetPos;
+    private float _time;
+
+    private BlockReturn(BaseBlock block, Vector2 startPos, Vector2 targetPos)
     {
-        _block = block;
-        _startPosition = block.GlobalPosition;
-        _endPosition = endPosition;
-        _duration = duration;
-        _tween = block.CreateTween();
+        Block = block;
+        _startPos = startPos;
+        _targetPos = targetPos;
+        _time = 0f;
+
+        // Set block in front during animation!
+        block.ZIndex = ZIndexConfig.Layers.DraggedBlock;
+        block.ZAsRelative = false;
+
+        GD.Print($"Block return animation starting with Z-index: {block.ZIndex}");
     }
 
-    public void Start()
-    {
-        Logger.UI.Print($"Block return animation starting with Z-index: {_block.ZIndex}");
+    public bool IsComplete => _time >= DURATION;
+    public BaseBlock Block { get; private set; }
 
-        _tween.TweenProperty(_block, "global_position", _endPosition, _duration)
-            .SetTrans(Tween.TransitionType.Expo)
-            .SetEase(Tween.EaseType.Out);
+    public static BlockReturn Create(BaseBlock block, Vector2 startPos, Vector2 targetPos)
+    {
+        return new BlockReturn(block, startPos, targetPos);
     }
 
-    public void Cancel()
+    public void Update(float delta)
     {
-        _tween.Kill();
+        if (IsComplete) return;
+
+        _time = Mathf.Min(_time + delta, DURATION);
+        var t = _time / DURATION;
+
+        // Use simple sine ease out for smooth direct path
+        t = Easing.OutSine(t);
+
+        // Just move block directly to target
+        Block.GlobalPosition = _startPos.Lerp(_targetPos, t);
+    }
+
+    public override void _Process(double delta)
+    {
+        Update((float)delta);
+
+        if (IsComplete)
+        {
+            // DON'T TOUCH BLOCK HERE - Just emit signal and clean up
+            EmitSignal(BlockReturn.SignalName.ReturnCompleted, Block);
+            QueueFree();
+        }
     }
 }

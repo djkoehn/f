@@ -10,31 +10,18 @@
         <MSBuildWarningLevel>2</MSBuildWarningLevel>
         <FileLoggerParameters>LogFile=msbuild.log;Verbosity=detailed;Encoding=UTF-8</FileLoggerParameters>
         <BuildInParallel>true</BuildInParallel>
-        <DefineConstants>EXCLUDE_THIS_CLASS</DefineConstants>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Chickensoft.AutoInject" Version="2.5.0" />
-        <PackageReference Include="Chickensoft.Collections" Version="1.13.0" />
-        <PackageReference Include="Chickensoft.GoDotCollections" Version="1.4.4" />
-        <PackageReference Include="Chickensoft.GodotNodeInterfaces" Version="2.4.0" />
-        <PackageReference Include="Chickensoft.GoDotTest" Version="1.6.1" />
-        <PackageReference Include="Chickensoft.Introspection" Version="2.2.0" />
-        <PackageReference Include="Chickensoft.Introspection.Generator" Version="2.2.0" />
-        <PackageReference Include="Chickensoft.Log" Version="1.0.0" />
-        <PackageReference Include="Chickensoft.Log.Godot" Version="1.0.0" />
-        <PackageReference Include="Chickensoft.LogicBlocks" Version="5.16.0" />
-        <PackageReference Include="Chickensoft.LogicBlocks.DiagramGenerator" Version="5.16.0" />
-        <PackageReference Include="Chickensoft.LogicBlocks.Generator" Version="4.2.2" />
-        <PackageReference Include="Chickensoft.SaveFileBuilder" Version="1.1.0" />
-        <PackageReference Include="Chickensoft.Serialization" Version="2.2.0" />
-        <PackageReference Include="Chickensoft.Serialization.Godot" Version="0.7.5" />
         <PackageReference Include="GodotTools.IdeMessaging" Version="1.1.2" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.12.0" />
-        <PackageReference Include="Microsoft.SemanticKernel" Version="1.38.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="Ninject" Version="4.0.0-beta.1" />
         <PackageReference Include="roslynator.analyzers" Version="4.13.0">
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-            <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+          <PrivateAssets>all</PrivateAssets>
         </PackageReference>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Remove="old commit ref/OldToolbar.cs" />
     </ItemGroup>
 </Project>

@@ -1,18 +1,20 @@
-using F.Framework.Core.Interfaces;
+using F.Game.Core;
 
-namespace F.Game.BlockLogic;
-
-public class GameStateManager
+namespace F.Game.BlockLogic
 {
-    private readonly IInventory _inventory;
-
-    public GameStateManager(IInventory inventory)
+    public class GameStateManager
     {
-        _inventory = inventory;
-    }
+        private F.Game.Core.Inventory _inventory;
 
-    public void Initialize()
-    {
-        // Initialize game state
+        public GameStateManager(F.Game.Core.Inventory inventory)
+        {
+            _inventory = inventory;
+        }
+
+        public void Initialize()
+        {
+            // Minimal initialization logic for game state
+            GD.Print("GameStateManager initialized.");
+        }
     }
-}
+} 

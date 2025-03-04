@@ -1,143 +1,129 @@
-using F.Framework.Blocks;
-using F.Framework.Core.SceneTree;
-using F.Framework.Core.Interfaces;
-using F.Framework.Logging;
+using F.Game.BlockLogic;
 
-namespace F.Game.Toolbar;
-
-public partial class ToolbarBlockContainer : HBoxContainer, IToolbarBlockContainer
+namespace F.Game.Toolbar
 {
-    private readonly List<BaseBlock> _blocks = new();
-
-    public override void _Ready()
+    public partial class ToolbarBlockContainer : Control, IBlockContainer
     {
-        // Allow child block nodes to receive input events
-        MouseFilter = MouseFilterEnum.Pass;
+        public override void _Ready()
+        {
+            // Allow child block nodes to receive input events
+            MouseFilter = Control.MouseFilterEnum.Ignore;
+        }
 
-        // Set initial size based on config
-        CustomMinimumSize = new Vector2(0, ToolbarConfig.Block.Height);
-
-        Logger.UI.Print("Initialized with input pass-through enabled");
-    }
-
-    public void ClearBlocks()
-    {
-        // Clear child blocks
-        foreach (var child in GetChildren())
-            if (child is Node node)
+        public void ClearBlocks()
+        {
+            // Clear child blocks
+            foreach (var child in GetChildren())
             {
-                if (child is BaseBlock block)
-                {
-                    block.SetInToolbar(false);
-                    _blocks.Remove(block);
-                }
-
-                node.QueueFree();
+                if (child is Node node)
+                    node.QueueFree();
             }
-
-        UpdateBlockPositions();
-    }
-
-    public void AddBlock(BaseBlock block)
-    {
-        if (!HasBlock(block))
-        {
-            AddChild(block);
-            if (block.Metadata != null) Logger.UI.Print($"Added block {block.Name} to toolbar");
-        }
-        else
-        {
-            Logger.UI.Err($"Block {block.Name} is already in the toolbar");
-        }
-    }
-
-    public void AddBlockWithoutAnimation(BaseBlock block)
-    {
-        // Add the block to the scene tree first
-        if (block.GetParent() != null) block.GetParent().RemoveChild(block);
-
-        if (!_blocks.Contains(block))
-        {
-            _blocks.Add(block);
-            AddChild(block);
-            block.ZIndex = ZIndexConfig.Layers.ToolbarBlock;
-            block.SetInToolbar(true);
             UpdateBlockPositions();
         }
-        else
+
+        public void AddBlock(BaseBlock block)
         {
-            Logger.UI.Err($"Block {block.Name} is already in the toolbar");
+            // Add the block to the scene tree first
+            AddChild(block);
+            block.ZIndex = ZIndexConfig.Layers.ToolbarBlock;
+            
+            var hf = F.Utils.HelperFunnel.GetInstance();
+            var toolbarHelper = hf?.GetNodeOrNull<F.Utils.ToolbarHelper>("ToolbarHelper");
+            if (toolbarHelper != null)
+            {
+                toolbarHelper.ReturnBlockToToolbar(block, this);
+            }
+            else
+            {
+                GD.PrintErr("ToolbarHelper instance not found in ToolbarBlockContainer.");
+            }
+            UpdateContainerSize();
+        }
+
+        public void AddBlockWithoutAnimation(BaseBlock block)
+        {
+            // Add the block to the scene tree first
+            AddChild(block);
+            block.ZIndex = ZIndexConfig.Layers.ToolbarBlock;
+            
+            var hf = F.Utils.HelperFunnel.GetInstance();
+            var toolbarHelper = hf?.GetNodeOrNull<F.Utils.ToolbarHelper>("ToolbarHelper");
+            if (toolbarHelper != null)
+            {
+                toolbarHelper.ReturnBlockToToolbar(block, this);
+            }
+            else
+            {
+                GD.PrintErr("ToolbarHelper instance not found in ToolbarBlockContainer.");
+            }
+        }
+
+        public void PrepareSpaceForBlock()
+        {
+            // Stub method to prepare space for a block
+        }
+
+        public Vector2 GetNextBlockPosition()
+        {
+            var blocks = GetChildren().OfType<BaseBlock>().ToList();
+            if (blocks.Count == 0)
+                return GlobalPosition;
+            // Assume block width of 100 and spacing of 40
+            float blockWidth = 100f;
+            float spacing = 40f;
+            float x = blocks.Last().Position.X + blockWidth + spacing;
+            return new Vector2(x, blocks.Last().Position.Y);
+        }
+
+        public void RemoveBlock(BaseBlock block)
+        {
+            if (block.GetParent() == this)
+            {
+                RemoveChild(block);
+                UpdateBlockPositions();
+                UpdateContainerSize();
+            }
+        }
+
+        public void UpdateBlockPositions()
+        {
+            var blocks = GetChildren().OfType<BaseBlock>().ToList();
+            float blockWidth = 100f; // default block width
+            float spacing = 40f;     // default spacing
+            int count = blocks.Count;
+            if (count == 0) return;
+
+            float totalWidth = count * blockWidth + (count - 1) * spacing;
+            // Center the blocks in the container
+            float startX = -totalWidth / 2f;
+            
+            for (int i = 0; i < count; i++)
+            {
+                // Set X position for spacing and Y to 0
+                blocks[i].Position = new Vector2(startX + i * (blockWidth + spacing), 0);
+            }
+        }
+
+        public void UpdateContainerSize()
+        {
+            var blocks = GetChildren().OfType<BaseBlock>().ToList();
+            float blockWidth = 100f; // default block width 
+            float spacing = 40f;     // default spacing
+            int count = blocks.Count;
+
+            float totalWidth = count * (blockWidth + spacing);
+            Size = new Vector2(totalWidth, Size.Y);
+
+            // Center the container in the toolbar
+            var toolbar = GetParent<Toolbar>();
+            if (toolbar != null)
+            {
+                var toolbarVisuals = toolbar.GetNode<ToolbarVisuals>("ToolbarVisuals");
+                if (toolbarVisuals != null)
+                {
+                    Position = new Vector2((toolbarVisuals.Size.X / 2f) + spacing, Position.Y);
+                }
+            }
         }
     }
-
-    public void PrepareSpaceForBlock()
-    {
-        // Stub method to prepare space for a block
-    }
-
-    public Vector2 GetNextBlockPosition()
-    {
-        var blocks = GetChildren().OfType<BaseBlock>().ToList();
-        if (blocks.Count == 0)
-            return GlobalPosition;
-
-        var x = blocks.Last().Position.X + ToolbarConfig.Block.Width + ToolbarConfig.Block.Spacing;
-        return new Vector2(x, blocks.Last().Position.Y);
-    }
-
-    public void RemoveBlock(BaseBlock block)
-    {
-        if (HasBlock(block))
-        {
-            RemoveChild(block);
-        }
-        else
-        {
-            Logger.UI.Err($"Block {block.Name} is already in the toolbar");
-        }
-    }
-
-    public void UpdateBlockPositions()
-    {
-        var blocks = GetChildren().OfType<BaseBlock>().ToList();
-        var count = blocks.Count;
-        if (count == 0) return;
-
-        var totalWidth = count * ToolbarConfig.Block.Width + (count - 1) * ToolbarConfig.Block.Spacing;
-        // Center the blocks in the container
-        var startX = -totalWidth / 2f;
-
-        for (var i = 0; i < count; i++)
-            // Set X position for spacing and Y to 0
-            blocks[i].Position = new Vector2(
-                startX + i * (ToolbarConfig.Block.Width + ToolbarConfig.Block.Spacing),
-                ToolbarConfig.Block.Height / 2f
-            );
-    }
-
-    public void UpdateContainerSize()
-    {
-        var blocks = GetChildren().OfType<BaseBlock>().ToList();
-        var count = blocks.Count;
-
-        var totalWidth = count * (ToolbarConfig.Block.Width + ToolbarConfig.Block.Spacing);
-        Size = new Vector2(totalWidth, ToolbarConfig.Block.Height);
-
-        // Center the container in the toolbar
-        var toolbar = GetParent<Toolbar>();
-        if (toolbar != null)
-        {
-            var toolbarVisuals = toolbar.GetNode<ToolbarVisuals>("ToolbarVisuals");
-            if (toolbarVisuals != null)
-                Position = new Vector2(
-                    toolbarVisuals.Size.X / 2f + ToolbarConfig.Block.Spacing,
-                    ToolbarConfig.Layout.ContainerOffset
-                );
-        }
-    }
-
-    public bool HasBlock(BaseBlock block)
-    {
-        return block.GetParent() == this;
-    }
-}
+} 

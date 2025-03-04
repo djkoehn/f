@@ -15,12 +15,12 @@ run/main_scene="res://scenes/Main.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/image="res://splash.png"
-boot_splash/fullsize=false
 config/icon="res://icon.svg"
 
-[autoload]
+[debug]
 
-Services="*res://scenes/Services/Services.tscn"
+file_logging/log_path="res://godot.log"
+file_logging/max_log_files=1
 
 [display]
 
@@ -37,9 +37,9 @@ window/stretch/aspect="expand"
 
 project/assembly_name="f"
 
-[editor_plugins]
+[filesystem]
 
-enabled=PackedStringArray()
+import/blender/enabled=false
 
 [input]
 
@@ -48,17 +48,3 @@ spawn_token={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":32,"physical_keycode":32,"key_label":32,"unicode":32,"location":0,"echo":false,"script":null)
 ]
 }
-interact={
-"deadzone": 0.5,
-"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"double_click":false,"script":null)
-]
-}
-return_block={
-"deadzone": 0.5,
-"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":2,"canceled":false,"pressed":false,"double_click":false,"script":null)
-]
-}
-
-[rendering]
-
-viewport/hdr_2d=true

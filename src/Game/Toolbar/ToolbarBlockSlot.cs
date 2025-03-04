@@ -1,15 +1,18 @@
-using F.Framework.Blocks;
-
 namespace F.Game.Toolbar;
 
-public class ToolbarBlockSlot
+public partial class ToolbarBlockSlot : Node2D // ADD PARTIAL KEYWORD!
 {
-    public ToolbarBlockSlot(BaseBlock block, Vector2 position)
+    private BaseBlock? _block;
+
+    private bool HasBlock()
     {
-        Block = block;
-        Position = position;
+        return _block != null;
     }
 
-    public BaseBlock Block { get; }
-    public Vector2 Position { get; }
+    private void AddBlock(BaseBlock block)
+    {
+        _block = block;
+        AddChild(block);
+        block.GlobalPosition = GlobalPosition; // Position block at slot center
+    }
 }
