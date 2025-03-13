@@ -1,0 +1,5 @@
+res://src/game/block/block_behavior.tres
+res://src/game/test_scene.tscn
+res://src/game/block/states/in_toolbar_state.gd
+res://src/game/block/baseblock.gd
+res://src/game/block/states/dragging_state.gd
