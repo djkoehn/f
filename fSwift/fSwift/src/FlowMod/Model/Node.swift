@@ -6,6 +6,9 @@ import SwiftUI
 /// Nodes are identified by index in `Patch/nodes``.
 public typealias NodeIndex = Int
 
+/// Function type for node value processing
+public typealias NodeProcessor = (NodeValue) -> NodeValue
+
 /// Nodes are identified by index in ``Patch/nodes``.
 ///
 /// Using indices as IDs has proven to be easy and fast for our use cases. The ``Patch`` should be
@@ -19,6 +22,20 @@ public struct Node: Equatable {
     public var inputs: [Port]
     public var outputs: [Port]
     public var image: Image?
+    
+    // Store the processor as a closure
+    private var processorFunction: NodeProcessor?
+    
+    /// Process a value through this node
+    public func process(_ value: NodeValue) -> NodeValue {
+        if let processor = processorFunction {
+            let result = processor(value)
+            print("Node '\(name)' processed \(value) to \(result)")
+            return result
+        }
+        print("Node '\(name)' has no processor, passing \(value) through unchanged")
+        return value // If no processor, pass through unchanged
+    }
 
     @_disfavoredOverload
     public init(name: String,
@@ -27,7 +44,8 @@ public struct Node: Equatable {
                 locked: Bool = false,
                 inputs: [Port] = [],
                 outputs: [Port] = [],
-                image: Image? = nil)
+                image: Image? = nil,
+                processor: NodeProcessor? = nil)
     {
         self.name = name
         self.position = position
@@ -36,6 +54,7 @@ public struct Node: Equatable {
         self.inputs = inputs
         self.outputs = outputs
         self.image = image
+        self.processorFunction = processor
     }
     
     public init(name: String,
@@ -44,7 +63,8 @@ public struct Node: Equatable {
                 locked: Bool = false,
                 inputs: [String] = [],
                 outputs: [String] = [],
-                image: Image? = nil)
+                image: Image? = nil,
+                processor: NodeProcessor? = nil)
     {
         self.name = name
         self.position = position
@@ -53,5 +73,17 @@ public struct Node: Equatable {
         self.inputs = inputs.map { Port(name: $0) }
         self.outputs = outputs.map { Port(name: $0) }
         self.image = image
+        self.processorFunction = processor
+    }
+    
+    // For Equatable conformance, ignore the processor
+    public static func ==(lhs: Node, rhs: Node) -> Bool {
+        return lhs.name == rhs.name &&
+               lhs.position == rhs.position &&
+               lhs.titleBarColor == rhs.titleBarColor &&
+               lhs.locked == rhs.locked &&
+               lhs.inputs == rhs.inputs &&
+               lhs.outputs == rhs.outputs
+        // Note: we intentionally don't compare image or processor
     }
 }
