@@ -11,6 +11,7 @@ struct MyApp: App {
                     RoundedRectangle(cornerRadius: 20)
                         .stroke(.white, lineWidth: 10)
                 )
-        }
+        }.defaultSize(width: 900, height: 700)
+
     }
 }
