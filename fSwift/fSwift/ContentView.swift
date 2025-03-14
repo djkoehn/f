@@ -16,10 +16,10 @@ struct ContentView: View {
             Button("add node") {
                 addNode()
             }
-            .padding()
+            .padding(25)
             .cornerRadius(10)
             .overlay(
-                RoundedRectangle(cornerRadius: 20)
+                RoundedRectangle(cornerRadius: 5)
                     .fill(.blue)
                     .stroke(
                         .white,
@@ -31,6 +31,20 @@ struct ContentView: View {
             ).onTapGesture(perform: {
                 addNode()
             })
+        }.overlay(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(.white, lineWidth: 20)
+            )
+    }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            ContentView()
+                
+                .frame(width: 800, height: 600)
+                .previewDisplayName("Large Window")
         }
     }
 }

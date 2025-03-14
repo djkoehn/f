@@ -2,16 +2,21 @@ import SwiftUI
 
 @main
 struct MyApp: App {
+    init() {
+        #if DEBUG
+        var injectionBundlePath = "/Applications/InjectionIII.app/Contents/Resources"
+        #if targetEnvironment(macCatalyst)
+        injectionBundlePath = "\(injectionBundlePath)/macOSInjection.bundle"
+        #elseif os(iOS)
+        injectionBundlePath = "\(injectionBundlePath)/iOSInjection.bundle"
+        #endif
+        Bundle(path: injectionBundlePath)?.load()
+        #endif
+    }
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .frame(width: 800, height:600)
-                .cornerRadius(10)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(.white, lineWidth: 10)
-                )
-        }.defaultSize(width: 900, height: 700)
+        }
 
     }
 }
