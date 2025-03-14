@@ -1,0 +1,13 @@
+{
+  "nodes": {
+    "double":{
+      "name": "Double",
+      "color": ".blue",
+      "inputs": ["in"],
+      "outputs": ["out"],
+      "image": "double",
+      "processor": "num * 2"
+    }
+  },
+  "inventory": ["double"]
+}

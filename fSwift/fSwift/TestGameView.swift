@@ -13,17 +13,17 @@ struct TestGameView: View {
     @State private var selection = Set<NodeIndex>()
     @StateObject private var tokenProcessor: Node.TokenProcessor
     @State private var selectedNodeType: String = "double"
-    
+
     // Available node types to add from the library
-    let availableNodeTypes = ["double", "add10", "negate", "multiply"]
-    
+    let availableNodeTypes = ["double", "add10", "negate", "multiply", "bigdollas"]
+
     init() {
         // Create initial patch with input and output nodes
         let initialPatch = createInitialPatch()
         _patch = State(initialValue: initialPatch)
         _tokenProcessor = StateObject(wrappedValue: Node.TokenProcessor(patch: initialPatch))
     }
-    
+
     var body: some View {
         VStack {
             // Display token values
@@ -39,37 +39,37 @@ struct TestGameView: View {
                 .padding()
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(8)
-                
-                // Show processing steps for debugging
-//                if !tokenProcessor.processingSteps.isEmpty {
-//                    ScrollView {
-//                        VStack(alignment: .leading, spacing: 4) {
-//                            Text("Processing Steps:")
-//                                .font(.headline)
-//                                .padding(.bottom, 4)
-//                            
-//                            ForEach(tokenProcessor.processingSteps, id: \.self) { step in
-//                                Text(step)
-//                                    .font(.caption)
-//                                    .padding(.leading, 8)
-//                            }
-//                        }
-//                        .frame(maxWidth: .infinity, alignment: .leading)
-//                        .padding()
-//                        .background(Color.gray.opacity(0.1))
-//                        .cornerRadius(8)
-//                    }
-//                    .frame(height: 150)
-//                }
+
+                    //Show processing steps for debugging
+                if !tokenProcessor.processingSteps.isEmpty {
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Processing Steps:")
+                                .font(.headline)
+                                .padding(.bottom, 4)
+
+                            ForEach(tokenProcessor.processingSteps, id: \.self) { step in
+                                Text(step)
+                                    .font(.caption)
+                                    .padding(.leading, 8)
+                            }
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(8)
+                    }
+                    .frame(height: 150)
             }
+    }
             .padding()
-            
+
             // Node editor
             NodeEditor(patch: $patch, selection: $selection)
                 .onChange(of: patch) { newPatch in
                     tokenProcessor.patch = newPatch
                 }
-            
+
             // Controls
             HStack {
                 // Node type selection
@@ -80,13 +80,13 @@ struct TestGameView: View {
                 }
                 .pickerStyle(MenuPickerStyle())
                 .frame(width: 150)
-                
+
                 Button("Add Node") {
                     addNode(type: selectedNodeType)
                 }
-                
+
                 Spacer()
-                
+
                 // Simple number input for token value
                 Stepper(value: Binding(
                     get: {
@@ -99,7 +99,7 @@ struct TestGameView: View {
                 ), in: -100...100) {
                     Text("Input: \(tokenValueString(tokenProcessor.inputValue))")
                 }
-                
+
                 Button("Send Token") {
                     tokenProcessor.processToken()
                 }
@@ -108,7 +108,7 @@ struct TestGameView: View {
             .padding()
         }
     }
-    
+
     // Helper to get clean string representation of token values
     private func tokenValueString(_ value: NodeValue) -> String {
         switch value {
@@ -126,18 +126,18 @@ struct TestGameView: View {
             return "—"
         }
     }
-    
+
     // Add a node from the library
     private func addNode(type: String) {
         // Find the selected node for positioning
         var position = CGPoint(x: 300, y: 200)
-        
+
         if let selectedIndex = selection.first {
             // Place new node to the right of the selected node
             position = patch.nodes[selectedIndex].position
             position.x += 200
         }
-        
+
         // Add the node
         if let newNodeIndex = patch.addNode(type: type, at: position) {
             // If there's a selected node, try to connect them
@@ -147,7 +147,7 @@ struct TestGameView: View {
                     patch.connect(from: selectedIndex, to: newNodeIndex)
                 }
             }
-            
+
             // Update selection to the new node
             selection = [newNodeIndex]
         }
@@ -157,16 +157,16 @@ struct TestGameView: View {
 // Create the initial patch with just input and output nodes
 private func createInitialPatch() -> Patch {
     var patch = Patch(nodes: [], wires: [])
-    
+
     // Add input and output nodes
     guard let inputIndex = patch.addNode(type: "input", at: CGPoint(x: 100, y: 200)),
           let outputIndex = patch.addNode(type: "output", at: CGPoint(x: 500, y: 200)) else {
         fatalError("Failed to create basic nodes")
     }
-    
+
     // Connect them directly
     patch.connect(from: inputIndex, to: outputIndex)
-    
+
     return patch
 }
 
